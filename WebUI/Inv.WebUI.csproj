@@ -1016,6 +1016,9 @@
     <Content Include="Views\AdminSetting\AdminCompDataIndex.cshtml" />
     <Content Include="Views\AdminSetting\AdminCompIndex.cshtml" />
     <Content Include="Views\Quotation\QuotationIndex.cshtml" />
+    <Content Include="Views\USERS\USERSIndex.cshtml" />
+    <Content Include="Views\Quotation\QuotationViewIndex.cshtml" />
+    <Content Include="Views\Customer\CustomerIndex.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -1032,6 +1035,7 @@
     <TypeScriptCompile Include="ClientApp\AjaxCaller.ts" />
     <TypeScriptCompile Include="ClientApp\App.ts" />
     <TypeScriptCompile Include="ClientApp\ClientGeneralTools.ts" />
+    <TypeScriptCompile Include="ClientApp\USERS\USERS.ts" />
     <TypeScriptCompile Include="ClientApp\Entities.ts" />
     <TypeScriptCompile Include="ClientApp\Pages\LoginAdmin.ts" />
     <TypeScriptCompile Include="ClientApp\Pages\LoginComponent.ts" />
@@ -1043,6 +1047,7 @@
     <TypeScriptCompile Include="ClientApp\MessageBox.ts" />
     <TypeScriptCompile Include="ClientApp\Pages\Login_.ts" />
     <TypeScriptCompile Include="ClientApp\Partial\Background.ts" />
+    <TypeScriptCompile Include="ClientApp\Customer\Customer.ts" />
     <TypeScriptCompile Include="ClientApp\Quotation\Quotation.ts" />
     <TypeScriptCompile Include="ClientApp\Report_Page\Report_Page.ts" />
     <TypeScriptCompile Include="ClientApp\Shared.ts" />
