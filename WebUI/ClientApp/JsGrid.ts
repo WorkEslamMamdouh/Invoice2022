@@ -92,6 +92,7 @@ class JsGrid {
         //}
     }
     public Bind() {
+        debugger
         $(".jsgrid-grid-body").css("max-height", this.Height);
         $(".jsgrid-grid-body").css("height", this.Height);
 

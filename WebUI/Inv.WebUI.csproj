@@ -1035,6 +1035,7 @@
     <TypeScriptCompile Include="ClientApp\AjaxCaller.ts" />
     <TypeScriptCompile Include="ClientApp\App.ts" />
     <TypeScriptCompile Include="ClientApp\ClientGeneralTools.ts" />
+    <TypeScriptCompile Include="ClientApp\Quotation\QuotationView.ts" />
     <TypeScriptCompile Include="ClientApp\USERS\USERS.ts" />
     <TypeScriptCompile Include="ClientApp\Entities.ts" />
     <TypeScriptCompile Include="ClientApp\Pages\LoginAdmin.ts" />

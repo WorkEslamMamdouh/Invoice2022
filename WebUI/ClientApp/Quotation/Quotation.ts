@@ -197,7 +197,7 @@ namespace Quotation {
     }
     function DeleteRow(RecNo: number) {
                                                       
-        WorningMessage("هل تريد الحذف؟", "Do you want to delete?", "تحذير", "worning", () => {
+        WorningMessage("هل تريد الحذف؟", "Do you want to delete?", "تحذير", "warning", () => {
             $("#txt_StatusFlag" + RecNo).val() == 'i' ? $("#txt_StatusFlag" + RecNo).val('m') : $("#txt_StatusFlag" + RecNo).val('d');
             computeRows(RecNo);
             computeTotal();

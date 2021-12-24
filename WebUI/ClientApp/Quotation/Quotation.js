@@ -171,7 +171,7 @@ var Quotation;
         return true;
     }
     function DeleteRow(RecNo) {
-        WorningMessage("هل تريد الحذف؟", "Do you want to delete?", "تحذير", "worning", function () {
+        WorningMessage("هل تريد الحذف؟", "Do you want to delete?", "تحذير", "warning", function () {
             $("#txt_StatusFlag" + RecNo).val() == 'i' ? $("#txt_StatusFlag" + RecNo).val('m') : $("#txt_StatusFlag" + RecNo).val('d');
             computeRows(RecNo);
             computeTotal();
