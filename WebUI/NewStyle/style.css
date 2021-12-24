@@ -4944,3 +4944,10 @@ ul.breadcome-menu {
 .materialdesign .footer-copy-right p, .materialdesign .footer-copy-right a {
     color: #333;
 }
+.bb {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+    height: 500px;
+}
