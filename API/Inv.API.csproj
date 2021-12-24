@@ -77,9 +77,8 @@
     <Reference Include="QRCoder, Version=1.4.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\QRCoder.1.4.1\lib\net40\QRCoder.dll</HintPath>
     </Reference>
-    <Reference Include="Security, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Security\Security.dll</HintPath>
+    <Reference Include="Security">
+      <HintPath>..\..\ERP\WebUI\bin\Security.dll</HintPath>
     </Reference>
     <Reference Include="System.Data.Linq" />
     <Reference Include="System.Net.Http" />
@@ -254,6 +253,7 @@
     <Compile Include="Controllers\Shared\DatabaseChangeController.cs" />
     <Compile Include="Controllers\Shared\I_VW__GetCompStatusController.cs" />
     <Compile Include="Controllers\Shared\SystemToolsController.cs" />
+    <Compile Include="Controllers\SlsTrSalesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -265,6 +265,7 @@
     <Compile Include="Models\CustomEntities\UserPrivilege.cs" />
     <Compile Include="Models\CustomModel\CompanyLoginStatus.cs" />
     <Compile Include="Models\CustomModel\MasterDetailsUserRoles.cs" />
+    <Compile Include="Models\CustomModel\SlsInvoiceMasterDetails.cs" />
     <Compile Include="Models\ResponseResult.cs" />
     <Compile Include="Models\SessionRecord.cs" />
     <Compile Include="obj\Debug\TemporaryGeneratedFile_036C0B5B-1481-4323-8D20-8F5ADCB23D92.cs" />

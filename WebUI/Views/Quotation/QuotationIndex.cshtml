@@ -4,7 +4,11 @@
     Layout = "~/Views/Shared/Layout.cshtml";
 }
 
+<style>
+    
 
+
+</style>
 
 <div class="content-inner-all">
 
@@ -260,7 +264,7 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="row">
-                       
+
                         <div class="col-lg-12">
                             <div class="tab-content">
                                 <div id="inbox" class="tab-pane fade in animated zoomInDown custom-inbox-message shadow-reset active">
@@ -297,7 +301,7 @@
                                                                     </div>
                                                                     <div class="col-lg-3">
                                                                         <div class="input-mark-inner mg-b-22">
-                                                                            <input type="text" class="form-control" placeholder="dd/mm/yyyy">
+                                                                            <input id="txtDate" type="date" class="form-control" placeholder="dd/mm/yyyy">
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-lg-3">
@@ -306,8 +310,15 @@
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-lg-3">
-                                                                        <div class="input-mark-inner mg-b-22">
-                                                                            <input type="text" class="form-control" placeholder="name">
+                                                                        <div class="col-lg-1" style=" width: 21%!important;">
+                                                                            <button type="button" class="src-btn btn btn-primary col-xs-12 p-0" style="border-radius:45%" id="btnCustSrch" name="Search">
+                                                                                <i class="fa fa-search"></i>
+                                                                            </button>
+                                                                        </div>
+                                                                        <div class="col-lg-10" style=" width: 79%!important;">
+                                                                            <div class="input-mark-inner mg-b-22">
+                                                                                <input id="txtCompanyname" type="text" class="form-control" placeholder="Company name">
+                                                                            </div>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -319,7 +330,7 @@
                                                                     </div>
                                                                     <div class="col-lg-3">
                                                                         <div class="input-mark-inner mg-b-22">
-                                                                            <input type="text" class="form-control" placeholder="RFQ">
+                                                                            <input id="txtRFQ" type="text" class="form-control" placeholder="RFQ">
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-lg-3">
@@ -329,7 +340,7 @@
                                                                     </div>
                                                                     <div class="col-lg-3">
                                                                         <div class="input-mark-inner mg-b-22">
-                                                                            <input type="text" class="form-control" placeholder="name">
+                                                                            <input id="txtCompanysales" type="text" class="form-control" placeholder="company salesman">
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -341,13 +352,22 @@
                                                                     </div>
                                                                     <div class="col-lg-3">
                                                                         <div class="input-mark-inner mg-b-22">
-                                                                            <input type="text" class="form-control" placeholder="">
+                                                                            <input id="txtQutationNo" disabled="disabled" type="text" class="form-control" placeholder="QutationNo">
                                                                         </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            <div class="sparkline8-graph">
+                                                            <div class="sparkline8-graph" style="margin-left:2%!important;">
                                                                 <div class="datatable-dashv1-list custom-datatable-overright">
+                                                                    <div class="button-ap-list responsive-btn">
+                                                                        <button id="btnprint" type="button" class="btn btn-custon-four btn-primary"><i class="fa fa-print"></i>print</button>
+                                                                        <button id="btnsave" type="button" class="btn btn-custon-four btn-success"><i class="fa fa-download"></i>save pdf</button>
+                                                                    </div>
+                                                                    <div id="DivMassage" class="col-lg-12  margingred  borderred display_none">
+
+                                                                        <h4 id="Text_Massage">Message</h4>
+
+                                                                    </div>
                                                                     <table id="table" data-toggle="table" data-pagination="true" data-search="true" data-show-pagination-switch="true" data-show-refresh="true" data-resizable="true" data-cookie="true" data-cookie-id-table="saveId" data-show-export="false" data-click-to-select="true" data-toolbar="#toolbar">
                                                                         <thead>
                                                                             <tr>
@@ -356,32 +376,15 @@
                                                                                 <th data-field="description" data-editable="true">Description</th>
                                                                                 <th data-field="number" data-editable="true">Unit Price</th>
                                                                                 <th data-field="number" data-editable="true">Total price</th>
-                                                                                <th data-field="number" data-editable="true">Discount</th>
+                                                                                <th data-field="number" data-editable="true">Discount%</th>
+                                                                                <th data-field="number" data-editable="true">Discount Amount</th>
+                                                                                <th data-field="number" data-editable="true">Net</th>
                                                                             </tr>
                                                                         </thead>
                                                                         <tbody id="Table_Data">
-                                                                            <tr>
-                                                                                <td>1</td>
-                                                                                <td>10</td>
-                                                                                <td>Aber Ltd.</td>
-                                                                                <td>200</td>
-                                                                                <td>200</td>
-                                                                                <td>500</td>
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <td>1</td>
-                                                                                <td>10</td>
-                                                                                <td>Aber Ltd.</td>
-                                                                                <td>200</td>
-                                                                                <td>200</td>
-                                                                                <td>500</td>
-                                                                            </tr>
                                                                         </tbody>
 
-                                                                        <div class="button-ap-list responsive-btn">
-                                                                            <button type="button" class="btn btn-custon-four btn-primary"><i class="fa fa-print"></i>print</button>
-                                                                            <button type="button" class="btn btn-custon-four btn-success"><i class="fa fa-download"></i>save pdf</button>
-                                                                        </div>
+
                                                                     </table>
                                                                 </div>
                                                                 <div class="btn-group project-list-action">
@@ -389,7 +392,7 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div class="sparkline8-hd">
+                                                        <div class="sparkline8-hd" style="margin-left:2%!important">
                                                             <div class="main-sparkline8-hd">
                                                                 <h1 style="text-align: center;"><b>Terms and Conditions:</b></h1>
                                                             </div>
@@ -405,61 +408,67 @@
                                                                         All price
                                                                         <span>
                                                                             <span class="btn-group dropup">
-                                                                                <input type="text" class="form-control" placeholder="">
+                                                                                <input id="txtsalesVAT" type="text" class="form-control" placeholder="Include or not include">
                                                                             </span> sales VAT.
                                                                         </span>
+                                                                    </span>
                                                                 </div>
                                                             </label>
                                                         </div>
-                                                        <div class="sparkline8-hd">
+                                                        <div class="sparkline8-hd" style="margin-left:2%!important">
                                                             <label>
                                                                 <div class="pull-left pagination-detail">
                                                                     <span class="pagination-info">
                                                                         Payment with in
                                                                         <span>
                                                                             <span class="btn-group dropup">
-                                                                                <input type="text" class="form-control" placeholder="">
+                                                                                <input id="txtfirstdays" type="text" class="form-control" placeholder="Number of days">
                                                                             </span>days starting from the delivery date.
                                                                         </span>
+                                                                    </span>
                                                                 </div>
                                                             </label>
                                                         </div>
-                                                        <div class="sparkline8-hd">
+                                                        <div class="sparkline8-hd" style="margin-left:2%!important">
                                                             <label>
                                                                 <div class="pull-left pagination-detail">
                                                                     <span class="pagination-info">
                                                                         Offer validity
                                                                         <span>
                                                                             <span class="btn-group dropup">
-                                                                                <input type="text" class="form-control" placeholder="">
+                                                                                <input id="txtsecounddays" type="text" class="form-control" placeholder="Number of days">
                                                                             </span>days from offer date.
                                                                         </span>
+
+                                                                    </span>
                                                                 </div>
                                                             </label>
                                                         </div>
-                                                        <div class="sparkline8-hd">
+                                                        <div class="sparkline8-hd" style="margin-left:2%!important">
                                                             <label>
                                                                 <div class="pull-left pagination-detail">
                                                                     <span class="pagination-info">
                                                                         The delivery will be
                                                                         <span>
                                                                             <span class="btn-group dropup">
-                                                                                <input type="text" class="form-control" placeholder="">
+                                                                                <input id="txtlastdays" type="text" class="form-control" placeholder="Number of days">
                                                                             </span>days from purchase order.
                                                                         </span>
+                                                                    </span>
                                                                 </div>
                                                             </label>
                                                         </div>
-                                                        <div class="sparkline8-hd">
+                                                        <div class="sparkline8-hd" style="margin-left:2%!important">
                                                             <label>
                                                                 <div class="pull-left pagination-detail">
                                                                     <span class="pagination-info">
                                                                         Place of delivery
                                                                         <span>
                                                                             <span class="btn-group dropup">
-                                                                                <input type="text" class="form-control" placeholder="">
+                                                                                <input id="txtPlacedeliv" style="width:235%;" type="text" class="form-control" placeholder="Place of delivery ">
                                                                             </span>
                                                                         </span>
+                                                                    </span>
                                                                 </div>
                                                             </label>
                                                             <div class="row">
@@ -476,7 +485,7 @@
                                     </div>
 
 
-                                </div> 
+                                </div>
                             </div>
                         </div>
                     </div>

@@ -59,6 +59,12 @@
     <Compile Include="Services\G_Control\IG_ControlService.cs" />
     <Compile Include="Services\IControl\II_ControlService.cs" />
     <Compile Include="Services\IControl\I_ControlService.cs" />
+    <Compile Include="Services\ISlsTRInvoice\IISlsTRInvoiceService.cs" />
+    <Compile Include="Services\ISlsTRInvoice\ISlsTRInvoiceService.cs" />
+    <Compile Include="Services\SlsInvoiceItems\ISlsInvoiceItemsService.cs" />
+    <Compile Include="Services\SlsInvoiceItems\SlsInvoiceItemsService.cs" />
+    <Compile Include="Services\SlsTrSales\ISlsTrSalesServices.cs" />
+    <Compile Include="Services\SlsTrSales\SlsTrSalesServices.cs" />
     <Compile Include="Services\USER_BRANCH\G_USER_BRANCHService.cs" />
     <Compile Include="Services\USER_BRANCH\IG_USER_BRANCHService.cs" />
   </ItemGroup>

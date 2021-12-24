@@ -11,8 +11,10 @@ using Inv.BLL.Services.G_Control;
 using Inv.BLL.Services.GRole;
 using Inv.BLL.Services.GRoleUsers;
 using Inv.BLL.Services.GUSERS;
-using Inv.BLL.Services.IControl;
-
+using Inv.BLL.Services.SlsTrSales;
+using Inv.BLL.Services.IControl; 
+using Inv.BLL.Services.SlsInvoiceItems;
+using Inv.BLL.Services.ISlsTRInvoice;
 namespace Inv.API.Infrastructure
 {
     public static class IocConfigurator
@@ -36,7 +38,11 @@ namespace Inv.API.Infrastructure
 
             container.RegisterType<IG_USERSService, G_USERSService>(); 
             
-            container.RegisterType<II_ControlService, I_ControlService>(); 
+            container.RegisterType<II_ControlService, I_ControlService>();
+
+            container.RegisterType<ISlsTrSalesServices, SlsTrSalesServices>();
+            container.RegisterType<ISlsInvoiceItemsService, SlsInvoiceItemsService>();
+            container.RegisterType<IISlsTRInvoiceService, ISlsTRInvoiceService>();
         }
     }
 }
