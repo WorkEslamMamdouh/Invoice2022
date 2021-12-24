@@ -129,7 +129,7 @@ namespace Quotation {
         $('.no-records-found').addClass("display_none");
         if (CountGrid != 0) {
 
-       
+            //alert(CountGrid);
             //if (!validationgrid()) { return; }
 
             BuildControls(CountGrid);
@@ -177,6 +177,7 @@ namespace Quotation {
 
 
         InvoiceModel.CustomerId = CustomerId == 0 ? null : CustomerId;
+        InvoiceModel.Status = 1;
         InvoiceModel.CompCode = Number(compcode);
         InvoiceModel.BranchCode = Number(BranchCode);
         var InvoiceNumber = Number(txtQutationNo.value);
@@ -227,7 +228,7 @@ namespace Quotation {
 
                   let res = result.Response as Sls_Ivoice;
                      invoiceID = res.InvoiceID;
-                     DisplayMassage(" تم اصدار  فاتورة رقم  " + res.TrNo + " ", "An invoice number has been issued ", MessageType.Succeed);
+                    DisplayMassage(" تم اصدار  فاتورة رقم  " + res.TrNo + " ", "An invoice number has been issued " + res.TrNo + "", MessageType.Succeed);
 
                      success_insert();
 
