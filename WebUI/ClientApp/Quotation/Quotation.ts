@@ -19,6 +19,7 @@ namespace Quotation {
     var BranchCode: number;//SharedSession.CurrentEnvironment.CompCode;
     var btnAddDetails: HTMLButtonElement;   
     var btnsave: HTMLButtonElement;
+    var btnClean: HTMLButtonElement;
     var CustomerId: number = 0;
     var btnCustSrch: HTMLButtonElement;
     var invoiceID: number = 0;
@@ -31,9 +32,11 @@ namespace Quotation {
     var txtfirstdays: HTMLInputElement;
     var txtsecounddays: HTMLInputElement;
     var txtlastdays: HTMLInputElement;
-    var txtPlacedeliv: HTMLInputElement;
-    var paginationSwitch;
-
+    var txtPlacedeliv: HTMLInputElement;   
+    var txtRemark: HTMLInputElement;
+    var txtNetBefore: HTMLInputElement;
+    var txtAllDiscount:HTMLInputElement;
+    var txtNetAfterVat:HTMLInputElement;
     var lang = (SysSession.CurrentEnvironment.ScreenLanguage);
 
     export function InitalizeComponent() {
@@ -52,7 +55,7 @@ namespace Quotation {
         btnAddDetails = document.getElementById("btnAddDetails") as HTMLButtonElement;
         btnCustSrch = document.getElementById("btnCustSrch") as HTMLButtonElement;
         btnsave = document.getElementById("btnsave") as HTMLButtonElement;
-        paginationSwitch = document.getElementsByName("paginationSwitch");
+        btnClean = document.getElementById("btnClean") as HTMLButtonElement;         
         // inputs
         txtDate = document.getElementById("txtDate") as HTMLInputElement;
         txtRFQ = document.getElementById("txtRFQ") as HTMLInputElement;
@@ -64,13 +67,18 @@ namespace Quotation {
         txtsecounddays = document.getElementById("txtsecounddays") as HTMLInputElement;
         txtlastdays = document.getElementById("txtlastdays") as HTMLInputElement;
         txtPlacedeliv = document.getElementById("txtPlacedeliv") as HTMLInputElement;      
+        txtRemark = document.getElementById("txtRemark") as HTMLInputElement;
+        txtNetBefore = document.getElementById("txtNetBefore") as HTMLInputElement;
+        txtAllDiscount = document.getElementById("txtAllDiscount") as HTMLInputElement;
+        txtNetAfterVat = document.getElementById("txtNetAfterVat") as HTMLInputElement;
     }      
     function InitalizeEvents() {
       
         btnAddDetails.onclick = AddNewRow;//
         btnCustSrch.onclick = btnCustSrch_onClick;
         btnsave.onclick = insert;
-               
+        btnClean.onclick = success_insert;
+        txtAllDiscount.onkeyup = computeTotal;
     }
     function btnCustSrch_onClick() {
         sys.FindKey(Modules.Quotation, "btnCustSrch", "", () => {
@@ -85,7 +93,9 @@ namespace Quotation {
         var html;
 
         html = '<tr id= "No_Row' + cnt + '" class="  animated zoomIn ">' +
-            '<td><input  id="serial'+cnt+'" value="'+(cnt+1)+'" type="text" class="form-control" placeholder="SR"></td>' +
+            '<span id="btn_minus' + cnt + '" class="fa fa-minus-circle fontitm3SlsTrSalesManager2 "></span>' +
+
+            '<td><input  id="serial' + cnt +'" disabled="disabled" value="'+(cnt+1)+'" type="text" class="form-control" placeholder="SR"></td>' +
             '<td><input  id="QTY' + cnt +'" type="number" class="form-control" placeholder="QTY"></td>' +
             '<td><input  id="Description' + cnt +'" type="text" class="form-control" placeholder="Description"></td>' +
             '<td><input  id="UnitPrice' + cnt +'" value="0" type="number" class="form-control" placeholder="Unit Price"></td>' +
@@ -122,39 +132,63 @@ namespace Quotation {
         $("#Totalprice" + cnt).val(Number($("#UnitPrice" + cnt).val()) * (Number($("#QTY" + cnt).val())));
         $("#DiscountAmount" + cnt).val(Number($("#DiscountPrc" + cnt).val()) * Number($("#Totalprice" + cnt).val()) / 100);
         $("#Net" + cnt).val(Number($("#Totalprice" + cnt).val()) - (Number($("#DiscountAmount" + cnt).val())));
-
+        computeTotal();
     }
+    function computeTotal() {  
+   
+        let NetCount = 0;        
+        for (let i = 0; i < CountGrid; i++) {    
+          
+            NetCount += Number($("#Net" + i).val());
+            NetCount = Number(NetCount.toFixed(2).toString());
+
+        }
+        txtNetBefore.value = NetCount.toString();
+
+
+        let Net = (Number(txtNetBefore.value) - Number(txtAllDiscount.value)).toFixed(2);
+        txtNetAfterVat.value = Net.toString();
+    }
+
     function AddNewRow() {
         $('paginationSwitch').addClass("display_none");
         $('.no-records-found').addClass("display_none");
-        if (CountGrid != 0) {
-
-            //alert(CountGrid);
-            //if (!validationgrid()) { return; }
-
-            BuildControls(CountGrid);
-            $("#txt_StatusFlag" + CountGrid).val("i"); //In Insert mode 
-            CountGrid++;
-        } else {
-            BuildControls(CountGrid);
-            $("#txt_StatusFlag" + CountGrid).val("i"); //In Insert mode 
-            CountGrid++;
-        }
      
-         
+        let CanAdd: boolean = true;
+            if (CountGrid > 0) {
+                for (var i = 0; i < CountGrid; i++) {
+                    CanAdd = validationgrid(i);
+                    if (CanAdd == false) {
+                        break;
+                    }
+                }
+        }
+        if (CanAdd) {
+            BuildControls(CountGrid);
+            $("#txt_StatusFlag" + CountGrid).val("i"); //In Insert mode 
+            CountGrid++;
+
+        }
+
     }
-    function validationgrid() {
+    function validationgrid(rowcount: number) {
          
-        if ($("#QTY" + CountGrid).val().trim() == "" || Number($("#QTY" + CountGrid).val()) <= 0) {
-            Errorinput($("#QTY" + CountGrid));
+        if ($("#QTY" + rowcount).val().trim() == "" || Number($("#QTY" + rowcount).val()) <= 0) {
+            Errorinput($("#QTY" + rowcount));
             DisplayMassage('يجب ادخال كمية الصنف', 'Item quantity must be entered', MessageType.Error);
             return false;
         }
-        if ($("#UnitPrice" + CountGrid).val().trim() == "" || Number($("#UnitPrice" + CountGrid).val()) <= 0) {
-            Errorinput($("#UnitPrice" + CountGrid));
+        if ($("#Description" + rowcount).val().trim() == "") {
+            Errorinput($("#Description" + rowcount));
+            DisplayMassage('يجب ادخال وصف الصنف', 'Item Describtion must be entered', MessageType.Error);
+            return false;
+        }
+        if ($("#UnitPrice" + rowcount).val().trim() == "" || Number($("#UnitPrice" + rowcount).val()) <= 0) {
+            Errorinput($("#UnitPrice" + rowcount));
             DisplayMassage('يجب ادخال سعر الصنف', 'Item Price must be entered', MessageType.Error);
             return false;     
         }
+        
         return true;    
     }
     function DeleteRow(RecNo: number) {
@@ -189,6 +223,10 @@ namespace Quotation {
         InvoiceModel.TrDate = txtDate.value;
         InvoiceModel.RefNO = txtRFQ.value;
         InvoiceModel.SalesmanId = Number(txtCompanysales.value);                
+        InvoiceModel.Remark = txtRemark.value; 
+        InvoiceModel.TotalAmount = Number(txtNetBefore.value);
+        InvoiceModel.RoundingAmount = Number(txtAllDiscount.value);
+        InvoiceModel.NetAfterVat = Number(txtNetAfterVat.value);
         //-------------------------(T E R M S & C O N D I T I O N S)-----------------------------------------------     
         InvoiceModel.ContractNo = txtsalesVAT.value;       //----------------- include sales VAT.
         InvoiceModel.ContractNo = txtfirstdays.value;      //----------------- days starting from the delivery date.
@@ -255,7 +293,11 @@ namespace Quotation {
         txtsecounddays.value = "";
         txtlastdays.value = "";
         txtPlacedeliv.value = "";
-
+        txtRemark.value = "";
+        txtNetBefore.value = "";
+        txtAllDiscount.value = "";
+        txtNetAfterVat.value = "";
+        $("#Table_Data").html("");
     }      
 }
 
