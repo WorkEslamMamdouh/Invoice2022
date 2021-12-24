@@ -193,7 +193,7 @@ var Login_;
                             var status = CompanyStatus.CompStatus;
                             var masg = CompanyStatus.LoginMsg;
                             if (status == 0 || status == 1 || status == 2) {
-                                MessageBox.Showwithoutclick(CompanyStatus.LoginMsg, "");
+                                //MessageBox.Showwithoutclick(CompanyStatus.LoginMsg, "");                                
                                 Ajax.Callsyncstart({
                                     type: "GET",
                                     url: sys.apiUrl("I_Control", "GetAll"),

@@ -132,7 +132,7 @@ class DataTable {
 
         $("#tableDiv").empty();
         $("#tableDiv").append('<table id="SearchDataTable" class="display" cellspacing="0" width="100%"><thead><tr>' + tableHeaders + '</tr></thead></table>');
-        debugger
+         
         var table = $('#SearchDataTable').dataTable({
             "destroy": true,
             "data": this.dataScr,

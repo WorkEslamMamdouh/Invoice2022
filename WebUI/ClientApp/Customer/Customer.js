@@ -1,8 +1,8 @@
 $(document).ready(function () {
-    Quotation.InitalizeComponent();
+    Customer.InitalizeComponent();
 });
-var Quotation;
-(function (Quotation) {
+var Customer;
+(function (Customer) {
     var sys = new SystemTools();
     //var sys: _shared = new _shared();
     var SysSession = GetSystemSession(Modules.Quotation);
@@ -42,7 +42,7 @@ var Quotation;
         AddNewRow();
         txtDate.value = GetDate();
     }
-    Quotation.InitalizeComponent = InitalizeComponent;
+    Customer.InitalizeComponent = InitalizeComponent;
     function InitalizeControls() {
         // ;
         btnAddDetails = document.getElementById("btnAddDetails");
@@ -76,7 +76,6 @@ var Quotation;
         sys.FindKey(Modules.Quotation, "btnCustSrch", "", function () {
             var id = SearchGrid.SearchDataGrid.SelectedKey;
             CustomerId = id;
-            alert(CustomerId);
             //ddCustomer_onchange();
         });
     }
@@ -84,7 +83,7 @@ var Quotation;
         var html;
         html = '<tr id= "No_Row' + cnt + '" class="  animated zoomIn ">' +
             '<td><button id="btn_minus' + cnt + '" type="button" class="btn btn-custon-four btn-danger"><i class="fa fa-minus-circle"></i></button></td>' +
-            '<td><input  id="serial' + cnt + '" disabled="disabled"  type="text" class="form-control" placeholder="SR"></td>' +
+            '<td><input  id="serial' + cnt + '" disabled="disabled" value="' + (cnt + 1) + '" type="text" class="form-control" placeholder="SR"></td>' +
             '<td><input  id="QTY' + cnt + '" type="number" class="form-control" placeholder="QTY"></td>' +
             '<td><input  id="Description' + cnt + '" type="text" class="form-control" placeholder="Description"></td>' +
             '<td><input  id="UnitPrice' + cnt + '" value="0" type="number" class="form-control" placeholder="Unit Price"></td>' +
@@ -92,7 +91,6 @@ var Quotation;
             '<td><input  id="DiscountPrc' + cnt + '" value="0" type="number" class="form-control" placeholder="DiscountPrc%"></td>' +
             '<td><input  id="DiscountAmount' + cnt + '" value="0" type="number" class="form-control" placeholder="DiscountAmount"></td>' +
             '<td><input  id="Net' + cnt + '" type="number" disabled="disabled" value="0" class="form-control" placeholder="Net"></td>' +
-            '<td><input  id="txt_StatusFlag' + cnt + '" type="hidden" class="form-control"></td>' +
             '</tr>';
         $("#Table_Data").append(html);
         $("#UnitPrice" + cnt).on('keyup', function (e) {
@@ -124,10 +122,8 @@ var Quotation;
     function computeTotal() {
         var NetCount = 0;
         for (var i = 0; i < CountGrid; i++) {
-            if ($("#txt_StatusFlag" + i).val() != 'm' && $("#txt_StatusFlag" + i).val() != 'd') {
-                NetCount += Number($("#Net" + i).val());
-                NetCount = Number(NetCount.toFixed(2).toString());
-            }
+            NetCount += Number($("#Net" + i).val());
+            NetCount = Number(NetCount.toFixed(2).toString());
         }
         txtNetBefore.value = NetCount.toString();
         var Net = (Number(txtNetBefore.value) - Number(txtAllDiscount.value)).toFixed(2);
@@ -149,7 +145,6 @@ var Quotation;
             BuildControls(CountGrid);
             $("#txt_StatusFlag" + CountGrid).val("i"); //In Insert mode 
             CountGrid++;
-            Insert_Serial();
         }
     }
     function validationgrid(rowcount) {
@@ -171,29 +166,17 @@ var Quotation;
         return true;
     }
     function DeleteRow(RecNo) {
+        if (!SysSession.CurrentPrivileges.Remove)
+            return;
         WorningMessage("هل تريد الحذف؟", "Do you want to delete?", "تحذير", "worning", function () {
             $("#txt_StatusFlag" + RecNo).val() == 'i' ? $("#txt_StatusFlag" + RecNo).val('m') : $("#txt_StatusFlag" + RecNo).val('d');
-            computeRows(RecNo);
-            computeTotal();
-            $("#serial" + RecNo).val("99");
-            $("#QTY" + RecNo).val("99");
-            $("#Description" + RecNo).val("99");
-            $("#UnitPrice" + RecNo).val("99");
-            $("#Totalprice" + RecNo).val("199");
-            $("#DiscountPrc" + RecNo).val("199");
-            $("#DiscountAmount" + RecNo).val("199");
+            $("#ddlFamily" + RecNo).val("99");
+            $("#ddlItem" + RecNo).val("99");
+            $("#txtQuantity" + RecNo).val("99");
+            $("#txtPrice" + RecNo).val("199");
+            $("#txtUnitpriceWithVat" + RecNo).val("199");
             $("#No_Row" + RecNo).attr("hidden", "true");
-            Insert_Serial();
         });
-    }
-    function Insert_Serial() {
-        var Ser = 1;
-        for (var i = 0; i < CountGrid; i++) {
-            if ($("#txt_StatusFlag" + i).val() != 'm' && $("#txt_StatusFlag" + i).val() != 'd') {
-                $("#serial" + i).val(Ser);
-                Ser++;
-            }
-        }
     }
     function Assign() {
         //var StatusFlag: String;
@@ -211,8 +194,7 @@ var Quotation;
         InvoiceModel.InvoiceID = 0;
         InvoiceModel.TrDate = txtDate.value;
         InvoiceModel.RefNO = txtRFQ.value;
-        InvoiceModel.SalesmanId = 1;
-        InvoiceModel.ChargeReason = txtCompanysales.value;
+        InvoiceModel.SalesmanId = Number(txtCompanysales.value);
         InvoiceModel.Remark = txtRemark.value;
         InvoiceModel.TotalAmount = Number(txtNetBefore.value);
         InvoiceModel.RoundingAmount = Number(txtAllDiscount.value);
@@ -225,19 +207,16 @@ var Quotation;
         InvoiceModel.PrevInvoiceHash = txtPlacedeliv.value; //----------------- Place of delivery.
         // Details
         for (var i = 0; i < CountGrid; i++) {
-            var StatusFlag = $("#txt_StatusFlag" + i).val();
-            if (StatusFlag == "i") {
-                invoiceItemSingleModel = new Sls_InvoiceDetail();
-                invoiceItemSingleModel.InvoiceItemID = 0;
-                invoiceItemSingleModel.Serial = Number($("#serial" + i).val());
-                invoiceItemSingleModel.SoldQty = Number($('#QTY' + i).val());
-                invoiceItemSingleModel.Itemdesc = $("#Description" + i).val();
-                invoiceItemSingleModel.NetUnitPrice = Number($("#UnitPrice" + i).val());
-                invoiceItemSingleModel.ItemTotal = Number($("#Totalprice" + i).val());
-                invoiceItemSingleModel.DiscountAmount = Number($("#Discount" + i).val());
-                invoiceItemSingleModel.NetAfterVat = Number($("#Net" + i).val());
-                InvoiceItemsDetailsModel.push(invoiceItemSingleModel);
-            }
+            invoiceItemSingleModel = new Sls_InvoiceDetail();
+            invoiceItemSingleModel.InvoiceItemID = 0;
+            invoiceItemSingleModel.Serial = Number($("#serial" + i).val());
+            invoiceItemSingleModel.SoldQty = Number($('#QTY' + i).val());
+            invoiceItemSingleModel.Itemdesc = $("#Description" + i).val();
+            invoiceItemSingleModel.NetUnitPrice = Number($("#UnitPrice" + i).val());
+            invoiceItemSingleModel.ItemTotal = Number($("#Totalprice" + i).val());
+            invoiceItemSingleModel.DiscountAmount = Number($("#Discount" + i).val());
+            invoiceItemSingleModel.NetAfterVat = Number($("#Net" + i).val());
+            InvoiceItemsDetailsModel.push(invoiceItemSingleModel);
         }
         MasterDetailsModel.Sls_Ivoice = InvoiceModel;
         MasterDetailsModel.Sls_InvoiceDetail = InvoiceItemsDetailsModel;
@@ -283,18 +262,5 @@ var Quotation;
         $("#Table_Data").html("");
         AddNewRow();
     }
-    function validation() {
-        if (txtDate.value.trim() == "") {
-            Errorinput(txtDate);
-            DisplayMassage('يجب ادخال التاريخ', 'Date must be entered', MessageType.Error);
-            return false;
-        }
-        if (txtCompanyname.value.trim() == "") {
-            Errorinput(txtCompanyname);
-            DisplayMassage('يجب اختيار شركة  ', 'Company must be choosed', MessageType.Error);
-            return false;
-        }
-        return true;
-    }
-})(Quotation || (Quotation = {}));
-//# sourceMappingURL=Quotation.js.map
+})(Customer || (Customer = {}));
+//# sourceMappingURL=Customer.js.map
