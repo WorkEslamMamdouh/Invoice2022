@@ -71,8 +71,9 @@ namespace Inv.DAL.Domain
         public virtual DbSet<GQ_Notifications> GQ_Notifications { get; set; }
         public virtual DbSet<GQ_ReportWebSetting> GQ_ReportWebSetting { get; set; }
         public virtual DbSet<I_VW_GetCompStatus> I_VW_GetCompStatus { get; set; }
-        public virtual DbSet<Sls_InvoiceDetail> Sls_InvoiceDetail { get; set; }
         public virtual DbSet<Sls_Ivoice> Sls_Ivoice { get; set; }
+        public virtual DbSet<Customer> Customers { get; set; }
+        public virtual DbSet<Sls_InvoiceDetail> Sls_InvoiceDetail { get; set; }
     
         public virtual int G_ProcessTrans(Nullable<int> comp, Nullable<int> branch, string trType, string opMode, Nullable<int> trID, ObjectParameter trNo, ObjectParameter ok)
         {
