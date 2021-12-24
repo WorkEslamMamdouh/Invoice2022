@@ -62,6 +62,7 @@ var JsGrid = /** @class */ (function () {
     };
     JsGrid.prototype.Bind = function () {
         var _this = this;
+        debugger;
         $(".jsgrid-grid-body").css("max-height", this.Height);
         $(".jsgrid-grid-body").css("height", this.Height);
         if (this.SwitchingLanguageEnabled == true) {

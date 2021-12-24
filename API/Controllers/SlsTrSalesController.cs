@@ -82,5 +82,17 @@ namespace Inv.API.Controllers
 
         }
 
+
+
+        [HttpPost, AllowAnonymous]
+        public IHttpActionResult GetAllSlsInvoice(int CompCode, int BranchCode)
+        { 
+            string query = "select * from Sls_Ivoice where TrType = 0 and CompCode = "+ CompCode + " and BranchCode = "+ BranchCode + "";
+            
+            var res = db.Database.SqlQuery<Sls_Ivoice>(query).ToList();
+            return Ok(new BaseResponse(res));
+        }
+
+
     }
 }

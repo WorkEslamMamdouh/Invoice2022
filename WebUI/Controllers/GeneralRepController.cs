@@ -26,8 +26,16 @@ namespace Inv.WebUI.Controllers
             return res;
         }
 
-       
-     
+        public string rptInvoiceNote(RepFinancials rp)
+        {
+
+           IEnumerable<Prnt_Quotation_Result> que = Prnt_Quotation(rp);
+
+          return buildReport(que);
+
+        }
+
+
 
     }
 }
