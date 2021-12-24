@@ -82,7 +82,7 @@ var Quotation;
     function BuildControls(cnt) {
         var html;
         html = '<tr id= "No_Row' + cnt + '" class="  animated zoomIn ">' +
-            '<span id="btn_minus' + cnt + '" class="fa fa-minus-circle fontitm3SlsTrSalesManager2 "></span>' +
+            '<td><button id="btn_minus' + cnt + '" type="button" class="btn btn-custon-four btn-danger"><i class="fa fa-minus-circle"></i></button></td>' +
             '<td><input  id="serial' + cnt + '" disabled="disabled" value="' + (cnt + 1) + '" type="text" class="form-control" placeholder="SR"></td>' +
             '<td><input  id="QTY' + cnt + '" type="number" class="form-control" placeholder="QTY"></td>' +
             '<td><input  id="Description' + cnt + '" type="text" class="form-control" placeholder="Description"></td>' +
