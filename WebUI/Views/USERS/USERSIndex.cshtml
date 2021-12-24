@@ -4,370 +4,288 @@
     Layout = "~/Views/Shared/Layout.cshtml";
 }
 
-
 <style>
-    body {
-        /*direction: rtl!important;*/
-    }
-
-    .display_none {
-        display: none !important;
-    }
-
-    .ckeck {
-        bottom: 5px;
-    }
-
-    .LEPEL_CENTER {
-        text-align: left
-    }
-
-
-
-
-    .pading_lep {
-        padding-right: 7px;
-    }
-
-    .pading_R_L {
-        padding-left: 2px;
-        padding-right: 2px;
-    }
-
-    .loc {
-        padding-top: 4%;
-    }
-
-    .location {
-        padding-top: 3px;
-        border: solid 1px black;
-        border-radius: 29px;
-        padding: 5px 0px 10px 0px;
-    }
-
-    #map {
-        height: 400px; /* The height is 400 pixels */
-        width: 100%; /* The width is the width of the web page */
-    }
-
-    .disabledDiv {
-        pointer-events: none;
-        opacity: 0.8;
-    }
-
-    .highte {
-        height: 40px;
-    }
-
-        .highte:hover {
-            zoom: 1.1;
-            background-color: #5bc0de;
-        }
-
-
-
-
-    .btnAddDetailsuser:hover {
-        color: #24b414;
-    }
-
-    .glyphicon-remove-sign:hover {
-        color: red
-    }
 </style>
 
-<div class="col-lg-12 margingred  borderred">
-    <div class="col-lg-12" id="div_ALLData">
-        <div class="col-lg-12  margingred  ">
-            <label class="col-lg-1 col-xs-4      pading_2  "> @SystemResource.user_type </label>
-            <div class="col-lg-3 col-xs-8">
-                <select id="drpuserType" class="form-control input-sm">
-                    <option value=""></option>
-                </select>
-            </div>
-            <label class="col-lg-1 col-xs-4      pading_2 LEPEL_padingrightuser"> @SystemResource.App_Status </label>
-            <div class="col-lg-2 col-xs-8">
-                <select id="drpStatus" class="form-control input-sm">
-                    <option value=""></option>
-                </select>
-            </div>
-
-            <div class="col-lg-2 pading_0" style=" ">
-
-            </div>
-            <div class="col-lg-1 pading_0">
-
-            </div>
-
-            <div class="col-lg-1 pading_0" style=" ">
-                <button id="btnsearch" type="button" class="  btn btn-info    ">@SystemResource.App_Show <i class="glyphicon glyphicon-search"></i> </button>
-            </div>
-            <div class="col-lg-1 pading_0">
-                <button id="btnAdd" type="button" class="   btn btn-success  btn btn-custon-four primary-btn-cl ">  @SystemResource.App_Add <i class="fa fa-plus-circle"></i></button>
-
-            </div>
-
-        </div>
+<div class="content-inner-all">
 
 
-        <div id="id_UsersGrid" class="col-lg-12  margingred  borderred  display_none" style="">
-            <div class="col-lg-3 col-xs-8" style="margin-bottom: 4px;">
-                <input id="searchbutmemreport" name="" type="text" class="form-control input-sm text_Display" placeholder="@SystemResource.App_SearchbyNumPh ">
-            </div>
-            <div class="col-lg-15 ">
-                <table id="div_grid"></table>
-
-            </div>
-            <h4 style="text-align: center;font-weight: bold;color: #0088c7;"><i class="glyphicon glyphicon-hand-up"></i> @SystemResource.App_DoubleDisplay <i class="glyphicon glyphicon-hand-up"></i></h4>
-        </div>
-
-
-        <div id="DivMassage" class="col-lg-12  margingred  borderred display_none">
-
-            <h4 id="Text_Massage" style=""> @SystemResource.App_Message </h4>
-
-        </div>
-        <div id="div_BasicData" class="col-lg-12 margingred  borderred display_none">
-            <label id="lepfarest" class="col-lg-12 labeltitel "><i id="spanlepfarest" class="ifontowsam fa fa-caret-left" aria-hidden="true"></i>@SystemResource.User_data </label>
-            <div class="container-fluid">
-                <div class="row">
-                    <div id="scorolveiw" class=" divfarest col-lg-12   ">
-                        <div class="form-group" id="divdataa">
-                            <div class="col-lg-12 ">
-                                <label class="col-lg-1 col-xs-4      pading_2">@SystemResource.App_UserName </label>
-
-                                <div class="col-lg-2 col-xs-8">
-                                    <input id="txtUSER_NAME" name="USER_NAMEE" disabled type="text" class="form-control input-sm text_Display">
-                                </div>
-
-                                <label class="col-lg-1 col-xs-4      pading_2 ">@SystemResource.user_type </label>
-                                <div class="col-lg-2 col-xs-8">
-                                    <select id="drpuserType_2" class="form-control input-sm" disabled>
-                                        <option value=""></option>
-                                    </select>
-                                </div>
-                                <label class="col-lg-1 col-xs-4   pading_2">@SystemResource.App_Active</label>
-                                <div class="col-lg-1 col-xs-8 ckeck" style="left: 6.5%;margin-top: -6px;">
-                                    <input id="chk_IsActive" disabled type="checkbox" class="form-control text_Display" />
-                                </div>
-                                <div id="q" class="col-lg-3 col-lg-12 positionbtndiv padeing_0px">
-
-                                    <button id="btnback" type="button" class="  btn btn-warning  btn btn-custon-four primary-btn-cl display_none ">  @SystemResource.App_back  <span class="adminpro-icon adminpro-caret-down"></span></button>
-                                    <button id="btnsave" type="button" class="  btn btn-success  btn btn-custon-four display_none ">  @SystemResource.App_save  <i class="fa fa-check-square-o"></i></button>
-
-                                    <button id="btnedite" type="button" class="btn btn-primary display_none ">   @SystemResource.App_Update <i class="fa fa-edit"></i>  </button>
-
-                                </div>
-                            </div>
-                            <div class="col-lg-12 col-xs-8 ">
-                                <label class="col-lg-1 col-xs-4      pading_2">@SystemResource.Job</label>
-                                <div class="col-lg-2 col-xs-8">
-                                    <input id="txtJobTitle" name="JobTitle" disabled type="text" class="form-control input-sm text_Display">
-                                </div>
-                                <label class="col-lg-1 col-xs-4      pading_2 LEPEL_padingrightuser">@SystemResource.App_Mobile</label>
-                                <div class="col-lg-2 col-xs-8">
-                                    <input id="txtMobile" name="Mobile" disabled type="text" class="form-control input-sm text_Display">
-                                </div>
-
-                                <label class="col-lg-1 col-xs-4      pading_2 textcentr_pading">المرتب</label>
-                                <div class="col-lg-1 col-xs-8">
-                                    <input id="txtsalary" name="salary" disabled type="number" class="form-control input-sm text_Display">
-                                </div>
-                                <div class="col-lg-1 col-xs-8">
-
-                                </div>
-                                <label class="col-lg-1 col-xs-4      pading_2">عدد ايام الحضور</label>
-                                <div class="col-lg-1 col-xs-8">
-                                    <input id="txtUSER_Attendance" name="Num_Attendance" disabled type="number" class="form-control input-sm text_Display">
-                                </div>
-
-
-                            </div>
-                            <div class="col-lg-12 ">
-                                <label class="col-lg-1 col-xs-4      pading_2 LEPEL_padingrightuser">@SystemResource.Email</label>
-                                <div class="col-lg-3 col-xs-8">
-                                    <input id="txtEmail" name="Email" disabled type="text" class="form-control input-sm text_Display">
-                                </div>
-
-                                <label class="col-lg-1 col-xs-4      pading_2 LEPEL_padingright">عدد ايام العمل</label>
-                                <div class="col-lg-1 ">
-                                    <input id="txtday_num" name="day_num" disabled type="number" class="form-control input-sm text_Display">
-                                </div>
-                                <div class="col-lg-1"></div>
-                                <label class="col-lg-1 col-xs-4      pading_2 LEPEL_padingright">عدد ايام الاجازه</label>
-                                <div class="col-lg-1 ">
-                                    <input id="txtDay_Off" name="Day_Off" disabled type="text" class="form-control input-sm text_Display">
-                                </div>
-                                <label class="col-lg-1 col-xs-4      pading_2 LEPEL_padingright">عدد ساعات العمل</label>
-                                <div class="col-lg-1 ">
-                                    <input id="txthour_num" name="hour_num" disabled type="text" class="form-control input-sm text_Display">
-                                </div>
-
-
-                            </div>
-                            <div class="col-lg-12 ">
-                                <label class="col-lg-1 col-xs-4      pading_2">@SystemResource.Access_code </label>
-                                <div class="col-lg-2 col-xs-8">
-                                    <input id="txtUSER_CODE" name="USER_CODEE" disabled type="text" class="form-control input-sm text_Display">
-                                </div>
-                                <label class="col-lg-1 col-xs-4      pading_2 LEPEL_padingrightuser">@SystemResource.App_Password </label>
-                                <div class="col-lg-2 col-xs-8">
-                                    <input id="txtUSER_PASSWORD" name="USER_CODEE" disabled type="password" class="form-control input-sm text_Display">
-                                </div>
-
-                            </div>
-
-                            <div class="col-lg-12 ">
-
-                                <label class="col-lg-1 col-xs-4      pading_2">@SystemResource.Date_First_login </label>
-                                <div class="col-lg-2 col-xs-8">
-                                    <input id="txtFirstLogin" name="FirstLogin" disabled type="text" class="form-control input-sm text_Display">
-                                </div>
-
-                                <label class="col-lg-1 col-xs-4      pading_2">@SystemResource.Date_Last_login </label>
-                                <div class="col-lg-2 col-xs-8">
-                                    <input id="txtLastLogin" name="LastLogin" disabled type="text" class="form-control input-sm text_Display">
-                                </div>
-
-
-                            </div>
-
-                            <div class="col-lg-12">
-                                <div class="col-lg-2 col-xs-8">
-
-                                </div>
-                                <div class="col-lg-2 col-xs-8">
-                                    <button id="btnGive_assignments" disabled type="button" class=" btn btn-custon-four btn-success">  @SystemResource.Give_All_powers  <i class="glyphicon glyphicon-check"></i> </button>
-
-                                </div>
-                                <div class="col-lg-1 col-xs-8">
-                                </div>
-                                <div class="col-lg-2 col-xs-8">
-                                    <button id="btnLoadRoles" type="button" disabled class=" btn btn-custon-four btn-primary "> @SystemResource.Download_all_tasks  <i class="glyphicon glyphicon-download"></i> </button>
-
-                                </div>
-                                <div class="col-lg-1 col-xs-8">
-                                </div>
-                                <div class="col-lg-2 col-xs-8">
-                                    <button id="btnBlock_permissions" disabled type="button" class="btn btn-custon-four btn-danger"> @SystemResource.Block_All_powers <i class="glyphicon glyphicon-lock"></i> </button>
-
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-12 " id="div_rolegrid">
-
-                        </div>
-                        <div class="col-lg-12" style="border: solid 1px black;border-radius:15px;width:100%!important">
-
-
-                            <div class="col-lg-12">
-                                <label class="col-lg-3 col-xs-4 pading_2 LEPEL_padingrightuser2">@SystemResource.task </label>
-
-                                <label class="col-lg-7 col-xs-4 pading_2 LEPEL_padingrightuser2">@SystemResource.description</label>
-
-                                <label class="col-lg-2 col-xs-4 pading_2 " style="text-align:center">@SystemResource.give_power </label>
-
-                            </div>
-
-
-
-                            <div class="col-lg-12">
-                                <div class="col-lg-12 " id="div_Data">
-
-                                </div>
-                                <div class="col-lg-12 col-xs-12" style="right: 2%;" id="div_plassAddDetails">
-
-                                    <div class="col-lg-3 col-xs-8">
-                                        <select id="drpRoles" class="form-control input-sm display_none">
-                                            <option value=""></option>
-                                        </select>
-                                    </div>
-                                    <div class="col-lg-7 col-xs-8">
-
-                                        <input id="txtRoleRemarks" name="Remarks" type="text" disabled class="form-control input-sm text_Display display_none" placeholder="@SystemResource.description">
-
-                                    </div>
-                                    <div class="col-lg-2 col-xs-8">
-
-                                        <input id="Ch_RoleActive" name="IsActive" type="checkbox" class="form-control input-sm text_Display display_none">
-
-                                    </div>
-                                    <span id="btnAddDetails" class="btnAddDetailsuser glyphicon glyphicon-plus-sign display_none"></span>
-
-                                </div>
-
-
-
-
-
-                            </div>
-                        </div>
+    <div class="inbox-mailbox-area mg-b-15">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="row">
 
                         <div class="col-lg-12">
-                            <br />
-                            <br />
-                            <br />
-                        </div>
-                        <div class="col-lg-12" style="border: solid 1px black;border-radius:15px;width:100%!important">
+                            <div class="tab-content">
+                                <div id="inbox" class="tab-pane fade in animated zoomInDown custom-inbox-message shadow-reset active">
+
+                                    <div class="wrapper-pro">
 
 
-                            <div class="col-lg-12">
-                                <label class="col-lg-1 col-xs-4 pading_2 LEPEL_padingrightuser2" style="width: 10%;">@SystemResource.Branch_NUM </label>
+                                        <!-- Breadcome start-->
+                                        <div class="breadcome-area mg-b-30 small-dn">
+                                            <div class="container-fluid">
+                                                <div class="row">
+                                                    <div class="col-lg-12">
 
-                                <label class="col-lg-2 col-xs-4 pading_2 LEPEL_padingrightuser2">@SystemResource.App_BranchName</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
 
-                                <label class="col-lg-1 col-xs-4 pading_2 LEPEL_padingrightuser2" style=" ">@SystemResource.Arrive</label>
-                                <label class="col-lg-1 col-xs-4 pading_2 LEPEL_padingrightuser2" style=" ">@SystemResource.App_Create</label>
-                                <label class="col-lg-1 col-xs-4 pading_2 LEPEL_padingrightuser2" style=" ">@SystemResource.App_Update</label>
-                                <label class="col-lg-1 col-xs-4 pading_2 LEPEL_padingrightuser2" style=" ">@SystemResource.App_Delete</label>
-                                <label class="col-lg-1 col-xs-4 pading_2 LEPEL_padingrightuser2" style=" ">@SystemResource.App_Print</label>
+                                        <div class="admin-dashone-data-table-area mg-b-15">
+                                            <div class="container-fluid">
+                                                <div class="row">
+                                                    <div class="col-lg-12">
+                                                        <div class="sparkline8-list shadow-reset">
+                                                            <div class="sparkline8-hd">
+                                                                <div class="main-sparkline8-hd">
+                                                                    <h1 style="text-align: center;">Add Quotation</h1>
+                                                                </div>
+                                                                <br>
+                                                                <div class="row">
+                                                                    <div class="col-lg-3">
+                                                                        <div class="input-mask-title">
+                                                                            <label>Date</label>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-lg-3">
+                                                                        <div class="input-mark-inner mg-b-22">
+                                                                            <input id="txtDate" type="date" class="form-control" placeholder="dd/mm/yyyy">
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-lg-3">
+                                                                        <div class="input-mask-title">
+                                                                            <label>Presented to</label>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-lg-3">
+                                                                        <div class="col-lg-1" style=" width: 21%!important;">
+                                                                            <button id="btnCustSrch" type="button" class="btn btn-custon-four btn-primary">
+                                                                                <i>search</i>
+                                                                            </button>
+                                                                        </div>
+                                                                        <div class="col-lg-10" style=" width: 79%!important;">
+                                                                            <div class="input-mark-inner mg-b-22">
+                                                                                <input id="txtCompanyname" type="text" class="form-control" placeholder="Company name">
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="col-lg-3">
+                                                                        <div class="input-mask-title">
+                                                                            <label>RFQ</label>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-lg-3">
+                                                                        <div class="input-mark-inner mg-b-22">
+                                                                            <input id="txtRFQ" type="text" class="form-control" placeholder="RFQ">
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-lg-3">
+                                                                        <div class="input-mask-title">
+                                                                            <label>Attention</label>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-lg-3">
+                                                                        <div class="input-mark-inner mg-b-22">
+                                                                            <input id="txtCompanysales" type="text" class="form-control" placeholder="company salesman">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="col-lg-3">
+                                                                        <div class="input-mask-title">
+                                                                            <label>Quotation no</label>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-lg-3">
+                                                                        <div class="input-mark-inner mg-b-22">
+                                                                            <input id="txtQutationNo" disabled="disabled" type="text" class="form-control" placeholder="QutationNo">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="sparkline8-graph" style="margin-left:2%!important;">
+                                                                <div class="datatable-dashv1-list custom-datatable-overright">
+                                                                    <div class="button-ap-list responsive-btn">
+                                                                        <button id="btnprint" type="button" class="btn btn-custon-four btn-primary"><i class="fa fa-print"></i>print</button>
+                                                                        <button id="btnsave" type="button" class="btn btn-custon-four btn-success"><i class="fa fa-download"></i>save pdf</button>
+                                                                        <button id="btnClean" type="button" class="btn btn-custon-four btn-danger"><i class="fa fa-empty"></i>clear data</button>
+                                                                    </div>
+                                                                    <div id="DivMassage" class="col-lg-12  margingred  borderred display_none">
 
-                            </div>
+                                                                        <h4 id="Text_Massage">Message</h4>
 
+                                                                    </div>
+                                                                    <table id="table" data-toggle="table" data-cookie-id-table="saveId" data-show-export="false" data-click-to-select="true" data-toolbar="#toolbar">
+                                                                        <thead>
+                                                                            <tr>
+                                                                                <th data-field=""></th>
+                                                                                <th data-field="id">SR</th>
+                                                                                <th data-field="" data-editable="true">QTY</th>
+                                                                                <th data-field="description" data-editable="true">Description</th>
+                                                                                <th data-field="number" data-editable="true">Unit Price</th>
+                                                                                <th data-field="number" data-editable="true">Total price</th>
+                                                                                <th data-field="number" data-editable="true">Discount%</th>
+                                                                                <th data-field="number" data-editable="true">Discount Amount</th>
+                                                                                <th data-field="number" data-editable="true">Net</th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody id="Table_Data">
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
+                                                                <div class="btn-group project-list-action">
+                                                                    <button id="btnAddDetails" class="btn btn-custon-four btn-success"><i class="fa fa-plus"></i>add item</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <br />
+                                                        <div class="row">
+                                                            <div class="col-lg-2">
+                                                                <div class="input-mask-title">
+                                                                    <label>Total Quotation</label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-2">
+                                                                <div class="input-mark-inner mg-b-22">
+                                                                    <input id="txtNetBefore" disabled="disabled" type="number" name="TotalAmount" class="form-control" placeholder="">
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-2">
+                                                                <div class="input-mask-title">
+                                                                    <label>Discount</label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-2">
+                                                                <div class="input-mark-inner mg-b-22">
+                                                                    <input id="txtAllDiscount" type="number" name="RoundingAmount" class="form-control" placeholder="">
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-2">
+                                                                <div class="input-mask-title">
+                                                                    <label>Net</label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-2">
+                                                                <div class="input-mark-inner mg-b-22">
+                                                                    <input id="txtNetAfterVat" disabled="disabled" name="NetAfterVat" type="number" class="form-control" placeholder="">
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-2">
+                                                                <div class="input-mask-title">
+                                                                    <label>Remarks</label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-6">
+                                                                <div class="input-mark-inner mg-b-22">
+                                                                    <textarea id="txtRemark" name="Remark" type="text" class="form-control" placeholder="Remark"></textarea>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="sparkline8-hd">
+                                                            <div class="main-sparkline8-hd">
+                                                                <h1 style="text-align: center;"><b>Terms and Conditions:</b></h1>
+                                                            </div>
+                                                            <br>
+                                                            <div class="row">
+                                                                <div class="col-lg-3">
+                                                                    <label>Price quoted are in EGP.</label>
+                                                                </div>
+                                                            </div>
+                                                            <label>
+                                                                <div class="pull-left pagination-detail">
+                                                                    <span class="pagination-info">
+                                                                        All price
+                                                                        <span>
+                                                                            <span class="btn-group dropup">
+                                                                                <input id="txtsalesVAT" type="text" class="form-control" placeholder="Include or not include">
+                                                                            </span> sales VAT.
+                                                                        </span>
+                                                                    </span>
+                                                                </div>
+                                                            </label>
+                                                        </div>
+                                                        <div class="sparkline8-hd">
+                                                            <label>
+                                                                <div class="pull-left pagination-detail">
+                                                                    <span class="pagination-info">
+                                                                        Payment with in
+                                                                        <span>
+                                                                            <span class="btn-group dropup">
+                                                                                <input id="txtfirstdays" type="text" class="form-control" placeholder="Number of days">
+                                                                            </span>days starting from the delivery date.
+                                                                        </span>
+                                                                    </span>
+                                                                </div>
+                                                            </label>
+                                                        </div>
+                                                        <div class="sparkline8-hd">
+                                                            <label>
+                                                                <div class="pull-left pagination-detail">
+                                                                    <span class="pagination-info">
+                                                                        Offer validity
+                                                                        <span>
+                                                                            <span class="btn-group dropup">
+                                                                                <input id="txtsecounddays" type="text" class="form-control" placeholder="Number of days">
+                                                                            </span>days from offer date.
+                                                                        </span>
 
-                            <div class="col-lg-12">
-                                <div class="col-lg-12 " id="div_Data_BRANCH">
+                                                                    </span>
+                                                                </div>
+                                                            </label>
+                                                        </div>
+                                                        <div class="sparkline8-hd">
+                                                            <label>
+                                                                <div class="pull-left pagination-detail">
+                                                                    <span class="pagination-info">
+                                                                        The delivery will be
+                                                                        <span>
+                                                                            <span class="btn-group dropup">
+                                                                                <input id="txtlastdays" type="text" class="form-control" placeholder="Number of days">
+                                                                            </span>days from purchase order.
+                                                                        </span>
+                                                                    </span>
+                                                                </div>
+                                                            </label>
+                                                        </div>
+                                                        <div class="sparkline8-hd">
+                                                            <label>
+                                                                <div class="pull-left pagination-detail">
+                                                                    <span class="pagination-info">
+                                                                        Place of delivery
+                                                                        <span>
+                                                                            <span class="btn-group dropup">
+                                                                                <input id="txtPlacedeliv" style="width:235%;" type="text" class="form-control" placeholder="Place of delivery ">
+                                                                            </span>
+                                                                        </span>
+                                                                    </span>
+                                                                </div>
+                                                            </label>
+                                                            <div class="row">
+                                                                <div class="col-lg-12">
+                                                                    <label>Thank you and assuring you of our best attention and services at all time.</label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
 
                                 </div>
-                                <span id="btnAddBranch" class="glyphicon glyphicon-plus-sign  display_none"></span>
-
-
                             </div>
                         </div>
-
-                        <div class="col-lg-12">
-                            <label class="col-lg-1 col-xs-4  marginstenig pading_lep  pading_2  borderbottom "> انشاء </label>
-                            <input id="txtCreatedBy" name="CreatedBy" type="text" disabled="" class="col-lg-1 col-xs-4  marginstenig pading_lep  pading_2  borderbottom ">
-                            <input id="txtCreatedAt" name="CREATED_AT" type="text" disabled="" class="col-lg-2 col-xs-4  marginstenig pading_lep  pading_2 style_borderbottom">
-                            <div class="col-lg-2"> </div>
-                            <label class="col-lg-1 col-xs-4  marginstenig pading_lep  pading_2  borderbottom "> تعديل </label>
-                            <input id="txtUpdatedBy" name="UPDATED_BY" type="text" disabled="" class="col-lg-1 col-xs-4  marginstenig pading_lep  pading_2  borderbottom">
-                            <input id="txtUpdatedAt" name="UPDATED_AT" type="text" disabled="" class="col-lg-2 col-xs-4  marginstenig pading_lep  pading_2 style_borderbottom">
-
-
-                        </div>
-
                     </div>
                 </div>
             </div>
         </div>
-
-
-        <br />
-        <br />
-
     </div>
-
 </div>
-<script src="~/ClientApp/CustomEntities.js"></script>
-<script src="~/ClientApp/Tools/USERS/USERS.js"></script>
-
-<style>
-    /*#div_grid {
-            width: 100% !important;
-            border: solid 2px black;
-            border-radius: 15px;
-        }*/
-</style>
-
+<script src="~/ClientApp/Quotation/Quotation.js"></script>

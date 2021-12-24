@@ -6,6 +6,9 @@ const JsGridHeaderCenter: string = "JsGridHeaderCenter";
 const TransparentButton: string = "TransparentButton";
 var Modules = {
     Home: "Home",
+    QuotationView: "QuotationView",
+    Companies: "Companies",
+    Users: "Users",
     Quotation: "Quotation"
 
 
