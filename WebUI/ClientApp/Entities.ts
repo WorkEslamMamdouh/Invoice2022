@@ -103,7 +103,17 @@ class APISessionRecord {
     }
 
 }
+class SlsInvoiceMasterDetails extends SecurityClass {
+    constructor() {
+        super();
+        this.Sls_Ivoice = new Sls_Ivoice();
+        this.Sls_InvoiceDetail = new Array<Sls_InvoiceDetail>();
+    }
+    public Sls_Ivoice: Sls_Ivoice;
+    public Sls_InvoiceDetail: Array<Sls_InvoiceDetail>;
 
+
+}
 
 abstract class EntityContext {
     public RowIndex: number;
@@ -1442,8 +1452,284 @@ class A_RecPay_D_Group extends SecurityClass {
     public UpdatedBy: string;
     public StatusFlag: string;
 }
+class Sls_Ivoice extends SecurityClass {
+    constructor() {
+        super();
+        this.InvoiceID = 0;
+        this.TrNo = 0;
+        this.RefNO = "";
+        this.RefTrID = 0;
+        this.TrDate = "";
+        this.TrDateH = "";
+        this.TrType = 0;
+        this.IsCash = false;
+        this.SlsInvType = 0;
+        this.SlsInvSrc = 0;
+        this.CashBoxID = 0;
+        this.CustomerId = 0;
+        this.CustomerName = "";
+        this.CustomerMobileNo = "";
+        this.SalesmanId = 0;
+        this.StoreId = 0;
+        this.OperationId = 0;
+        this.TotalAmount = 0;
+        this.VatAmount = 0;
+        this.VatType = 0;
+        this.DiscountAmount = 0;
+        this.DiscountPrc = 0;
+        this.NetAfterVat = 0;
+        this.CommitionAmount = 0;
+        this.CashAmount = 0;
+        this.CardAmount = 0;
+        this.BankTfAmount = 0;
+        this.BankAccount = "";
+        this.TotalPaidAmount = 0;
+        this.RemainAmount = 0;
+        this.Remark = "";
+        this.Status = 0;
+        this.IsPosted = false;
+        this.VoucherNo = 0;
+        this.VoucherType = 0;
+        this.CreatedAt = "";
+        this.CreatedBy = "";
+        this.UpdatedAt = "";
+        this.UpdatedBy = "";
+        this.CompCode = 0;
+        this.BranchCode = 0;
+        this.DocNo = "";
+        this.DocUUID = "";
+        this.TrTime = "";
+        this.InvoiceTypeCode = 0;
+        this.InvoiceTransCode = 0;
+        this.TaxNotes = "";
+        this.TaxCurrencyID = 0;
+        this.InvoiceCurrenyID = 0;
+        this.ContractNo = "";
+        this.PurchaseorderNo = "";
+        this.GlobalInvoiceCounter = 0;
+        this.PrevInvoiceHash
+        this.QRCode
+        this.CryptographicStamp
+        this.DeliveryDate = "";
+        this.DeliveryEndDate = "";
+        this.PaymentMeansTypeCode = 0;
+        this.CRDBReasoncode = 0;
+        this.PaymentTerms = "";
+        this.PaymentTermsID = 0;
+        this.AllowAmount = 0;
+        this.AllowPrc = 0;
+        this.AllowBase = 0;
+        this.AllowVatNatID = 0;
+        this.AllowVatPrc = 0;
+        this.AllowAfterVat = 0;
+        this.AllowReason = "";
+        this.AllowCode = 0;
+        this.ChargeAmount = 0;
+        this.ChargePrc = 0;
+        this.ChargeBase = 0;
+        this.ChargeVatNatID = 0;
+        this.ChargeVatPrc = 0;
+        this.ChargeAfterVat = 0;
+        this.ChargeReason = "";
+        this.ChargeCode = 0;
+        this.ItemTotal = 0;
+        this.ItemAllowTotal = 0;
+        this.ItemDiscountTotal = 0;
+        this.ItemVatTotal = 0;
+        this.RoundingAmount = 0;
+    }
+    public InvoiceID: number;
+    public TrNo: number;
+    public RefNO: string;
+    public RefTrID: number;
+    public TrDate: string;
+    public TrDateH: string;
+    public TrType: number;
+    public IsCash: boolean;
+    public SlsInvType: number;
+    public SlsInvSrc: number;
+    public CashBoxID: number;
+    public CustomerId: number;
+    public CustomerName: string;
+    public CustomerMobileNo: string;
+    public SalesmanId: number;
+    public StoreId: number;
+    public OperationId: number;
+    public TotalAmount: number;
+    public VatAmount: number;
+    public VatType: number;
+    public DiscountAmount: number;
+    public DiscountPrc: number;
+    public NetAfterVat: number;
+    public CommitionAmount: number;
+    public CashAmount: number;
+    public CardAmount: number;
+    public BankTfAmount: number;
+    public BankAccount: string;
+    public TotalPaidAmount: number;
+    public RemainAmount: number;
+    public Remark: string;
+    public Status: number;
+    public IsPosted: boolean;
+    public VoucherNo: number;
+    public VoucherType: number;
+    public CreatedAt: string;
+    public CreatedBy: string;
+    public UpdatedAt: string;
+    public UpdatedBy: string;
+    public CompCode: number;
+    public BranchCode: number;
+    public DocNo: string;
+    public DocUUID: string;
+    public TrTime: string;
+    public InvoiceTypeCode: number;
+    public InvoiceTransCode: number;
+    public TaxNotes: string;
+    public TaxCurrencyID: number;
+    public InvoiceCurrenyID: number;
+    public ContractNo: string;
+    public PurchaseorderNo: string;
+    public GlobalInvoiceCounter: number;
+    public PrevInvoiceHash: any;
+    public QRCode: any;
+    public CryptographicStamp: any;
+    public DeliveryDate: string;
+    public DeliveryEndDate: string;
+    public PaymentMeansTypeCode: number;
+    public CRDBReasoncode: number;
+    public PaymentTerms: string;
+    public PaymentTermsID: number;
+    public AllowAmount: number;
+    public AllowPrc: number;
+    public AllowBase: number;
+    public AllowVatNatID: number;
+    public AllowVatPrc: number;
+    public AllowAfterVat: number;
+    public AllowReason: string;
+    public AllowCode: number;
+    public ChargeAmount: number;
+    public ChargePrc: number;
+    public ChargeBase: number;
+    public ChargeVatNatID: number;
+    public ChargeVatPrc: number;
+    public ChargeAfterVat: number;
+    public ChargeReason: string;
+    public ChargeCode: number;
+    public ItemTotal: number;
+    public ItemAllowTotal: number;
+    public ItemDiscountTotal: number;
+    public ItemVatTotal: number;
+    public RoundingAmount: number;
+}
 
+class Sls_InvoiceDetail extends SecurityClass {
+    constructor() {
+        super();
+        this.InvoiceItemID = 0;
+        this.InvoiceID = 0;
+        this.ItemID = 0;
+        this.UomID = 0;
+        this.InvoiceSoldQty = 0;
+        this.SoldQty = 0;
+        this.Unitprice = 0;
+        this.DiscountPrc = 0;
+        this.DiscountAmount = 0;
+        this.NetUnitPrice = 0;
+        this.ItemTotal = 0;
+        this.VatPrc = 0;
+        this.VatAmount = 0;
+        this.NetAfterVat = 0;
+        this.StockSoldQty = 0;
+        this.StockUnitCost = 0;
+        this.VatApplied = 0;
+        this.TotRetQty = 0;
+        this.Serial = 0;
+        this.AllowAmount = 0;
+        this.AllowancePrc = 0;
+        this.AllowanceBase = 0;
+        this.AllowReason = "";
+        this.AllowCode = 0;
+        this.BaseQty = 0;
+        this.BaseQtyUomid = 0;
+        this.BaseQtyPrice = 0;
+        this.BaseQtyDiscount = 0;
+        this.DiscountPrcBase = 0;
+        this.DiscountVatNatID = 0;
+        this.Discountreason = "";
+        this.DiscountCode = 0;
+        this.ItemNetAmount = 0;
+        this.ChargeAmount = 0;
+        this.ChargePrc = 0;
+        this.ChargeBase = 0;
+        this.ChargeVatNatID = 0;
+        this.ChargeVatPrc = 0;
+        this.ChargeAfterVat = 0;
+        this.ChargeReason = "";
+        this.ChargeCode = 0;
+        this.VatNatID = 0;
+        this.UnitpriceWithVat = 0;
+        this.NetUnitPriceWithVat = 0;
+        this.Name_Item = "";
+        this.MinUnitPrice = 0;
+        this.ItemFamilyID = 0;
+        this.Name_ItemFamily = "";
+        this.OnhandQty = 0;
+        this.StatusFlag = "";
+        this.Itemdesc = "";
 
+    }
+    public InvoiceItemID: number;
+    public InvoiceID: number;
+    public ItemID: number;
+    public UomID: number;
+    public InvoiceSoldQty: number;
+    public SoldQty: number;
+    public Unitprice: number;
+    public DiscountPrc: number;
+    public DiscountAmount: number;
+    public NetUnitPrice: number;
+    public ItemTotal: number;
+    public VatPrc: number;
+    public VatAmount: number;
+    public NetAfterVat: number;
+    public StockSoldQty: number;
+    public StockUnitCost: number;
+    public VatApplied: number;
+    public TotRetQty: number;
+    public Serial: number;
+    public AllowAmount: number;
+    public AllowancePrc: number;
+    public AllowanceBase: number;
+    public AllowReason: string;
+    public AllowCode: number;
+    public BaseQty: number;
+    public BaseQtyUomid: number;
+    public BaseQtyPrice: number;
+    public BaseQtyDiscount: number;
+    public DiscountPrcBase: number;
+    public DiscountVatNatID: number;
+    public Discountreason: string;
+    public DiscountCode: number;
+    public ItemNetAmount: number;
+    public ChargeAmount: number;
+    public ChargePrc: number;
+    public ChargeBase: number;
+    public ChargeVatNatID: number;
+    public ChargeVatPrc: number;
+    public ChargeAfterVat: number;
+    public ChargeReason: string;
+    public ChargeCode: number;
+    public VatNatID: number;
+    public UnitpriceWithVat: number;
+    public NetUnitPriceWithVat: number;
+    public Name_Item: string;
+    public Name_ItemFamily: string;
+    public MinUnitPrice: number;
+    public ItemFamilyID: number;
+    public OnhandQty: number;
+    public StatusFlag: string;
+    public Itemdesc: string;
+}
 
 
 

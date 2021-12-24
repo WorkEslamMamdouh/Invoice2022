@@ -220,7 +220,6 @@
     <Content Include="NewStyle\css\colorpicker\colorpicker.css" />
     <Content Include="NewStyle\css\cropper\cropper.min.css" />
     <Content Include="NewStyle\css\data-table\bootstrap-editable.css" />
-    <Content Include="NewStyle\css\data-table\bootstrap-table.css" />
     <Content Include="NewStyle\css\datapicker\datepicker3.css" />
     <Content Include="NewStyle\css\datetimepicker.css" />
     <Content Include="NewStyle\css\dropzone.css" />

@@ -49,6 +49,8 @@
         <EntityTypeShape EntityType="InvoiceModel.GQ_Notifications" Width="1.5" PointX="4.75" PointY="20.75" IsExpanded="true" />
         <EntityTypeShape EntityType="InvoiceModel.GQ_ReportWebSetting" Width="1.5" PointX="20.75" PointY="7.75" IsExpanded="true" />
         <EntityTypeShape EntityType="InvoiceModel.I_VW_GetCompStatus" Width="1.5" PointX="10.75" PointY="20.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="InvoiceModel.Sls_InvoiceDetail" Width="1.5" PointX="0.75" PointY="21.75" />
+        <EntityTypeShape EntityType="InvoiceModel.Sls_Ivoice" Width="1.5" PointX="21.75" PointY="14.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
