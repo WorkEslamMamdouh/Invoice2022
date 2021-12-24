@@ -86,96 +86,81 @@
     <input type="hidden" id="GetAPIUrl" name="name" value="@System.Configuration.ConfigurationManager.AppSettings["ServiceUrl"]" />
     <div class="wrapper-pro">
 
-        <!-- Header top area startالمنيو اللي في الجنب -->
-        <div class="wrapper-pro">
-            <div class="left-sidebar-pro">
-                <nav id="sidebar" class="active">
-                   
-                    <div class="left-custom-menu-adp-wrap">
-                        <ul class="nav navbar-nav left-sidebar-menu-pro">
-                            <li class="nav-item">
-                                <a id="btnHome" href="#" data-toggle="dropdown" role="button" aria-expanded="false" class="nav-link dropdown-toggle"><i class="fa big-icon fa-home"></i> <span class="mini-dn">Home</span> <span class="indicator-right-menu mini-dn"><i class="fa indicator-mn fa-angle-left"></i></span></a>
-
-                            </li>
-                           
-                        </ul>
-                    </div>
-                </nav>
-            </div>
-            <!-- Header top area start المنيو اللي فوق-->
-            <div class="content-inner-all">
-                <div class="header-top-area">
-                    <div class="fixed-header-top">
-                        <div class="container-fluid">
-                            <div class="row">
-                                <div class="col-lg-1 col-md-6 col-sm-6 col-xs-12">
-                                    <button type="button" id="sidebarCollapse" class=" display_none btn bar-button-pro header-drl-controller-btn btn-info navbar-btn">
-                                        <i class="fa fa-bars"></i>
-                                    </button>
-                                    <div class="admin-logo logo-wrap-pro">
-                                        <a href="#">
-                                            <img src="~/NewStyle/img/logo/log.png" alt="" />
-                                        </a>
-                                    </div>
+        
+        <!-- Header top area start المنيو اللي فوق-->
+        <div class="content-inner-all">
+            <div class="header-top-area">
+                <div class="fixed-header-top">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-lg-1 col-md-6 col-sm-6 col-xs-12">
+                                <button type="button" id="sidebarCollapse" class=" display_none btn bar-button-pro header-drl-controller-btn btn-info navbar-btn">
+                                    <i class="fa fa-bars"></i>
+                                </button>
+                                <div class="admin-logo logo-wrap-pro">
+                                    <a href="#">
+                                        <img src="~/NewStyle/img/logo.png" alt="" />
+                                    </a>
                                 </div>
-                                <div class="col-lg-6 col-md-1 col-sm-1 col-xs-12">
-                                    <div class="header-top-menu tabl-d-n">
-                                        <ul class="nav navbar-nav mai-top-nav">
-                                            
-                                            <li class="nav-item">
-                                                <a id="btnQuotation" key="Quotation" href="#" class="nav-link">Add quotation</a>
-                                            </li>
-                                            <li class="nav-item">
-                                                <a href="quotations.html" class="nav-link">Quotations</a>
-                                            </li>
-                                            <li class="nav-item">
-                                                <a href="#" class="nav-link">Invoice</a>
-                                            </li>
-                                            <li class="nav-item">
-                                                <a href="#" class="nav-link">Companies</a>
-                                            </li>
-                                            <li class="nav-item">
-                                                <a href="#" class="nav-link">Users</a>
-                                            </li>
-                                        </ul>
-                                    </div>
+                            </div>
+                            <div class="col-lg-6 col-md-1 col-sm-1 col-xs-12">
+                                <div class="header-top-menu tabl-d-n">
+                                    <ul class="nav navbar-nav mai-top-nav">
+
+                                        <li class="nav-item">
+                                            <a id="btnQuotation" key="Quotation" href="#" class="nav-link">Add quotation</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="quotations.html" class="nav-link">Quotations</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="#" class="nav-link">Invoice</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="#" class="nav-link">Companies</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="#" class="nav-link">Users</a>
+                                        </li>
+                                    </ul>
                                 </div>
-                                <div class="col-lg-5 col-md-5 col-sm-6 col-xs-12">
-                                    <div class="header-right-info">
-                                        <ul class="nav navbar-nav mai-top-nav header-right-menu">
+                            </div>
+                            <div class="col-lg-5 col-md-5 col-sm-6 col-xs-12">
+                                <div class="header-right-info">
+                                    <ul class="nav navbar-nav mai-top-nav header-right-menu">
 
 
-                                            <li class="nav-item">
-                                                <a href="#" data-toggle="dropdown" role="button" aria-expanded="false" class="nav-link dropdown-toggle">
-                                                    <span class="adminpro-icon adminpro-user-rounded header-riht-inf"></span>
-                                                    <span id="Admin_name" class="admin-name"></span>
-                                                    <span class="author-project-icon adminpro-icon adminpro-down-arrow"></span>
-                                                </a>
-                                                <ul role="menu" class="dropdown-header-top author-log dropdown-menu animated flipInX">
-                                                    <li> 
-                                                        <a class="dropdown-item" href="#" id="btnUsers" data-toggle="modal" data-target="#user_setting"> Change Password<span id="btn_G_User" class="adminpro-icon adminpro-locked author-log-ic"></span>  </a>
-                                                    </li>
-                                                    <li>
-                                                        <a id="btn_loguotuser" href="#"><span class="adminpro-icon adminpro-locked author-log-ic"></span>Log Out</a>
-                                                    </li>
-                                                </ul>
-                                            </li>
-                                            <li class="nav-item nav-setting-open display_none">
-                                                <a href="#" data-toggle="dropdown" role="button" aria-expanded="false" class=" display_none nav-link dropdown-toggle">
-                                                </a>
+                                        <li class="nav-item">
+                                            <a href="#" data-toggle="dropdown" role="button" aria-expanded="false" class="nav-link dropdown-toggle">
+                                                <span class="adminpro-icon adminpro-user-rounded header-riht-inf"></span>
+                                                <span id="Admin_name" class="admin-name"></span>
+                                                <span class="author-project-icon adminpro-icon adminpro-down-arrow"></span>
+                                            </a>
+                                            <ul role="menu" class="dropdown-header-top author-log dropdown-menu animated flipInX">
+                                                <li>
+                                                    <a class="dropdown-item" href="#" id="btnUsers" data-toggle="modal" data-target="#user_setting"> Change Password<span id="btn_G_User" class="adminpro-icon adminpro-locked author-log-ic"></span>  </a>
+                                                </li>
+                                                <li>
+                                                    <a id="btn_loguotuser" href="#"><span class="adminpro-icon adminpro-locked author-log-ic"></span>Log Out</a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li class="nav-item nav-setting-open display_none">
+                                            <a href="#" data-toggle="dropdown" role="button" aria-expanded="false" class=" display_none nav-link dropdown-toggle">
+                                            </a>
 
-                                            </li>
-                                        </ul>
-                                    </div>
+                                        </li>
+                                    </ul>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <!-- Header top area end-->
-
             </div>
+            <!-- Header top area end-->
+
         </div>
+    </div>
 
         <div id="cont" class="divcont">
             @RenderBody()

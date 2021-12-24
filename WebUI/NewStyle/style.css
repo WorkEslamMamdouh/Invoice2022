@@ -4233,12 +4233,12 @@ ul.profile-contact-menu {
 }
 
 .mini-navbar .fixed-header-top {
-    left: 80px;
+    left: 0px;
     transition: all 0.3s;
 }
 
 .mini-navbar .content-inner-all {
-    margin-left: 80px;
+    margin-left: 0px;
     transition: all 0.3s;
 }
 
