@@ -1,9 +1,9 @@
 ﻿
 $(document).ready(() => {
-    Quotation.InitalizeComponent();
+    Customer.InitalizeComponent();
 })
 
-namespace Quotation {
+namespace Customer {
 
     var sys: SystemTools = new SystemTools();
     //var sys: _shared = new _shared();
