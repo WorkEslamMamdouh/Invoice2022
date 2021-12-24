@@ -341,7 +341,10 @@
     <Content Include="NewStyle\js\input-mask\jasny-bootstrap.min.js" />
     <Content Include="NewStyle\js\ionRangeSlider\ion.rangeSlider.active.js" />
     <Content Include="NewStyle\js\ionRangeSlider\ion.rangeSlider.min.js" />
+    <Content Include="NewStyle\js\JavaScriptHide.js" />
+    <Content Include="NewStyle\js\jquery-3.4.1.js" />
     <Content Include="NewStyle\js\jquery-ui.min.js" />
+    <Content Include="NewStyle\js\jquery.cookie.min.js" />
     <Content Include="NewStyle\js\jquery.form.min.js" />
     <Content Include="NewStyle\js\jquery.maskedinput.min.js" />
     <Content Include="NewStyle\js\jquery.mCustomScrollbar.concat.min.js" />
@@ -609,7 +612,6 @@
     <Content Include="login\fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="Content\DataTables\css\mixins.scss" />
     <Content Include="Content\DataTables\css\common.scss" />
-    <Content Include="Reports\Forms\ReportsForm.aspx" />
     <Content Include="Views\Login\HomePage1.cshtml" />
     <Content Include="NewStyle\fonts\adminpro-icon.ttf" />
     <Content Include="NewStyle\fonts\adminpro-icon.woff" />
@@ -816,7 +818,6 @@
     <Content Include="login\fonts\glyphicons-halflings-regular.woff" />
     <Content Include="login\fonts\glyphicons-halflings-regular.woff2" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
-    <Content Include="Reports\Forms\KPrnt_Card.rdlc" />
     <None Include="Scripts\jquery-3.1.1.intellisense.js" />
     <Content Include="login\css\animation.css" />
     <Content Include="login\css\bootstrap-theme.css" />
@@ -963,11 +964,9 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\ClientToolsController.cs" />
-    <Compile Include="Controllers\GeneralRepController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\MessageController.cs" />
-    <Compile Include="Controllers\ReportsPagePrintController.cs" />
     <Compile Include="Controllers\RequestController.cs" />
     <Compile Include="Controllers\SessionController.cs" />
     <Compile Include="Filter\AuthorizeUserAttribute.cs" />
@@ -980,19 +979,6 @@
     <Compile Include="Models\CustomModels\SessionRecord.cs" />
     <Compile Include="Models\CustomModels\UserPrivilege.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Reports\Forms\ClassPrint.cs" />
-    <Compile Include="Reports\Forms\ReportsDetails.cs" />
-    <Compile Include="Reports\Forms\ReportsForm.aspx.cs">
-      <DependentUpon>ReportsForm.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Reports\Forms\ReportsForm.aspx.designer.cs">
-      <DependentUpon>ReportsForm.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Reports\Models\ReportParameters.cs" />
-    <Compile Include="Reports\Models\ReportService.cs" />
-    <Compile Include="Reports\Models\SessionRecord.cs" />
-    <Compile Include="Reports\Models\UserTools.cs" />
     <Compile Include="Resources\SystemResource.ar.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -1043,7 +1029,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="ClientApp\Component\" />
-    <Folder Include="Reports\Report\print\" />
     <Folder Include="Views\Site\UnderConstruction\" />
   </ItemGroup>
   <ItemGroup>

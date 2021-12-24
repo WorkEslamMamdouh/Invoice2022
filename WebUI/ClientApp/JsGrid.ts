@@ -102,6 +102,7 @@ class JsGrid {
         }
 
         $("#" + this.ElementName).jsGrid({
+            
             width: this.Width,
             height: this.Height,
             heading: this.Heading,
@@ -131,8 +132,9 @@ class JsGrid {
             //        this.editItem($(args.event.target).closest("tr"));
             //    }
             //},
-            getFilter: function () {
 
+            getFilter: function () {
+                debugger
                 var result = {};
                 this._eachField(function (field) {
                     if (field.filtering) {
@@ -143,7 +145,7 @@ class JsGrid {
             },
 
             filterTemplate: function () {
-
+                debugger
                 if (!this.filtering)
                     return "";
 
@@ -162,7 +164,7 @@ class JsGrid {
                 return $result;
             },
             loadData: function (filter) {
-
+                debugger
                 filter = filter || (this.filtering ? this.getFilter() : {});
 
                 $.extend(filter, this._loadStrategy.loadParams(), this._sortingParams());
@@ -183,7 +185,7 @@ class JsGrid {
                 });
             },
             _controllerCall: function (method, param, isCanceled, doneCallback) {
-
+                debugger
                 if (isCanceled)
                     return $.Deferred().reject().promise();
 
@@ -201,7 +203,7 @@ class JsGrid {
             },
 
             _setSortingParams: function (field, order) {
-
+                debugger
                 field = this._normalizeField(field);
                 order = order || ((this._sortField === field) ? this._reversedSortOrder(this._sortOrder) : "asc");
 
@@ -209,7 +211,7 @@ class JsGrid {
                 this._sortOrder = order;
             },
             sort: function (field, order) {
-
+                debugger
                 if ($.isPlainObject(field)) {
                     order = field.order;
                     field = field.field;
@@ -222,7 +224,7 @@ class JsGrid {
             },
 
             _sortData: function () {
-
+                debugger
                 var sortFactor = this._sortFactor(),
                     sortField = this._sortField;
 
@@ -233,7 +235,7 @@ class JsGrid {
                 }
             },
             _sortingParams: function () {
-
+                debugger
                 if (this.sorting && this._sortField) {
                     return {
                         sortField: this._sortField.name,
@@ -243,7 +245,7 @@ class JsGrid {
                 return {};
             },
             search: function (filter) {
-
+                debugger
                 this._resetSorting();
                 this._resetPager();
                 return this.loadData(filter);
@@ -296,6 +298,7 @@ class JsGrid {
 
             //},
             rowClick: (e) => {
+                debugger
                  let row = e.event.currentTarget as HTMLTableRowElement;
                 $(".jsgrid-row").removeClass("SelectedRowF");
                 $(".jsgrid-alt-row").removeClass("SelectedRowF");

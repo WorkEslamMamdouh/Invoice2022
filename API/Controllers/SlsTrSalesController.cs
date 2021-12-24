@@ -84,7 +84,7 @@ namespace Inv.API.Controllers
 
 
 
-        [HttpPost, AllowAnonymous]
+        [HttpGet, AllowAnonymous]
         public IHttpActionResult GetAllSlsInvoice(int CompCode, int BranchCode)
         { 
             string query = "select * from Sls_Ivoice where TrType = 0 and CompCode = "+ CompCode + " and BranchCode = "+ BranchCode + "";

@@ -49,6 +49,7 @@ namespace QuotationView {
         ReportGrid.Editing = false;
         ReportGrid.Inserting = false;
         ReportGrid.SelectedIndex = 1;
+        ReportGrid.SwitchingLanguageEnabled = false; 
         ReportGrid.OnItemEditing = () => { };
         ReportGrid.Columns = [
             { title: "الرقم", name: "InvoiceID", type: "text", width: "100px", visible: false },
@@ -63,9 +64,9 @@ namespace QuotationView {
     }
 
     function Display() {
-       
+        debugger
         Ajax.Callsync({
-            type: "POST",
+            type: "GET",
             url: sys.apiUrl("SlsTrSales", "GetAllSlsInvoice"),
             data: { CompCode: compcode, BranchCode: BranchCode },
             success: (d) => {

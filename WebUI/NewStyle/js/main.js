@@ -5,7 +5,10 @@
 		 jQuery MeanMenu
 		------------------------------ */
 		jQuery('nav#dropdown').meanmenu();	
-		
+    
+
+   
+
 		
 		
 		$('#sidebarCollapse').on('click', function () {
@@ -23,9 +26,9 @@
 			
 		$('#sidebarCollapse').on('click', function () {
 			$("body").toggleClass("mini-navbar");
-			SmoothlyMenu();
+			//SmoothlyMenu();
 		});
-		
+      
 		/*-----------------------------
 			Menu Stick
 		---------------------------------*/
@@ -214,7 +217,6 @@
 			$(".sparkline16-collapse-close").on('click', function(){
 				$( "div.sparkline16-list" ).fadeOut( 600 );
 			});
- 
-		 
+        
  
 })(jQuery); 
