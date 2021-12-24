@@ -172,13 +172,14 @@ class SystemTools {
                 $("#SearchBox").css("height", boxHeight);
                 $("#SearchBox").css("left", boxLeft);
                 $("#SearchBox").css("top", boxTop);
-
+              
                 SearchGrid.SearchDataGrid.Bind();
+        
 
                 SearchGrid.SearchDataGrid.OnDoubleClick = () => {
-                    debugger
+           
                     console.log(SearchGrid.SearchDataGrid.SelectedKey);
-                    alert("ok");
+                 
                     $("#SearchBox").modal("hide");//.css("display", "none");
                     OnSearchSelected();
                 };
