@@ -15,6 +15,7 @@ var Quotation;
     var BranchCode; //SharedSession.CurrentEnvironment.CompCode;
     var btnAddDetails;
     var btnsave;
+    var btnClean;
     var CustomerId = 0;
     var btnCustSrch;
     var invoiceID = 0;
@@ -28,7 +29,10 @@ var Quotation;
     var txtsecounddays;
     var txtlastdays;
     var txtPlacedeliv;
-    var paginationSwitch;
+    var txtRemark;
+    var txtNetBefore;
+    var txtAllDiscount;
+    var txtNetAfterVat;
     var lang = (SysSession.CurrentEnvironment.ScreenLanguage);
     function InitalizeComponent() {
         compcode = Number(SysSession.CurrentEnvironment.CompCode);
@@ -44,7 +48,7 @@ var Quotation;
         btnAddDetails = document.getElementById("btnAddDetails");
         btnCustSrch = document.getElementById("btnCustSrch");
         btnsave = document.getElementById("btnsave");
-        paginationSwitch = document.getElementsByName("paginationSwitch");
+        btnClean = document.getElementById("btnClean");
         // inputs
         txtDate = document.getElementById("txtDate");
         txtRFQ = document.getElementById("txtRFQ");
@@ -56,11 +60,17 @@ var Quotation;
         txtsecounddays = document.getElementById("txtsecounddays");
         txtlastdays = document.getElementById("txtlastdays");
         txtPlacedeliv = document.getElementById("txtPlacedeliv");
+        txtRemark = document.getElementById("txtRemark");
+        txtNetBefore = document.getElementById("txtNetBefore");
+        txtAllDiscount = document.getElementById("txtAllDiscount");
+        txtNetAfterVat = document.getElementById("txtNetAfterVat");
     }
     function InitalizeEvents() {
         btnAddDetails.onclick = AddNewRow; //
         btnCustSrch.onclick = btnCustSrch_onClick;
         btnsave.onclick = insert;
+        btnClean.onclick = success_insert;
+        txtAllDiscount.onkeyup = computeTotal;
     }
     function btnCustSrch_onClick() {
         sys.FindKey(Modules.Quotation, "btnCustSrch", "", function () {
@@ -72,7 +82,8 @@ var Quotation;
     function BuildControls(cnt) {
         var html;
         html = '<tr id= "No_Row' + cnt + '" class="  animated zoomIn ">' +
-            '<td><input  id="serial' + cnt + '" value="' + (cnt + 1) + '" type="text" class="form-control" placeholder="SR"></td>' +
+            '<td><button id="btn_minus' + cnt + '" type="button" class="btn btn-custon-four btn-danger"><i class="fa fa-minus-circle"></i></button></td>' +
+            '<td><input  id="serial' + cnt + '" disabled="disabled" value="' + (cnt + 1) + '" type="text" class="form-control" placeholder="SR"></td>' +
             '<td><input  id="QTY' + cnt + '" type="number" class="form-control" placeholder="QTY"></td>' +
             '<td><input  id="Description' + cnt + '" type="text" class="form-control" placeholder="Description"></td>' +
             '<td><input  id="UnitPrice' + cnt + '" value="0" type="number" class="form-control" placeholder="Unit Price"></td>' +
@@ -106,30 +117,49 @@ var Quotation;
         $("#Totalprice" + cnt).val(Number($("#UnitPrice" + cnt).val()) * (Number($("#QTY" + cnt).val())));
         $("#DiscountAmount" + cnt).val(Number($("#DiscountPrc" + cnt).val()) * Number($("#Totalprice" + cnt).val()) / 100);
         $("#Net" + cnt).val(Number($("#Totalprice" + cnt).val()) - (Number($("#DiscountAmount" + cnt).val())));
+        computeTotal();
+    }
+    function computeTotal() {
+        var NetCount = 0;
+        for (var i = 0; i < CountGrid; i++) {
+            NetCount += Number($("#Net" + i).val());
+            NetCount = Number(NetCount.toFixed(2).toString());
+        }
+        txtNetBefore.value = NetCount.toString();
+        var Net = (Number(txtNetBefore.value) - Number(txtAllDiscount.value)).toFixed(2);
+        txtNetAfterVat.value = Net.toString();
     }
     function AddNewRow() {
         $('paginationSwitch').addClass("display_none");
         $('.no-records-found').addClass("display_none");
-        if (CountGrid != 0) {
-            //if (!validationgrid()) { return; }
-            BuildControls(CountGrid);
-            $("#txt_StatusFlag" + CountGrid).val("i"); //In Insert mode 
-            CountGrid++;
+        var CanAdd = true;
+        if (CountGrid > 0) {
+            for (var i = 0; i < CountGrid; i++) {
+                CanAdd = validationgrid(i);
+                if (CanAdd == false) {
+                    break;
+                }
+            }
         }
-        else {
+        if (CanAdd) {
             BuildControls(CountGrid);
             $("#txt_StatusFlag" + CountGrid).val("i"); //In Insert mode 
             CountGrid++;
         }
     }
-    function validationgrid() {
-        if ($("#QTY" + CountGrid).val().trim() == "" || Number($("#QTY" + CountGrid).val()) <= 0) {
-            Errorinput($("#QTY" + CountGrid));
+    function validationgrid(rowcount) {
+        if ($("#QTY" + rowcount).val().trim() == "" || Number($("#QTY" + rowcount).val()) <= 0) {
+            Errorinput($("#QTY" + rowcount));
             DisplayMassage('يجب ادخال كمية الصنف', 'Item quantity must be entered', MessageType.Error);
             return false;
         }
-        if ($("#UnitPrice" + CountGrid).val().trim() == "" || Number($("#UnitPrice" + CountGrid).val()) <= 0) {
-            Errorinput($("#UnitPrice" + CountGrid));
+        if ($("#Description" + rowcount).val().trim() == "") {
+            Errorinput($("#Description" + rowcount));
+            DisplayMassage('يجب ادخال وصف الصنف', 'Item Describtion must be entered', MessageType.Error);
+            return false;
+        }
+        if ($("#UnitPrice" + rowcount).val().trim() == "" || Number($("#UnitPrice" + rowcount).val()) <= 0) {
+            Errorinput($("#UnitPrice" + rowcount));
             DisplayMassage('يجب ادخال سعر الصنف', 'Item Price must be entered', MessageType.Error);
             return false;
         }
@@ -153,6 +183,7 @@ var Quotation;
         InvoiceModel = new Sls_Ivoice();
         InvoiceItemsDetailsModel = new Array();
         InvoiceModel.CustomerId = CustomerId == 0 ? null : CustomerId;
+        InvoiceModel.Status = 1;
         InvoiceModel.CompCode = Number(compcode);
         InvoiceModel.BranchCode = Number(BranchCode);
         var InvoiceNumber = Number(txtQutationNo.value);
@@ -164,6 +195,10 @@ var Quotation;
         InvoiceModel.TrDate = txtDate.value;
         InvoiceModel.RefNO = txtRFQ.value;
         InvoiceModel.SalesmanId = Number(txtCompanysales.value);
+        InvoiceModel.Remark = txtRemark.value;
+        InvoiceModel.TotalAmount = Number(txtNetBefore.value);
+        InvoiceModel.RoundingAmount = Number(txtAllDiscount.value);
+        InvoiceModel.NetAfterVat = Number(txtNetAfterVat.value);
         //-------------------------(T E R M S & C O N D I T I O N S)-----------------------------------------------     
         InvoiceModel.ContractNo = txtsalesVAT.value; //----------------- include sales VAT.
         InvoiceModel.ContractNo = txtfirstdays.value; //----------------- days starting from the delivery date.
@@ -197,7 +232,7 @@ var Quotation;
                 if (result.IsSuccess == true) {
                     var res = result.Response;
                     invoiceID = res.InvoiceID;
-                    DisplayMassage(" تم اصدار  فاتورة رقم  " + res.TrNo + " ", "An invoice number has been issued ", MessageType.Succeed);
+                    DisplayMassage(" تم اصدار  فاتورة رقم  " + res.TrNo + " ", "An invoice number has been issued " + res.TrNo + "", MessageType.Succeed);
                     success_insert();
                 }
                 else {
@@ -220,6 +255,12 @@ var Quotation;
         txtsecounddays.value = "";
         txtlastdays.value = "";
         txtPlacedeliv.value = "";
+        txtRemark.value = "";
+        txtNetBefore.value = "";
+        txtAllDiscount.value = "";
+        txtNetAfterVat.value = "";
+        $("#Table_Data").html("");
+        AddNewRow();
     }
 })(Quotation || (Quotation = {}));
 //# sourceMappingURL=Quotation.js.map
