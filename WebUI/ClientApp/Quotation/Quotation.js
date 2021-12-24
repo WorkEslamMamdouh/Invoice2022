@@ -12,6 +12,7 @@ var Quotation;
     var MasterDetailsModel = new SlsInvoiceMasterDetails();
     var CountGrid = 0;
     var compcode; //SharedSession.CurrentEnvironment.CompCode;
+    var BranchCode; //SharedSession.CurrentEnvironment.CompCode;
     var btnAddDetails;
     var btnsave;
     var CustomerId = 0;
@@ -31,6 +32,7 @@ var Quotation;
     var lang = (SysSession.CurrentEnvironment.ScreenLanguage);
     function InitalizeComponent() {
         compcode = Number(SysSession.CurrentEnvironment.CompCode);
+        BranchCode = Number(SysSession.CurrentEnvironment.BranchCode);
         InitalizeControls();
         InitalizeEvents();
         AddNewRow();
@@ -109,9 +111,7 @@ var Quotation;
         $('paginationSwitch').addClass("display_none");
         $('.no-records-found').addClass("display_none");
         if (CountGrid != 0) {
-            if (!validationgrid()) {
-                return;
-            }
+            //if (!validationgrid()) { return; }
             BuildControls(CountGrid);
             $("#txt_StatusFlag" + CountGrid).val("i"); //In Insert mode 
             CountGrid++;
@@ -154,6 +154,7 @@ var Quotation;
         InvoiceItemsDetailsModel = new Array();
         InvoiceModel.CustomerId = CustomerId == 0 ? null : CustomerId;
         InvoiceModel.CompCode = Number(compcode);
+        InvoiceModel.BranchCode = Number(BranchCode);
         var InvoiceNumber = Number(txtQutationNo.value);
         InvoiceModel.TrNo = InvoiceNumber;
         InvoiceModel.CreatedAt = sys.SysSession.CurrentEnvironment.UserCode;

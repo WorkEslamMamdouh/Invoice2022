@@ -15,7 +15,8 @@ namespace Quotation {
     var MasterDetailsModel: SlsInvoiceMasterDetails = new SlsInvoiceMasterDetails();
 
     var CountGrid = 0;
-    var compcode: Number;//SharedSession.CurrentEnvironment.CompCode;
+    var compcode: number;//SharedSession.CurrentEnvironment.CompCode;
+    var BranchCode: number;//SharedSession.CurrentEnvironment.CompCode;
     var btnAddDetails: HTMLButtonElement;   
     var btnsave: HTMLButtonElement;
     var CustomerId: number = 0;
@@ -39,6 +40,7 @@ namespace Quotation {
 
       
         compcode = Number(SysSession.CurrentEnvironment.CompCode);
+        BranchCode = Number(SysSession.CurrentEnvironment.BranchCode);
         InitalizeControls();
         InitalizeEvents();
         AddNewRow();
@@ -128,7 +130,7 @@ namespace Quotation {
         if (CountGrid != 0) {
 
        
-            if (!validationgrid()) { return; }
+            //if (!validationgrid()) { return; }
 
             BuildControls(CountGrid);
             $("#txt_StatusFlag" + CountGrid).val("i"); //In Insert mode 
@@ -175,7 +177,8 @@ namespace Quotation {
 
 
         InvoiceModel.CustomerId = CustomerId == 0 ? null : CustomerId;
-        InvoiceModel.CompCode = Number(compcode);      
+        InvoiceModel.CompCode = Number(compcode);
+        InvoiceModel.BranchCode = Number(BranchCode);
         var InvoiceNumber = Number(txtQutationNo.value);
         InvoiceModel.TrNo = InvoiceNumber;
         InvoiceModel.CreatedAt = sys.SysSession.CurrentEnvironment.UserCode;
