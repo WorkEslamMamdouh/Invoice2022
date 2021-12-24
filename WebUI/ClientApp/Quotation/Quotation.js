@@ -283,5 +283,18 @@ var Quotation;
         $("#Table_Data").html("");
         AddNewRow();
     }
+    function validation() {
+        if (txtDate.value.trim() == "") {
+            Errorinput(txtDate);
+            DisplayMassage('يجب ادخال التاريخ', 'Date must be entered', MessageType.Error);
+            return false;
+        }
+        if (txtCompanyname.value.trim() == "") {
+            Errorinput(txtCompanyname);
+            DisplayMassage('يجب اختيار شركة  ', 'Company must be choosed', MessageType.Error);
+            return false;
+        }
+        return true;
+    }
 })(Quotation || (Quotation = {}));
 //# sourceMappingURL=Quotation.js.map
