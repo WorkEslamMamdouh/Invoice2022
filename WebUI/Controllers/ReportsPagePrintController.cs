@@ -493,9 +493,60 @@ namespace Inv.WebUI.Controllers
             }
         }
 
- 
 
- 
+
+        public IEnumerable<Prnt_Quotation_Result> Prnt_Quotation(RepFinancials RepPar)
+        {
+            ReportStandardParameters StandPar = getStandardParameters(RepPar);
+
+            var TRId = int.Parse(RepPar.TRId.ToString());
+            SqlParameter spTRId = new SqlParameter("@TRId", TRId);
+            int typ = int.Parse(RepPar.Typ.ToString());
+             
+                    Rep = OpenReport("Prnt_Quotation");
+                
+            int Type = int.Parse(RepPar.Type.ToString());
+            if (Type == 0) { Type = int.Parse(Rep.OutputTypeNo); }
+            SqlParameter spRepType = new SqlParameter("@RepType", Type);
+             
+            string _Query = "execute " + Rep.dataSource +
+                " @comp = '" + StandPar.spComCode.Value + "'" +
+                ", @bra = '" + StandPar.spbra.Value + "'" +
+                ", @CompNameA = '" + StandPar.spComNameA.Value + "'" +
+                ", @CompNameE = '" + StandPar.spComNameE.Value + "'" +
+                ", @BraNameA = '" + StandPar.spBraNameA.Value + "'" +
+                ", @BraNameE = '" + StandPar.braNameE.Value + "'" +
+                ", @LoginUser = '" + StandPar.spLoginUser.Value + "'" +
+                 ",@RepType = " + spRepType.Value +
+                 ",@TRId = " + spTRId.Value;
+
+            var query = db.Database.SqlQuery<Prnt_Quotation_Result>(_Query).ToList();
+
+            string qr = query[0].QRSTR;
+            QRCodeGenerator qRCodeGenerator = new QRCodeGenerator();
+            QRCodeData qRCodeData = qRCodeGenerator.CreateQrCode(qr, QRCoder.QRCodeGenerator.ECCLevel.Q);
+            QRCoder.QRCode qRCode = new QRCoder.QRCode(qRCodeData);
+            var QRcode = "";
+            using (Bitmap bitmap = qRCode.GetGraphic(2))
+            {
+                using (MemoryStream ms = new MemoryStream())
+                {
+                    bitmap.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
+                    byte[] byteimage = ms.ToArray();
+                    QRcode = Convert.ToBase64String(byteimage);
+
+                }
+            }
+            query[0].QRSTR = QRcode;
+
+
+            ReportsDetails();
+
+            reportName = Rep.reportName;
+
+            return query;
+            // reportName = Rep.reportName; 
+        }
 
 
 

@@ -22,6 +22,7 @@ namespace Quotation {
     var btnClean: HTMLButtonElement;
     var CustomerId: number = 0;
     var btnCustSrch: HTMLButtonElement;
+    var btnprint: HTMLButtonElement;
     var invoiceID: number = 0;
     var txtDate: HTMLInputElement;
     var txtRFQ: HTMLInputElement;
@@ -56,6 +57,7 @@ namespace Quotation {
         btnCustSrch = document.getElementById("btnCustSrch") as HTMLButtonElement;
         btnsave = document.getElementById("btnsave") as HTMLButtonElement;
         btnClean = document.getElementById("btnClean") as HTMLButtonElement;         
+        btnprint = document.getElementById("btnprint") as HTMLButtonElement;
         // inputs
         txtDate = document.getElementById("txtDate") as HTMLInputElement;
         txtRFQ = document.getElementById("txtRFQ") as HTMLInputElement;
@@ -76,9 +78,10 @@ namespace Quotation {
       
         btnAddDetails.onclick = AddNewRow;//
         btnCustSrch.onclick = btnCustSrch_onClick;
-        btnsave.onclick = insert;
+        btnsave.onclick = btnsave_onclick;
         btnClean.onclick = success_insert;
         txtAllDiscount.onkeyup = computeTotal;
+        btnprint.onclick = btnprint_onclick;
     }
     function btnCustSrch_onClick() {
         sys.FindKey(Modules.Quotation, "btnCustSrch", "", () => {
@@ -87,9 +90,7 @@ namespace Quotation {
             alert(id);
             //ddCustomer_onchange();
         });
-    }
-
-
+    }    
     function BuildControls(cnt: number) {
         var html;
 
@@ -151,8 +152,7 @@ namespace Quotation {
 
         let Net = (Number(txtNetBefore.value) - Number(txtAllDiscount.value)).toFixed(2);
         txtNetAfterVat.value = Net.toString();
-    }
-
+    }          
     function AddNewRow() {
         $('paginationSwitch').addClass("display_none");
         $('.no-records-found').addClass("display_none");
@@ -252,9 +252,9 @@ namespace Quotation {
         InvoiceModel.NetAfterVat = Number(txtNetAfterVat.value);
         //-------------------------(T E R M S & C O N D I T I O N S)-----------------------------------------------     
         InvoiceModel.ContractNo = txtsalesVAT.value;       //----------------- include sales VAT.
-        InvoiceModel.ContractNo = txtfirstdays.value;      //----------------- days starting from the delivery date.
-        InvoiceModel.ContractNo = txtsecounddays.value;    //----------------- days from offer date.
-        InvoiceModel.ContractNo = txtlastdays.value;       //----------------- days from purchase order.
+        InvoiceModel.PurchaseorderNo = txtfirstdays.value;      //----------------- days starting from the delivery date.
+        InvoiceModel.ChargeVatPrc = Number(txtsecounddays.value);    //----------------- days from offer date.
+        InvoiceModel.ChargeAfterVat = Number(txtlastdays.value);       //----------------- days from purchase order.
         InvoiceModel.PrevInvoiceHash = txtPlacedeliv.value;//----------------- Place of delivery.
 
         // Details
@@ -279,6 +279,8 @@ namespace Quotation {
         MasterDetailsModel.Sls_InvoiceDetail = InvoiceItemsDetailsModel;   
     }
     function insert() {
+        if (!validation()) return;
+
 
         Assign();
         Ajax.Callsync({
@@ -337,9 +339,87 @@ namespace Quotation {
             DisplayMassage('يجب اختيار شركة  ', 'Company must be choosed', MessageType.Error);
             return false;
         }
-         
-
+        if (txtCompanysales.value.trim() == "") {
+            Errorinput(txtCompanysales);
+            DisplayMassage('يجب اختيار مندوب الشركة  ', 'Company sales man must be choosed', MessageType.Error);
+            return false;
+        }
+        if (txtRFQ.value.trim() == "") {
+            Errorinput(txtRFQ);
+            DisplayMassage('يجب ادخال ال RFQ  ', ' RFQ must be entered', MessageType.Error);
+            return false;
+        }
+        if (txtsalesVAT.value.trim() == "") {
+            Errorinput(txtsalesVAT);
+            DisplayMassage('يجب ادخال الضريبة  ', ' Vat include or not must be entered', MessageType.Error);
+            return false;
+        }
+        if (txtfirstdays.value.trim() == "") {
+            Errorinput(txtfirstdays);
+            DisplayMassage('يجب ادخال عدد ايام بدا تاريخ الاستلام  ', 'days starting from the delivery date must be entered', MessageType.Error);
+            return false;
+        }
+        if (txtsecounddays.value.trim() == "") {
+            Errorinput(txtsecounddays);
+            DisplayMassage('يجب ادخال عدد ايام انتهاء العرض ', ' Offer validity days from offer date must be entered', MessageType.Error);
+            return false;
+        }
+        if (txtlastdays.value.trim() == "") {
+            Errorinput(txtlastdays);
+            DisplayMassage('يجب ادخال مكان التوصيل  ', ' Place of delivery must be entered', MessageType.Error);
+            return false;
+        }       
         return true;
+    }
+    function btnsave_onclick() {
+        insert();
+    }
+    function btnprint_onclick() {
+        insert();
+        if (!SysSession.CurrentPrivileges.PrintOut) return;
+
+        window.open(Url.Action("ReportsPopup", "Home"), "blank");
+        localStorage.setItem("result", '<div class="lds-ring"><div></div><div></div><div></div><div></div></div>');
+
+
+        let rp: ReportParameters = new ReportParameters();
+
+        rp.CompCode = SysSession.CurrentEnvironment.CompCode;
+        rp.BranchCode = SysSession.CurrentEnvironment.BranchCode;
+        rp.CompNameA = SysSession.CurrentEnvironment.CompanyNameAr;
+        rp.CompNameE = SysSession.CurrentEnvironment.CompanyName;
+        rp.UserCode = SysSession.CurrentEnvironment.UserCode;
+        rp.Tokenid = SysSession.CurrentEnvironment.Token;
+        rp.ScreenLanguage = SysSession.CurrentEnvironment.ScreenLanguage;
+        rp.SystemCode = SysSession.CurrentEnvironment.SystemCode;
+        rp.SubSystemCode = SysSession.CurrentEnvironment.SubSystemCode;
+        rp.BraNameA = SysSession.CurrentEnvironment.BranchName;
+        rp.BraNameE = SysSession.CurrentEnvironment.BranchName;
+        if (rp.BraNameA == null || rp.BraNameE == null) {
+
+            rp.BraNameA = " ";
+            rp.BraNameE = " ";
+        }
+        rp.Type = 4;
+        rp.Repdesign = 0;
+        rp.TRId = invoiceID;
+        rp.slip = 0;
+        rp.stat = 1
+
+        debugger
+        Ajax.CallAsync({
+            url: Url.Action("PrintQuotation", "GeneralRep"),
+            data: rp,
+            success: (d) => {
+                debugger
+                let result = d as BaseResponse;
+                localStorage.setItem("result", "" + result + "");
+                window.open(Url.Action("ReportsPopup", "Home"), "blank");
+
+                //let result = d.result as string;    
+                //window.open(result, "_blank");
+            }
+        })
     }
 }
 
