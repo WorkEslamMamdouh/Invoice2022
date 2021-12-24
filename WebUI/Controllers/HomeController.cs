@@ -103,6 +103,21 @@ namespace Inv.WebUI.Controllers
             return View("~/Views/Quotation/QuotationIndex.cshtml");
         }
 
+        public ActionResult QuotationViewIndex()
+        {
+            return View("~/Views/Quotation/QuotationViewIndex.cshtml");
+        }
+
+        public ActionResult CompaniesIndex()
+        {
+            return View("~/Views/Customer/CustomerIndex.cshtml");
+        }
+
+        public ActionResult UsersIndex()
+        {
+            return View("~/Views/USERS/USERSIndex.cshtml");
+        }
+
 
         #endregion  Open Pages 
 

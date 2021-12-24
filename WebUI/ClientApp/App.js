@@ -10,6 +10,9 @@ var JsGridHeaderCenter = "JsGridHeaderCenter";
 var TransparentButton = "TransparentButton";
 var Modules = {
     Home: "Home",
+    QuotationView: "QuotationView",
+    Companies: "Companies",
+    Users: "Users",
     Quotation: "Quotation"
 };
 var MessageType = {

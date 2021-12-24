@@ -363,6 +363,9 @@ var HomeComponent;
     function InitializePages() {
         $("#btnHome").click(function () { OpenPage(Modules.Home); });
         $("#btnQuotation").click(function () { OpenPage(Modules.Quotation); });
+        $("#btnQuotationView").click(function () { OpenPage(Modules.QuotationView); });
+        $("#btnCompanies").click(function () { OpenPage(Modules.Companies); });
+        $("#btnUsers").click(function () { OpenPage(Modules.Users); });
     }
     function Notifications_Message() {
         var comCode = SysSession.CurrentEnvironment.CompCode;
