@@ -260,6 +260,7 @@ var Quotation;
         txtAllDiscount.value = "";
         txtNetAfterVat.value = "";
         $("#Table_Data").html("");
+        AddNewRow();
     }
 })(Quotation || (Quotation = {}));
 //# sourceMappingURL=Quotation.js.map

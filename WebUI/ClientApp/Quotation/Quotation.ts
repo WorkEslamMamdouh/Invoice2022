@@ -298,6 +298,7 @@ namespace Quotation {
         txtAllDiscount.value = "";
         txtNetAfterVat.value = "";
         $("#Table_Data").html("");
+        AddNewRow();
     }      
 }
 
