@@ -176,7 +176,9 @@ class SystemTools {
                 SearchGrid.SearchDataGrid.Bind();
 
                 SearchGrid.SearchDataGrid.OnDoubleClick = () => {
+                    debugger
                     console.log(SearchGrid.SearchDataGrid.SelectedKey);
+                    alert("ok");
                     $("#SearchBox").modal("hide");//.css("display", "none");
                     OnSearchSelected();
                 };

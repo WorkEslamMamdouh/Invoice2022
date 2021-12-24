@@ -84,6 +84,7 @@ namespace Quotation {
         sys.FindKey(Modules.Quotation, "btnCustSrch", "", () => {
             let id = SearchGrid.SearchDataGrid.SelectedKey;
             CustomerId = id;
+            alert(CustomerId);
             //ddCustomer_onchange();
         });
     }

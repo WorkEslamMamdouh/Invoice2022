@@ -79,6 +79,18 @@
         .text_Mandatory {
             background-color: #ff00009e
         }
+
+        #SearchBox {
+            z-index: 1041;
+            position: fixed;
+            padding-top: 19px;
+            background-color: white;
+            border-radius: 15px;
+            -moz-box-shadow: black 5px 4px 18px 0px;
+            -webkit-box-shadow: black 5px 4px 18px 0px;
+            box-shadow: black 5px 4px 18px 0px;
+        }
+
     </style>
 
 </head>
@@ -117,16 +129,13 @@
                                             <a id="btnQuotation" key="Quotation" href="#" class="nav-link">Add quotation</a>
                                         </li>
                                         <li class="nav-item">
-                                            <a id="btnQuotationView"  key="QuotationView" href="quotations.html" class="nav-link">Quotations</a>
+                                            <a id="btnQuotationView"  key="QuotationView" href="#" class="nav-link">Quotations</a>
+                                        </li> 
+                                        <li class="nav-item">
+                                            <a id="btnCompanies"  key="Companies" href="#" class="nav-link">Companies</a>
                                         </li>
                                         <li class="nav-item">
-                                            <a href="#" class="nav-link">Invoice</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a href="#" class="nav-link">Companies</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a href="#" class="nav-link">Users</a>
+                                            <a id="btnUsers"  key="Users" href="#" class="nav-link">Users</a>
                                         </li>
                                     </ul>
                                 </div>
@@ -199,9 +208,9 @@
                         </div>
                     </form>
                     <div class="modal-footer">
-                        <button type="button" id="btnChangePassword" class="btn btn-danger">تاكيد </button>
+                        <button type="button" id="btnChangePassword" class="btn btn-danger">comfirm </button>
                         <button type="button" class="btn btn-primary btn_back">رجوع</button>
-                        <button type="button" class="btn btn-warning" data-dismiss="modal">غلق </button>
+                        <button type="button" class="btn btn-warning" data-dismiss="modal">close </button>
                     </div>
                 </div>
             </div>
@@ -216,16 +225,16 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="MessageBoxTitle">حذف!!</h4>
+                    <h4 class="modal-title" id="MessageBoxTitle">delete</h4>
                 </div>
                 <div class="modal-body" style="max-height:200px; overflow:auto;">
-                    <div class="col-xs-7"> <h3 id="MessageBoxMessage">هل تريد حقا الحذف ؟</h3></div>
+                    <div class="col-xs-7"> <h3 id="MessageBoxMessage">Are you sure you want to delete?</h3></div>
                     <div class="col-xs-5 text-center">
                         <i class="glyphicon btn-danger"></i>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" id="MessageBoxOk" class="btn btn-danger">تاكيد</button>
+                    <button type="button" id="MessageBoxOk" class="btn btn-danger">comfirm</button>
                     <button type="button" id="MessageBoxCancel" class="btn btn-warning" data-dismiss="modal">إلغاء</button>
                 </div>
             </div>
@@ -236,13 +245,13 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                    <h4 class="modal-title" id="myModalLabel">مساعده</h4>
+                    <h4 class="modal-title" id="myModalLabel">helpe</h4>
                 </div>
                 <div class="modal-body content content-8" id="modalHelpRep">
 
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-warning" data-dismiss="modal">غلق</button>
+                    <button type="button" class="btn btn-warning" data-dismiss="modal">close</button>
                 </div>
             </div>
         </div>
@@ -306,7 +315,7 @@
     @Scripts.Render("~/Bundles/AppScript4")
 
     <div id="SearchBox" class=" fade styleserch" style="display:none;z-index:999999999;">
-        <div style="background-color: #000000 !important; position: absolute; top: 0px; left: 0px; width: 100%; height: 40px; cursor: move; border-top-right-radius: 13px !important; border-top-left-radius: 13px !important; ">
+        <div style="background-color: #03a9f0 !important; position: absolute; top: 0px; left: 0px; width: 100%; height: 40px; cursor: move; border-top-right-radius: 13px !important; border-top-left-radius: 13px !important; ">
             <input type="button" onclick="$('#SearchBox').modal('hide');" id="btnCloseSearch" name="name" value="x" class="btn colose_lay_btn btn-danger" style="height: 40px;
               width: 38px;font-size: 20px;float: left;border-color: #ef6603!important;background-color: #ffec09!important" />
             <h4 id="searchTitle" class="col-xs-3" style="color: #fff;line-height: 36px;text-align:right"></h4>
