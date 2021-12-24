@@ -79,7 +79,7 @@ var Quotation;
         sys.FindKey(Modules.Quotation, "btnCustSrch", "", function () {
             var id = SearchGrid.SearchDataGrid.SelectedKey;
             CustomerId = id;
-            alert(CustomerId);
+            alert(id);
             //ddCustomer_onchange();
         });
     }
