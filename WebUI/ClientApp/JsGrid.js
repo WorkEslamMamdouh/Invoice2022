@@ -62,7 +62,6 @@ var JsGrid = /** @class */ (function () {
     };
     JsGrid.prototype.Bind = function () {
         var _this = this;
-        debugger;
         $(".jsgrid-grid-body").css("max-height", this.Height);
         $(".jsgrid-grid-body").css("height", this.Height);
         if (this.SwitchingLanguageEnabled == true) {
@@ -231,7 +230,6 @@ var JsGrid = /** @class */ (function () {
             //    this.OnItemEditing(e);
             //},
             rowClick: function (e) {
-                debugger;
                 var row = e.event.currentTarget;
                 $(".jsgrid-row").removeClass("SelectedRowF");
                 $(".jsgrid-alt-row").removeClass("SelectedRowF");

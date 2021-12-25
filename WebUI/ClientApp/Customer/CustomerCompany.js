@@ -7,7 +7,9 @@ var CustomerCompany;
     //var sys: _shared = new _shared();
     var SysSession = GetSystemSession(Modules.Quotation);
     var Model = new Customer();
-    var MasterDetailsModel = new SlsInvoiceMasterDetails();
+    var CustomerModel = new Array();
+    var CustomerModelfil = new Array();
+    var ReportGrid = new JsGrid();
     var compcode; //SharedSession.CurrentEnvironment.CompCode;
     var BranchCode; //SharedSession.CurrentEnvironment.CompCode;
     var btnsave;
@@ -16,13 +18,17 @@ var CustomerCompany;
     var txtAddressComp;
     var chkvat;
     var txtRemark;
+    var IsNew = true;
+    var UCustomerId;
     var lang = (SysSession.CurrentEnvironment.ScreenLanguage);
     function InitalizeComponent() {
         compcode = Number(SysSession.CurrentEnvironment.CompCode);
         BranchCode = Number(SysSession.CurrentEnvironment.BranchCode);
         InitalizeControls();
         InitalizeEvents();
+        $('#btnsave').html('Create');
         $('#a').click();
+        Display();
     }
     CustomerCompany.InitalizeComponent = InitalizeComponent;
     function InitalizeControls() {
@@ -36,7 +42,7 @@ var CustomerCompany;
         txtRemark = document.getElementById("txtRemark");
     }
     function InitalizeEvents() {
-        btnsave.onclick = insert;
+        btnsave.onclick = btnsave_onclick;
     }
     function Assign() {
         Model = new Customer();
@@ -53,8 +59,6 @@ var CustomerCompany;
         Model.CREATED_BY = sys.SysSession.CurrentEnvironment.UserCode;
     }
     function insert() {
-        if (!validation())
-            return;
         Assign();
         Ajax.Callsync({
             type: "Get",
@@ -62,6 +66,27 @@ var CustomerCompany;
             data: {
                 NAMEA: Model.NAMEA, NAMEE: Model.NAMEE, EMAIL: Model.EMAIL, Address_Street: Model.Address_Street,
                 Isactive: Model.Isactive, REMARKS: Model.REMARKS, CREATED_BY: Model.CREATED_BY, CREATED_AT: Model.CREATED_AT
+            },
+            success: function (d) {
+                var result = d;
+                if (result.IsSuccess == true) {
+                    DisplayMassage("Saved successfully", "Saved successfully", MessageType.Error);
+                    success_insert();
+                }
+                else {
+                    DisplayMassage("Please refresh the page and try again", "Please refresh the page and try again", MessageType.Error);
+                }
+            }
+        });
+    }
+    function update() {
+        Assign();
+        Ajax.Callsync({
+            type: "Get",
+            url: sys.apiUrl("SlsTrSales", "UpdateCustomer"),
+            data: {
+                NAMEA: Model.NAMEA, NAMEE: Model.NAMEE, EMAIL: Model.EMAIL, Address_Street: Model.Address_Street,
+                Isactive: Model.Isactive, REMARKS: Model.REMARKS, CREATED_BY: Model.CREATED_BY, CREATED_AT: Model.CREATED_AT, CustomerId: UCustomerId
             },
             success: function (d) {
                 var result = d;
@@ -99,6 +124,74 @@ var CustomerCompany;
         txtAddressComp.value = "";
         txtRemark.value = "";
         chkvat.checked = false;
+        IsNew = true;
+        $('#btnsave').html('Create');
+        Display();
+        $('#b').click();
+    }
+    function btnsave_onclick() {
+        if (!validation())
+            return;
+        debugger;
+        if (IsNew == true) {
+            insert();
+        }
+        else {
+            update();
+        }
+    }
+    function InitializeGrid() {
+        //let res: any = GetResourceList("");
+        //$("#id_ReportGrid").attr("style", "");
+        ReportGrid.OnRowDoubleClicked = DriverDoubleClick;
+        ReportGrid.ElementName = "ReportGrid";
+        ReportGrid.PrimaryKey = "CustomerId";
+        ReportGrid.Paging = true;
+        ReportGrid.PageSize = 10;
+        ReportGrid.Sorting = true;
+        ReportGrid.InsertionMode = JsGridInsertionMode.Binding;
+        ReportGrid.Editing = false;
+        ReportGrid.Inserting = false;
+        ReportGrid.SelectedIndex = 1;
+        ReportGrid.SwitchingLanguageEnabled = false;
+        ReportGrid.OnItemEditing = function () { };
+        ReportGrid.Columns = [
+            { title: "ID", name: "CustomerId", type: "text", width: "5%" },
+            { title: "Company Name", name: "NAMEE", type: "text", width: "30%" },
+            { title: "EMAIL", name: "EMAIL", type: "text", width: "20%" },
+            { title: "Address", name: "Address_Street", type: "text", width: "25%" },
+            { title: "REMARK", name: "REMARKS", type: "text", width: "20%" },
+        ];
+        //ReportGrid.Bind();
+    }
+    function Display() {
+        Ajax.Callsync({
+            type: "GET",
+            url: sys.apiUrl("SlsTrSales", "GetAllCustomer"),
+            data: {},
+            success: function (d) {
+                var result = d;
+                if (result.IsSuccess) {
+                    CustomerModel = result.Response;
+                    InitializeGrid();
+                    ReportGrid.DataSource = CustomerModel;
+                    ReportGrid.Bind();
+                }
+            }
+        });
+    }
+    function DriverDoubleClick() {
+        debugger;
+        IsNew = false;
+        CustomerModelfil = CustomerModel.filter(function (x) { return x.CustomerId == Number(ReportGrid.SelectedKey); });
+        UCustomerId = Number(ReportGrid.SelectedKey);
+        txtNameComp.value = CustomerModelfil[0].NAMEE;
+        txtmailComp.value = CustomerModelfil[0].EMAIL;
+        txtAddressComp.value = CustomerModelfil[0].Address_Street;
+        txtRemark.value = CustomerModelfil[0].REMARKS;
+        chkvat.checked = CustomerModelfil[0].Isactive;
+        $('#a').click();
+        $('#btnsave').html('Update');
     }
 })(CustomerCompany || (CustomerCompany = {}));
 //# sourceMappingURL=CustomerCompany.js.map
