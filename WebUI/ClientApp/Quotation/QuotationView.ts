@@ -37,8 +37,8 @@ namespace QuotationView {
     function InitializeGrid() {
 
 
-        let res: any = GetResourceList("");
-        $("#id_ReportGrid").attr("style", "");
+        //let res: any = GetResourceList("");
+        //$("#id_ReportGrid").attr("style", "");
         //ReportGrid.OnRowDoubleClicked = DriverDoubleClick;
         ReportGrid.ElementName = "ReportGrid";
         ReportGrid.PrimaryKey = "InvoiceID";
@@ -60,7 +60,7 @@ namespace QuotationView {
             //{ title: "مفعل", name: "IS_Active_Name", type: "textdd", width: "100px" },
              
         ];
-        ReportGrid.Bind();
+        //ReportGrid.Bind();
     }
 
     function Display() {

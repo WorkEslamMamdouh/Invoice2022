@@ -12,6 +12,7 @@ namespace Quotation {
     var InvoiceItemsDetailsModel: Array<Sls_InvoiceDetail> = new Array<Sls_InvoiceDetail>();
     var invoiceItemSingleModel: Sls_InvoiceDetail = new Sls_InvoiceDetail();
     var InvoiceModel: Sls_Ivoice = new Sls_Ivoice();
+    //var InvoiceModel: Customer = new Customer();
     var MasterDetailsModel: SlsInvoiceMasterDetails = new SlsInvoiceMasterDetails();
 
     var CountGrid = 0;
@@ -85,9 +86,10 @@ namespace Quotation {
     }
     function btnCustSrch_onClick() {
         sys.FindKey(Modules.Quotation, "btnCustSrch", "", () => {
-            let id = SearchGrid.SearchDataGrid.SelectedKey;
-            CustomerId = id;
-            alert(id);
+            debugger
+              InvoiceModel = SearchGrid.SearchDataGrid.SelectedKey;
+            //CustomerId = id;
+            alert( );
             //ddCustomer_onchange();
         });
     }    

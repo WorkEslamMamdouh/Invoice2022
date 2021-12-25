@@ -23,8 +23,8 @@ var QuotationView;
     function InitalizeEvents() {
     }
     function InitializeGrid() {
-        var res = GetResourceList("");
-        $("#id_ReportGrid").attr("style", "");
+        //let res: any = GetResourceList("");
+        //$("#id_ReportGrid").attr("style", "");
         //ReportGrid.OnRowDoubleClicked = DriverDoubleClick;
         ReportGrid.ElementName = "ReportGrid";
         ReportGrid.PrimaryKey = "InvoiceID";
@@ -45,7 +45,7 @@ var QuotationView;
             //{ title: "ملاحظات", name: "Notes", type: "text", width: "100px" },
             //{ title: "مفعل", name: "IS_Active_Name", type: "textdd", width: "100px" },
         ];
-        ReportGrid.Bind();
+        //ReportGrid.Bind();
     }
     function Display() {
         debugger;
