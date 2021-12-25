@@ -6,9 +6,7 @@ var CustomerCompany;
     var sys = new SystemTools();
     //var sys: _shared = new _shared();
     var SysSession = GetSystemSession(Modules.Quotation);
-    var InvoiceItemsDetailsModel = new Array();
-    var invoiceItemSingleModel = new Sls_InvoiceDetail();
-    var InvoiceModel = new Sls_Ivoice();
+    var Model = new Customer();
     var MasterDetailsModel = new SlsInvoiceMasterDetails();
     var compcode; //SharedSession.CurrentEnvironment.CompCode;
     var BranchCode; //SharedSession.CurrentEnvironment.CompCode;
@@ -17,6 +15,7 @@ var CustomerCompany;
     var txtmailComp;
     var txtAddressComp;
     var chkvat;
+    var txtRemark;
     var lang = (SysSession.CurrentEnvironment.ScreenLanguage);
     function InitalizeComponent() {
         compcode = Number(SysSession.CurrentEnvironment.CompCode);
@@ -34,77 +33,72 @@ var CustomerCompany;
         txtAddressComp = document.getElementById("txtAddressComp");
         chkvat = document.getElementById("chkvat");
         txtNameComp = document.getElementById("txtNameComp");
+        txtRemark = document.getElementById("txtRemark");
     }
     function InitalizeEvents() {
-        //btnsave.onclick = insert;                       
+        btnsave.onclick = insert;
     }
     function Assign() {
-        ////var StatusFlag: String;
-        //InvoiceModel = new Sls_Ivoice();
-        //InvoiceItemsDetailsModel = new Array<Sls_InvoiceDetail>();
-        //InvoiceModel.CustomerId = CustomerId == 0 ? null : CustomerId;
-        //InvoiceModel.Status = 1;
-        //InvoiceModel.CompCode = Number(compcode);
-        //InvoiceModel.BranchCode = Number(BranchCode);
-        //var InvoiceNumber = Number(txtQutationNo.value);
-        //InvoiceModel.TrNo = InvoiceNumber;
-        //InvoiceModel.CreatedAt = sys.SysSession.CurrentEnvironment.UserCode;
-        //InvoiceModel.CreatedBy = sys.SysSession.CurrentEnvironment.UserCode;
-        //InvoiceModel.TrType = 0//0 invoice 1 return     
-        //InvoiceModel.InvoiceID = 0;
-        //InvoiceModel.TrDate = txtmailComp.value;
-        //InvoiceModel.RefNO = txtAddressComp.value;
-        //InvoiceModel.SalesmanId = Number(chkvat.value);                
-        //InvoiceModel.Remark = txtRemark.value; 
-        //InvoiceModel.TotalAmount = Number(txtNetBefore.value);
-        //InvoiceModel.RoundingAmount = Number(txtAllDiscount.value);
-        //InvoiceModel.NetAfterVat = Number(txtNetAfterVat.value);
-        ////-------------------------(T E R M S & C O N D I T I O N S)-----------------------------------------------     
-        //InvoiceModel.ContractNo = txtsalesVAT.value;       //----------------- include sales VAT.
-        //InvoiceModel.ContractNo = txtfirstdays.value;      //----------------- days starting from the delivery date.
-        //InvoiceModel.ContractNo = txtsecounddays.value;    //----------------- days from offer date.
-        //InvoiceModel.ContractNo = txtlastdays.value;       //----------------- days from purchase order.
-        //InvoiceModel.PrevInvoiceHash = txtPlacedeliv.value;//----------------- Place of delivery.
-        //// Details
-        //for (var i = 0; i < CountGrid; i++) {
-        //    invoiceItemSingleModel = new Sls_InvoiceDetail();
-        //    invoiceItemSingleModel.InvoiceItemID = 0;            
-        //    invoiceItemSingleModel.Serial = Number($("#serial" + i).val());
-        //    invoiceItemSingleModel.SoldQty = Number($('#QTY' + i).val());
-        //    invoiceItemSingleModel.Itemdesc = $("#Description" + i).val();
-        //    invoiceItemSingleModel.NetUnitPrice = Number($("#UnitPrice" + i).val());
-        //    invoiceItemSingleModel.ItemTotal = Number($("#Totalprice" + i).val());
-        //    invoiceItemSingleModel.DiscountAmount = Number($("#Discount" + i).val());
-        //    invoiceItemSingleModel.NetAfterVat = Number($("#Net" + i).val()); 
-        //        InvoiceItemsDetailsModel.push(invoiceItemSingleModel);
-        //    }
-        //MasterDetailsModel.Sls_Ivoice = InvoiceModel;
-        //MasterDetailsModel.Sls_InvoiceDetail = InvoiceItemsDetailsModel;   
+        Model = new Customer();
+        Model.CompCode = Number(compcode);
+        Model.BranchCode = Number(BranchCode);
+        Model.CustomerId = 0;
+        Model.NAMEA = txtNameComp.value;
+        Model.NAMEE = txtNameComp.value;
+        Model.EMAIL = txtmailComp.value;
+        Model.Address_Street = txtAddressComp.value;
+        Model.Isactive = chkvat.checked;
+        Model.REMARKS = txtRemark.value;
+        Model.CREATED_AT = GetTime();
+        Model.CREATED_BY = sys.SysSession.CurrentEnvironment.UserCode;
     }
     function insert() {
-        //Assign();
-        //Ajax.Callsync({
-        //    type: "POST",
-        //    url: sys.apiUrl("SlsTrSales", "InsertInvoiceMasterDetail"),
-        //    data: JSON.stringify(MasterDetailsModel),
-        //    success: (d) => {
-        //        let result = d as BaseResponse;
-        //        if (result.IsSuccess == true) {
-        //          let res = result.Response as Sls_Ivoice;
-        //             invoiceID = res.InvoiceID;
-        //            DisplayMassage(" تم اصدار  فاتورة رقم  " + res.TrNo + " ", "An invoice number has been issued " + res.TrNo + "", MessageType.Succeed);
-        //             success_insert();
-        //        } else {       
-        //            DisplayMassage("الرجاء تحديث الصفحة واعادت تكرارالمحاولة مره اخري", "Please refresh the page and try again", MessageType.Error);
-        //        }
-        //    }
-        //});
+        if (!validation())
+            return;
+        Assign();
+        Ajax.Callsync({
+            type: "Get",
+            url: sys.apiUrl("SlsTrSales", "InsertCustomer"),
+            data: {
+                NAMEA: Model.NAMEA, NAMEE: Model.NAMEE, EMAIL: Model.EMAIL, Address_Street: Model.Address_Street,
+                Isactive: Model.Isactive, REMARKS: Model.REMARKS, CREATED_BY: Model.CREATED_BY, CREATED_AT: Model.CREATED_AT
+            },
+            success: function (d) {
+                var result = d;
+                if (result.IsSuccess == true) {
+                    DisplayMassage("Saved successfully", "Saved successfully", MessageType.Error);
+                    success_insert();
+                }
+                else {
+                    DisplayMassage("Please refresh the page and try again", "Please refresh the page and try again", MessageType.Error);
+                }
+            }
+        });
+    }
+    function validation() {
+        if (txtNameComp.value.trim() == "") {
+            Errorinput(txtNameComp);
+            DisplayMassage('Company Name must be entered', 'Company Name must be entered', MessageType.Error);
+            return false;
+        }
+        if (txtmailComp.value.trim() == "") {
+            Errorinput(txtmailComp);
+            DisplayMassage('Company Name must be entered', 'Company Name must be entered', MessageType.Error);
+            return false;
+        }
+        if (txtAddressComp.value.trim() == "") {
+            Errorinput(txtAddressComp);
+            DisplayMassage('Address must be entered', 'Address must be entered', MessageType.Error);
+            return false;
+        }
+        return true;
     }
     function success_insert() {
-        txtmailComp.value = GetDate();
-        txtAddressComp.value = "";
-        chkvat.value = "";
         txtNameComp.value = "";
+        txtmailComp.value = "";
+        txtAddressComp.value = "";
+        txtRemark.value = "";
+        chkvat.checked = false;
     }
 })(CustomerCompany || (CustomerCompany = {}));
 //# sourceMappingURL=CustomerCompany.js.map

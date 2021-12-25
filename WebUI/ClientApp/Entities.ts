@@ -114,6 +114,15 @@ class SlsInvoiceMasterDetails extends SecurityClass {
 
 
 }
+class Customcustomer extends SecurityClass {
+    constructor() {
+        super();
+        this.Customer = new Customer();                        
+    }
+    public Customer: Customer;
+
+
+}
 
 abstract class EntityContext {
     public RowIndex: number;
