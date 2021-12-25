@@ -53,9 +53,10 @@ namespace QuotationView {
         ReportGrid.OnItemEditing = () => { };
         ReportGrid.Columns = [
             { title: "الرقم", name: "InvoiceID", type: "text", width: "100px", visible: false },
-            { title: "الرقم", name: "TrNo", type: "text", width: "100px" },
-            { title: "التاريخ", name: "TrDate", type: "text", width: "100px" },
-            { title: "الاجمالي", name: "NetAfterVat", type: "text", width: "100px" },  
+            { title: "TrNo", name: "TrNo", type: "text", width: "100px" },
+            { title: "RFQ", name: "RefNO", type: "text", width: "100px" },
+            { title: "Date", name: "TrDate", type: "text", width: "100px" },
+            { title: "TotalAmount", name: "NetAfterVat", type: "text", width: "100px" },
         ];
         //ReportGrid.Bind();
     }
