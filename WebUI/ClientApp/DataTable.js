@@ -116,7 +116,7 @@ var DataTable = /** @class */ (function () {
             //console.log("SelectedKey: " + SearchGrid.SearchDataGrid.PrimaryKey);
             //console.log(SearchGrid.SearchDataGrid.SelectedKey);
             try {
-                SearchGrid.SearchDataGrid.SelectedKey = tableData;
+                SearchGrid.SearchDataGrid.SelectedKey = tableData[0];
                 //SearchGrid.SearchDataGrid.SelectedKey = table.row(this).data()[SearchGrid.SearchDataGrid.PrimaryKey];
                 SearchGrid.SearchDataGrid.OnDoubleClick();
             }
