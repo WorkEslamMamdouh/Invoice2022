@@ -23,6 +23,7 @@ var CustomerCompany;
         BranchCode = Number(SysSession.CurrentEnvironment.BranchCode);
         InitalizeControls();
         InitalizeEvents();
+        $('#a').click();
     }
     CustomerCompany.InitalizeComponent = InitalizeComponent;
     function InitalizeControls() {
@@ -35,7 +36,7 @@ var CustomerCompany;
         txtNameComp = document.getElementById("txtNameComp");
     }
     function InitalizeEvents() {
-        btnsave.onclick = insert;
+        //btnsave.onclick = insert;                       
     }
     function Assign() {
         ////var StatusFlag: String;
@@ -106,4 +107,4 @@ var CustomerCompany;
         txtNameComp.value = "";
     }
 })(CustomerCompany || (CustomerCompany = {}));
-//# sourceMappingURL=Customer.js.map
+//# sourceMappingURL=CustomerCompany.js.map

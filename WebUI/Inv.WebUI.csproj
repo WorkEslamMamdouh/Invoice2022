@@ -1047,7 +1047,7 @@
     <TypeScriptCompile Include="ClientApp\MessageBox.ts" />
     <TypeScriptCompile Include="ClientApp\Pages\Login_.ts" />
     <TypeScriptCompile Include="ClientApp\Partial\Background.ts" />
-    <TypeScriptCompile Include="ClientApp\Customer\Customer.ts" />
+    <TypeScriptCompile Include="ClientApp\Customer\CustomerCompany.ts" />
     <TypeScriptCompile Include="ClientApp\Quotation\Quotation.ts" />
     <TypeScriptCompile Include="ClientApp\Report_Page\Report_Page.ts" />
     <TypeScriptCompile Include="ClientApp\Shared.ts" />

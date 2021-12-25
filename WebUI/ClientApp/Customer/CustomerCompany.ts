@@ -1,46 +1,60 @@
-$(document).ready(function () {
+﻿
+$(document).ready(() => {
     CustomerCompany.InitalizeComponent();
-});
-var CustomerCompany;
-(function (CustomerCompany) {
-    var sys = new SystemTools();
+    
+})
+
+namespace CustomerCompany {
+
+    var sys: SystemTools = new SystemTools();
     //var sys: _shared = new _shared();
-    var SysSession = GetSystemSession(Modules.Quotation);
-    var InvoiceItemsDetailsModel = new Array();
-    var invoiceItemSingleModel = new Sls_InvoiceDetail();
-    var InvoiceModel = new Sls_Ivoice();
-    var MasterDetailsModel = new SlsInvoiceMasterDetails();
-    var compcode; //SharedSession.CurrentEnvironment.CompCode;
-    var BranchCode; //SharedSession.CurrentEnvironment.CompCode;
-    var btnsave;
-    var txtNameComp;
-    var txtmailComp;
-    var txtAddressComp;
-    var chkvat;
+    var SysSession: SystemSession = GetSystemSession(Modules.Quotation);
+
+    var InvoiceItemsDetailsModel: Array<Sls_InvoiceDetail> = new Array<Sls_InvoiceDetail>();
+    var invoiceItemSingleModel: Sls_InvoiceDetail = new Sls_InvoiceDetail();
+    var InvoiceModel: Sls_Ivoice = new Sls_Ivoice();
+    var MasterDetailsModel: SlsInvoiceMasterDetails = new SlsInvoiceMasterDetails();
+     
+    var compcode: number;//SharedSession.CurrentEnvironment.CompCode;
+    var BranchCode: number;//SharedSession.CurrentEnvironment.CompCode;
+   
+    var btnsave: HTMLButtonElement;
+    var txtNameComp: HTMLInputElement;
+    var txtmailComp: HTMLInputElement;
+    var txtAddressComp: HTMLInputElement;
+    var chkvat: HTMLInputElement;
+     
+  
     var lang = (SysSession.CurrentEnvironment.ScreenLanguage);
-    function InitalizeComponent() {
+
+    export function InitalizeComponent() {
+        
         compcode = Number(SysSession.CurrentEnvironment.CompCode);
         BranchCode = Number(SysSession.CurrentEnvironment.BranchCode);
         InitalizeControls();
         InitalizeEvents();
-    }
-    CustomerCompany.InitalizeComponent = InitalizeComponent;
+        $('#a').click();
+    }  
     function InitalizeControls() {
         // ;     
-        btnsave = document.getElementById("btnsave");
+        btnsave = document.getElementById("btnsave") as HTMLButtonElement;    
         // inputs
-        txtmailComp = document.getElementById("txtmailComp");
-        txtAddressComp = document.getElementById("txtAddressComp");
-        chkvat = document.getElementById("chkvat");
-        txtNameComp = document.getElementById("txtNameComp");
-    }
+        txtmailComp = document.getElementById("txtmailComp") as HTMLInputElement;
+        txtAddressComp = document.getElementById("txtAddressComp") as HTMLInputElement;
+        chkvat = document.getElementById("chkvat") as HTMLInputElement;
+        txtNameComp = document.getElementById("txtNameComp") as HTMLInputElement;        
+    }      
     function InitalizeEvents() {
-        btnsave.onclick = insert;
+                                      
+        //btnsave.onclick = insert;                       
     }
+      
     function Assign() {
         ////var StatusFlag: String;
         //InvoiceModel = new Sls_Ivoice();
         //InvoiceItemsDetailsModel = new Array<Sls_InvoiceDetail>();
+
+
         //InvoiceModel.CustomerId = CustomerId == 0 ? null : CustomerId;
         //InvoiceModel.Status = 1;
         //InvoiceModel.CompCode = Number(compcode);
@@ -64,9 +78,12 @@ var CustomerCompany;
         //InvoiceModel.ContractNo = txtsecounddays.value;    //----------------- days from offer date.
         //InvoiceModel.ContractNo = txtlastdays.value;       //----------------- days from purchase order.
         //InvoiceModel.PrevInvoiceHash = txtPlacedeliv.value;//----------------- Place of delivery.
+
         //// Details
         //for (var i = 0; i < CountGrid; i++) {
+
         //    invoiceItemSingleModel = new Sls_InvoiceDetail();
+
         //    invoiceItemSingleModel.InvoiceItemID = 0;            
         //    invoiceItemSingleModel.Serial = Number($("#serial" + i).val());
         //    invoiceItemSingleModel.SoldQty = Number($('#QTY' + i).val());
@@ -76,7 +93,9 @@ var CustomerCompany;
         //    invoiceItemSingleModel.DiscountAmount = Number($("#Discount" + i).val());
         //    invoiceItemSingleModel.NetAfterVat = Number($("#Net" + i).val()); 
         //        InvoiceItemsDetailsModel.push(invoiceItemSingleModel);
+
         //    }
+            
         //MasterDetailsModel.Sls_Ivoice = InvoiceModel;
         //MasterDetailsModel.Sls_InvoiceDetail = InvoiceItemsDetailsModel;   
     }
@@ -89,21 +108,38 @@ var CustomerCompany;
         //    success: (d) => {
         //        let result = d as BaseResponse;
         //        if (result.IsSuccess == true) {
+
         //          let res = result.Response as Sls_Ivoice;
         //             invoiceID = res.InvoiceID;
         //            DisplayMassage(" تم اصدار  فاتورة رقم  " + res.TrNo + " ", "An invoice number has been issued " + res.TrNo + "", MessageType.Succeed);
+
         //             success_insert();
+
+                 
         //        } else {       
         //            DisplayMassage("الرجاء تحديث الصفحة واعادت تكرارالمحاولة مره اخري", "Please refresh the page and try again", MessageType.Error);
+
         //        }
         //    }
         //});
+
     }
     function success_insert() {
-        txtmailComp.value = GetDate();
+        txtmailComp.value = GetDate();  
         txtAddressComp.value = "";
         chkvat.value = "";
-        txtNameComp.value = "";
-    }
-})(CustomerCompany || (CustomerCompany = {}));
-//# sourceMappingURL=Customer.js.map
+        txtNameComp.value = "";          
+    }      
+}
+
+
+
+
+
+
+
+
+
+
+
+
