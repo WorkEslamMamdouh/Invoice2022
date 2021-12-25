@@ -12,8 +12,8 @@ namespace Quotation {
     var InvoiceItemsDetailsModel: Array<Sls_InvoiceDetail> = new Array<Sls_InvoiceDetail>();
     var invoiceItemSingleModel: Sls_InvoiceDetail = new Sls_InvoiceDetail();
     var InvoiceModel: Sls_Ivoice = new Sls_Ivoice();
-    //var InvoiceModel: Customer = new Customer();
     var MasterDetailsModel: SlsInvoiceMasterDetails = new SlsInvoiceMasterDetails();
+    var CustomerDetail: Customer = new Customer();
 
     var CountGrid = 0;
     var compcode: number;//SharedSession.CurrentEnvironment.CompCode;
@@ -86,13 +86,25 @@ namespace Quotation {
     }
     function btnCustSrch_onClick() {
         sys.FindKey(Modules.Quotation, "btnCustSrch", "", () => {
-            debugger
-              InvoiceModel = SearchGrid.SearchDataGrid.SelectedKey;
-            //CustomerId = id;
-            alert( );
-            //ddCustomer_onchange();
+            let id = SearchGrid.SearchDataGrid.SelectedKey;
+            CustomerId = id;
+            
+            GetCustomer(id);
         });
-    }    
+    }
+    function GetCustomer(id : number) {
+        Ajax.Callsync({
+            type: "Get",
+            url: sys.apiUrl("SlsTrSales", "GetCustomer"),
+            data: {id : id},
+            success: (d) => {
+                let result = d as BaseResponse;
+                CustomerDetail = result.Response as Customer;
+                console.log(CustomerDetail);
+                txtCompanyname.value = CustomerDetail.NAMEE;
+            }
+        });     
+    }
     function BuildControls(cnt: number) {
         var html;
 

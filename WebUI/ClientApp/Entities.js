@@ -241,6 +241,74 @@ var G_LnkVarBranch = /** @class */ (function (_super) {
     }
     return G_LnkVarBranch;
 }(SecurityClass));
+var Customer = /** @class */ (function (_super) {
+    __extends(Customer, _super);
+    function Customer() {
+        var _this = _super.call(this) || this;
+        _this.CustomerId = 0;
+        _this.CustomerCODE = "";
+        _this.CatID = 0;
+        _this.GroupId = 0;
+        _this.NAMEA = "";
+        _this.NAMEE = "";
+        _this.SHORTNAME = "";
+        _this.TEL = "";
+        _this.FAX = "";
+        _this.EMAIL = "";
+        _this.CURCODE = "";
+        _this.REMARKS = "";
+        _this.STATUS = false;
+        _this.MOBILE = "";
+        _this.Bank = "";
+        _this.AccountNo = "";
+        _this.ManagerName = "";
+        _this.NationalityID = 0;
+        _this.BranchCode = 0;
+        _this.CompCode = 0;
+        _this.CREATED_BY = "";
+        _this.CREATED_AT = "";
+        _this.UPDATED_AT = "";
+        _this.UPDATED_BY = "";
+        _this.Employer = "";
+        _this.JobName = "";
+        _this.WorkTel = "";
+        _this.WorkAddress = "";
+        _this.VATType = 0;
+        _this.AddDedType = 0;
+        _this.AddDedNo = "";
+        _this.VatNo = "";
+        _this.Isactive = false;
+        _this.IsAuthorized = false;
+        _this.CreditLimit = 0;
+        _this.CreditLimitFC = 0;
+        _this.CreditPeriod = 0;
+        _this.OpenBalanceFC = 0;
+        _this.Openbalance = 0;
+        _this.Debit = 0;
+        _this.DebitFC = 0;
+        _this.Credit = 0;
+        _this.CreditFC = 0;
+        _this.PaymentType = 0;
+        _this.FCRate = 0;
+        _this.CreditExpiryDate = "";
+        _this.RefCode2 = "";
+        _this.RefCode1 = "";
+        _this.IsCreditCustomer = false;
+        _this.DiscountplanID = 0;
+        _this.SalesmanId = 0;
+        _this.Address_postal = "";
+        _this.Address_Province = "";
+        _this.GroupVatNo = "";
+        _this.Address_Street = "";
+        _this.Address_Str_Additional = "";
+        _this.Address_BuildingNo = "";
+        _this.Address_Build_Additional = "";
+        _this.Address_City = "";
+        _this.Address_District = "";
+        return _this;
+    }
+    return Customer;
+}(SecurityClass));
 var GQ_GetLnkVarBranch = /** @class */ (function (_super) {
     __extends(GQ_GetLnkVarBranch, _super);
     function GQ_GetLnkVarBranch() {

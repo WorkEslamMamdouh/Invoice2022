@@ -94,5 +94,14 @@ namespace Inv.API.Controllers
         }
 
 
+        
+        [HttpGet, AllowAnonymous]
+        public IHttpActionResult GetCustomer( int id)
+        { 
+            string query = "select * from Customer where  CustomerId = "+id+"";
+            
+            var res = db.Database.SqlQuery<Customer>(query).ToList();
+            return Ok(new BaseResponse(res));
+        } 
     }
 }
