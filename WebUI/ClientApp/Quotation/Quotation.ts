@@ -39,8 +39,7 @@ namespace Quotation {
     var txtNetBefore: HTMLInputElement;
     var txtAllDiscount:HTMLInputElement;
     var txtNetAfterVat: HTMLInputElement;
-    var include = "";
-    var lang = (SysSession.CurrentEnvironment.ScreenLanguage);
+    var include = ""; 
 
     export function InitalizeComponent() {
 

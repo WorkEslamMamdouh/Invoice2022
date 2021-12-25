@@ -36,7 +36,6 @@ var Quotation;
     var txtAllDiscount;
     var txtNetAfterVat;
     var include = "";
-    var lang = (SysSession.CurrentEnvironment.ScreenLanguage);
     function InitalizeComponent() {
         compcode = Number(SysSession.CurrentEnvironment.CompCode);
         BranchCode = Number(SysSession.CurrentEnvironment.BranchCode);

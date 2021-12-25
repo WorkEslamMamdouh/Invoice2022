@@ -87,14 +87,24 @@ namespace Inv.API.Controllers
         [HttpGet, AllowAnonymous]
         public IHttpActionResult GetAllSlsInvoice(int CompCode, int BranchCode)
         { 
-            string query = "select * from Sls_Ivoice where TrType = 0 and CompCode = "+ CompCode + " and BranchCode = "+ BranchCode + "";
+            string query = "select * from Sls_Ivoice where   CompCode = "+ CompCode + " and BranchCode = "+ BranchCode + "";
             
             var res = db.Database.SqlQuery<Sls_Ivoice>(query).ToList();
             return Ok(new BaseResponse(res));
         }
 
 
-        
+        [HttpGet, AllowAnonymous]
+        public IHttpActionResult  UpdateInvoice(int InvoiceID)
+        {
+            string query = "update [dbo].[Sls_Ivoice] set TrType = 1 where InvoiceID = "+ InvoiceID + "";
+
+            var res = db.Database.ExecuteSqlCommand(query);
+            return Ok(new BaseResponse(100));
+        }
+
+
+
         [HttpGet, AllowAnonymous]
         public IHttpActionResult GetCustomer( int id)
         { 
