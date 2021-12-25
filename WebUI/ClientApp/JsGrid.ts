@@ -91,8 +91,7 @@ class JsGrid {
         //    col.title = Language.GetValueByKey(col.name);
         //}
     }
-    public Bind() {
-        debugger
+    public Bind() {  
         $(".jsgrid-grid-body").css("max-height", this.Height);
         $(".jsgrid-grid-body").css("height", this.Height);
 
@@ -298,7 +297,7 @@ class JsGrid {
 
             //},
             rowClick: (e) => {
-                debugger
+                 
                  let row = e.event.currentTarget as HTMLTableRowElement;
                 $(".jsgrid-row").removeClass("SelectedRowF");
                 $(".jsgrid-alt-row").removeClass("SelectedRowF");

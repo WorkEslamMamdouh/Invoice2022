@@ -104,6 +104,14 @@ namespace Inv.API.Controllers
             return Ok(new BaseResponse(res));
         }
         [HttpGet, AllowAnonymous]
+        public IHttpActionResult GetAllCustomer()
+        { 
+            string query = "select * from Customer ";
+            
+            var res = db.Database.SqlQuery<Customer>(query).ToList();
+            return Ok(new BaseResponse(res));
+        }
+        [HttpGet, AllowAnonymous]
         public IHttpActionResult InsertCustomer(string NAMEA, string NAMEE, string EMAIL, string Address_Street, Boolean Isactive, string REMARKS, string CREATED_BY, string CREATED_AT)
         { int active = 0;  
             if (Isactive == true)
@@ -112,6 +120,19 @@ namespace Inv.API.Controllers
             }
 
             string query = "INSERT INTO [dbo].[Customer] (NAMEA,NAMEE,EMAIL,REMARKS,Isactive,Address_Street) VALUES  ('"+NAMEA+"','"+NAMEE + "','"+EMAIL + "','"+REMARKS + "',"+ active + ",'"+Address_Street + "')";
+            
+           db.Database.ExecuteSqlCommand(query);
+            return Ok(new BaseResponse(100));
+        }
+        [HttpGet, AllowAnonymous]
+        public IHttpActionResult UpdateCustomer(string NAMEA, string NAMEE, string EMAIL, string Address_Street, Boolean Isactive, string REMARKS, string CREATED_BY, string CREATED_AT,int CustomerId)
+        { int active = 0;  
+            if (Isactive == true)
+            {
+                active = 1;
+            }
+
+            string query = "update [dbo].[Customer] set  NAMEA ='" + NAMEA + "' ,NAMEE = '" + NAMEE + "',EMAIL = '" + EMAIL + "',REMARKS = '" + REMARKS + "',Isactive = " + active + ",Address_Street= '" + Address_Street + "' where CustomerId = "+ CustomerId + "";
             
            db.Database.ExecuteSqlCommand(query);
             return Ok(new BaseResponse(100));
