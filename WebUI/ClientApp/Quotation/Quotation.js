@@ -10,8 +10,7 @@ var Quotation;
     var invoiceItemSingleModel = new Sls_InvoiceDetail();
     var InvoiceModel = new Sls_Ivoice();
     var MasterDetailsModel = new SlsInvoiceMasterDetails();
-    var CustomerDetail = new Customer();
-    var Customerrarrr = new Array();
+    var CustomerDetail = new Array();
     var CountGrid = 0;
     var compcode; //SharedSession.CurrentEnvironment.CompCode;
     var BranchCode; //SharedSession.CurrentEnvironment.CompCode;
@@ -80,23 +79,9 @@ var Quotation;
     function btnCustSrch_onClick() {
         sys.FindKey(Modules.Quotation, "btnCustSrch", "", function () {
             debugger;
-            Customerrarrr = SearchGrid.SearchDataGrid.SelectedKey;
-            alert(Customerrarrr[1]);
-            //CustomerId = id;
-            //GetCustomer(id);
-        });
-    }
-    function GetCustomer(id) {
-        Ajax.Callsync({
-            type: "Get",
-            url: sys.apiUrl("SlsTrSales", "GetCustomer"),
-            data: { id: id },
-            success: function (d) {
-                var result = d;
-                CustomerDetail = result.Response;
-                console.log(CustomerDetail);
-                txtCompanyname.value = CustomerDetail.NAMEE;
-            }
+            CustomerDetail = SearchGrid.SearchDataGrid.SelectedKey;
+            CustomerId = Number(CustomerDetail[0]);
+            txtCompanyname.value = String(CustomerDetail[1]);
         });
     }
     function BuildControls(cnt) {
