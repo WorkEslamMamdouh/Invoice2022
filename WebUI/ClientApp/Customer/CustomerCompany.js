@@ -132,7 +132,6 @@ var CustomerCompany;
     function btnsave_onclick() {
         if (!validation())
             return;
-        debugger;
         if (IsNew == true) {
             insert();
         }
@@ -147,7 +146,7 @@ var CustomerCompany;
         ReportGrid.ElementName = "ReportGrid";
         ReportGrid.PrimaryKey = "CustomerId";
         ReportGrid.Paging = true;
-        ReportGrid.PageSize = 10;
+        ReportGrid.PageSize = 15;
         ReportGrid.Sorting = true;
         ReportGrid.InsertionMode = JsGridInsertionMode.Binding;
         ReportGrid.Editing = false;
@@ -181,7 +180,6 @@ var CustomerCompany;
         });
     }
     function DriverDoubleClick() {
-        debugger;
         IsNew = false;
         CustomerModelfil = CustomerModel.filter(function (x) { return x.CustomerId == Number(ReportGrid.SelectedKey); });
         UCustomerId = Number(ReportGrid.SelectedKey);
