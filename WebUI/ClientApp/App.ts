@@ -229,6 +229,7 @@ namespace App {
 
         try {
             DocumentActions.GetElementById<HTMLInputElement>("btnChangePassword").onclick = () => {
+
                 let oldPassword: string = DocumentActions.GetElementById<HTMLInputElement>("txtOldPassword").value;
                 let newPassword: string = DocumentActions.GetElementById<HTMLInputElement>("txtNewPassword").value;
                 ChangePassword(oldPassword, newPassword);

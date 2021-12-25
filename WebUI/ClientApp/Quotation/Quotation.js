@@ -78,12 +78,13 @@ var Quotation;
     }
     function btnCustSrch_onClick() {
         sys.FindKey(Modules.Quotation, "btnCustSrch", "", function () {
+            debugger;
             CustomerDetail = SearchGrid.SearchDataGrid.SelectedKey;
             console.log(CustomerDetail);
             CustomerId = Number(CustomerDetail[0]);
-            alert(String(CustomerDetail[2]));
+            //alert(String(CustomerDetail[2]));
             txtCompanyname.value = String(CustomerDetail[2]);
-            alert(String(CustomerDetail[4]));
+            //alert(String(CustomerDetail[4]));
             /*txtCompanyname.value =;*/
         });
     }
