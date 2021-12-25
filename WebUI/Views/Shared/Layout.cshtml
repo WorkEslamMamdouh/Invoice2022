@@ -69,17 +69,6 @@
         ============================================ -->
     <script src="~/NewStyle/js/vendor/modernizr-2.8.3.min.js"></script>
 
-
-    @Styles.Render("~/Bundles/AppStyle2")
-    <script src="~/Scripts/jquery-3.1.1.min.js"></script>
-    @Scripts.Render("~/Bundles/AppScript2")
-    <script src="~/NewStyle/js/jquery.cookie.min.js"></script>
-    @Scripts.Render("~/Bundles/AppScript3")
-
-    <script src="~/Scripts/DataTables/jquery.dataTables.min.js"></script>
-    @Scripts.Render("~/Bundles/AppScript4")
-
-
     <style>
         .display_none {
             display: none;
@@ -100,6 +89,20 @@
             box-shadow: black 5px 4px 18px 0px;
         }
     </style>
+
+
+    @Styles.Render("~/Bundles/AppStyle2")
+    <script src="~/Scripts/jquery-3.1.1.min.js"></script>
+    <script src="~/NewStyle/js/vendor/jquery-1.11.3.min.js"></script>
+
+    @Scripts.Render("~/Bundles/AppScript2")
+    <script src="~/NewStyle/js/jquery.cookie.min.js"></script>
+    @Scripts.Render("~/Bundles/AppScript3")
+
+    <script src="~/Scripts/DataTables/jquery.dataTables.min.js"></script>
+    @Scripts.Render("~/Bundles/AppScript4")
+
+
 
 </head>
 
@@ -270,58 +273,37 @@
 
 
 
-    <!-- jquery
-        ============================================ -->
-    <!--<script src="~/NewStyle/js/vendor/jquery-1.11.3.min.js"></script>-->
-    <!-- bootstrap JS
-        ============================================ -->
-    <!--<script src="~/NewStyle/js/bootstrap.min.js"></script>-->
-    <!-- meanmenu JS
-        ============================================ -->
-    <!--<script src="~/NewStyle/js/jquery.meanmenu.js"></script>-->
-    <!-- mCustomScrollbar JS
-        ============================================ -->
-    <!--<script src="~/NewStyle/js/jquery.mCustomScrollbar.concat.min.js"></script>-->
-    <!-- sticky JS
-        ============================================ -->
-    <!--<script src="~/NewStyle/js/jquery.sticky.js"></script>-->
-    <!-- scrollUp JS
-        ============================================ -->
-    <!--<script src="~/NewStyle/js/jquery.scrollUp.min.js"></script>-->
-    <!-- counterup JS
-        ============================================ -->
+    <script src="~/NewStyle/js/jquery.meanmenu.js"></script>
+    <script src="~/NewStyle/js/jquery.mCustomScrollbar.concat.min.js"></script>
+    <script src="~/NewStyle/js/jquery.sticky.js"></script>
+    <script src="~/NewStyle/js/jquery.scrollUp.min.js"></script>
 
-    <!--<script src="~/NewStyle/js/counterup/jquery.counterup.min.js"></script>
-    <script src="~/NewStyle/js/counterup/waypoints.min.js"></script>-->
+
+    <script src="~/NewStyle/js/counterup/jquery.counterup.min.js"></script>
+    <script src="~/NewStyle/js/counterup/waypoints.min.js"></script>
     <!-- map JS
         ============================================ -->
-    <!--<script src="~/NewStyle/js/data-table/bootstrap-table.js"></script>
+    <script src="~/NewStyle/js/data-table/bootstrap-table.js"></script>
     <script src="~/NewStyle/js/data-table/tableExport.js"></script>
     <script src="~/NewStyle/js/data-table/data-table-active.js"></script>
     <script src="~/NewStyle/js/data-table/bootstrap-table-editable.js"></script>
     <script src="~/NewStyle/js/data-table/bootstrap-editable.js"></script>
     <script src="~/NewStyle/js/data-table/bootstrap-table-resizable.js"></script>
     <script src="~/NewStyle/js/data-table/colResizable-1.5.source.js"></script>
-    <script src="~/NewStyle/js/data-table/bootstrap-table-export.js"></script>-->
-    <!--  dropzone JS
-        ============================================ -->
-    <!--<script src="~/NewStyle/js/dropzone.js"></script>-->
-    <!-- multiple email JS
-        ============================================ -->
-    <!--<script src="~/NewStyle/js/multiple-email/multiple-email-active.js"></script>-->
-    <!-- summernote JS
-        ============================================ -->
-    <!--<script src="~/NewStyle/js/summernote.min.js"></script>
-    <script src="~/NewStyle/js/summernote-active.js"></script>-->
+    <script src="~/NewStyle/js/data-table/bootstrap-table-export.js"></script>
+    <script src="~/NewStyle/js/dropzone.js"></script>
+    <script src="~/NewStyle/js/multiple-email/multiple-email-active.js"></script>
+    <script src="~/NewStyle/js/summernote.min.js"></script>
+    <script src="~/NewStyle/js/summernote-active.js"></script>
     <!-- main JS
         ============================================ -->
     <!--<script src="~/NewStyle/js/main.js"></script>-->
     @*@Scripts.Render("~/Bundles/AppStyle2")*@
-   
 
 
-     <script src="~/ClientApp/App.js"></script>
-        <script src="~/ClientApp/DataTable.js"></script>
+
+    <script src="~/ClientApp/App.js"></script>
+    <script src="~/ClientApp/DataTable.js"></script>
 
     <div id="SearchBox" class=" fade styleserch" style="display:none;z-index:999999999;">
         <div style="background-color: #03a9f0 !important; position: absolute; top: 0px; left: 0px; width: 100%; height: 40px; cursor: move; border-top-right-radius: 13px !important; border-top-left-radius: 13px !important; ">
