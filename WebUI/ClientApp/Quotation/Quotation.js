@@ -10,6 +10,7 @@ var Quotation;
     var invoiceItemSingleModel = new Sls_InvoiceDetail();
     var InvoiceModel = new Sls_Ivoice();
     var MasterDetailsModel = new SlsInvoiceMasterDetails();
+    var CustomerDetail = new Customer();
     var CountGrid = 0;
     var compcode; //SharedSession.CurrentEnvironment.CompCode;
     var BranchCode; //SharedSession.CurrentEnvironment.CompCode;
@@ -79,8 +80,20 @@ var Quotation;
         sys.FindKey(Modules.Quotation, "btnCustSrch", "", function () {
             var id = SearchGrid.SearchDataGrid.SelectedKey;
             CustomerId = id;
-            alert(id);
-            //ddCustomer_onchange();
+            GetCustomer(id);
+        });
+    }
+    function GetCustomer(id) {
+        Ajax.Callsync({
+            type: "Get",
+            url: sys.apiUrl("SlsTrSales", "GetCustomer"),
+            data: { id: id },
+            success: function (d) {
+                var result = d;
+                CustomerDetail = result.Response;
+                console.log(CustomerDetail);
+                txtCompanyname.value = CustomerDetail.NAMEE;
+            }
         });
     }
     function BuildControls(cnt) {

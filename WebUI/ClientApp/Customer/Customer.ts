@@ -1,9 +1,9 @@
 ﻿
 $(document).ready(() => {
-    Customer.InitalizeComponent();
+    CustomerCompany.InitalizeComponent();
 })
 
-namespace Customer {
+namespace CustomerCompany {
 
     var sys: SystemTools = new SystemTools();
     //var sys: _shared = new _shared();

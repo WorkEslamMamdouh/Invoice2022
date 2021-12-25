@@ -105,7 +105,6 @@ var DataTable = /** @class */ (function () {
             language: this.language_app
         });
         $('#SearchDataTable tbody').on('click', 'tr', function () {
-            debugger;
             var tableData = $(this).children("td").map(function () {
                 return $(this).text();
             }).get();

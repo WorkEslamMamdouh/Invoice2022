@@ -1,8 +1,8 @@
 $(document).ready(function () {
-    Customer.InitalizeComponent();
+    CustomerCompany.InitalizeComponent();
 });
-var Customer;
-(function (Customer) {
+var CustomerCompany;
+(function (CustomerCompany) {
     var sys = new SystemTools();
     //var sys: _shared = new _shared();
     var SysSession = GetSystemSession(Modules.Quotation);
@@ -42,7 +42,7 @@ var Customer;
         AddNewRow();
         txtDate.value = GetDate();
     }
-    Customer.InitalizeComponent = InitalizeComponent;
+    CustomerCompany.InitalizeComponent = InitalizeComponent;
     function InitalizeControls() {
         // ;
         btnAddDetails = document.getElementById("btnAddDetails");
@@ -262,5 +262,5 @@ var Customer;
         $("#Table_Data").html("");
         AddNewRow();
     }
-})(Customer || (Customer = {}));
+})(CustomerCompany || (CustomerCompany = {}));
 //# sourceMappingURL=Customer.js.map

@@ -335,7 +335,7 @@
 	 */
     $.fn.extend({  
 		colResizable: function (options) {
-			debugger
+		 
 			var defaults = {
 			
 				//attributes:
