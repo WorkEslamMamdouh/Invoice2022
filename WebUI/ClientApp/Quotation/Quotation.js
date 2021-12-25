@@ -11,6 +11,7 @@ var Quotation;
     var InvoiceModel = new Sls_Ivoice();
     var MasterDetailsModel = new SlsInvoiceMasterDetails();
     var CustomerDetail = new Customer();
+    var Customerrarrr = new Array();
     var CountGrid = 0;
     var compcode; //SharedSession.CurrentEnvironment.CompCode;
     var BranchCode; //SharedSession.CurrentEnvironment.CompCode;
@@ -78,9 +79,11 @@ var Quotation;
     }
     function btnCustSrch_onClick() {
         sys.FindKey(Modules.Quotation, "btnCustSrch", "", function () {
-            var id = SearchGrid.SearchDataGrid.SelectedKey;
-            CustomerId = id;
-            GetCustomer(id);
+            debugger;
+            Customerrarrr = SearchGrid.SearchDataGrid.SelectedKey;
+            alert(Customerrarrr[1]);
+            //CustomerId = id;
+            //GetCustomer(id);
         });
     }
     function GetCustomer(id) {
