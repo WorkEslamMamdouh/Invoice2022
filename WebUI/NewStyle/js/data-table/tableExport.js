@@ -1018,7 +1018,7 @@
                   function (cell) {
                     if ( typeof cell !== 'undefined' && cell !== null ) {
                       var kids = $(cell).children();
-                      if ( typeof kids != 'undefined' && RS.length > 0 )
+                      if ( typeof kids != 'undefined' && kids.length > 0 )
                         collectImages(cell, kids, teOptions);
                     }
                   });
@@ -1156,7 +1156,7 @@
 
                     teOptions.doc.rect(cell.x, cell.y, cell.width, cell.height, cell.styles.fillStyle);
 
-                    if ( typeof rowopt != 'undefined' && typeof rowopt.kids != 'undefined' && rowopt.RS.length > 0 ) {
+                    if ( typeof rowopt != 'undefined' && typeof rowopt.kids != 'undefined' && rowopt.kids.length > 0 ) {
 
                       var dh = cell.height / rowopt.rect.height;
                       if ( dh > teOptions.dh || typeof teOptions.dh == 'undefined' )
@@ -1490,7 +1490,7 @@
               };
             }
 
-            if ( typeof kids != 'undefined' && RS.length > 0 )
+            if ( typeof kids != 'undefined' && kids.length > 0 )
               collectImages(cell, kids, teOptions);
           });
         }
@@ -1605,7 +1605,7 @@
             }
           }
 
-          if ( typeof kids != 'undefined' && RS.length > 0 )
+          if ( typeof kids != 'undefined' && kids.length > 0 )
             drawAutotableElements(cell, kids, teOptions);
         });
       }

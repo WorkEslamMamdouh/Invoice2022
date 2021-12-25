@@ -53,12 +53,9 @@ namespace QuotationView {
         ReportGrid.OnItemEditing = () => { };
         ReportGrid.Columns = [
             { title: "الرقم", name: "InvoiceID", type: "text", width: "100px", visible: false },
-            { title: "الاسم", name: "InvoiceID", type: "text", width: "100px" },
-            //{ title: "رقم الجوال", name: "phone", type: "text", width: "100px" },
-            //{ title: "النوع", name: "Type_Supplier", type: "text", width: "100px" },
-            //{ title: "ملاحظات", name: "Notes", type: "text", width: "100px" },
-            //{ title: "مفعل", name: "IS_Active_Name", type: "textdd", width: "100px" },
-             
+            { title: "الرقم", name: "TrNo", type: "text", width: "100px" },
+            { title: "التاريخ", name: "TrDate", type: "text", width: "100px" },
+            { title: "الاجمالي", name: "NetAfterVat", type: "text", width: "100px" },  
         ];
         //ReportGrid.Bind();
     }
