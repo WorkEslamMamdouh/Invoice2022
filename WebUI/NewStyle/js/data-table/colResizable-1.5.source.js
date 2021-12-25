@@ -334,9 +334,8 @@
 	 * @param {Object} options -  an object that holds some basic customization values 
 	 */
     $.fn.extend({  
-		colResizable: function (options) {
-		 
-			var defaults = {
+        colResizable: function(options) {           
+            var defaults = {
 			
 				//attributes:
                 draggingClass: 'JCLRgripDrag',	//css-class used when a grip is being dragged (for visual feedback purposes)

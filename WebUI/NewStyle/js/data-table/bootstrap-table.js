@@ -5,6 +5,8 @@
  */
 
 (function ($) {
+
+    debugger
     'use strict';
 
     // TOOLS DEFINITION
