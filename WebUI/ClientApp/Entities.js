@@ -148,6 +148,15 @@ var SlsInvoiceMasterDetails = /** @class */ (function (_super) {
     }
     return SlsInvoiceMasterDetails;
 }(SecurityClass));
+var Customcustomer = /** @class */ (function (_super) {
+    __extends(Customcustomer, _super);
+    function Customcustomer() {
+        var _this = _super.call(this) || this;
+        _this.Customer = new Customer();
+        return _this;
+    }
+    return Customcustomer;
+}(SecurityClass));
 var EntityContext = /** @class */ (function () {
     function EntityContext() {
     }

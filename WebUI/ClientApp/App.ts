@@ -1165,7 +1165,7 @@ function WorningMessage(msg_Ar: string, msg_En: string, tit_ar: string = "تنب
     switch (Env.ScreenLanguage) {
 
         case "ar":
-            MessageBox.Show(msg_Ar, tit_ar, OnOk);
+            MessageBox.Show(msg_En, tit_en, OnOk);
             focus();
             break;
         case "en":

@@ -38,7 +38,8 @@ namespace Quotation {
     var txtRemark: HTMLInputElement;
     var txtNetBefore: HTMLInputElement;
     var txtAllDiscount:HTMLInputElement;
-    var txtNetAfterVat:HTMLInputElement;
+    var txtNetAfterVat: HTMLInputElement;
+    var include = "";
     var lang = (SysSession.CurrentEnvironment.ScreenLanguage);
 
     export function InitalizeComponent() {
@@ -89,17 +90,18 @@ namespace Quotation {
              
             CustomerDetail = SearchGrid.SearchDataGrid.SelectedKey;
             console.log(CustomerDetail);
-            CustomerId =Number(CustomerDetail[0]);
+            CustomerId = Number(CustomerDetail[0]);
             alert(String(CustomerDetail[2]));
             txtCompanyname.value = String(CustomerDetail[2]);
-            alert(String(CustomerDetail[4]));
-            
-            /*txtCompanyname.value =;*/
-
-
+            include = String(CustomerDetail[3]);
+            if (include == "true") {
+                txtsalesVAT.value = "include";
+            } else {
+                txtsalesVAT.value = "not include";
+            }
+            computeTotal();
         });
-    }
-    
+    }   
     function BuildControls(cnt: number) {
         var html;
 
@@ -147,14 +149,16 @@ namespace Quotation {
         $("#Net" + cnt).val(Number($("#Totalprice" + cnt).val()) - (Number($("#DiscountAmount" + cnt).val())));
         computeTotal();
     }
-    function computeTotal() {  
-   
+    function computeTotal() {    
         let NetCount = 0;        
         for (let i = 0; i < CountGrid; i++) {    
             if ($("#txt_StatusFlag" + i).val() != 'm' && $("#txt_StatusFlag" + i).val() != 'd') {
                 NetCount += Number($("#Net" + i).val());
                 NetCount = Number(NetCount.toFixed(2).toString());
             }
+        }
+        if (include == "true") {
+            NetCount = NetCount + ((NetCount * 14) / 100);
         }
         txtNetBefore.value = NetCount.toString();
 
@@ -188,17 +192,17 @@ namespace Quotation {
          
         if ($("#QTY" + rowcount).val().trim() == "" || Number($("#QTY" + rowcount).val()) <= 0) {
             Errorinput($("#QTY" + rowcount));
-            DisplayMassage('يجب ادخال كمية الصنف', 'Item quantity must be entered', MessageType.Error);
+            DisplayMassage('Item quantity must be entered', 'Item quantity must be entered', MessageType.Error);
             return false;
         }
         if ($("#Description" + rowcount).val().trim() == "") {
             Errorinput($("#Description" + rowcount));
-            DisplayMassage('يجب ادخال وصف الصنف', 'Item Describtion must be entered', MessageType.Error);
+            DisplayMassage('Item Describtion must be entered', 'Item Describtion must be entered', MessageType.Error);
             return false;
         }
         if ($("#UnitPrice" + rowcount).val().trim() == "" || Number($("#UnitPrice" + rowcount).val()) <= 0) {
             Errorinput($("#UnitPrice" + rowcount));
-            DisplayMassage('يجب ادخال سعر الصنف', 'Item Price must be entered', MessageType.Error);
+            DisplayMassage('Item Price must be entered', 'Item Price must be entered', MessageType.Error);
             return false;     
         }
         
@@ -206,7 +210,7 @@ namespace Quotation {
     }
     function DeleteRow(RecNo: number) {
                                                       
-        WorningMessage("هل تريد الحذف؟", "Do you want to delete?", "تحذير", "warning", () => {
+        WorningMessage("Do you want to delete?", "Do you want to delete?", "warning", "warning", () => {
             $("#txt_StatusFlag" + RecNo).val() == 'i' ? $("#txt_StatusFlag" + RecNo).val('m') : $("#txt_StatusFlag" + RecNo).val('d');
             computeRows(RecNo);
             computeTotal();
@@ -302,13 +306,13 @@ namespace Quotation {
 
                   let res = result.Response as Sls_Ivoice;
                      invoiceID = res.InvoiceID;
-                    DisplayMassage(" تم اصدار  فاتورة رقم  " + res.TrNo + " ", "An invoice number has been issued " + res.TrNo + "", MessageType.Succeed);
+                    DisplayMassage("An invoice number has been issued " + res.TrNo + "", "An invoice number has been issued " + res.TrNo + "", MessageType.Succeed);
 
                      success_insert();
 
                  
                 } else {       
-                    DisplayMassage("الرجاء تحديث الصفحة واعادت تكرارالمحاولة مره اخري", "Please refresh the page and try again", MessageType.Error);
+                    DisplayMassage("Please refresh the page and try again", "Please refresh the page and try again", MessageType.Error);
 
                 }
             }
@@ -340,42 +344,42 @@ namespace Quotation {
 
         if (txtDate.value.trim() == "") {
             Errorinput(txtDate);
-            DisplayMassage('يجب ادخال التاريخ', 'Date must be entered', MessageType.Error);
+            DisplayMassage('Date must be entered', 'Date must be entered', MessageType.Error);
             return false;
         }
         if (txtCompanyname.value.trim() == "") {
             Errorinput(txtCompanyname);
-            DisplayMassage('يجب اختيار شركة  ', 'Company must be choosed', MessageType.Error);
+            DisplayMassage('Company must be choosed', 'Company must be choosed', MessageType.Error);
             return false;
         }
         if (txtCompanysales.value.trim() == "") {
             Errorinput(txtCompanysales);
-            DisplayMassage('يجب اختيار مندوب الشركة  ', 'Company sales man must be choosed', MessageType.Error);
+            DisplayMassage('Company sales man must be choosed', 'Company sales man must be choosed', MessageType.Error);
             return false;
         }
         if (txtRFQ.value.trim() == "") {
             Errorinput(txtRFQ);
-            DisplayMassage('يجب ادخال ال RFQ  ', ' RFQ must be entered', MessageType.Error);
+            DisplayMassage(' RFQ must be entered', ' RFQ must be entered', MessageType.Error);
             return false;
         }
         if (txtsalesVAT.value.trim() == "") {
             Errorinput(txtsalesVAT);
-            DisplayMassage('يجب ادخال الضريبة  ', ' Vat include or not must be entered', MessageType.Error);
+            DisplayMassage('Vat include or not must be entered', ' Vat include or not must be entered', MessageType.Error);
             return false;
         }
         if (txtfirstdays.value.trim() == "") {
             Errorinput(txtfirstdays);
-            DisplayMassage('يجب ادخال عدد ايام بدا تاريخ الاستلام  ', 'days starting from the delivery date must be entered', MessageType.Error);
+            DisplayMassage('days starting from the delivery date must be entered', 'days starting from the delivery date must be entered', MessageType.Error);
             return false;
         }
         if (txtsecounddays.value.trim() == "") {
             Errorinput(txtsecounddays);
-            DisplayMassage('يجب ادخال عدد ايام انتهاء العرض ', ' Offer validity days from offer date must be entered', MessageType.Error);
+            DisplayMassage('Offer validity days from offer date must be entered', ' Offer validity days from offer date must be entered', MessageType.Error);
             return false;
         }
         if (txtlastdays.value.trim() == "") {
             Errorinput(txtlastdays);
-            DisplayMassage('يجب ادخال مكان التوصيل  ', ' Place of delivery must be entered', MessageType.Error);
+            DisplayMassage('Place of delivery must be entered', ' Place of delivery must be entered', MessageType.Error);
             return false;
         }       
         return true;
