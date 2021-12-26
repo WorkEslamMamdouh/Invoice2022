@@ -212,11 +212,12 @@ var QuotationView;
         GlobalinvoiceID = Selected_Data[0].InvoiceID;
         CustomerId = Selected_Data[0].CustomerId;
         txtQutationNo.value = Selected_Data[0].TrNo.toString();
-        txtDate.value = DateFormatRep(Selected_Data[0].TrDate);
+        debugger;
+        txtDate.value = DateFormat(Selected_Data[0].TrDate);
         txtRFQ.value = Selected_Data[0].RefNO;
         txtCompanysales.value = Selected_Data[0].ChargeReason;
         txtRemark.value = Selected_Data[0].Remark;
-        // sdasa
+        GetCustomer();
         txtNetBefore.value = Selected_Data[0].TotalAmount.toString();
         txtAllDiscount.value = Selected_Data[0].RoundingAmount.toString();
         txtNetAfterVat.value = Selected_Data[0].NetAfterVat.toString();
@@ -253,14 +254,10 @@ var QuotationView;
             success: function (d) {
                 var result = d;
                 if (result.IsSuccess) {
-                    InvItemsDetailsModel = result.Response;
-                    CountGrid = 0;
-                    $("#Table_Data").html("");
-                    for (var i = 0; i < InvItemsDetailsModel.length; i++) {
-                        BuildControls(i);
-                        Display_GridConrtol(i);
-                    }
-                    CountGrid = InvItemsDetailsModel.length;
+                    CustomerDetailnew = result.Response;
+                    txtCompanyname.value = CustomerDetailnew[0].NAMEE;
+                    $('#btnCustSrch').attr('disabled', 'disabled');
+                    $('#txtCompanyname').attr('disabled', 'disabled');
                 }
             }
         });
@@ -287,6 +284,7 @@ var QuotationView;
     var InvoiceModel = new Sls_Ivoice();
     var MasterDetailsModel = new SlsInvoiceMasterDetails();
     var CustomerDetail = new Array();
+    var CustomerDetailnew = new Array();
     var CountGrid = 0;
     var btnAddDetails;
     var btnsave;
