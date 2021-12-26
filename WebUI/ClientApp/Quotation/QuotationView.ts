@@ -273,11 +273,12 @@ namespace QuotationView {
         GlobalinvoiceID = Selected_Data[0].InvoiceID;
         CustomerId = Selected_Data[0].CustomerId;
         txtQutationNo.value = Selected_Data[0].TrNo.toString();
-        txtDate.value = DateFormatRep(Selected_Data[0].TrDate);
+        debugger
+        txtDate.value = DateFormat(Selected_Data[0].TrDate);
         txtRFQ.value = Selected_Data[0].RefNO;
         txtCompanysales.value = Selected_Data[0].ChargeReason;
         txtRemark.value = Selected_Data[0].Remark;
-       // sdasa
+        GetCustomer();
         txtNetBefore.value = Selected_Data[0].TotalAmount.toString();
         txtAllDiscount.value = Selected_Data[0].RoundingAmount.toString();
         txtNetAfterVat.value = Selected_Data[0].NetAfterVat.toString();
@@ -316,14 +317,10 @@ namespace QuotationView {
             success: (d) => {
                 let result = d as BaseResponse;
                 if (result.IsSuccess) {
-                    InvItemsDetailsModel = result.Response as Array<Sls_InvoiceDetail>;
-                    CountGrid = 0;
-                    $("#Table_Data").html("");
-                    for (let i = 0; i < InvItemsDetailsModel.length; i++) {
-                        BuildControls(i);
-                        Display_GridConrtol(i);
-                    }
-                    CountGrid = InvItemsDetailsModel.length;
+                    CustomerDetailnew = result.Response as Array<Customer>;
+                    txtCompanyname.value = CustomerDetailnew[0].NAMEE;
+                    $('#btnCustSrch').attr('disabled', 'disabled');
+                    $('#txtCompanyname').attr('disabled', 'disabled');
                 }
             }
         });
@@ -359,6 +356,7 @@ namespace QuotationView {
     var InvoiceModel: Sls_Ivoice = new Sls_Ivoice();
     var MasterDetailsModel: SlsInvoiceMasterDetails = new SlsInvoiceMasterDetails();
     var CustomerDetail: Array<Customer> = new Array<Customer>();
+    var CustomerDetailnew: Array<Customer> = new Array<Customer>();
 
     var CountGrid = 0;
     var btnAddDetails: HTMLButtonElement;
