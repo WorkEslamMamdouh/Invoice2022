@@ -250,7 +250,8 @@ var Quotation;
                 invoiceItemSingleModel.Itemdesc = $("#Description" + i).val();
                 invoiceItemSingleModel.NetUnitPrice = Number($("#UnitPrice" + i).val());
                 invoiceItemSingleModel.ItemTotal = Number($("#Totalprice" + i).val());
-                invoiceItemSingleModel.DiscountAmount = Number($("#Discount" + i).val());
+                invoiceItemSingleModel.DiscountPrc = Number($("#DiscountPrc" + i).val());
+                invoiceItemSingleModel.DiscountAmount = Number($("#DiscountAmount" + i).val());
                 invoiceItemSingleModel.NetAfterVat = Number($("#Net" + i).val());
                 InvoiceItemsDetailsModel.push(invoiceItemSingleModel);
             }

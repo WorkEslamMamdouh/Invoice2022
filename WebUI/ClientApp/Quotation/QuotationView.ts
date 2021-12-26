@@ -9,6 +9,9 @@ namespace QuotationView {
     //var sys: _shared = new _shared();
     var SysSession: SystemSession = GetSystemSession(Modules.Quotation);
 
+    var InvItemsDetailsModel: Array<Sls_InvoiceDetail> = new Array<Sls_InvoiceDetail>();
+
+    var Selected_Data: Array<Sls_Ivoice> = new Array<Sls_Ivoice>();
     var InvoiceDisplay: Array<Sls_Ivoice> = new Array<Sls_Ivoice>();
     var Invoice: Array<Sls_Ivoice> = new Array<Sls_Ivoice>();
     var InvQuotation: Array<Sls_Ivoice> = new Array<Sls_Ivoice>();
@@ -18,7 +21,7 @@ namespace QuotationView {
 
     var compcode: number;//SharedSession.CurrentEnvironment.CompCode;
     var BranchCode: number;//SharedSession.CurrentEnvironment.CompCode;
-
+    var GlobalinvoiceID = 0;
     export function InitalizeComponent() {
 
 
@@ -229,18 +232,6 @@ namespace QuotationView {
             }
         });
 
-    }
-    function EidtQuotation(btnId: number)
-    {
-        //alert(btnId);
-        $('#viewmail').removeClass('active in');
-        $('#sendmail').removeClass('active in');
-        $('#composemail').addClass('active in');
-
-        $('#btnQuotations').removeClass('active');
-        $('#btnInvoice').removeClass('active');
-        InitalizeComponentInvoice();
-
     } 
     function DelivNoteQuotation(btnId: number)
     {
@@ -248,6 +239,112 @@ namespace QuotationView {
     }
     function PrintQuotation(btnId: number) {
         alert(btnId);
+    }
+
+     
+
+    function EidtQuotation(btnId: number) {
+
+        debugger 
+        $('#viewmail').removeClass('active in');
+        $('#sendmail').removeClass('active in');
+        $('#composemail').addClass('active in');
+
+        $('#btnQuotations').removeClass('active');
+        $('#btnInvoice').removeClass('active');
+
+
+     
+        InitalizeComponentInvoice();
+
+
+        Selected_Data = new Array<Sls_Ivoice>();
+
+        Selected_Data = InvoiceDisplay.filter(x => x.InvoiceID == Number(btnId));
+
+        DisplayData(Selected_Data);
+
+    }
+    
+    function DisplayData(Selected_Data: Array<Sls_Ivoice>) {
+       
+
+        DocumentActions.RenderFromModel(Selected_Data[0]);
+        GlobalinvoiceID = Selected_Data[0].InvoiceID;
+        CustomerId = Selected_Data[0].CustomerId;
+        txtQutationNo.value = Selected_Data[0].TrNo.toString();
+        txtDate.value = DateFormatRep(Selected_Data[0].TrDate);
+        txtRFQ.value = Selected_Data[0].RefNO;
+        txtCompanysales.value = Selected_Data[0].ChargeReason;
+        txtRemark.value = Selected_Data[0].Remark;
+       // sdasa
+        txtNetBefore.value = Selected_Data[0].TotalAmount.toString();
+        txtAllDiscount.value = Selected_Data[0].RoundingAmount.toString();
+        txtNetAfterVat.value = Selected_Data[0].NetAfterVat.toString();
+         //-------------------------(T E R M S & C O N D I T I O N S)-----------------------------------------------     
+        txtsalesVAT.value = Selected_Data[0].ContractNo.toString(); //----------------- include sales VAT.
+        txtfirstdays.value = Selected_Data[0].PurchaseorderNo.toString(); //----------------- days starting from the delivery date.
+        txtsecounddays.value = Selected_Data[0].ChargeVatPrc.toString(); //----------------- days from offer date.
+        txtlastdays.value = Selected_Data[0].ChargeAfterVat.toString(); //----------------- days from purchase order.
+        txtPlacedeliv.value = Selected_Data[0].PrevInvoiceHash.toString(); //----------------- Place of delivery.
+
+        Ajax.Callsync({
+            type: "Get",
+            url: sys.apiUrl("SlsTrSales", "GetSlsInvoiceItem"),
+            data: { invoiceID: GlobalinvoiceID },
+            success: (d) => {//(int CompCode, string StartDate, string EndDate, int Status, int? CustId, string SalesUser, string UserCode, string Token)
+                let result = d as BaseResponse;
+                if (result.IsSuccess) {
+                    InvItemsDetailsModel = result.Response as Array<Sls_InvoiceDetail>;
+                    CountGrid = 0;
+                    $("#Table_Data").html("");
+                    for (let i = 0; i < InvItemsDetailsModel.length; i++) {
+                        BuildControls(i);
+                        Display_GridConrtol(i);
+                    }
+                    CountGrid = InvItemsDetailsModel.length; 
+                }
+            }
+        });
+       
+    }
+    function GetCustomer() {
+        Ajax.Callsync({
+            type: "Get",
+            url: sys.apiUrl("SlsTrSales", "GetCustomer"),
+            data: { ID: Selected_Data[0].CustomerId },
+            success: (d) => {
+                let result = d as BaseResponse;
+                if (result.IsSuccess) {
+                    InvItemsDetailsModel = result.Response as Array<Sls_InvoiceDetail>;
+                    CountGrid = 0;
+                    $("#Table_Data").html("");
+                    for (let i = 0; i < InvItemsDetailsModel.length; i++) {
+                        BuildControls(i);
+                        Display_GridConrtol(i);
+                    }
+                    CountGrid = InvItemsDetailsModel.length;
+                }
+            }
+        });
+    }
+
+    function Display_GridConrtol(cnt) {
+         
+           
+        $("#txt_StatusFlag" + cnt).val("");
+         
+        $("#InvoiceItemID" + cnt).prop("value", InvItemsDetailsModel[cnt].InvoiceItemID);
+        $("#txt_ItemID" + cnt).prop("value", InvItemsDetailsModel[cnt].ItemID);
+        $("#serial" + cnt).prop("value", InvItemsDetailsModel[cnt].Serial);
+        $("#QTY" + cnt).prop("value", InvItemsDetailsModel[cnt].SoldQty);
+        $("#Description" + cnt).prop("value", InvItemsDetailsModel[cnt].Itemdesc);
+        $("#UnitPrice" + cnt).prop("value", InvItemsDetailsModel[cnt].NetUnitPrice);
+        $("#Totalprice" + cnt).prop("value", InvItemsDetailsModel[cnt].ItemTotal);
+        $("#DiscountPrc" + cnt).prop("value", InvItemsDetailsModel[cnt].DiscountPrc);
+        $("#DiscountAmount" + cnt).prop("value", InvItemsDetailsModel[cnt].DiscountAmount);
+        $("#Net" + cnt).prop("value", InvItemsDetailsModel[cnt].NetAfterVat);
+      
     }
 
     function PrintInvoice(btnId: number) {
@@ -354,18 +451,37 @@ namespace QuotationView {
             '<td><input  id="UnitPrice' + cnt + '" value="0" type="number" class="form-control" placeholder="Unit Price"></td>' +
             '<td><input  id="Totalprice' + cnt + '" value="0" type="number" disabled="disabled" class="form-control" placeholder="Total price"></td>' +
             '<td><input  id="DiscountPrc' + cnt + '" value="0" type="number" class="form-control" placeholder="DiscountPrc%"></td>' +
-            '<td><input  id="DiscountAmount' + cnt + '" value="0" type="number" class="form-control" placeholder="DiscountAmount"></td>' +
+            '<td><input  id="DiscountAmount' + cnt + '" value="0"  disabled type="number" class="form-control" placeholder="DiscountAmount"></td>' +
             '<td><input  id="Net' + cnt + '" type="number" disabled="disabled" value="0" class="form-control" placeholder="Net"></td>' +
             '<td><input  id="txt_StatusFlag' + cnt + '" type="hidden" class="form-control"></td>' +
+            '<td><input  id="InvoiceItemID' + cnt + '" type="hidden" class="form-control"></td>' +
+            '<td><input  id="txt_ItemID' + cnt + '" type="hidden" class="form-control"></td>' +
             '</tr>';
         $("#Table_Data").append(html);
+        $("#Description" + cnt).on('keyup', function (e) {
+            if ($("#txt_StatusFlag" + cnt).val() != "i")
+                $("#txt_StatusFlag" + cnt).val("u");
+         
+        });
         $("#UnitPrice" + cnt).on('keyup', function (e) {
+            if ($("#txt_StatusFlag" + cnt).val() != "i")
+                $("#txt_StatusFlag" + cnt).val("u");
             computeRows(cnt);
         });
         $("#QTY" + cnt).on('keyup', function (e) {
+            if ($("#txt_StatusFlag" + cnt).val() != "i")
+                $("#txt_StatusFlag" + cnt).val("u");
+            computeRows(cnt);
+        });
+        $("#DiscountAmount" + cnt).on('keyup', function (e) {
+            if ($("#txt_StatusFlag" + cnt).val() != "i")
+                $("#txt_StatusFlag" + cnt).val("u");
             computeRows(cnt);
         });
         $("#DiscountPrc" + cnt).on('keyup', function (e) {
+            if ($("#txt_StatusFlag" + cnt).val() != "i")
+                $("#txt_StatusFlag" + cnt).val("u");
+
             if (Number($("#DiscountPrc" + cnt).val()) < 0 || $("#DiscountPrc" + cnt).val().trim() == "") {
                 $("#DiscountPrc" + cnt).val("0");
             }
@@ -376,7 +492,8 @@ namespace QuotationView {
 
         });
         $("#btn_minus" + cnt).click(function (e) {
-
+            if ($("#txt_StatusFlag" + cnt).val() != "i")
+                $("#txt_StatusFlag" + cnt).val("u");
             DeleteRow(cnt);
         });
 
@@ -486,6 +603,7 @@ namespace QuotationView {
 
 
         InvoiceModel.CustomerId = CustomerId == 0 ? null : CustomerId;
+        InvoiceModel.InvoiceID = GlobalinvoiceID;
         InvoiceModel.Status = 1;
         InvoiceModel.CompCode = Number(compcode);
         InvoiceModel.BranchCode = Number(BranchCode);
@@ -493,8 +611,7 @@ namespace QuotationView {
         InvoiceModel.TrNo = InvoiceNumber;
         InvoiceModel.CreatedAt = sys.SysSession.CurrentEnvironment.UserCode;
         InvoiceModel.CreatedBy = sys.SysSession.CurrentEnvironment.UserCode;
-        InvoiceModel.TrType = 0//0 invoice 1 return     
-        InvoiceModel.InvoiceID = 0;
+        InvoiceModel.TrType = 0//0 invoice 1 return    
         InvoiceModel.TrDate = txtDate.value;
         InvoiceModel.RefNO = txtRFQ.value;
         InvoiceModel.SalesmanId = 1;
@@ -516,29 +633,56 @@ namespace QuotationView {
             if (StatusFlag == "i") {
                 invoiceItemSingleModel = new Sls_InvoiceDetail();
 
-                invoiceItemSingleModel.InvoiceItemID = 0;
+                invoiceItemSingleModel.ItemID = $("#txt_ItemID" + i).val()
+                invoiceItemSingleModel.InvoiceItemID = Number($("#InvoiceItemID" + i).val());
                 invoiceItemSingleModel.Serial = Number($("#serial" + i).val());
                 invoiceItemSingleModel.SoldQty = Number($('#QTY' + i).val());
                 invoiceItemSingleModel.Itemdesc = $("#Description" + i).val();
                 invoiceItemSingleModel.NetUnitPrice = Number($("#UnitPrice" + i).val());
                 invoiceItemSingleModel.ItemTotal = Number($("#Totalprice" + i).val());
-                invoiceItemSingleModel.DiscountAmount = Number($("#Discount" + i).val());
+                invoiceItemSingleModel.DiscountPrc = Number($("#DiscountPrc" + i).val());
+                invoiceItemSingleModel.DiscountAmount = Number($("#DiscountAmount" + i).val());
                 invoiceItemSingleModel.NetAfterVat = Number($("#Net" + i).val());
+                invoiceItemSingleModel.StatusFlag = StatusFlag;
                 InvoiceItemsDetailsModel.push(invoiceItemSingleModel);
 
+            }
+
+            if (StatusFlag == "u") {
+                invoiceItemSingleModel = new Sls_InvoiceDetail();
+
+                invoiceItemSingleModel.ItemID = $("#txt_ItemID" + i).val()
+                invoiceItemSingleModel.InvoiceItemID = Number($("#InvoiceItemID" + i).val());
+                invoiceItemSingleModel.Serial = Number($("#serial" + i).val());
+                invoiceItemSingleModel.SoldQty = Number($('#QTY' + i).val());
+                invoiceItemSingleModel.Itemdesc = $("#Description" + i).val();
+                invoiceItemSingleModel.NetUnitPrice = Number($("#UnitPrice" + i).val());
+                invoiceItemSingleModel.ItemTotal = Number($("#Totalprice" + i).val());
+                invoiceItemSingleModel.DiscountPrc = Number($("#DiscountPrc" + i).val());
+                invoiceItemSingleModel.DiscountAmount = Number($("#DiscountAmount" + i).val());
+                invoiceItemSingleModel.NetAfterVat = Number($("#Net" + i).val());
+                invoiceItemSingleModel.StatusFlag = StatusFlag;
+
+                InvoiceItemsDetailsModel.push(invoiceItemSingleModel);
+
+            }
+
+            if (StatusFlag == "d") {
+                invoiceItemSingleModel = new Sls_InvoiceDetail(); 
+                invoiceItemSingleModel.InvoiceItemID = Number($("#InvoiceItemID" + i).val());
+                invoiceItemSingleModel.StatusFlag = StatusFlag; 
+                InvoiceItemsDetailsModel.push(invoiceItemSingleModel); 
             }
         }
         MasterDetailsModel.Sls_Ivoice = InvoiceModel;
         MasterDetailsModel.Sls_InvoiceDetail = InvoiceItemsDetailsModel;
     }
-    function insert() {
-        if (!validation()) return;
-
-
+    function Update() {
+        if (!validation()) return; 
         Assign();
         Ajax.Callsync({
             type: "POST",
-            url: sys.apiUrl("SlsTrSales", "InsertInvoiceMasterDetail"),
+            url: sys.apiUrl("SlsTrSales", "updateInvoiceMasterDetail"),
             data: JSON.stringify(MasterDetailsModel),
             success: (d) => {
                 let result = d as BaseResponse;
@@ -612,7 +756,7 @@ namespace QuotationView {
         return true;
     }
     function btnsave_onclick() {
-        insert();
+        Update();
     }
 
     //----------------------------------------------------------------------------------------------------

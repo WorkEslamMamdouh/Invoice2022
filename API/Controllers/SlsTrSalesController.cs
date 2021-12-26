@@ -83,6 +83,75 @@ namespace Inv.API.Controllers
         }
 
 
+        [HttpPost, AllowAnonymous]
+        public IHttpActionResult updateInvoiceMasterDetail([FromBody] SlsInvoiceMasterDetails updatedObj)
+        {
+            
+                using (var dbTransaction = db.Database.BeginTransaction())
+                {
+                    try
+                    {
+
+                        string st = SystemToolsController.GenerateGuid();
+                        updatedObj.Sls_Ivoice.DocUUID = st;
+
+                        var tm = DateTime.Now.ToString("HH:mm:ss");
+                        updatedObj.Sls_Ivoice.TrTime = TimeSpan.Parse(tm);
+
+                        //update Master
+                        var Sls_TR_Invoice = SlsTrSalesService.Update(updatedObj.Sls_Ivoice);
+
+                        //update Details
+                        var insertedInvoiceItems = updatedObj.Sls_InvoiceDetail.Where(x => x.StatusFlag == 'i').ToList();
+                        var updatedInvoiceItems = updatedObj.Sls_InvoiceDetail.Where(x => x.StatusFlag == 'u').ToList();
+                        var deletedInvoiceItems = updatedObj.Sls_InvoiceDetail.Where(x => x.StatusFlag == 'd').ToList();
+
+                        //loop insered  
+                        foreach (var item in insertedInvoiceItems)
+                        {
+                            item.InvoiceID = updatedObj.Sls_Ivoice.InvoiceID;
+                            var InsertedRec = SlsInvoiceItemsService.Insert(item);
+                        }
+
+                        //loop Update  
+                        foreach (var item in updatedInvoiceItems)
+                        {
+                            item.InvoiceID = updatedObj.Sls_Ivoice.InvoiceID;
+                            var updatedRec = SlsInvoiceItemsService.Update(item);
+                        }
+
+                        //loop Delete  
+                        foreach (var item in deletedInvoiceItems)
+                        {
+                            int deletedId = item.InvoiceItemID;
+                            SlsInvoiceItemsService.Delete(deletedId);
+                        }
+                        // call process trans 
+
+                        ResponseResult res = Shared.TransactionProcess(Convert.ToInt32(updatedObj.Sls_Ivoice.CompCode), Convert.ToInt32(updatedObj.Sls_Ivoice.BranchCode), Sls_TR_Invoice.InvoiceID, "Quotation", "Update", db);
+                        if (res.ResponseState == true)
+                        {
+                            updatedObj.Sls_Ivoice.TrNo = int.Parse(res.ResponseData.ToString());
+                            dbTransaction.Commit();
+                            return Ok(new BaseResponse(updatedObj.Sls_Ivoice));
+                        }
+                        else
+                        {
+                            dbTransaction.Rollback();
+                            return Ok(new BaseResponse(HttpStatusCode.ExpectationFailed, res.ResponseMessage));
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        dbTransaction.Rollback();
+                        return Ok(new BaseResponse(HttpStatusCode.ExpectationFailed, ex.Message));
+                    }
+                }
+            
+        }
+
+
+
 
         [HttpGet, AllowAnonymous]
         public IHttpActionResult GetAllSlsInvoice(int CompCode, int BranchCode)
@@ -146,6 +215,17 @@ namespace Inv.API.Controllers
             
            db.Database.ExecuteSqlCommand(query);
             return Ok(new BaseResponse(100));
-        } 
+        }
+
+
+        [HttpGet, AllowAnonymous]
+        public IHttpActionResult GetSlsInvoiceItem(int invoiceID)
+        {
+           
+                var res = db.Sls_InvoiceDetail.Where(x => x.InvoiceID == invoiceID).ToList();
+                return Ok(new BaseResponse(res)); 
+        }
+
+
     }
 }

@@ -56,6 +56,10 @@ namespace Inv.DAL.Domain
        
     }
   
+    public partial class Sls_InvoiceDetail : SecurityandUpdateFlagClass
+    {
+
+    } 
     public partial class G_Nationality : SecurityandUpdateFlagClass
     {
 
