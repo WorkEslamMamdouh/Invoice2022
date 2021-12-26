@@ -74,6 +74,20 @@ var QuotationView;
                 itemTemplate: function (s, item) {
                     var txt = document.createElement("input");
                     txt.type = "button";
+                    txt.value = ("Print");
+                    txt.id = "butPrint" + item.InvoiceID;
+                    txt.className = "btn btn-custon-four btn-danger";
+                    txt.onclick = function (e) {
+                        PrintQuotation(item.InvoiceID);
+                    };
+                    return txt;
+                }
+            },
+            {
+                width: "5%",
+                itemTemplate: function (s, item) {
+                    var txt = document.createElement("input");
+                    txt.type = "button";
                     txt.value = ("comfirm");
                     txt.id = "butComfirm" + item.InvoiceID;
                     txt.className = "btn btn-custon-four btn-success";
@@ -182,6 +196,9 @@ var QuotationView;
         InitalizeComponentInvoice();
     }
     function DelivNoteQuotation(btnId) {
+        alert(btnId);
+    }
+    function PrintQuotation(btnId) {
         alert(btnId);
     }
     function PrintInvoice(btnId) {

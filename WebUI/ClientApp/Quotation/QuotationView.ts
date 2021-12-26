@@ -92,6 +92,20 @@ namespace QuotationView {
                 itemTemplate: (s: string, item: Sls_Ivoice): HTMLInputElement => {
                     let txt: HTMLInputElement = document.createElement("input");
                     txt.type = "button";
+                    txt.value = ("Print");
+                    txt.id = "butPrint" + item.InvoiceID;
+                    txt.className = "btn btn-custon-four btn-danger";
+                    txt.onclick = (e) => {
+                        PrintQuotation(item.InvoiceID);
+                    };
+                    return txt;
+                }
+            },
+            {
+                width: "5%",
+                itemTemplate: (s: string, item: Sls_Ivoice): HTMLInputElement => {
+                    let txt: HTMLInputElement = document.createElement("input");
+                    txt.type = "button";
                     txt.value = ("comfirm");
                     txt.id = "butComfirm" + item.InvoiceID;
                     txt.className = "btn btn-custon-four btn-success";
@@ -138,6 +152,7 @@ namespace QuotationView {
                 }
             },
 
+         
 
 
         ];
@@ -229,6 +244,9 @@ namespace QuotationView {
     } 
     function DelivNoteQuotation(btnId: number)
     {
+        alert(btnId);
+    }
+    function PrintQuotation(btnId: number) {
         alert(btnId);
     }
 
