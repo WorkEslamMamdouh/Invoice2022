@@ -5,8 +5,10 @@
 }
 
 <style>
-    
 
+    .des {
+        width: 285px !important;
+    }
 
 </style>
 
@@ -123,30 +125,31 @@
                                                                         <h4 id="Text_Massage">Message</h4>
 
                                                                     </div>
-                                                                    <table id="table" data-toggle="table"   data-cookie-id-table="saveId" data-show-export="false" data-click-to-select="true" data-toolbar="#toolbar">
-                                                                        <thead>
-                                                                            <tr>
-                                                                                <th data-field=""></th>
-                                                                                <th data-field="id">SR</th>
-                                                                                <th data-field="" data-editable="true">QTY</th>
-                                                                                <th   data-field="description" data-editable="true">Description</th>
-                                                                                <th data-field="number" data-editable="true">Unit Price</th>
-                                                                                <th data-field="number" data-editable="true">Total price</th>
-                                                                                <th data-field="number" data-editable="true">Discount%</th>
-                                                                                <th data-field="number" data-editable="true">Discount Amount</th>
-                                                                                <th data-field="number" data-editable="true">Net</th>
-                                                                            </tr>
-                                                                        </thead>
-                                                                        <tbody id="Table_Data">
-                                                                        </tbody>
-                                                                    </table>
+                                                                    <div class="sparkline8-graph">
+                                                                        <div class="datatable-dashv1-list custom-datatable-overright">
+                                                                            <table id="table" data-toggle="table" data-pagination="true" data-search="true" data-show-pagination-switch="true" data-show-refresh="true" data-resizable="true" data-cookie="true" data-cookie-id-table="saveId" data-show-export="false" data-click-to-select="true" data-toolbar="#toolbar">
+                                                                                <thead>
+                                                                                    <tr>
+                                                                                        <th data-field=""></th>
+                                                                                        <th data-field="id">SR</th>
+                                                                                        <th data-field="" data-editable="true">QTY</th>
+                                                                                        <th  class="des" data-field="description" data-editable="true">Description</th>
+                                                                                        <th data-field="number" data-editable="true">Unit Price</th>
+                                                                                        <th data-field="number" data-editable="true">Total price</th>
+                                                                                        <th data-field="number" data-editable="true">Discount%</th>
+                                                                                        <th data-field="number" data-editable="true">Discount Amount</th>
+                                                                                        <th data-field="number" data-editable="true">Net</th>
+                                                                                    </tr>
+                                                                                </thead>
+                                                                                <tbody id="Table_Data">
+                                                                                </tbody>
+                                                                            </table>
+                                                                        </div><br />
+                                                                        <div class="btn-group project-list-action">
+                                                                            <button id="btnAddDetails" class="btn btn-custon-four btn-success oo"><i class="fa fa-plus"></i></button>
+                                                                        </div>
+                                                                    </div>
                                                                 </div>
-                                                                <br />
-                                                                <div class="btn-group project-list-action">
-                                                                    <button id="btnAddDetails" class="btn btn-custon-four btn-success oo"><i class="fa fa-plus"></i></button>
-                                                                </div>
-                                                            </div>
-                                                        </div>
                                                         <br />
                                                         <div class="row">
                                                             <div class="col-lg-2">
@@ -156,7 +159,7 @@
                                                             </div>
                                                             <div class="col-lg-2">
                                                                 <div class="input-mark-inner mg-b-22">
-                                                                    <input id="txtNetBefore"disabled="disabled" type="number" name="TotalAmount"class="form-control" placeholder="">
+                                                                    <input id="txtNetBefore" disabled="disabled" type="number" name="TotalAmount" class="form-control" placeholder="">
                                                                 </div>
                                                             </div>
                                                             <div class="col-lg-2">
@@ -166,7 +169,7 @@
                                                             </div>
                                                             <div class="col-lg-2">
                                                                 <div class="input-mark-inner mg-b-22">
-                                                                    <input id="txtAllDiscount" type="number"name="RoundingAmount" class="form-control" placeholder="">
+                                                                    <input id="txtAllDiscount" type="number" name="RoundingAmount" class="form-control" placeholder="">
                                                                 </div>
                                                             </div>
                                                             <div class="col-lg-2">
@@ -176,7 +179,7 @@
                                                             </div>
                                                             <div class="col-lg-2">
                                                                 <div class="input-mark-inner mg-b-22">
-                                                                    <input id="txtNetAfterVat"disabled="disabled" name="NetAfterVat" type="number" class="form-control" placeholder="">
+                                                                    <input id="txtNetAfterVat" disabled="disabled" name="NetAfterVat" type="number" class="form-control" placeholder="">
                                                                 </div>
                                                             </div>
                                                             <div class="col-lg-2">
