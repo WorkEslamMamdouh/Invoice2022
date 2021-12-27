@@ -687,41 +687,6 @@
           <PaddingBottom>2pt</PaddingBottom>
         </Style>
       </Textbox>
-      <Textbox Name="TrDate2">
-        <CanGrow>true</CanGrow>
-        <KeepTogether>true</KeepTogether>
-        <Paragraphs>
-          <Paragraph>
-            <TextRuns>
-              <TextRun>
-                <Value EvaluationMode="Constant" />
-                <Style>
-                  <FontWeight>Bold</FontWeight>
-                  <Format>dd/MM/yyyy</Format>
-                </Style>
-              </TextRun>
-            </TextRuns>
-            <Style>
-              <TextAlign>Left</TextAlign>
-            </Style>
-          </Paragraph>
-        </Paragraphs>
-        <rd:DefaultName>TrDate</rd:DefaultName>
-        <Top>1.63675cm</Top>
-        <Left>13.90478cm</Left>
-        <Height>0.6cm</Height>
-        <Width>5.50912cm</Width>
-        <ZIndex>11</ZIndex>
-        <Style>
-          <Border>
-            <Style>None</Style>
-          </Border>
-          <PaddingLeft>2pt</PaddingLeft>
-          <PaddingRight>2pt</PaddingRight>
-          <PaddingTop>2pt</PaddingTop>
-          <PaddingBottom>2pt</PaddingBottom>
-        </Style>
-      </Textbox>
       <Textbox Name="Textbox8">
         <CanGrow>true</CanGrow>
         <KeepTogether>true</KeepTogether>
@@ -746,7 +711,7 @@
         <Left>0.0127cm</Left>
         <Height>0.6cm</Height>
         <Width>1.4925cm</Width>
-        <ZIndex>12</ZIndex>
+        <ZIndex>11</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -781,7 +746,7 @@
         <Left>1.54048cm</Left>
         <Height>0.6cm</Height>
         <Width>1.35857cm</Width>
-        <ZIndex>13</ZIndex>
+        <ZIndex>12</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -816,7 +781,7 @@
         <Left>10.63147cm</Left>
         <Height>0.6cm</Height>
         <Width>3.27331cm</Width>
-        <ZIndex>14</ZIndex>
+        <ZIndex>13</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -851,7 +816,7 @@
         <Left>13.90478cm</Left>
         <Height>0.6cm</Height>
         <Width>5.50912cm</Width>
-        <ZIndex>15</ZIndex>
+        <ZIndex>14</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -886,7 +851,7 @@
         <Left>1.95251cm</Left>
         <Height>0.6cm</Height>
         <Width>2.80483cm</Width>
-        <ZIndex>16</ZIndex>
+        <ZIndex>15</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
@@ -921,6 +886,41 @@
         <Left>14.20801cm</Left>
         <Height>0.6cm</Height>
         <Width>3.0165cm</Width>
+        <ZIndex>16</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingRight>2pt</PaddingRight>
+          <PaddingTop>2pt</PaddingTop>
+          <PaddingBottom>2pt</PaddingBottom>
+        </Style>
+      </Textbox>
+      <Textbox Name="SalesDesc2">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>=First(Fields!TrNo.Value, "Prnt_DeleviryNote")+10</Value>
+                <Style>
+                  <FontWeight>Bold</FontWeight>
+                  <Format>0;(0)</Format>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <Style>
+              <TextAlign>Left</TextAlign>
+            </Style>
+          </Paragraph>
+        </Paragraphs>
+        <rd:DefaultName>SalesDesc</rd:DefaultName>
+        <Top>1.64027cm</Top>
+        <Left>13.90478cm</Left>
+        <Height>0.6cm</Height>
+        <Width>5.50912cm</Width>
         <ZIndex>17</ZIndex>
         <Style>
           <Border>
