@@ -108,6 +108,7 @@ var HomeComponent;
         btn_loguotuser = DocumentActions.GetElementById("btn_loguotuser");
         btn_loguotuser.onclick = LogoutUserApi;
         //CheckTime(); 
+        App.Startup();
     }
     HomeComponent.InitalizeComponent = InitalizeComponent;
     function LogoutUserApi() {
@@ -443,7 +444,6 @@ var HomeComponent;
             $("#btn_loguotuser").text("الخروج من النظام");
         }
         //$("#SearchBox").draggable();
-        App.Startup();
     }
     HomeComponent.Language = Language;
     function AppendStyleSheet(fileName) {

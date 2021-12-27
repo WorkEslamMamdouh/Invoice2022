@@ -81,7 +81,6 @@ var Quotation;
             CustomerDetail = SearchGrid.SearchDataGrid.SelectedKey;
             console.log(CustomerDetail);
             CustomerId = Number(CustomerDetail[0]);
-            alert(String(CustomerDetail[2]));
             txtCompanyname.value = String(CustomerDetail[2]);
             include = String(CustomerDetail[3]);
             if (include == "true") {
@@ -99,7 +98,7 @@ var Quotation;
             '<td><button id="btn_minus' + cnt + '" type="button" class="btn btn-custon-four btn-danger"><i class="fa fa-minus-circle"></i></button></td>' +
             '<td><input  id="serial' + cnt + '" disabled="disabled"  type="text" class="form-control" placeholder="SR"></td>' +
             '<td><input  id="QTY' + cnt + '" type="number" class="form-control" placeholder="QTY"></td>' +
-            '<td><input  id="Description' + cnt + '" type="text" class="form-control" placeholder="Description"></td>' +
+            '<td> <textarea id="Description' + cnt + '" name="Description" type="text" class="form-control" style="height:34px" placeholder="Description" spellcheck="false"></textarea></td>' +
             '<td><input  id="UnitPrice' + cnt + '" value="0" type="number" class="form-control" placeholder="Unit Price"></td>' +
             '<td><input  id="Totalprice' + cnt + '" value="0" type="number" disabled="disabled" class="form-control" placeholder="Total price"></td>' +
             '<td><input  id="DiscountPrc' + cnt + '" value="0" type="number" class="form-control" placeholder="DiscountPrc%"></td>' +
@@ -146,8 +145,13 @@ var Quotation;
             NetCount = NetCount + ((NetCount * 14) / 100);
         }
         txtNetBefore.value = NetCount.toString();
-        var Net = (Number(txtNetBefore.value) - Number(txtAllDiscount.value)).toFixed(2);
-        txtNetAfterVat.value = Net.toString();
+        if (Number(txtAllDiscount.value) > 0) {
+            var Discount = ((Number(txtAllDiscount.value) * Number(txtNetBefore.value)) / 100).toFixed(2);
+            txtNetAfterVat.value = (NetCount - Number(Discount)).toString();
+        }
+        else {
+            txtNetAfterVat.value = txtNetBefore.value;
+        }
     }
     function AddNewRow() {
         $('paginationSwitch').addClass("display_none");

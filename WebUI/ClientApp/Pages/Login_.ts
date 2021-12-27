@@ -180,9 +180,9 @@ var Login_;
         }); 
      }
     function GoToCompanySelect() { 
-        $("#tblLogin").css("display", "none");
-        $("#tblCompany").css("display", "block");
-        (document.getElementById("btnOk") as HTMLInputElement).addEventListener("click", () => { 
+        //$("#tblLogin").css("display", "none");
+        //$("#tblCompany").css("display", "block");
+        //(document.getElementById("btnOk") as HTMLInputElement).addEventListener("click", () => { 
             let compCode = $("#cmbCompany").val();
             let braCode = $("#cmbBranch").val(); 
              let company = compData.filter(x => x.CompanyCode == cmbCompany.value)[0];
@@ -276,7 +276,7 @@ var Login_;
                 let mg = SystemEnv.ScreenLanguage == "ar" ? "هذه الشركة غير متاحة" : "This company is not Active";
                 MessageBox.Show(mg, "");
             }
-        });
+        //});
     }
     function OnLogged() {
         APiSession.Session.BranchCode = SystemEnv.BranchCode;

@@ -132,7 +132,7 @@ namespace HomeComponent {
         btn_loguotuser = DocumentActions.GetElementById<HTMLButtonElement>("btn_loguotuser");
         btn_loguotuser.onclick = LogoutUserApi;
         //CheckTime(); 
-    
+        App.Startup();
  
     }
 
@@ -503,7 +503,7 @@ namespace HomeComponent {
             $("#btn_loguotuser").text("الخروج من النظام")
         }
         //$("#SearchBox").draggable();
-        App.Startup();
+       
     }
 
     function AppendStyleSheet(fileName) {
