@@ -2488,8 +2488,11 @@ warning 6002: The table/view 'Invoice2022.dbo.I_VW_GetCompStatus' does not have 
           <Property Type="String" Name="Placedelivery" Nullable="true" MaxLength="500" />
           <Property Type="String" Name="salesvat" Nullable="true" MaxLength="50" />
           <Property Type="String" Name="startdeliv" Nullable="true" MaxLength="50" />
-          <Property Type="Decimal" Name="offerdate" Nullable="true" Precision="19" Scale="4" />
-          <Property Type="Decimal" Name="purchaseDeliv" Nullable="true" Precision="19" Scale="2" />
+          <Property Type="Int32" Name="offerdate" Nullable="true" />
+          <Property Type="Int32" Name="purchaseDeliv" Nullable="true" />
+          <Property Type="String" Name="PO_NO" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="DocNo" Nullable="true" MaxLength="50" />
+          <Property Type="Boolean" Name="isvat" Nullable="true" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -3635,6 +3638,9 @@ warning 6002: The table/view 'Invoice2022.dbo.I_VW_GetCompStatus' does not have 
                 <ScalarProperty Name="startdeliv" ColumnName="startdeliv" />
                 <ScalarProperty Name="offerdate" ColumnName="offerdate" />
                 <ScalarProperty Name="purchaseDeliv" ColumnName="purchaseDeliv" />
+                <ScalarProperty Name="PO_NO" ColumnName="PO_NO" />
+                <ScalarProperty Name="DocNo" ColumnName="DocNo" />
+                <ScalarProperty Name="isvat" ColumnName="isvat" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

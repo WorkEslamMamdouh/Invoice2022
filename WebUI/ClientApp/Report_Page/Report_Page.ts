@@ -10,7 +10,7 @@ namespace Report_Page {
     var result;
 
     export function InitalizeComponent() { 
-        
+       
         InitalizeControls();
         InitalizeEvents(); 
         $('#div_Reports').removeClass('display_none');

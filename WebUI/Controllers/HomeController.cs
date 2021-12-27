@@ -118,6 +118,10 @@ namespace Inv.WebUI.Controllers
             return View("~/Views/USERS/USERSIndex.cshtml");
         }
 
+        public ActionResult ReportsPopup()
+        {
+            return View("~/Views/Partial/ReportsPopup.cshtml");
+        }
 
         #endregion  Open Pages 
 

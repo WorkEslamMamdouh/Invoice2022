@@ -80,7 +80,10 @@ namespace Inv.DAL.Domain
         public string Placedelivery { get; set; }
         public string salesvat { get; set; }
         public string startdeliv { get; set; }
-        public Nullable<decimal> offerdate { get; set; }
-        public Nullable<decimal> purchaseDeliv { get; set; }
+        public Nullable<int> offerdate { get; set; }
+        public Nullable<int> purchaseDeliv { get; set; }
+        public string PO_NO { get; set; }
+        public string DocNo { get; set; }
+        public Nullable<bool> isvat { get; set; }
     }
 }

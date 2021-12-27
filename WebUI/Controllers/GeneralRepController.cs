@@ -26,7 +26,7 @@ namespace Inv.WebUI.Controllers
             return res;
         }
 
-        public string rptInvoiceNote(RepFinancials rp)
+        public string PrintQuotation(RepFinancials rp)
         {
 
            IEnumerable<Prnt_Quotation_Result> que = Prnt_Quotation(rp);

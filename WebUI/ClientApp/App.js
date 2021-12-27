@@ -168,15 +168,9 @@ var App;
         var SysSession = GetSystemEnvironment();
         if (SysSession.ScreenLanguage == "ar") {
             SysSession.ScreenLanguage = "en";
-            //SysSession.CurrentEnvironment.ScreenLanguage = "en";
-            //SysSession.CurrentEnvironment.CompanyNameAr = "";
-            //SysSession.CurrentEnvironment.CompanyName = "";
         }
-        else { // Arabic Mode other mohaamed ragab
+        else {
             SysSession.ScreenLanguage = "ar";
-            //SysSession.CurrentEnvironment.ScreenLanguage = "ar";
-            //SysSession.CurrentEnvironment.CompanyNameAr = "";
-            //SysSession.CurrentEnvironment.CompanyName = "";
         }
         document.cookie = "Inv1_systemProperties=" + JSON.stringify(SysSession) + ";expires=Fri, 31 Dec 2030 23:59:59 GMT;path=/";
         //Ajax.CallAsync({
@@ -217,7 +211,7 @@ function GetBranchs() {
         }
     });
 }
-var GQ_GetUserBranch = /** @class */ (function () {
+var GQ_GetUserBranch = (function () {
     function GQ_GetUserBranch() {
         this.USER_CODE = "";
         this.COMP_CODE = 0;
@@ -624,7 +618,6 @@ var DocumentActions = {
                 //}
                 //let test = 
                 combo.add(new Option(name_4, code));
-                //
             }
         }
     },
@@ -893,7 +886,7 @@ function HeaderTemplate_ThreeElements(headerTitle, element_1, element_2) {
     tbl.appendChild(cellTr);
     return tbl;
 }
-var Resources = /** @class */ (function () {
+var Resources = (function () {
     function Resources() {
     }
     return Resources;
@@ -920,7 +913,7 @@ function CreateLabelElement(defaultValue, id) {
 function SetSearchControlName(id) {
     $("#SearchControlName").val(id);
 }
-var CodeDesciptionModel = /** @class */ (function () {
+var CodeDesciptionModel = (function () {
     function CodeDesciptionModel() {
     }
     return CodeDesciptionModel;
@@ -1080,22 +1073,22 @@ function AddDate(prd, Sdate, count) {
     var Tdate;
     Tdate = Sdate; //new Date();
     switch (prd) {
-        case 1: //hours
+        case 1:
             Tdate.setHours(Sdate.getHours() + count);
             break;
-        case 2: //Days
+        case 2:
             Tdate.setDate(Sdate.getDate() + (count - 1));
             break;
-        case 3: //week
+        case 3:
             Tdate.setDate(Sdate.getDate() + ((7 * count) - 1));
             break;
-        case 4: //month
+        case 4:
             // Loop from cur month with Qty * Prd times 
             Tdate = Sdate;
             Tdate.setMonth(Tdate.getMonth() + count);
             Tdate.setDate(Tdate.getDate() + -1);
             break;
-        case 5: //year
+        case 5:
             // add 365 or 366 days 
             Tdate = Sdate;
             Tdate.setFullYear(Tdate.getFullYear() + count);
@@ -1352,16 +1345,16 @@ function CheckTime() {
 function SetCustomerType(Transcode, Iscredit, SlsType) {
     var Ct = new CustomerType();
     Ct.IsCredit = Iscredit;
-    if (Transcode == 1) { //  Standard
+    if (Transcode == 1) {
         Ct.IsPersonal = false;
     }
-    if (Transcode == 2) { //  Simplified
+    if (Transcode == 2) {
         Ct.IsPersonal = true;
     }
-    if (SlsType == 'W') { //  Wholesale 
+    if (SlsType == 'W') {
         Ct.SalesInvoiceNature = 1;
     }
-    if (SlsType == 'R') { //  Retail
+    if (SlsType == 'R') {
         Ct.SalesInvoiceNature = 2;
     }
     return Ct;

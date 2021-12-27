@@ -134,8 +134,8 @@ namespace Inv.WebUI.Controllers
             // G_COMPANY Comp = new G_COMPANY();
             var Comp = db.G_COMPANY.Where(x => x.COMP_CODE == CompCode).ToList();
             var Bra = db.G_BRANCH.Where(x => x.COMP_CODE == CompCode && x.BRA_CODE == branCode).ToList();
-            NameAr = SecuritySystem.Decrypt(Comp[0].NameA);
-            NameEn = SecuritySystem.Decrypt(Comp[0].NameE);
+            NameAr =  Comp[0].NameA;
+            NameEn =  Comp[0].NameE;
 
             BrNameAr = Bra[0].BRA_DESC;
             BrNameEn = Bra[0].BRA_DESCL;
@@ -364,8 +364,7 @@ namespace Inv.WebUI.Controllers
 
             }
             catch (Exception ex)
-            {
-
+            { 
                 throw;
             }
 
@@ -502,8 +501,19 @@ namespace Inv.WebUI.Controllers
             var TRId = int.Parse(RepPar.TRId.ToString());
             SqlParameter spTRId = new SqlParameter("@TRId", TRId);
             int typ = int.Parse(RepPar.Typ.ToString());
-             
-                    Rep = OpenReport("Prnt_Quotation");
+            if (RepPar.Repdesign == 1)
+            {
+                Rep = OpenReport("Prnt_Quotation");
+            }
+            else if (RepPar.Repdesign == 2)
+            {
+                Rep = OpenReport("Prnt_DeleviryNote");
+            }
+            else
+            {
+                Rep = OpenReport("Prnt_Invoice");
+            }
+                  
                 
             int Type = int.Parse(RepPar.Type.ToString());
             if (Type == 0) { Type = int.Parse(Rep.OutputTypeNo); }

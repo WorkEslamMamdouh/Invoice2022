@@ -81,6 +81,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\NewInv\TAX\packages\ReportViewr10\Microsoft.ReportViewer.Common.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.ReportViewer.ProcessingObjectModel, Version=12.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.ReportViewer.ProcessingObjectModel.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.ReportViewer.WebForms, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\NewInv\TAX\packages\ReportViewr10\Microsoft.ReportViewer.WebForms.dll</HintPath>
@@ -611,6 +615,7 @@
     <Content Include="login\fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="Content\DataTables\css\mixins.scss" />
     <Content Include="Content\DataTables\css\common.scss" />
+    <Content Include="Reports\Forms\ReportsForm.aspx" />
     <Content Include="Views\Login\HomePage1.cshtml" />
     <Content Include="NewStyle\fonts\adminpro-icon.ttf" />
     <Content Include="NewStyle\fonts\adminpro-icon.woff" />
@@ -963,9 +968,12 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\ClientToolsController.cs" />
+    <Compile Include="Controllers\GeneralRepController.cs" />
+    <Compile Include="Controllers\GeneralReportsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\MessageController.cs" />
+    <Compile Include="Controllers\ReportsPagePrintController.cs" />
     <Compile Include="Controllers\RequestController.cs" />
     <Compile Include="Controllers\SessionController.cs" />
     <Compile Include="Filter\AuthorizeUserAttribute.cs" />
@@ -978,6 +986,19 @@
     <Compile Include="Models\CustomModels\SessionRecord.cs" />
     <Compile Include="Models\CustomModels\UserPrivilege.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Reports\Forms\ClassPrint.cs" />
+    <Compile Include="Reports\Forms\ReportsDetails.cs" />
+    <Compile Include="Reports\Forms\ReportsForm.aspx.cs">
+      <DependentUpon>ReportsForm.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reports\Forms\ReportsForm.aspx.designer.cs">
+      <DependentUpon>ReportsForm.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\Models\ReportParameters.cs" />
+    <Compile Include="Reports\Models\ReportService.cs" />
+    <Compile Include="Reports\Models\SessionRecord.cs" />
+    <Compile Include="Reports\Models\UserTools.cs" />
     <Compile Include="Resources\SystemResource.ar.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -1028,6 +1049,8 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="ClientApp\Component\" />
+    <Folder Include="Reports\Report\Reports\" />
+    <Folder Include="Reports\Report\Slip\" />
     <Folder Include="Views\Site\UnderConstruction\" />
   </ItemGroup>
   <ItemGroup>
@@ -1058,6 +1081,16 @@
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Reports\Forms\KPrnt_Card.rdlc" />
+    <EmbeddedResource Include="Reports\Report\Print\Prnt_Invoice.rdlc">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\Report\Print\Prnt_DeleviryNote.rdlc">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\Report\Print\Prnt_Quotation.rdlc">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Resources\SystemResource.ar.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>SystemResource.ar.Designer.cs</LastGenOutput>

@@ -235,14 +235,96 @@ namespace QuotationView {
     } 
     function DelivNoteQuotation(btnId: number)
     {
-        alert(btnId);
+        if (!SysSession.CurrentPrivileges.PrintOut) return;
+
+        window.open(Url.Action("ReportsPopup", "Home"), "blank");
+        localStorage.setItem("result", '<div class="lds-ring"><div></div><div></div><div></div><div></div></div>');
+
+
+        let rp: ReportParameters = new ReportParameters();
+
+        rp.CompCode = SysSession.CurrentEnvironment.CompCode;
+        rp.BranchCode = SysSession.CurrentEnvironment.BranchCode;
+        rp.CompNameA = SysSession.CurrentEnvironment.CompanyNameAr;
+        rp.CompNameE = SysSession.CurrentEnvironment.CompanyName;
+        rp.UserCode = SysSession.CurrentEnvironment.UserCode;
+        rp.Tokenid = SysSession.CurrentEnvironment.Token;
+        rp.ScreenLanguage = SysSession.CurrentEnvironment.ScreenLanguage;
+        rp.SystemCode = SysSession.CurrentEnvironment.SystemCode;
+        rp.SubSystemCode = SysSession.CurrentEnvironment.SubSystemCode;
+        rp.BraNameA = SysSession.CurrentEnvironment.BranchName;
+        rp.BraNameE = SysSession.CurrentEnvironment.BranchName;
+        if (rp.BraNameA == null || rp.BraNameE == null) {
+
+            rp.BraNameA = " ";
+            rp.BraNameE = " ";
+        }
+        rp.Type = 4;
+        rp.Repdesign = 2;
+        rp.TRId = btnId;
+        rp.slip = 0;
+        rp.stat = 1
+
+        debugger
+        Ajax.CallAsync({
+            url: Url.Action("PrintQuotation", "GeneralRep"),
+            data: rp,
+            success: (d) => {
+                let result = d as BaseResponse;
+                localStorage.setItem("result", "" + result + "");
+                window.open(Url.Action("ReportsPopup", "Home"), "blank");
+
+                //let result = d.result as string;    
+                //window.open(result, "_blank");
+            }
+        })
     }
     function PrintQuotation(btnId: number) {
-        alert(btnId);
+        if (!SysSession.CurrentPrivileges.PrintOut) return;
+
+        window.open(Url.Action("ReportsPopup", "Home"), "blank");
+        localStorage.setItem("result", '<div class="lds-ring"><div></div><div></div><div></div><div></div></div>');
+
+
+        let rp: ReportParameters = new ReportParameters();
+
+        rp.CompCode = SysSession.CurrentEnvironment.CompCode;
+        rp.BranchCode = SysSession.CurrentEnvironment.BranchCode;
+        rp.CompNameA = SysSession.CurrentEnvironment.CompanyNameAr;
+        rp.CompNameE = SysSession.CurrentEnvironment.CompanyName;
+        rp.UserCode = SysSession.CurrentEnvironment.UserCode;
+        rp.Tokenid = SysSession.CurrentEnvironment.Token;
+        rp.ScreenLanguage = SysSession.CurrentEnvironment.ScreenLanguage;
+        rp.SystemCode = SysSession.CurrentEnvironment.SystemCode;
+        rp.SubSystemCode = SysSession.CurrentEnvironment.SubSystemCode;
+        rp.BraNameA = SysSession.CurrentEnvironment.BranchName;
+        rp.BraNameE = SysSession.CurrentEnvironment.BranchName;
+        if (rp.BraNameA == null || rp.BraNameE == null) {
+
+            rp.BraNameA = " ";
+            rp.BraNameE = " ";
+        }
+        rp.Type = 4;
+        rp.Repdesign = 1;
+        rp.TRId = btnId;
+        rp.slip = 0;
+        rp.stat = 1
+
+        debugger
+        Ajax.CallAsync({
+            url: Url.Action("PrintQuotation", "GeneralRep"),
+            data: rp,
+            success: (d) => { 
+                let result = d as BaseResponse;
+                localStorage.setItem("result", "" + result + "");
+                window.open(Url.Action("ReportsPopup", "Home"), "blank");
+
+                //let result = d.result as string;    
+                //window.open(result, "_blank");
+            }
+        })
     }
-
      
-
     function EidtQuotation(btnId: number) {
 
         debugger 
@@ -345,7 +427,49 @@ namespace QuotationView {
     }
 
     function PrintInvoice(btnId: number) {
-        alert(btnId);
+        if (!SysSession.CurrentPrivileges.PrintOut) return;
+
+        window.open(Url.Action("ReportsPopup", "Home"), "blank");
+        localStorage.setItem("result", '<div class="lds-ring"><div></div><div></div><div></div><div></div></div>');
+
+
+        let rp: ReportParameters = new ReportParameters();
+
+        rp.CompCode = SysSession.CurrentEnvironment.CompCode;
+        rp.BranchCode = SysSession.CurrentEnvironment.BranchCode;
+        rp.CompNameA = SysSession.CurrentEnvironment.CompanyNameAr;
+        rp.CompNameE = SysSession.CurrentEnvironment.CompanyName;
+        rp.UserCode = SysSession.CurrentEnvironment.UserCode;
+        rp.Tokenid = SysSession.CurrentEnvironment.Token;
+        rp.ScreenLanguage = SysSession.CurrentEnvironment.ScreenLanguage;
+        rp.SystemCode = SysSession.CurrentEnvironment.SystemCode;
+        rp.SubSystemCode = SysSession.CurrentEnvironment.SubSystemCode;
+        rp.BraNameA = SysSession.CurrentEnvironment.BranchName;
+        rp.BraNameE = SysSession.CurrentEnvironment.BranchName;
+        if (rp.BraNameA == null || rp.BraNameE == null) {
+
+            rp.BraNameA = " ";
+            rp.BraNameE = " ";
+        }
+        rp.Type = 4;
+        rp.Repdesign = 3;
+        rp.TRId = btnId;
+        rp.slip = 0;
+        rp.stat = 1
+
+        debugger
+        Ajax.CallAsync({
+            url: Url.Action("PrintQuotation", "GeneralRep"),
+            data: rp,
+            success: (d) => {
+                let result = d as BaseResponse;
+                localStorage.setItem("result", "" + result + "");
+                window.open(Url.Action("ReportsPopup", "Home"), "blank");
+
+                //let result = d.result as string;    
+                //window.open(result, "_blank");
+            }
+        })
     }
 
 
@@ -761,7 +885,7 @@ namespace QuotationView {
 
 
 
-
+    
 
 }
 
