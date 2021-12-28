@@ -16,9 +16,12 @@ namespace QuotationView {
     var Invoice: Array<Sls_Ivoice> = new Array<Sls_Ivoice>();
     var InvQuotation: Array<Sls_Ivoice> = new Array<Sls_Ivoice>();
 
+    var btnCustSrch: HTMLButtonElement;
+    var btnFilter: HTMLButtonElement;
+    var txtCompanyname: HTMLInputElement;
     var ReportGrid: JsGrid = new JsGrid();
     var ReportGridInv: JsGrid = new JsGrid();
-
+    var CustomerId = 0;
     var compcode: number;//SharedSession.CurrentEnvironment.CompCode;
     var BranchCode: number;//SharedSession.CurrentEnvironment.CompCode;
     var GlobalinvoiceID = 0;
@@ -35,19 +38,26 @@ namespace QuotationView {
 
     }
     function InitalizeControls() {
-
-
+        btnCustSrch = document.getElementById("btnCustSrch") as HTMLButtonElement;   
+        btnFilter = document.getElementById("btnFilter") as HTMLButtonElement;
+        txtCompanyname = document.getElementById("txtCompanyname") as HTMLInputElement;
     }
     function InitalizeEvents() {
-
-
+        btnCustSrch.onclick = btnCust_onClick;
+        btnFilter.onclick = Display;
+        txtCompanyname.onchange = txtCompanyname_ochange;
+    }
+    function txtCompanyname_ochange() {
+        txtCompanyname.value = "";
+        CustomerId = 0;
     }
     function Display() {
+
         debugger
         Ajax.Callsync({
             type: "GET",
             url: sys.apiUrl("SlsTrSales", "GetAllSlsInvoice"),
-            data: { CompCode: compcode, BranchCode: BranchCode },
+            data: { CompCode: compcode, BranchCode: BranchCode, CustomerId: CustomerId},
             success: (d) => {
                 debugger;
                 let result = d as BaseResponse;
@@ -205,8 +215,7 @@ namespace QuotationView {
 
         ];
         ReportGridInv.Bind();
-    }
-     
+    }       
     function ComfirmQuotation(btnId: number)
     {
 
@@ -323,8 +332,7 @@ namespace QuotationView {
                 //window.open(result, "_blank");
             }
         })
-    }
-     
+    }     
     function EidtQuotation(btnId: number) {
 
         debugger 
@@ -346,8 +354,7 @@ namespace QuotationView {
 
         DisplayData(Selected_Data);
 
-    }
-    
+    }      
     function DisplayData(Selected_Data: Array<Sls_Ivoice>) {
        
 
@@ -406,8 +413,7 @@ namespace QuotationView {
                 }
             }
         });
-    }
-
+    }            
     function Display_GridConrtol(cnt) {
          
            
@@ -424,8 +430,7 @@ namespace QuotationView {
         $("#DiscountAmount" + cnt).prop("value", InvItemsDetailsModel[cnt].DiscountAmount);
         $("#Net" + cnt).prop("value", InvItemsDetailsModel[cnt].NetAfterVat);
       
-    }
-
+    }           
     function PrintInvoice(btnId: number) {
         if (!SysSession.CurrentPrivileges.PrintOut) return;
 
@@ -471,7 +476,15 @@ namespace QuotationView {
             }
         })
     }
-
+    function btnCust_onClick() {
+        sys.FindKey(Modules.Quotation, "btnCustSrch", "", () => {  
+            CustomerDetail = SearchGrid.SearchDataGrid.SelectedKey;
+            console.log(CustomerDetail);
+            CustomerId = Number(CustomerDetail[0]);
+            txtCompanyname.value = String(CustomerDetail[2]);
+            include = String(CustomerDetail[3]);
+        });
+    }
 
     /*@* ---------------------------------------Eidt Invoice------------------------------------------*@*/
 

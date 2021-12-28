@@ -27,8 +27,6 @@ namespace Inv.API.Controllers
             this.SlsInvoiceItemsService = _ISlsInvoiceItemsService;
             this.UserControl = _Control;
         }
-
-
         [HttpPost, AllowAnonymous]
         public IHttpActionResult InsertInvoiceMasterDetail([FromBody] SlsInvoiceMasterDetails obj)
         {
@@ -81,8 +79,6 @@ namespace Inv.API.Controllers
             }
 
         }
-
-
         [HttpPost, AllowAnonymous]
         public IHttpActionResult updateInvoiceMasterDetail([FromBody] SlsInvoiceMasterDetails updatedObj)
         {
@@ -90,7 +86,7 @@ namespace Inv.API.Controllers
                 using (var dbTransaction = db.Database.BeginTransaction())
                 {
                     try
-                    {
+                    { 
 
                         string st = SystemToolsController.GenerateGuid();
                         updatedObj.Sls_Ivoice.DocUUID = st;
@@ -149,20 +145,22 @@ namespace Inv.API.Controllers
                 }
             
         }
-
-
-
-
         [HttpGet, AllowAnonymous]
-        public IHttpActionResult GetAllSlsInvoice(int CompCode, int BranchCode)
-        { 
-            string query = "select * from Sls_Ivoice where   CompCode = "+ CompCode + " and BranchCode = "+ BranchCode + "";
+        public IHttpActionResult GetAllSlsInvoice(int CompCode, int BranchCode , int CustomerId)
+        {
+            string query = ""; 
+            if (CustomerId == 0)
+            {
+             query = "select * from Sls_Ivoice where   CompCode = " + CompCode + " and BranchCode = " + BranchCode + "";
+            }
+            else
+            {
+             query = "select * from Sls_Ivoice where   CompCode = "+ CompCode + " and BranchCode = "+ BranchCode + " and CustomerId = "+ CustomerId + "";
+            }
             
             var res = db.Database.SqlQuery<Sls_Ivoice>(query).ToList();
             return Ok(new BaseResponse(res));
         }
-
-
         [HttpGet, AllowAnonymous]
         public IHttpActionResult  UpdateInvoice(int InvoiceID)
         {
@@ -171,9 +169,6 @@ namespace Inv.API.Controllers
             var res = db.Database.ExecuteSqlCommand(query);
             return Ok(new BaseResponse(100));
         }
-
-
-
         [HttpGet, AllowAnonymous]
         public IHttpActionResult GetCustomer( int id)
         { 
@@ -191,29 +186,21 @@ namespace Inv.API.Controllers
             return Ok(new BaseResponse(res));
         }
         [HttpGet, AllowAnonymous]
-        public IHttpActionResult InsertCustomer(string NAMEA, string NAMEE, string EMAIL, string Address_Street, Boolean Isactive, string REMARKS, string CREATED_BY, string CREATED_AT)
+        public IHttpActionResult InsertCustomer(string NAMEA, string NAMEE, string EMAIL, string Address_Street, Boolean Isactive, string REMARKS, string CREATED_BY, string CREATED_AT , string Mobile, string Telephone)
         { int active = 0;  
             if (Isactive == true)
-            {
-                active = 1;
-            }
-
-            string query = "INSERT INTO [dbo].[Customer] (NAMEA,NAMEE,EMAIL,REMARKS,Isactive,Address_Street) VALUES  ('"+NAMEA+"','"+NAMEE + "','"+EMAIL + "','"+REMARKS + "',"+ active + ",'"+Address_Street + "')";
-            
-           db.Database.ExecuteSqlCommand(query);
+            { active = 1;}
+            string query = "INSERT INTO [dbo].[Customer] (NAMEA,NAMEE,EMAIL,REMARKS,Isactive,Address_Street,MOBILE,TEL) VALUES  ('" + NAMEA+"','"+NAMEE + "','"+EMAIL + "','"+REMARKS + "',"+ active + ",'"+Address_Street + "','"+ Mobile + "','"+ Telephone + "')";
+            db.Database.ExecuteSqlCommand(query);
             return Ok(new BaseResponse(100));
         }
-        [HttpGet, AllowAnonymous]
-        public IHttpActionResult UpdateCustomer(string NAMEA, string NAMEE, string EMAIL, string Address_Street, Boolean Isactive, string REMARKS, string CREATED_BY, string CREATED_AT,int CustomerId)
+        [HttpGet, AllowAnonymous]   
+        public IHttpActionResult UpdateCustomer(string NAMEA, string NAMEE, string EMAIL, string Address_Street, Boolean Isactive, string REMARKS, string CREATED_BY, string CREATED_AT,int CustomerId , string Mobile , string Telephone)
         { int active = 0;  
             if (Isactive == true)
-            {
-                active = 1;
-            }
-
-            string query = "update [dbo].[Customer] set  NAMEA ='" + NAMEA + "' ,NAMEE = '" + NAMEE + "',EMAIL = '" + EMAIL + "',REMARKS = '" + REMARKS + "',Isactive = " + active + ",Address_Street= '" + Address_Street + "' where CustomerId = "+ CustomerId + "";
-            
-           db.Database.ExecuteSqlCommand(query);
+            {active = 1;}
+            string query = "update [dbo].[Customer] set  NAMEA ='" + NAMEA + "' ,NAMEE = '" + NAMEE + "',EMAIL = '" + EMAIL + "',REMARKS = '" + REMARKS + "',Isactive = " + active + ",Address_Street= '" + Address_Street + "', MOBILE = '" + Mobile + "',TEL = '" + Telephone + "'  where CustomerId = " + CustomerId + "";
+            db.Database.ExecuteSqlCommand(query);
             return Ok(new BaseResponse(100));
         }
 

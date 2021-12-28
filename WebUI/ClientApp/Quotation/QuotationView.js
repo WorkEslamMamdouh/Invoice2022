@@ -11,8 +11,12 @@ var QuotationView;
     var InvoiceDisplay = new Array();
     var Invoice = new Array();
     var InvQuotation = new Array();
+    var btnCustSrch;
+    var btnFilter;
+    var txtCompanyname;
     var ReportGrid = new JsGrid();
     var ReportGridInv = new JsGrid();
+    var CustomerId = 0;
     var compcode; //SharedSession.CurrentEnvironment.CompCode;
     var BranchCode; //SharedSession.CurrentEnvironment.CompCode;
     var GlobalinvoiceID = 0;
@@ -27,15 +31,25 @@ var QuotationView;
     }
     QuotationView.InitalizeComponent = InitalizeComponent;
     function InitalizeControls() {
+        btnCustSrch = document.getElementById("btnCustSrch");
+        btnFilter = document.getElementById("btnFilter");
+        txtCompanyname = document.getElementById("txtCompanyname");
     }
     function InitalizeEvents() {
+        btnCustSrch.onclick = btnCust_onClick;
+        btnFilter.onclick = Display;
+        txtCompanyname.onchange = txtCompanyname_ochange;
+    }
+    function txtCompanyname_ochange() {
+        txtCompanyname.value = "";
+        CustomerId = 0;
     }
     function Display() {
         debugger;
         Ajax.Callsync({
             type: "GET",
             url: sys.apiUrl("SlsTrSales", "GetAllSlsInvoice"),
-            data: { CompCode: compcode, BranchCode: BranchCode },
+            data: { CompCode: compcode, BranchCode: BranchCode, CustomerId: CustomerId },
             success: function (d) {
                 debugger;
                 var result = d;
@@ -384,6 +398,15 @@ var QuotationView;
                 //let result = d.result as string;    
                 //window.open(result, "_blank");
             }
+        });
+    }
+    function btnCust_onClick() {
+        sys.FindKey(Modules.Quotation, "btnCustSrch", "", function () {
+            CustomerDetail = SearchGrid.SearchDataGrid.SelectedKey;
+            console.log(CustomerDetail);
+            CustomerId = Number(CustomerDetail[0]);
+            txtCompanyname.value = String(CustomerDetail[2]);
+            include = String(CustomerDetail[3]);
         });
     }
     /*@* ---------------------------------------Eidt Invoice------------------------------------------*@*/

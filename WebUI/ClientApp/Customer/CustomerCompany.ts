@@ -23,6 +23,8 @@ namespace CustomerCompany {
     var txtAddressComp: HTMLInputElement;
     var chkvat: HTMLInputElement;
     var txtRemark: HTMLInputElement;
+    var txtTelephone: HTMLInputElement;
+    var txtMobile: HTMLInputElement; 
     var IsNew = true;
     var UCustomerId;
     var lang = (SysSession.CurrentEnvironment.ScreenLanguage);
@@ -46,11 +48,12 @@ namespace CustomerCompany {
         chkvat = document.getElementById("chkvat") as HTMLInputElement;
         txtNameComp = document.getElementById("txtNameComp") as HTMLInputElement;        
         txtRemark = document.getElementById("txtRemark") as HTMLInputElement;
+        txtTelephone = document.getElementById("txtTelephone") as HTMLInputElement;
+        txtMobile = document.getElementById("txtMobile") as HTMLInputElement;
     }      
     function InitalizeEvents() {       
       btnsave.onclick = btnsave_onclick;
-    }
-      
+    }     
     function Assign() { 
         Model = new Customer();     
         Model.CompCode = Number(compcode);
@@ -62,6 +65,8 @@ namespace CustomerCompany {
         Model.Address_Street = txtAddressComp.value;
         Model.Isactive = chkvat.checked;
         Model.REMARKS = txtRemark.value;
+        Model.MOBILE = txtMobile.value;
+        Model.TEL = txtTelephone.value;
         Model.CREATED_AT = GetTime();
         Model.CREATED_BY = sys.SysSession.CurrentEnvironment.UserCode;   
     }
@@ -72,7 +77,8 @@ namespace CustomerCompany {
             url: sys.apiUrl("SlsTrSales", "InsertCustomer"),
             data: {   
                 NAMEA: Model.NAMEA, NAMEE: Model.NAMEE, EMAIL: Model.EMAIL, Address_Street: Model.Address_Street,
-                Isactive: Model.Isactive, REMARKS: Model.REMARKS, CREATED_BY: Model.CREATED_BY, CREATED_AT: Model.CREATED_AT
+                Isactive: Model.Isactive, REMARKS: Model.REMARKS, CREATED_BY: Model.CREATED_BY, CREATED_AT: Model.CREATED_AT  ,
+                Mobile: Model.MOBILE, Telephone: Model.TEL
             },
             success: (d) => {
                 let result = d as BaseResponse;
@@ -94,7 +100,8 @@ namespace CustomerCompany {
             url: sys.apiUrl("SlsTrSales", "UpdateCustomer"),
             data: {   
                 NAMEA: Model.NAMEA, NAMEE: Model.NAMEE, EMAIL: Model.EMAIL, Address_Street: Model.Address_Street,
-                Isactive: Model.Isactive, REMARKS: Model.REMARKS, CREATED_BY: Model.CREATED_BY, CREATED_AT: Model.CREATED_AT, CustomerId: UCustomerId
+                Isactive: Model.Isactive, REMARKS: Model.REMARKS, CREATED_BY: Model.CREATED_BY, CREATED_AT: Model.CREATED_AT, CustomerId: UCustomerId,
+                Mobile: Model.MOBILE, Telephone: Model.TEL
             },
             success: (d) => {
                 let result = d as BaseResponse;
@@ -138,11 +145,9 @@ namespace CustomerCompany {
         $('#btnsave').html('Create')    
         Display();
         $('#b').click();
-    }
-
-
-
+    }    
     function btnsave_onclick() {
+        debugger;
         if (!validation()) return;
          
         if (IsNew == true) {
@@ -152,11 +157,7 @@ namespace CustomerCompany {
         }
 
 
-    }
-
-
-
-     
+    }    
     function InitializeGrid() {
 
 
@@ -183,8 +184,7 @@ namespace CustomerCompany {
             { title: "REMARK", name: "REMARKS", type: "text", width: "20%" },
         ];
         //ReportGrid.Bind();
-    }
-
+    }    
     function Display() {
          
         Ajax.Callsync({
@@ -206,8 +206,7 @@ namespace CustomerCompany {
 
 
     }
-    function DriverDoubleClick() {
-         
+    function DriverDoubleClick() {     
         IsNew = false;
         CustomerModelfil = CustomerModel.filter(x => x.CustomerId == Number(ReportGrid.SelectedKey))
         UCustomerId = Number(ReportGrid.SelectedKey);
@@ -216,6 +215,8 @@ namespace CustomerCompany {
         txtAddressComp.value = CustomerModelfil[0].Address_Street;
         txtRemark.value = CustomerModelfil[0].REMARKS;
         chkvat.checked = CustomerModelfil[0].Isactive;
+        txtMobile.value = CustomerModelfil[0].MOBILE;
+        txtTelephone.value = CustomerModelfil[0].TEL;
         $('#a').click();
         $('#btnsave').html('Update');       
     }

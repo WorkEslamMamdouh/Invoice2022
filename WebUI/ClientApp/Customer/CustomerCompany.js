@@ -18,6 +18,8 @@ var CustomerCompany;
     var txtAddressComp;
     var chkvat;
     var txtRemark;
+    var txtTelephone;
+    var txtMobile;
     var IsNew = true;
     var UCustomerId;
     var lang = (SysSession.CurrentEnvironment.ScreenLanguage);
@@ -40,6 +42,8 @@ var CustomerCompany;
         chkvat = document.getElementById("chkvat");
         txtNameComp = document.getElementById("txtNameComp");
         txtRemark = document.getElementById("txtRemark");
+        txtTelephone = document.getElementById("txtTelephone");
+        txtMobile = document.getElementById("txtMobile");
     }
     function InitalizeEvents() {
         btnsave.onclick = btnsave_onclick;
@@ -55,6 +59,8 @@ var CustomerCompany;
         Model.Address_Street = txtAddressComp.value;
         Model.Isactive = chkvat.checked;
         Model.REMARKS = txtRemark.value;
+        Model.MOBILE = txtMobile.value;
+        Model.TEL = txtTelephone.value;
         Model.CREATED_AT = GetTime();
         Model.CREATED_BY = sys.SysSession.CurrentEnvironment.UserCode;
     }
@@ -65,7 +71,8 @@ var CustomerCompany;
             url: sys.apiUrl("SlsTrSales", "InsertCustomer"),
             data: {
                 NAMEA: Model.NAMEA, NAMEE: Model.NAMEE, EMAIL: Model.EMAIL, Address_Street: Model.Address_Street,
-                Isactive: Model.Isactive, REMARKS: Model.REMARKS, CREATED_BY: Model.CREATED_BY, CREATED_AT: Model.CREATED_AT
+                Isactive: Model.Isactive, REMARKS: Model.REMARKS, CREATED_BY: Model.CREATED_BY, CREATED_AT: Model.CREATED_AT,
+                Mobile: Model.MOBILE, Telephone: Model.TEL
             },
             success: function (d) {
                 var result = d;
@@ -86,7 +93,8 @@ var CustomerCompany;
             url: sys.apiUrl("SlsTrSales", "UpdateCustomer"),
             data: {
                 NAMEA: Model.NAMEA, NAMEE: Model.NAMEE, EMAIL: Model.EMAIL, Address_Street: Model.Address_Street,
-                Isactive: Model.Isactive, REMARKS: Model.REMARKS, CREATED_BY: Model.CREATED_BY, CREATED_AT: Model.CREATED_AT, CustomerId: UCustomerId
+                Isactive: Model.Isactive, REMARKS: Model.REMARKS, CREATED_BY: Model.CREATED_BY, CREATED_AT: Model.CREATED_AT, CustomerId: UCustomerId,
+                Mobile: Model.MOBILE, Telephone: Model.TEL
             },
             success: function (d) {
                 var result = d;
@@ -130,6 +138,7 @@ var CustomerCompany;
         $('#b').click();
     }
     function btnsave_onclick() {
+        debugger;
         if (!validation())
             return;
         if (IsNew == true) {
@@ -188,6 +197,8 @@ var CustomerCompany;
         txtAddressComp.value = CustomerModelfil[0].Address_Street;
         txtRemark.value = CustomerModelfil[0].REMARKS;
         chkvat.checked = CustomerModelfil[0].Isactive;
+        txtMobile.value = CustomerModelfil[0].MOBILE;
+        txtTelephone.value = CustomerModelfil[0].TEL;
         $('#a').click();
         $('#btnsave').html('Update');
     }
