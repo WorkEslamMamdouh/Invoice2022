@@ -25,28 +25,58 @@
                                         <li id="btnInvoice">
                                             <a data-toggle="tab" href="#sendmail"><span class="inbox-icon"><i class="fa fa-file-text-o" aria-hidden="true"></i></span> Invoice</a>
                                         </li>
-                                        @*<li>
-                                            <a data-toggle="tab" href="#drafts"><span class="inbox-icon"><i class="fa fa-file-text-o" aria-hidden="true"></i></span> Drafts <span class="count-inbox count-inbox-red">5</span></a>
+
+                                        <li>
+                                            <br />
                                         </li>
                                         <li>
-                                            <a data-toggle="tab" href="#composemail"><span class="inbox-icon"><i class="fa fa fa-inbox "></i></span> Compose Mail</a>
+                                            <label>Presented to</label>
                                         </li>
                                         <li>
-                                            <a data-toggle="tab" href="#important"><span class="inbox-icon"><i class="fa fa-certificate" aria-hidden="true"></i></span> Important</a>
+                                            <input id="txtCompanynameFilter" type="text" class="form-control" placeholder="Company name">
                                         </li>
                                         <li>
-                                            <a data-toggle="tab" href="#started"><span class="inbox-icon"><i class="fa fa-star" aria-hidden="true"></i></span> Starred</a>
+                                            <div class="col-lg-1" style=" width: 50%!important;">
+                                                <button id="btnCustSrchFilter" type="button" class="btn btn-custon-four btn-primary">
+                                                    <i>Search</i>
+                                                </button>
+                                            </div>
+                                            <div class="col-lg-1" style=" width: 25%!important;">
+                                                <input type="button" value="Filter" id="btnFilter" class="btn btn-custon-four btn-success">
+                                            </div>
+                                            <br />
+                                            <br />
+                                            <br />
+                                            <br />
                                         </li>
                                         <li>
-                                            <a data-toggle="tab" href="#trash"><span class="inbox-icon"><i class="fa fa-trash-o" aria-hidden="true"></i></span> Trash</a>
-                                        </li>*@
-                                         
+                                          
+                                        </li>
+                                        <li>
+                                            <label>Created</label>
+                                        </li>
+                                        <li>
+                                            <input id="txtCreatedBy" name="CREATED_BY" type="text" class="form-control" placeholder="Created By ">
+                                            <input id="txtCreatedAt" name="CREATED_AT" type="text" class="form-control" placeholder="Created At">
+                                        </li>
+
+                                        <li>
+                                            <label>Updated</label>
+                                        </li>
+                                        <li>
+                                            <input id="txtUpdatedBy" name="UPDATED_BY" type="text" class="form-control" placeholder="Updated By ">
+                                            <input id="txtUpdatedAt" name="UPDATED_AT" type="text" class="form-control" placeholder="Updated At"> 
+                                        </li>
+
+
                                     </ul>
                                 </div>
                             </div>
                             <div class="col-lg-10">
                                 <div class="tab-content">
-                             
+
+
+
                                     <div id="viewmail" class="tab-pane fade in animated zoomInDown shadow-reset custom-inbox-message shadow-reset active">
                                         <div class="admin-dashone-data-table-area mg-b-15">
                                             <div class="container-fluid">
@@ -58,36 +88,12 @@
                                                                     <h1>Quotations</h1>
 
                                                                 </div>
-                                                                <div class="col-lg-2">
-                                                                    <div class="input-mask-title">
-                                                                        <label>Presented to</label>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-lg-3">
-                                                                    <div class="col-lg-1" style=" width: 25%!important;">
-                                                                        <button id="btnCustSrch" type="button" class="btn btn-custon-four btn-primary">
-                                                                            <i>Search</i>
-                                                                        </button>
-                                                                    </div>
-                                                                    <div class="col-lg-10" style=" width: 69%!important;">
-                                                                        <div class="input-mark-inner mg-b-22">
-                                                                            <input id="txtCompanyname" type="text" class="form-control" placeholder="Company name">
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-
-                                                                <div class="col-lg-3">
-                                                                    <div class="col-lg-1" style=" width: 25%!important;">
-                                                                        <input type="button" value="Filter" id="btnFilter" class="btn btn-custon-four btn-success"> 
-                                                                    </div>
-
-
-                                                                </div>
-                                                                <div class="sparkline8-graph">
-                                                                    <table id="ReportGrid">
-                                                                    </table>
-                                                                </div>
                                                             </div>
+                                                            <div class="sparkline8-graph">
+                                                                <table id="ReportGrid">
+                                                                </table>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -101,7 +107,7 @@
                                                         <div class="sparkline8-list shadow-reset">
                                                             <div class="sparkline8-hd">
                                                                 <div class="main-sparkline8-hd">
-                                                                    <h1>Invoice</h1> 
+                                                                    <h1>Invoice</h1>
                                                                 </div>
                                                             </div>
                                                             <div class="sparkline8-graph">
@@ -290,8 +296,6 @@
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                                @*---------------------------------------termes start------------------------------------------*@
-
                                                                 <div class="sparkline8-hd">
                                                                     <div class="main-sparkline8-hd">
                                                                         <h1 style="text-align: center;"><b>Terms and Conditions:</b></h1>
@@ -377,7 +381,6 @@
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                                @*---------------------------------------termes end------------------------------------------*@
 
                                                             </div>
                                                         </div>
@@ -394,7 +397,7 @@
 
                                         </div>
                                     </div>
-                                  
+
                                 </div>
                             </div>
                         </div>
@@ -404,5 +407,5 @@
         </div>
     </div>
 </body>
- 
+
 <script src="~/ClientApp/Quotation/QuotationView.js"></script>

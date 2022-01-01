@@ -2493,6 +2493,7 @@ warning 6002: The table/view 'Invoice2022.dbo.I_VW_GetCompStatus' does not have 
           <Property Type="String" Name="PO_NO" Nullable="true" MaxLength="50" />
           <Property Type="String" Name="DocNo" Nullable="true" MaxLength="50" />
           <Property Type="Boolean" Name="isvat" Nullable="true" />
+          <Property Type="String" Name="PO_NO1" Nullable="true" MaxLength="200" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -3641,6 +3642,7 @@ warning 6002: The table/view 'Invoice2022.dbo.I_VW_GetCompStatus' does not have 
                 <ScalarProperty Name="PO_NO" ColumnName="PO_NO" />
                 <ScalarProperty Name="DocNo" ColumnName="DocNo" />
                 <ScalarProperty Name="isvat" ColumnName="isvat" />
+                <ScalarProperty Name="PO_NO1" ColumnName="PO_NO1" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

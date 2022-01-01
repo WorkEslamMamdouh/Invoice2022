@@ -82,123 +82,161 @@ namespace Inv.API.Controllers
         [HttpPost, AllowAnonymous]
         public IHttpActionResult updateInvoiceMasterDetail([FromBody] SlsInvoiceMasterDetails updatedObj)
         {
-            
-                using (var dbTransaction = db.Database.BeginTransaction())
+
+            using (var dbTransaction = db.Database.BeginTransaction())
+            {
+                try
                 {
-                    try
-                    { 
 
-                        string st = SystemToolsController.GenerateGuid();
-                        updatedObj.Sls_Ivoice.DocUUID = st;
+                    string st = SystemToolsController.GenerateGuid();
+                    updatedObj.Sls_Ivoice.DocUUID = st;
 
-                        var tm = DateTime.Now.ToString("HH:mm:ss");
-                        updatedObj.Sls_Ivoice.TrTime = TimeSpan.Parse(tm);
+                    var tm = DateTime.Now.ToString("HH:mm:ss");
+                    updatedObj.Sls_Ivoice.TrTime = TimeSpan.Parse(tm);
 
-                        //update Master
-                        var Sls_TR_Invoice = SlsTrSalesService.Update(updatedObj.Sls_Ivoice);
+                    //update Master
+                    var Sls_TR_Invoice = SlsTrSalesService.Update(updatedObj.Sls_Ivoice);
 
-                        //update Details
-                        var insertedInvoiceItems = updatedObj.Sls_InvoiceDetail.Where(x => x.StatusFlag == 'i').ToList();
-                        var updatedInvoiceItems = updatedObj.Sls_InvoiceDetail.Where(x => x.StatusFlag == 'u').ToList();
-                        var deletedInvoiceItems = updatedObj.Sls_InvoiceDetail.Where(x => x.StatusFlag == 'd').ToList();
+                    //update Details
+                    var insertedInvoiceItems = updatedObj.Sls_InvoiceDetail.Where(x => x.StatusFlag == 'i').ToList();
+                    var updatedInvoiceItems = updatedObj.Sls_InvoiceDetail.Where(x => x.StatusFlag == 'u').ToList();
+                    var deletedInvoiceItems = updatedObj.Sls_InvoiceDetail.Where(x => x.StatusFlag == 'd').ToList();
 
-                        //loop insered  
-                        foreach (var item in insertedInvoiceItems)
-                        {
-                            item.InvoiceID = updatedObj.Sls_Ivoice.InvoiceID;
-                            var InsertedRec = SlsInvoiceItemsService.Insert(item);
-                        }
-
-                        //loop Update  
-                        foreach (var item in updatedInvoiceItems)
-                        {
-                            item.InvoiceID = updatedObj.Sls_Ivoice.InvoiceID;
-                            var updatedRec = SlsInvoiceItemsService.Update(item);
-                        }
-
-                        //loop Delete  
-                        foreach (var item in deletedInvoiceItems)
-                        {
-                            int deletedId = item.InvoiceItemID;
-                            SlsInvoiceItemsService.Delete(deletedId);
-                        }
-                        // call process trans 
-
-                        ResponseResult res = Shared.TransactionProcess(Convert.ToInt32(updatedObj.Sls_Ivoice.CompCode), Convert.ToInt32(updatedObj.Sls_Ivoice.BranchCode), Sls_TR_Invoice.InvoiceID, "Quotation", "Update", db);
-                        if (res.ResponseState == true)
-                        {
-                            updatedObj.Sls_Ivoice.TrNo = int.Parse(res.ResponseData.ToString());
-                            dbTransaction.Commit();
-                            return Ok(new BaseResponse(updatedObj.Sls_Ivoice));
-                        }
-                        else
-                        {
-                            dbTransaction.Rollback();
-                            return Ok(new BaseResponse(HttpStatusCode.ExpectationFailed, res.ResponseMessage));
-                        }
+                    //loop insered  
+                    foreach (var item in insertedInvoiceItems)
+                    {
+                        item.InvoiceID = updatedObj.Sls_Ivoice.InvoiceID;
+                        var InsertedRec = SlsInvoiceItemsService.Insert(item);
                     }
-                    catch (Exception ex)
+
+                    //loop Update  
+                    foreach (var item in updatedInvoiceItems)
+                    {
+                        item.InvoiceID = updatedObj.Sls_Ivoice.InvoiceID;
+                        var updatedRec = SlsInvoiceItemsService.Update(item);
+                    }
+
+                    //loop Delete  
+                    foreach (var item in deletedInvoiceItems)
+                    {
+                        int deletedId = item.InvoiceItemID;
+                        //SlsInvoiceItemsService.Delete(deletedId);
+
+                        string query = "delete [dbo].[Sls_InvoiceDetail] where InvoiceItemID = " + deletedId + "";
+                        db.Database.ExecuteSqlCommand(query);
+
+                    }
+                    // call process trans 
+
+                    ResponseResult res = Shared.TransactionProcess(Convert.ToInt32(updatedObj.Sls_Ivoice.CompCode), Convert.ToInt32(updatedObj.Sls_Ivoice.BranchCode), Sls_TR_Invoice.InvoiceID, "Quotation", "Update", db);
+                    if (res.ResponseState == true)
+                    {
+                        updatedObj.Sls_Ivoice.TrNo = int.Parse(res.ResponseData.ToString());
+                        dbTransaction.Commit();
+                        return Ok(new BaseResponse(updatedObj.Sls_Ivoice));
+                    }
+                    else
                     {
                         dbTransaction.Rollback();
-                        return Ok(new BaseResponse(HttpStatusCode.ExpectationFailed, ex.Message));
+                        return Ok(new BaseResponse(HttpStatusCode.ExpectationFailed, res.ResponseMessage));
                     }
                 }
-            
+                catch (Exception ex)
+                {
+                    dbTransaction.Rollback();
+                    return Ok(new BaseResponse(HttpStatusCode.ExpectationFailed, ex.Message));
+                }
+            }
+
         }
         [HttpGet, AllowAnonymous]
-        public IHttpActionResult GetAllSlsInvoice(int CompCode, int BranchCode , int CustomerId)
+        public IHttpActionResult GetAllSlsInvoice(int CompCode, int BranchCode, int CustomerId)
         {
-            string query = ""; 
+            string query = "";
             if (CustomerId == 0)
             {
-             query = "select * from Sls_Ivoice where   CompCode = " + CompCode + " and BranchCode = " + BranchCode + "";
+                query = @"SELECT   [InvoiceID] ,[TrNo]  ,[RefNO]  ,[RefTrID] , TrDate
+      ,CONVERT(varchar, TrDate, 103) as TrDateH ,[TrType] ,[IsCash] ,[SlsInvType] ,[SlsInvSrc]  ,[CashBoxID] ,[CustomerId]
+      ,[CustomerName] ,[CustomerMobileNo]  ,[SalesmanId] ,[StoreId] ,[OperationId] ,[TotalAmount]
+      ,[VatAmount] ,[VatType] ,[DiscountAmount] ,[DiscountPrc]  ,[NetAfterVat]   ,[CommitionAmount]  ,[CashAmount]
+      ,[CardAmount] ,[BankTfAmount]  ,[BankAccount] ,[TotalPaidAmount] ,[RemainAmount]  ,[Remark]
+      ,[Status] ,[IsPosted] ,[VoucherNo] ,[VoucherType] ,[CreatedAt]  ,[CreatedBy] ,[UpdatedAt] ,[UpdatedBy]
+      ,[CompCode] ,[BranchCode]  ,[DocNo] ,[DocUUID] ,[TrTime] ,[InvoiceTypeCode] ,[InvoiceTransCode]  ,[TaxNotes]
+      ,[TaxCurrencyID] ,[InvoiceCurrenyID] ,[ContractNo] ,[PurchaseorderNo] ,[GlobalInvoiceCounter] ,[PrevInvoiceHash]  ,[QRCode]
+      ,[CryptographicStamp]  ,[DeliveryDate]  ,[DeliveryEndDate],[PaymentMeansTypeCode],[CRDBReasoncode],[PaymentTerms],[PaymentTermsID],[AllowAmount],[AllowPrc]
+      ,[AllowBase]      ,[AllowVatNatID],[AllowVatPrc],[AllowAfterVat],[AllowReason],[AllowCode],[ChargeAmount],[ChargePrc],[ChargeBase],[ChargeVatNatID]
+      ,[ChargeVatPrc],[ChargeAfterVat],[ChargeReason],[ChargeCode],[ItemTotal],[ItemAllowTotal],[ItemDiscountTotal],[ItemVatTotal],[RoundingAmount]
+  FROM [Invoice2022].[dbo].[Sls_Ivoice] where   CompCode = " + CompCode + " and BranchCode = " + BranchCode + " ORDER BY TrNo DESC;";
             }
             else
             {
-             query = "select * from Sls_Ivoice where   CompCode = "+ CompCode + " and BranchCode = "+ BranchCode + " and CustomerId = "+ CustomerId + "";
+                query = @"SELECT   [InvoiceID] ,[TrNo]  ,[RefNO]  ,[RefTrID] , TrDate
+      ,CONVERT(varchar, TrDate, 103) as TrDateH ,[TrType] ,[IsCash] ,[SlsInvType] ,[SlsInvSrc]  ,[CashBoxID] ,[CustomerId]
+      ,[CustomerName] ,[CustomerMobileNo]  ,[SalesmanId] ,[StoreId] ,[OperationId] ,[TotalAmount]
+      ,[VatAmount] ,[VatType] ,[DiscountAmount] ,[DiscountPrc]  ,[NetAfterVat]   ,[CommitionAmount]  ,[CashAmount]
+      ,[CardAmount] ,[BankTfAmount]  ,[BankAccount] ,[TotalPaidAmount] ,[RemainAmount]  ,[Remark]
+      ,[Status] ,[IsPosted] ,[VoucherNo] ,[VoucherType] ,[CreatedAt]  ,[CreatedBy] ,[UpdatedAt] ,[UpdatedBy]
+      ,[CompCode] ,[BranchCode]  ,[DocNo] ,[DocUUID] ,[TrTime] ,[InvoiceTypeCode] ,[InvoiceTransCode]  ,[TaxNotes]
+      ,[TaxCurrencyID] ,[InvoiceCurrenyID] ,[ContractNo] ,[PurchaseorderNo] ,[GlobalInvoiceCounter] ,[PrevInvoiceHash]  ,[QRCode]
+      ,[CryptographicStamp]  ,[DeliveryDate]  ,[DeliveryEndDate],[PaymentMeansTypeCode],[CRDBReasoncode],[PaymentTerms],[PaymentTermsID],[AllowAmount],[AllowPrc]
+      ,[AllowBase]      ,[AllowVatNatID],[AllowVatPrc],[AllowAfterVat],[AllowReason],[AllowCode],[ChargeAmount],[ChargePrc],[ChargeBase],[ChargeVatNatID]
+      ,[ChargeVatPrc],[ChargeAfterVat],[ChargeReason],[ChargeCode],[ItemTotal],[ItemAllowTotal],[ItemDiscountTotal],[ItemVatTotal],[RoundingAmount]
+  FROM [Invoice2022].[dbo].[Sls_Ivoice] where   CompCode = " + CompCode + " and BranchCode = " + BranchCode + " and CustomerId = " + CustomerId + " ORDER BY TrNo DESC;";
             }
-            
+
             var res = db.Database.SqlQuery<Sls_Ivoice>(query).ToList();
             return Ok(new BaseResponse(res));
         }
         [HttpGet, AllowAnonymous]
-        public IHttpActionResult  UpdateInvoice(int InvoiceID)
+        public IHttpActionResult UpdateInvoice(int InvoiceID)
         {
-            string query = "update [dbo].[Sls_Ivoice] set TrType = 1 where InvoiceID = "+ InvoiceID + "";
+            string query = "update [dbo].[Sls_Ivoice] set TrType = 1 where InvoiceID = " + InvoiceID + "";
 
             var res = db.Database.ExecuteSqlCommand(query);
             return Ok(new BaseResponse(100));
         }
+
         [HttpGet, AllowAnonymous]
-        public IHttpActionResult GetCustomer( int id)
-        { 
-            string query = "select * from Customer where  CustomerId = "+id+"";
-            
+        public IHttpActionResult UpdatePurNo(int InvoiceID , string PurNo)
+        {
+            string query = "update [dbo].[Sls_Ivoice] set TaxNotes = '" + PurNo + "' where InvoiceID = " + InvoiceID + "";
+
+            var res = db.Database.ExecuteSqlCommand(query);
+            return Ok(new BaseResponse(100));
+        }
+
+        [HttpGet, AllowAnonymous]
+        public IHttpActionResult GetCustomer(int id)
+        {
+            string query = "select * from Customer where  CustomerId = " + id + "";
+
             var res = db.Database.SqlQuery<Customer>(query).ToList();
             return Ok(new BaseResponse(res));
         }
         [HttpGet, AllowAnonymous]
         public IHttpActionResult GetAllCustomer()
-        { 
+        {
             string query = "select * from Customer ";
-            
+
             var res = db.Database.SqlQuery<Customer>(query).ToList();
             return Ok(new BaseResponse(res));
         }
         [HttpGet, AllowAnonymous]
-        public IHttpActionResult InsertCustomer(string NAMEA, string NAMEE, string EMAIL, string Address_Street, Boolean Isactive, string REMARKS, string CREATED_BY, string CREATED_AT , string Mobile, string Telephone)
-        { int active = 0;  
+        public IHttpActionResult InsertCustomer(string NAMEA, string NAMEE, string EMAIL, string Address_Street, Boolean Isactive, string REMARKS, string CREATED_BY, string CREATED_AT, string Mobile, string Telephone)
+        {
+            int active = 0;
             if (Isactive == true)
-            { active = 1;}
-            string query = "INSERT INTO [dbo].[Customer] (NAMEA,NAMEE,EMAIL,REMARKS,Isactive,Address_Street,MOBILE,TEL) VALUES  ('" + NAMEA+"','"+NAMEE + "','"+EMAIL + "','"+REMARKS + "',"+ active + ",'"+Address_Street + "','"+ Mobile + "','"+ Telephone + "')";
+            { active = 1; }
+            string query = "INSERT INTO [dbo].[Customer] (NAMEA,NAMEE,EMAIL,REMARKS,Isactive,Address_Street,MOBILE,TEL) VALUES  ('" + NAMEA + "','" + NAMEE + "','" + EMAIL + "','" + REMARKS + "'," + active + ",'" + Address_Street + "','" + Mobile + "','" + Telephone + "')";
             db.Database.ExecuteSqlCommand(query);
             return Ok(new BaseResponse(100));
         }
-        [HttpGet, AllowAnonymous]   
-        public IHttpActionResult UpdateCustomer(string NAMEA, string NAMEE, string EMAIL, string Address_Street, Boolean Isactive, string REMARKS, string CREATED_BY, string CREATED_AT,int CustomerId , string Mobile , string Telephone)
-        { int active = 0;  
+        [HttpGet, AllowAnonymous]
+        public IHttpActionResult UpdateCustomer(string NAMEA, string NAMEE, string EMAIL, string Address_Street, Boolean Isactive, string REMARKS, string CREATED_BY, string CREATED_AT, int CustomerId, string Mobile, string Telephone)
+        {
+            int active = 0;
             if (Isactive == true)
-            {active = 1;}
+            { active = 1; }
             string query = "update [dbo].[Customer] set  NAMEA ='" + NAMEA + "' ,NAMEE = '" + NAMEE + "',EMAIL = '" + EMAIL + "',REMARKS = '" + REMARKS + "',Isactive = " + active + ",Address_Street= '" + Address_Street + "', MOBILE = '" + Mobile + "',TEL = '" + Telephone + "'  where CustomerId = " + CustomerId + "";
             db.Database.ExecuteSqlCommand(query);
             return Ok(new BaseResponse(100));
@@ -208,9 +246,9 @@ namespace Inv.API.Controllers
         [HttpGet, AllowAnonymous]
         public IHttpActionResult GetSlsInvoiceItem(int invoiceID)
         {
-           
-                var res = db.Sls_InvoiceDetail.Where(x => x.InvoiceID == invoiceID).ToList();
-                return Ok(new BaseResponse(res)); 
+
+            var res = db.Sls_InvoiceDetail.Where(x => x.InvoiceID == invoiceID).ToList();
+            return Ok(new BaseResponse(res));
         }
 
 
