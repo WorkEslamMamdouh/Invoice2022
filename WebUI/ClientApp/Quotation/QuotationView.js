@@ -9,6 +9,7 @@ var QuotationView;
     var InvItemsDetailsModel = new Array();
     var Selected_Data = new Array();
     var InvoiceDisplay = new Array();
+    var Selecteditem = new Array();
     var Invoice = new Array();
     var InvQuotation = new Array();
     var btnCustSrchFilter;
@@ -70,7 +71,7 @@ var QuotationView;
     function InitializeGridQuotation() {
         //let res: any = GetResourceList("");
         //$("#id_ReportGrid").attr("style", "");
-        //ReportGrid.OnRowDoubleClicked = DriverDoubleClick;
+        ReportGrid.OnRowDoubleClicked = DoubleClickGridQuotation;
         ReportGrid.ElementName = "ReportGrid";
         ReportGrid.PrimaryKey = "InvoiceID";
         ReportGrid.Paging = true;
@@ -225,6 +226,14 @@ var QuotationView;
             },
         ];
         ReportGridInv.Bind();
+    }
+    function DoubleClickGridQuotation() {
+        Selecteditem = new Array();
+        Selecteditem = InvoiceDisplay.filter(function (x) { return x.InvoiceID == Number(ReportGrid.SelectedKey); });
+        $('#txtCreatedBy').prop("value", Selecteditem[0].CreatedBy);
+        $('#txtCreatedAt').prop("value", Selecteditem[0].CreatedAt);
+        $('#txtUpdatedBy').prop("value", Selecteditem[0].UpdatedBy);
+        $('#txtUpdatedAt').prop("value", Selecteditem[0].UpdatedAt);
     }
     function ComfirmPurNo(btnId, PurNo) {
         Ajax.Callsync({
@@ -698,8 +707,8 @@ var QuotationView;
         InvoiceModel.BranchCode = Number(BranchCode);
         var InvoiceNumber = Number(txtQutationNo.value);
         InvoiceModel.TrNo = InvoiceNumber;
-        InvoiceModel.CreatedAt = sys.SysSession.CurrentEnvironment.UserCode;
-        InvoiceModel.CreatedBy = sys.SysSession.CurrentEnvironment.UserCode;
+        InvoiceModel.CreatedAt = Selected_Data[0].CreatedAt;
+        InvoiceModel.CreatedBy = Selected_Data[0].CreatedAt;
         InvoiceModel.TrType = 0; //0 invoice 1 return    
         InvoiceModel.TrDate = txtDate.value;
         InvoiceModel.RefNO = txtRFQ.value;
@@ -715,6 +724,8 @@ var QuotationView;
         InvoiceModel.ChargeVatPrc = Number(txtsecounddays.value); //----------------- days from offer date.
         InvoiceModel.ChargeAfterVat = Number(txtlastdays.value); //----------------- days from purchase order.
         InvoiceModel.PrevInvoiceHash = txtPlacedeliv.value; //----------------- Place of delivery.
+        InvoiceModel.UpdatedBy = SysSession.CurrentEnvironment.UserCode;
+        InvoiceModel.UpdatedAt = DateTimeFormat(Date().toString());
         // Details
         for (var i = 0; i < CountGrid; i++) {
             var StatusFlag = $("#txt_StatusFlag" + i).val();

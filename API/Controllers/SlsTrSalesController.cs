@@ -166,7 +166,7 @@ namespace Inv.API.Controllers
       ,[CryptographicStamp]  ,[DeliveryDate]  ,[DeliveryEndDate],[PaymentMeansTypeCode],[CRDBReasoncode],[PaymentTerms],[PaymentTermsID],[AllowAmount],[AllowPrc]
       ,[AllowBase]      ,[AllowVatNatID],[AllowVatPrc],[AllowAfterVat],[AllowReason],[AllowCode],[ChargeAmount],[ChargePrc],[ChargeBase],[ChargeVatNatID]
       ,[ChargeVatPrc],[ChargeAfterVat],[ChargeReason],[ChargeCode],[ItemTotal],[ItemAllowTotal],[ItemDiscountTotal],[ItemVatTotal],[RoundingAmount]
-  FROM [Invoice2022].[dbo].[Sls_Ivoice] where   CompCode = " + CompCode + " and BranchCode = " + BranchCode + "";
+  FROM [Invoice2022].[dbo].[Sls_Ivoice] where   CompCode = " + CompCode + " and BranchCode = " + BranchCode + " ORDER BY TrNo ;";
             }
             else
             {
@@ -181,7 +181,7 @@ namespace Inv.API.Controllers
       ,[CryptographicStamp]  ,[DeliveryDate]  ,[DeliveryEndDate],[PaymentMeansTypeCode],[CRDBReasoncode],[PaymentTerms],[PaymentTermsID],[AllowAmount],[AllowPrc]
       ,[AllowBase]      ,[AllowVatNatID],[AllowVatPrc],[AllowAfterVat],[AllowReason],[AllowCode],[ChargeAmount],[ChargePrc],[ChargeBase],[ChargeVatNatID]
       ,[ChargeVatPrc],[ChargeAfterVat],[ChargeReason],[ChargeCode],[ItemTotal],[ItemAllowTotal],[ItemDiscountTotal],[ItemVatTotal],[RoundingAmount]
-  FROM [Invoice2022].[dbo].[Sls_Ivoice] where   CompCode = " + CompCode + " and BranchCode = " + BranchCode + " and CustomerId = " + CustomerId + "";
+  FROM [Invoice2022].[dbo].[Sls_Ivoice] where   CompCode = " + CompCode + " and BranchCode = " + BranchCode + " and CustomerId = " + CustomerId + " ORDER BY TrNo ;";
             }
 
             var res = db.Database.SqlQuery<Sls_Ivoice>(query).ToList();
