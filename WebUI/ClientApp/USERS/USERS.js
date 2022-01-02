@@ -192,4 +192,4 @@ var USERS;
         $('#btnsave').html('Update');
     }
 })(USERS || (USERS = {}));
-//# sourceMappingURL=Users.js.map
+//# sourceMappingURL=USERS.js.map

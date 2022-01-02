@@ -11,9 +11,9 @@ var QuotationView;
     var InvoiceDisplay = new Array();
     var Invoice = new Array();
     var InvQuotation = new Array();
-    var btnCustSrch;
+    var btnCustSrchFilter;
     var btnFilter;
-    var txtCompanyname;
+    var txtCompanynameFilter;
     var ReportGrid = new JsGrid();
     var ReportGridInv = new JsGrid();
     var CustomerId = 0;
@@ -31,17 +31,17 @@ var QuotationView;
     }
     QuotationView.InitalizeComponent = InitalizeComponent;
     function InitalizeControls() {
-        btnCustSrch = document.getElementById("btnCustSrch");
+        btnCustSrchFilter = document.getElementById("btnCustSrchFilter");
         btnFilter = document.getElementById("btnFilter");
-        txtCompanyname = document.getElementById("txtCompanyname");
+        txtCompanynameFilter = document.getElementById("txtCompanynameFilter");
     }
     function InitalizeEvents() {
-        btnCustSrch.onclick = btnCust_onClick;
+        btnCustSrchFilter.onclick = btnCust_onClick;
         btnFilter.onclick = Display;
-        txtCompanyname.onchange = txtCompanyname_ochange;
+        txtCompanynameFilter.onchange = txtCompanynameFilter_ochange;
     }
-    function txtCompanyname_ochange() {
-        txtCompanyname.value = "";
+    function txtCompanynameFilter_ochange() {
+        txtCompanynameFilter.value = "";
         CustomerId = 0;
     }
     function Display() {
@@ -55,12 +55,14 @@ var QuotationView;
                 var result = d;
                 if (result.IsSuccess) {
                     InvoiceDisplay = result.Response;
-                    InvQuotation = InvoiceDisplay.filter(function (x) { return x.TrType == 0; });
+                    //InvQuotation = InvoiceDisplay.filter(x => x.TrType == 0);
+                    InvQuotation = InvoiceDisplay;
                     Invoice = InvoiceDisplay.filter(function (x) { return x.TrType == 1; });
                     ReportGrid.DataSource = InvQuotation;
                     ReportGrid.Bind();
                     ReportGridInv.DataSource = Invoice;
                     ReportGridInv.Bind();
+                    //$('.Done').addClass("display_none");
                 }
             }
         });
@@ -83,31 +85,43 @@ var QuotationView;
         ReportGrid.Columns = [
             { title: "الرقم", name: "InvoiceID", type: "text", width: "5%", visible: false },
             { title: "TrNo", name: "TrNo", type: "text", width: "5%" },
-            { title: "RFQ", name: "RefNO", type: "text", width: "8%" },
-            { title: "Date", name: "TrDate", type: "text", width: "7%" },
-            { title: "TotalAmount", name: "NetAfterVat", type: "text", width: "10%" },
+            { title: "RFQ", name: "RefNO", type: "text", width: "7%" },
+            { title: "Date", name: "TrDateH", type: "text", width: "7%" },
+            { title: "TotalAmount", name: "NetAfterVat", type: "text", width: "5%" },
             {
-                width: "5%",
+                title: "PurNo",
+                width: "8%",
                 itemTemplate: function (s, item) {
                     var txt = document.createElement("input");
-                    txt.type = "button";
-                    txt.value = ("Print");
-                    txt.id = "butPrint" + item.InvoiceID;
-                    txt.className = "btn btn-custon-four btn-danger";
-                    txt.onclick = function (e) {
-                        PrintQuotation(item.InvoiceID);
+                    txt.type = "text";
+                    txt.placeholder = ("PurNo");
+                    txt.id = "PurNo" + item.InvoiceID;
+                    txt.className = "form-control ";
+                    if (item.TaxNotes != '' && item.TaxNotes != null) {
+                        txt.disabled = true;
+                        txt.value = item.TaxNotes;
+                    }
+                    txt.onchange = function (e) {
+                        ComfirmPurNo(item.InvoiceID, txt.value);
                     };
                     return txt;
                 }
             },
             {
+                title: "Comfirm",
                 width: "5%",
                 itemTemplate: function (s, item) {
                     var txt = document.createElement("input");
                     txt.type = "button";
                     txt.value = ("comfirm");
                     txt.id = "butComfirm" + item.InvoiceID;
-                    txt.className = "btn btn-custon-four btn-success";
+                    txt.className = "btn btn-custon-four btn-success Inv Done";
+                    if (item.TaxNotes == '' || item.TaxNotes == null) {
+                        txt.classList.add("display_none");
+                    }
+                    if (item.TrType == 1) {
+                        txt.classList.add("display_none");
+                    }
                     txt.onclick = function (e) {
                         ComfirmQuotation(item.InvoiceID);
                     };
@@ -115,13 +129,20 @@ var QuotationView;
                 }
             },
             {
-                width: "5%",
+                title: "Eidt",
+                width: "3%",
                 itemTemplate: function (s, item) {
                     var txt = document.createElement("input");
                     txt.type = "button";
                     txt.value = ("Eidt");
                     txt.id = "butEidt" + item.InvoiceID;
-                    txt.className = "dis src-btn btn btn-warning input-sm";
+                    txt.className = "dis src-btn btn btn-warning input-sm Inv Done";
+                    if (item.TaxNotes == '' || item.TaxNotes == null) {
+                        txt.classList.add("display_none");
+                    }
+                    if (item.TrType == 1) {
+                        txt.classList.add("display_none");
+                    }
                     txt.onclick = function (e) {
                         EidtQuotation(item.InvoiceID);
                     };
@@ -129,13 +150,35 @@ var QuotationView;
                 }
             },
             {
+                title: "Review",
+                width: "4%",
+                itemTemplate: function (s, item) {
+                    var txt = document.createElement("input");
+                    txt.type = "button";
+                    txt.value = ("Review");
+                    txt.id = "butPrint" + item.InvoiceID;
+                    txt.className = "btn btn-custon-four btn-danger Done";
+                    if (item.TaxNotes == '' || item.TaxNotes == null) {
+                        txt.classList.add("display_none");
+                    }
+                    txt.onclick = function (e) {
+                        PrintQuotation(item.InvoiceID);
+                    };
+                    return txt;
+                }
+            },
+            {
+                title: "DelivNote",
                 width: "5%",
                 itemTemplate: function (s, item) {
                     var txt = document.createElement("input");
                     txt.type = "button";
                     txt.value = ("DelivNote");
                     txt.id = "butDelivNote" + item.InvoiceID;
-                    txt.className = "btn btn-custon-four btn-primary";
+                    txt.className = "btn btn-custon-four btn-primary Done";
+                    if (item.TaxNotes == '' || item.TaxNotes == null) {
+                        txt.classList.add("display_none");
+                    }
                     txt.onclick = function (e) {
                         DelivNoteQuotation(item.InvoiceID);
                     };
@@ -182,6 +225,22 @@ var QuotationView;
             },
         ];
         ReportGridInv.Bind();
+    }
+    function ComfirmPurNo(btnId, PurNo) {
+        Ajax.Callsync({
+            type: "Get",
+            url: sys.apiUrl("SlsTrSales", "UpdatePurNo"),
+            data: { InvoiceID: btnId, PurNo: PurNo },
+            success: function (d) {
+                var result = d;
+                if (result.IsSuccess == true) {
+                    Display();
+                }
+                else {
+                    DisplayMassage("Please refresh the page and try again", "Please refresh the page and try again", MessageType.Error);
+                }
+            }
+        });
     }
     function ComfirmQuotation(btnId) {
         Ajax.Callsync({
@@ -405,7 +464,7 @@ var QuotationView;
             CustomerDetail = SearchGrid.SearchDataGrid.SelectedKey;
             console.log(CustomerDetail);
             CustomerId = Number(CustomerDetail[0]);
-            txtCompanyname.value = String(CustomerDetail[2]);
+            txtCompanynameFilter.value = String(CustomerDetail[2]);
             include = String(CustomerDetail[3]);
         });
     }
