@@ -84,7 +84,7 @@ var Quotation;
             txtCompanyname.value = String(CustomerDetail[2]);
             include = String(CustomerDetail[3]);
             if (include == "true") {
-                txtsalesVAT.value = "include";
+                txtsalesVAT.value = "not include";
             }
             else {
                 txtsalesVAT.value = "not include";
@@ -141,9 +141,9 @@ var Quotation;
                 NetCount = Number(NetCount.toFixed(2).toString());
             }
         }
-        if (include == "true") {
-            NetCount = NetCount + ((NetCount * 14) / 100);
-        }
+        //if (include == "true") {
+        //    NetCount = NetCount + ((NetCount * 14) / 100);
+        //}
         txtNetBefore.value = NetCount.toString();
         if (Number(txtAllDiscount.value) > 0) {
             var Discount = ((Number(txtAllDiscount.value) * Number(txtNetBefore.value)) / 100).toFixed(2);
@@ -237,6 +237,8 @@ var Quotation;
         InvoiceModel.TotalAmount = Number(txtNetBefore.value);
         InvoiceModel.RoundingAmount = Number(txtAllDiscount.value);
         InvoiceModel.NetAfterVat = Number(txtNetAfterVat.value);
+        InvoiceModel.CreatedAt = GetTime();
+        InvoiceModel.CreatedBy = sys.SysSession.CurrentEnvironment.UserCode;
         //-------------------------(T E R M S & C O N D I T I O N S)-----------------------------------------------     
         InvoiceModel.ContractNo = txtsalesVAT.value; //----------------- include sales VAT.
         InvoiceModel.PurchaseorderNo = txtfirstdays.value; //----------------- days starting from the delivery date.
