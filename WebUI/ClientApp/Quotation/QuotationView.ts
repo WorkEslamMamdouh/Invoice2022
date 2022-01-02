@@ -236,7 +236,7 @@ namespace QuotationView {
 
         //let res: any = GetResourceList("");
         //$("#id_ReportGrid").attr("style", "");
-        //ReportGrid.OnRowDoubleClicked = DriverDoubleClick;
+        ReportGridInv.OnRowDoubleClicked = DoubleClickGridInvoice;
         ReportGridInv.ElementName = "ReportGridInv";
         ReportGridInv.PrimaryKey = "InvoiceID";
         ReportGridInv.Paging = true;
@@ -255,11 +255,12 @@ namespace QuotationView {
             { title: "Date", name: "TrDate", type: "text", width: "7%" },
             { title: "TotalAmount", name: "NetAfterVat", type: "text", width: "10%" },
             {
+                title: "Review",
                 width: "5%",
                 itemTemplate: (s: string, item: Sls_Ivoice): HTMLInputElement => {
                     let txt: HTMLInputElement = document.createElement("input");
                     txt.type = "button";
-                    txt.value = ("Print");
+                    txt.value = ("Review");
                     txt.id = "butPrint" + item.InvoiceID;
                     txt.className = "dis src-btn btn btn-warning input-sm";
 
@@ -281,6 +282,19 @@ namespace QuotationView {
 
         Selecteditem = new Array<Sls_Ivoice>();
         Selecteditem = InvoiceDisplay.filter(x => x.InvoiceID == Number(ReportGrid.SelectedKey));
+
+        $('#txtCreatedBy').prop("value", Selecteditem[0].CreatedBy);
+        $('#txtCreatedAt').prop("value", Selecteditem[0].CreatedAt);
+
+        $('#txtUpdatedBy').prop("value", Selecteditem[0].UpdatedBy);
+        $('#txtUpdatedAt').prop("value", Selecteditem[0].UpdatedAt);
+    }
+
+
+    function DoubleClickGridInvoice() {
+
+        Selecteditem = new Array<Sls_Ivoice>();
+        Selecteditem = InvoiceDisplay.filter(x => x.InvoiceID == Number(ReportGridInv.SelectedKey));
 
         $('#txtCreatedBy').prop("value", Selecteditem[0].CreatedBy);
         $('#txtCreatedAt').prop("value", Selecteditem[0].CreatedAt);
