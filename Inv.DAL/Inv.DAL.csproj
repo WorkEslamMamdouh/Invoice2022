@@ -206,9 +206,6 @@
       <DependentUpon>InvModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Domain\PartialClass.cs" />
-    <Compile Include="Domain\Prnt_Quotation_Result.cs">
-      <DependentUpon>InvModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="Domain\Sls_InvoiceDetail.cs">
       <DependentUpon>InvModel.tt</DependentUpon>
     </Compile>

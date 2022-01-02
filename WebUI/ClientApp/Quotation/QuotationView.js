@@ -66,7 +66,6 @@ var QuotationView;
                     ReportGrid.Bind();
                     ReportGridInv.DataSource = Invoice;
                     ReportGridInv.Bind();
-                    //$('.Done').addClass("display_none");
                 }
             }
         });
