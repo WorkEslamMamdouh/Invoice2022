@@ -93,8 +93,9 @@ namespace Quotation {
             txtCompanyname.value = String(CustomerDetail[2]);
             include = String(CustomerDetail[3]);
             if (include == "true") {
-                txtsalesVAT.value = "include";
-            } else {
+                txtsalesVAT.value = "not include";
+            }
+            else {
                 txtsalesVAT.value = "not include";
             }
             computeTotal();
@@ -155,9 +156,9 @@ namespace Quotation {
                 NetCount = Number(NetCount.toFixed(2).toString());
             }
         }
-        if (include == "true") {
-            NetCount = NetCount + ((NetCount * 14) / 100);
-        }
+        //if (include == "true") {
+        //    NetCount = NetCount + ((NetCount * 14) / 100);
+        //}
         txtNetBefore.value = NetCount.toString();
 
         if (Number(txtAllDiscount.value) > 0) {
@@ -203,11 +204,11 @@ namespace Quotation {
             DisplayMassage('Item Describtion must be entered', 'Item Describtion must be entered', MessageType.Error);
             return false;
         }
-        if ($("#UnitPrice" + rowcount).val().trim() == "" || Number($("#UnitPrice" + rowcount).val()) <= 0) {
-            Errorinput($("#UnitPrice" + rowcount));
-            DisplayMassage('Item Price must be entered', 'Item Price must be entered', MessageType.Error);
-            return false;
-        }
+        //if ($("#UnitPrice" + rowcount).val().trim() == "" || Number($("#UnitPrice" + rowcount).val()) <= 0) {
+        //    Errorinput($("#UnitPrice" + rowcount));
+        //    DisplayMassage('Item Price must be entered', 'Item Price must be entered', MessageType.Error);
+        //    return false;
+        //}
 
         return true;
     }
@@ -254,7 +255,7 @@ namespace Quotation {
         InvoiceModel.BranchCode = Number(BranchCode);
         var InvoiceNumber = Number(txtQutationNo.value);
         InvoiceModel.TrNo = InvoiceNumber;
-        InvoiceModel.CreatedAt = sys.SysSession.CurrentEnvironment.UserCode;
+        InvoiceModel.CreatedAt = DateTimeFormat(Date().toString())
         InvoiceModel.CreatedBy = sys.SysSession.CurrentEnvironment.UserCode;
         InvoiceModel.TrType = 0//0 invoice 1 return     
         InvoiceModel.InvoiceID = 0;
@@ -265,7 +266,8 @@ namespace Quotation {
         InvoiceModel.Remark = txtRemark.value;
         InvoiceModel.TotalAmount = Number(txtNetBefore.value);
         InvoiceModel.RoundingAmount = Number(txtAllDiscount.value);
-        InvoiceModel.NetAfterVat = Number(txtNetAfterVat.value);
+        InvoiceModel.NetAfterVat = Number(txtNetAfterVat.value); 
+       
         //-------------------------(T E R M S & C O N D I T I O N S)-----------------------------------------------     
         InvoiceModel.ContractNo = txtsalesVAT.value;       //----------------- include sales VAT.
         InvoiceModel.PurchaseorderNo = txtfirstdays.value;      //----------------- days starting from the delivery date.

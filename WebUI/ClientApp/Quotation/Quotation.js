@@ -84,7 +84,7 @@ var Quotation;
             txtCompanyname.value = String(CustomerDetail[2]);
             include = String(CustomerDetail[3]);
             if (include == "true") {
-                txtsalesVAT.value = "include";
+                txtsalesVAT.value = "not include";
             }
             else {
                 txtsalesVAT.value = "not include";
@@ -141,9 +141,9 @@ var Quotation;
                 NetCount = Number(NetCount.toFixed(2).toString());
             }
         }
-        if (include == "true") {
-            NetCount = NetCount + ((NetCount * 14) / 100);
-        }
+        //if (include == "true") {
+        //    NetCount = NetCount + ((NetCount * 14) / 100);
+        //}
         txtNetBefore.value = NetCount.toString();
         if (Number(txtAllDiscount.value) > 0) {
             var Discount = ((Number(txtAllDiscount.value) * Number(txtNetBefore.value)) / 100).toFixed(2);
@@ -183,11 +183,11 @@ var Quotation;
             DisplayMassage('Item Describtion must be entered', 'Item Describtion must be entered', MessageType.Error);
             return false;
         }
-        if ($("#UnitPrice" + rowcount).val().trim() == "" || Number($("#UnitPrice" + rowcount).val()) <= 0) {
-            Errorinput($("#UnitPrice" + rowcount));
-            DisplayMassage('Item Price must be entered', 'Item Price must be entered', MessageType.Error);
-            return false;
-        }
+        //if ($("#UnitPrice" + rowcount).val().trim() == "" || Number($("#UnitPrice" + rowcount).val()) <= 0) {
+        //    Errorinput($("#UnitPrice" + rowcount));
+        //    DisplayMassage('Item Price must be entered', 'Item Price must be entered', MessageType.Error);
+        //    return false;
+        //}
         return true;
     }
     function DeleteRow(RecNo) {
@@ -225,7 +225,7 @@ var Quotation;
         InvoiceModel.BranchCode = Number(BranchCode);
         var InvoiceNumber = Number(txtQutationNo.value);
         InvoiceModel.TrNo = InvoiceNumber;
-        InvoiceModel.CreatedAt = sys.SysSession.CurrentEnvironment.UserCode;
+        InvoiceModel.CreatedAt = DateTimeFormat(Date().toString());
         InvoiceModel.CreatedBy = sys.SysSession.CurrentEnvironment.UserCode;
         InvoiceModel.TrType = 0; //0 invoice 1 return     
         InvoiceModel.InvoiceID = 0;
