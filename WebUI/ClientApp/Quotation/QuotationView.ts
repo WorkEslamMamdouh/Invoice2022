@@ -53,8 +53,9 @@ namespace QuotationView {
         CustomerId = 0;
     }
     function Display() {
-
+      
         debugger
+        $("#ReportGrid").jsGrid("option", "pageIndex", 1);
         Ajax.Callsync({
             type: "GET",
             url: sys.apiUrl("SlsTrSales", "GetAllSlsInvoice"),
@@ -65,6 +66,9 @@ namespace QuotationView {
                 if (result.IsSuccess) {
                     InvoiceDisplay = result.Response as Array<Sls_Ivoice>;
                     //InvQuotation = InvoiceDisplay.filter(x => x.TrType == 0);
+                      Invoice  = new Array<Sls_Ivoice>();
+                      InvQuotation = new Array<Sls_Ivoice>();
+
                     InvQuotation = InvoiceDisplay;
                     Invoice = InvoiceDisplay.filter(x => x.TrType == 1);
                     ReportGrid.DataSource = InvQuotation;
@@ -83,7 +87,7 @@ namespace QuotationView {
 
     }
     function InitializeGridQuotation() {
-
+        $("#ReportGrid").jsGrid("option", "pageIndex", 1);
 
         //let res: any = GetResourceList("");
         //$("#id_ReportGrid").attr("style", "");
@@ -228,6 +232,7 @@ namespace QuotationView {
     }
     function InitializeGridInvoice() {
 
+       
 
         //let res: any = GetResourceList("");
         //$("#id_ReportGrid").attr("style", "");
@@ -832,9 +837,10 @@ namespace QuotationView {
         InvoiceModel.CompCode = Number(compcode);
         InvoiceModel.BranchCode = Number(BranchCode);
         var InvoiceNumber = Number(txtQutationNo.value);
-        InvoiceModel.TrNo = InvoiceNumber;
+        InvoiceModel.TrNo = Selected_Data[0].TrNo;
         InvoiceModel.CreatedAt = Selected_Data[0].CreatedAt;
-        InvoiceModel.CreatedBy = Selected_Data[0].CreatedAt;
+        InvoiceModel.CreatedBy = Selected_Data[0].CreatedBy;
+        InvoiceModel.TaxNotes = Selected_Data[0].TaxNotes;
         InvoiceModel.TrType = 0//0 invoice 1 return    
         InvoiceModel.TrDate = txtDate.value;
         InvoiceModel.RefNO = txtRFQ.value;
@@ -853,7 +859,7 @@ namespace QuotationView {
 
         InvoiceModel.UpdatedBy = SysSession.CurrentEnvironment.UserCode;
         InvoiceModel.UpdatedAt = DateTimeFormat(Date().toString());
-
+         
         // Details
         for (var i = 0; i < CountGrid; i++) {
             let StatusFlag = $("#txt_StatusFlag" + i).val();
@@ -931,12 +937,23 @@ namespace QuotationView {
 
     }
     function success_insert() {
+        //InitializeGridQuotation();
+        
+        CustomerId = 0;
+        Display();
         $('#viewmail').addClass('active in');
         $('#sendmail').removeClass('active in');
         $('#composemail').removeClass('active in');
 
         $('#btnQuotations').addClass('active');
         $('#btnInvoice').removeClass('active');
+
+
+        $('#txtCreatedBy').prop("value", Selected_Data[0].CreatedBy);
+        $('#txtCreatedAt').prop("value", Selected_Data[0].CreatedAt);
+
+        $('#txtUpdatedBy').prop("value", SysSession.CurrentEnvironment.UserCode);
+        $('#txtUpdatedAt').prop("value", DateTimeFormat(Date().toString()));
     }
     function validation() {
 

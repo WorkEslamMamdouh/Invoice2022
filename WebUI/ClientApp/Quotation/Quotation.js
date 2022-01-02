@@ -225,7 +225,7 @@ var Quotation;
         InvoiceModel.BranchCode = Number(BranchCode);
         var InvoiceNumber = Number(txtQutationNo.value);
         InvoiceModel.TrNo = InvoiceNumber;
-        InvoiceModel.CreatedAt = sys.SysSession.CurrentEnvironment.UserCode;
+        InvoiceModel.CreatedAt = DateTimeFormat(Date().toString());
         InvoiceModel.CreatedBy = sys.SysSession.CurrentEnvironment.UserCode;
         InvoiceModel.TrType = 0; //0 invoice 1 return     
         InvoiceModel.InvoiceID = 0;
@@ -237,8 +237,6 @@ var Quotation;
         InvoiceModel.TotalAmount = Number(txtNetBefore.value);
         InvoiceModel.RoundingAmount = Number(txtAllDiscount.value);
         InvoiceModel.NetAfterVat = Number(txtNetAfterVat.value);
-        InvoiceModel.CreatedAt = GetTime();
-        InvoiceModel.CreatedBy = sys.SysSession.CurrentEnvironment.UserCode;
         //-------------------------(T E R M S & C O N D I T I O N S)-----------------------------------------------     
         InvoiceModel.ContractNo = txtsalesVAT.value; //----------------- include sales VAT.
         InvoiceModel.PurchaseorderNo = txtfirstdays.value; //----------------- days starting from the delivery date.

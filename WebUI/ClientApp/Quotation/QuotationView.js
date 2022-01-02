@@ -47,6 +47,7 @@ var QuotationView;
     }
     function Display() {
         debugger;
+        $("#ReportGrid").jsGrid("option", "pageIndex", 1);
         Ajax.Callsync({
             type: "GET",
             url: sys.apiUrl("SlsTrSales", "GetAllSlsInvoice"),
@@ -57,6 +58,8 @@ var QuotationView;
                 if (result.IsSuccess) {
                     InvoiceDisplay = result.Response;
                     //InvQuotation = InvoiceDisplay.filter(x => x.TrType == 0);
+                    Invoice = new Array();
+                    InvQuotation = new Array();
                     InvQuotation = InvoiceDisplay;
                     Invoice = InvoiceDisplay.filter(function (x) { return x.TrType == 1; });
                     ReportGrid.DataSource = InvQuotation;
@@ -69,6 +72,7 @@ var QuotationView;
         });
     }
     function InitializeGridQuotation() {
+        $("#ReportGrid").jsGrid("option", "pageIndex", 1);
         //let res: any = GetResourceList("");
         //$("#id_ReportGrid").attr("style", "");
         ReportGrid.OnRowDoubleClicked = DoubleClickGridQuotation;
@@ -706,9 +710,10 @@ var QuotationView;
         InvoiceModel.CompCode = Number(compcode);
         InvoiceModel.BranchCode = Number(BranchCode);
         var InvoiceNumber = Number(txtQutationNo.value);
-        InvoiceModel.TrNo = InvoiceNumber;
+        InvoiceModel.TrNo = Selected_Data[0].TrNo;
         InvoiceModel.CreatedAt = Selected_Data[0].CreatedAt;
-        InvoiceModel.CreatedBy = Selected_Data[0].CreatedAt;
+        InvoiceModel.CreatedBy = Selected_Data[0].CreatedBy;
+        InvoiceModel.TaxNotes = Selected_Data[0].TaxNotes;
         InvoiceModel.TrType = 0; //0 invoice 1 return    
         InvoiceModel.TrDate = txtDate.value;
         InvoiceModel.RefNO = txtRFQ.value;
@@ -792,11 +797,18 @@ var QuotationView;
         });
     }
     function success_insert() {
+        //InitializeGridQuotation();
+        CustomerId = 0;
+        Display();
         $('#viewmail').addClass('active in');
         $('#sendmail').removeClass('active in');
         $('#composemail').removeClass('active in');
         $('#btnQuotations').addClass('active');
         $('#btnInvoice').removeClass('active');
+        $('#txtCreatedBy').prop("value", Selected_Data[0].CreatedBy);
+        $('#txtCreatedAt').prop("value", Selected_Data[0].CreatedAt);
+        $('#txtUpdatedBy').prop("value", SysSession.CurrentEnvironment.UserCode);
+        $('#txtUpdatedAt').prop("value", DateTimeFormat(Date().toString()));
     }
     function validation() {
         if (txtDate.value.trim() == "") {
