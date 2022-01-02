@@ -668,11 +668,11 @@ var QuotationView;
             DisplayMassage('Item Describtion must be entered', 'Item Describtion must be entered', MessageType.Error);
             return false;
         }
-        if ($("#UnitPrice" + rowcount).val().trim() == "" || Number($("#UnitPrice" + rowcount).val()) <= 0) {
-            Errorinput($("#UnitPrice" + rowcount));
-            DisplayMassage('Item Price must be entered', 'Item Price must be entered', MessageType.Error);
-            return false;
-        }
+        //if ($("#UnitPrice" + rowcount).val().trim() == "" || Number($("#UnitPrice" + rowcount).val()) <= 0) {
+        //    Errorinput($("#UnitPrice" + rowcount));
+        //    DisplayMassage('Item Price must be entered', 'Item Price must be entered', MessageType.Error);
+        //    return false;
+        //}
         return true;
     }
     function DeleteRow(RecNo) {
