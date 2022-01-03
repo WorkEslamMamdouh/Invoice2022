@@ -275,7 +275,9 @@
     <Content Include="NewStyle\google-map.html" />
     <Content Include="NewStyle\images-cropper.html" />
     <Content Include="NewStyle\img\clear.png" />
+    <Content Include="NewStyle\img\Footer619.png" />
     <Content Include="NewStyle\img\green1.png" />
+    <Content Include="NewStyle\img\heder619619.png" />
     <Content Include="NewStyle\img\loading.gif" />
     <Content Include="NewStyle\img\logo.png" />
     <Content Include="NewStyle\img\logo.svg" />
