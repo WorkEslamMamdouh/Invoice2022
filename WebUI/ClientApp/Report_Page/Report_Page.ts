@@ -9,8 +9,7 @@ namespace Report_Page {
     var btnPrint: HTMLButtonElement;
     var result;
 
-    export function InitalizeComponent() { 
-       
+    export function InitalizeComponent() {  
         InitalizeControls();
         InitalizeEvents(); 
         $('#div_Reports').removeClass('display_none');

@@ -49,8 +49,6 @@ var Login_;
         }
         else {
             txtYear.value = "2021";
-            //txtYear.value = SharedWork.Session.CurrentYear;
-            //cmbLanguage.value = SharedWork.Session.Language;
         }
     }
     Login_.InitalizeComponent = InitalizeComponent;
@@ -159,12 +157,12 @@ var Login_;
                         }
                         GoToCompanySelect();
                     }
-                    else { // Error in user or pass or active 
+                    else {
                         txtUserName.style.borderColor = "red";
                         txtUserPassword.style.borderColor = "red";
                     }
                 }
-                else { // Error in API 
+                else {
                     alert(res.ErrorMessage);
                     return;
                 }

@@ -85,6 +85,6 @@ namespace Inv.DAL.Domain
         public string PO_NO { get; set; }
         public string DocNo { get; set; }
         public Nullable<bool> isvat { get; set; }
-        public string PO_NO1 { get; set; }
+        public string POU_NO { get; set; }
     }
 }
