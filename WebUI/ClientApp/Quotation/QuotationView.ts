@@ -133,55 +133,7 @@ namespace QuotationView {
                 }
             },
 
-            {
-                title: "Comfirm",
-                width: "5%",
-                itemTemplate: (s: string, item: Sls_Ivoice): HTMLInputElement => {
-                    let txt: HTMLInputElement = document.createElement("input");
-                    txt.type = "button";
-                    txt.value = ("comfirm");
-                    txt.id = "butComfirm" + item.InvoiceID;
-                    txt.className = "btn btn-custon-four btn-success Inv Done";
-
-                    if (item.TaxNotes == '' || item.TaxNotes == null) {
-                        txt.classList.add("display_none")
-                    }
-
-                    if (item.TrType == 1) {
-                        txt.classList.add("display_none") 
-                    }
-                    txt.onclick = (e) => {
-                        ComfirmQuotation(item.InvoiceID);
-
-
-                    };
-                    return txt;
-                }
-            },
-
-            {
-                title: "Eidt",
-                width: "3%",
-                itemTemplate: (s: string, item: Sls_Ivoice): HTMLInputElement => {
-                    let txt: HTMLInputElement = document.createElement("input");
-                    txt.type = "button";
-                    txt.value = ("Eidt");
-                    txt.id = "butEidt" + item.InvoiceID;
-                    txt.className = "dis src-btn btn btn-warning input-sm Inv Done";
-
-                    if (item.TaxNotes == '' || item.TaxNotes == null) {
-                        txt.classList.add("display_none")
-                    }
-
-                    if (item.TrType == 1) {
-                        txt.classList.add("display_none")
-                    }
-                    txt.onclick = (e) => {
-                        EidtQuotation(item.InvoiceID);
-                    };
-                    return txt;
-                }
-            },
+          
             {
                 title: "Review",
                 width: "4%",
@@ -191,9 +143,9 @@ namespace QuotationView {
                     txt.value = ("Review");
                     txt.id = "butPrint" + item.InvoiceID;
                     txt.className = "btn btn-custon-four btn-danger Done";
-                    if (item.TaxNotes == '' || item.TaxNotes == null) {
-                        txt.classList.add("display_none")
-                    }
+                    //if (item.TaxNotes == '' || item.TaxNotes == null) {
+                    //    txt.classList.add("display_none")
+                    //}
  
                     txt.onclick = (e) => {
                         PrintQuotation(item.InvoiceID);
@@ -223,6 +175,57 @@ namespace QuotationView {
                     return txt;
                 }
             },
+            {
+                title: "Eidt",
+                width: "3%",
+                itemTemplate: (s: string, item: Sls_Ivoice): HTMLInputElement => {
+                    let txt: HTMLInputElement = document.createElement("input");
+                    txt.type = "button";
+                    txt.value = ("Eidt");
+                    txt.id = "butEidt" + item.InvoiceID;
+                    txt.className = "dis src-btn btn btn-warning input-sm Inv Done";
+
+                    if (item.TaxNotes == '' || item.TaxNotes == null) {
+                        txt.classList.add("display_none")
+                    }
+
+                    if (item.TrType == 1) {
+                        txt.classList.add("display_none")
+                    }
+                    txt.onclick = (e) => {
+                        EidtQuotation(item.InvoiceID);
+                    };
+                    return txt;
+                }
+            },
+
+            {
+                title: "Comfirm",
+                width: "5%",
+                itemTemplate: (s: string, item: Sls_Ivoice): HTMLInputElement => {
+                    let txt: HTMLInputElement = document.createElement("input");
+                    txt.type = "button";
+                    txt.value = ("comfirm");
+                    txt.id = "butComfirm" + item.InvoiceID;
+                    txt.className = "btn btn-custon-four btn-success Inv Done";
+
+                    if (item.TaxNotes == '' || item.TaxNotes == null) {
+                        txt.classList.add("display_none")
+                    }
+
+                    if (item.TrType == 1) {
+                        txt.classList.add("display_none")
+                    }
+                    txt.onclick = (e) => {
+                        ComfirmQuotation(item.InvoiceID);
+
+
+                    };
+                    return txt;
+                }
+            },
+
+           
 
 
 

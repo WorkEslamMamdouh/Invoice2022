@@ -112,22 +112,37 @@ var QuotationView;
                 }
             },
             {
-                title: "Comfirm",
+                title: "Review",
+                width: "4%",
+                itemTemplate: function (s, item) {
+                    var txt = document.createElement("input");
+                    txt.type = "button";
+                    txt.value = ("Review");
+                    txt.id = "butPrint" + item.InvoiceID;
+                    txt.className = "btn btn-custon-four btn-danger Done";
+                    //if (item.TaxNotes == '' || item.TaxNotes == null) {
+                    //    txt.classList.add("display_none")
+                    //}
+                    txt.onclick = function (e) {
+                        PrintQuotation(item.InvoiceID);
+                    };
+                    return txt;
+                }
+            },
+            {
+                title: "DelivNote",
                 width: "5%",
                 itemTemplate: function (s, item) {
                     var txt = document.createElement("input");
                     txt.type = "button";
-                    txt.value = ("comfirm");
-                    txt.id = "butComfirm" + item.InvoiceID;
-                    txt.className = "btn btn-custon-four btn-success Inv Done";
+                    txt.value = ("DelivNote");
+                    txt.id = "butDelivNote" + item.InvoiceID;
+                    txt.className = "btn btn-custon-four btn-primary Done";
                     if (item.TaxNotes == '' || item.TaxNotes == null) {
                         txt.classList.add("display_none");
                     }
-                    if (item.TrType == 1) {
-                        txt.classList.add("display_none");
-                    }
                     txt.onclick = function (e) {
-                        ComfirmQuotation(item.InvoiceID);
+                        DelivNoteQuotation(item.InvoiceID);
                     };
                     return txt;
                 }
@@ -154,37 +169,22 @@ var QuotationView;
                 }
             },
             {
-                title: "Review",
-                width: "4%",
-                itemTemplate: function (s, item) {
-                    var txt = document.createElement("input");
-                    txt.type = "button";
-                    txt.value = ("Review");
-                    txt.id = "butPrint" + item.InvoiceID;
-                    txt.className = "btn btn-custon-four btn-danger Done";
-                    if (item.TaxNotes == '' || item.TaxNotes == null) {
-                        txt.classList.add("display_none");
-                    }
-                    txt.onclick = function (e) {
-                        PrintQuotation(item.InvoiceID);
-                    };
-                    return txt;
-                }
-            },
-            {
-                title: "DelivNote",
+                title: "Comfirm",
                 width: "5%",
                 itemTemplate: function (s, item) {
                     var txt = document.createElement("input");
                     txt.type = "button";
-                    txt.value = ("DelivNote");
-                    txt.id = "butDelivNote" + item.InvoiceID;
-                    txt.className = "btn btn-custon-four btn-primary Done";
+                    txt.value = ("comfirm");
+                    txt.id = "butComfirm" + item.InvoiceID;
+                    txt.className = "btn btn-custon-four btn-success Inv Done";
                     if (item.TaxNotes == '' || item.TaxNotes == null) {
                         txt.classList.add("display_none");
                     }
+                    if (item.TrType == 1) {
+                        txt.classList.add("display_none");
+                    }
                     txt.onclick = function (e) {
-                        DelivNoteQuotation(item.InvoiceID);
+                        ComfirmQuotation(item.InvoiceID);
                     };
                     return txt;
                 }
