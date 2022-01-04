@@ -185,9 +185,9 @@ namespace QuotationView {
                     txt.id = "butEidt" + item.InvoiceID;
                     txt.className = "dis src-btn btn btn-warning input-sm Inv Done";
 
-                    if (item.TaxNotes == '' || item.TaxNotes == null) {
-                        txt.classList.add("display_none")
-                    }
+                    //if (item.TaxNotes == '' || item.TaxNotes == null) {
+                    //    txt.classList.add("display_none")
+                    //}
 
                     if (item.TrType == 1) {
                         txt.classList.add("display_none")

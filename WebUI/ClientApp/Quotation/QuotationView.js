@@ -66,6 +66,7 @@ var QuotationView;
                     ReportGrid.Bind();
                     ReportGridInv.DataSource = Invoice;
                     ReportGridInv.Bind();
+                    //$('.Done').addClass("display_none");
                 }
             }
         });
@@ -156,9 +157,9 @@ var QuotationView;
                     txt.value = ("Eidt");
                     txt.id = "butEidt" + item.InvoiceID;
                     txt.className = "dis src-btn btn btn-warning input-sm Inv Done";
-                    if (item.TaxNotes == '' || item.TaxNotes == null) {
-                        txt.classList.add("display_none");
-                    }
+                    //if (item.TaxNotes == '' || item.TaxNotes == null) {
+                    //    txt.classList.add("display_none")
+                    //}
                     if (item.TrType == 1) {
                         txt.classList.add("display_none");
                     }
