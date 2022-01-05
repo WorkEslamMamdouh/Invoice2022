@@ -75,31 +75,6 @@ namespace Inv.DAL.Domain
         public virtual DbSet<Customer> Customers { get; set; }
         public virtual DbSet<Sls_InvoiceDetail> Sls_InvoiceDetail { get; set; }
     
-        public virtual int G_ProcessTrans(Nullable<int> comp, Nullable<int> branch, string trType, string opMode, Nullable<int> trID, ObjectParameter trNo, ObjectParameter ok)
-        {
-            var compParameter = comp.HasValue ?
-                new ObjectParameter("Comp", comp) :
-                new ObjectParameter("Comp", typeof(int));
-    
-            var branchParameter = branch.HasValue ?
-                new ObjectParameter("Branch", branch) :
-                new ObjectParameter("Branch", typeof(int));
-    
-            var trTypeParameter = trType != null ?
-                new ObjectParameter("TrType", trType) :
-                new ObjectParameter("TrType", typeof(string));
-    
-            var opModeParameter = opMode != null ?
-                new ObjectParameter("OpMode", opMode) :
-                new ObjectParameter("OpMode", typeof(string));
-    
-            var trIDParameter = trID.HasValue ?
-                new ObjectParameter("TrID", trID) :
-                new ObjectParameter("TrID", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("G_ProcessTrans", compParameter, branchParameter, trTypeParameter, opModeParameter, trIDParameter, trNo, ok);
-        }
-    
         public virtual int G_TOL_GetCounter(string system, Nullable<int> comp, Nullable<int> branch, Nullable<System.DateTime> dt, string trType, ObjectParameter trNo)
         {
             var systemParameter = system != null ?
@@ -133,6 +108,31 @@ namespace Inv.DAL.Domain
                 new ObjectParameter("userCode", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<GFun_Companies_Result>("[InvEntities].[GFun_Companies](@userCode)", userCodeParameter);
+        }
+    
+        public virtual int G_ProcessTrans(Nullable<int> comp, Nullable<int> branch, string trType, string opMode, Nullable<int> trID, ObjectParameter trNo, ObjectParameter ok)
+        {
+            var compParameter = comp.HasValue ?
+                new ObjectParameter("Comp", comp) :
+                new ObjectParameter("Comp", typeof(int));
+    
+            var branchParameter = branch.HasValue ?
+                new ObjectParameter("Branch", branch) :
+                new ObjectParameter("Branch", typeof(int));
+    
+            var trTypeParameter = trType != null ?
+                new ObjectParameter("TrType", trType) :
+                new ObjectParameter("TrType", typeof(string));
+    
+            var opModeParameter = opMode != null ?
+                new ObjectParameter("OpMode", opMode) :
+                new ObjectParameter("OpMode", typeof(string));
+    
+            var trIDParameter = trID.HasValue ?
+                new ObjectParameter("TrID", trID) :
+                new ObjectParameter("TrID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("G_ProcessTrans", compParameter, branchParameter, trTypeParameter, opModeParameter, trIDParameter, trNo, ok);
         }
     
         public virtual ObjectResult<Prnt_Quotation_Result> Prnt_Quotation(Nullable<int> comp, Nullable<int> bra, string compNameA, string compNameE, string braNameA, string braNameE, string loginUser, Nullable<int> repType, Nullable<int> tRId)

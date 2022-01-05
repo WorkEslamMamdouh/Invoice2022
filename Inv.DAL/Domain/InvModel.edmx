@@ -2173,15 +2173,6 @@ warning 6002: The table/view 'Invoice2022.dbo.I_VW_GetCompStatus' does not have 
           <EntitySet Name="GQ_Notifications" EntityType="Self.GQ_Notifications" />
           <EntitySet Name="GQ_ReportWebSetting" EntityType="Self.GQ_ReportWebSetting" />
           <EntitySet Name="I_VW_GetCompStatus" EntityType="Self.I_VW_GetCompStatus" />
-          <FunctionImport Name="G_ProcessTrans">
-            <Parameter Name="Comp" Mode="In" Type="Int32" />
-            <Parameter Name="Branch" Mode="In" Type="Int32" />
-            <Parameter Name="TrType" Mode="In" Type="String" />
-            <Parameter Name="OpMode" Mode="In" Type="String" />
-            <Parameter Name="TrID" Mode="In" Type="Int32" />
-            <Parameter Name="TrNo" Mode="InOut" Type="Int32" />
-            <Parameter Name="Ok" Mode="InOut" Type="Int32" />
-          </FunctionImport>
           <FunctionImport Name="G_TOL_GetCounter">
             <Parameter Name="System" Mode="In" Type="String" />
             <Parameter Name="Comp" Mode="In" Type="Int32" />
@@ -2196,6 +2187,15 @@ warning 6002: The table/view 'Invoice2022.dbo.I_VW_GetCompStatus' does not have 
           <EntitySet Name="Sls_Ivoice" EntityType="InvoiceModel.Sls_Ivoice" />
           <EntitySet Name="Customers" EntityType="InvoiceModel.Customer" />
           <EntitySet Name="Sls_InvoiceDetail" EntityType="InvoiceModel.Sls_InvoiceDetail" />
+          <FunctionImport Name="G_ProcessTrans">
+            <Parameter Name="Comp" Mode="In" Type="Int32" />
+            <Parameter Name="Branch" Mode="In" Type="Int32" />
+            <Parameter Name="TrType" Mode="In" Type="String" />
+            <Parameter Name="OpMode" Mode="In" Type="String" />
+            <Parameter Name="TrID" Mode="In" Type="Int32" />
+            <Parameter Name="TrNo" Mode="InOut" Type="Int32" />
+            <Parameter Name="Ok" Mode="InOut" Type="Int32" />
+          </FunctionImport>
           <FunctionImport Name="Prnt_Quotation" ReturnType="Collection(InvoiceModel.Prnt_Quotation_Result)">
             <Parameter Name="comp" Mode="In" Type="Int32" />
             <Parameter Name="bra" Mode="In" Type="Int32" />
@@ -2494,6 +2494,8 @@ warning 6002: The table/view 'Invoice2022.dbo.I_VW_GetCompStatus' does not have 
           <Property Type="String" Name="DocNo" Nullable="true" MaxLength="50" />
           <Property Type="Boolean" Name="isvat" Nullable="true" />
           <Property Type="String" Name="POU_NO" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="CreatedBy" Nullable="true" MaxLength="25" />
+          <Property Type="Int32" Name="invoiceNo" Nullable="true" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -3347,7 +3349,6 @@ warning 6002: The table/view 'Invoice2022.dbo.I_VW_GetCompStatus' does not have 
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="G_ProcessTrans" FunctionName="InvoiceModel.Store.G_ProcessTrans" />
           <FunctionImportMapping FunctionImportName="G_TOL_GetCounter" FunctionName="InvoiceModel.Store.G_TOL_GetCounter" />
           <FunctionImportMapping FunctionImportName="GFun_Companies" FunctionName="InvoiceModel.Store.GFun_Companies">
             <ResultMapping>
@@ -3567,6 +3568,7 @@ warning 6002: The table/view 'Invoice2022.dbo.I_VW_GetCompStatus' does not have 
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="G_ProcessTrans" FunctionName="InvoiceModel.Store.G_ProcessTrans" />
           <FunctionImportMapping FunctionImportName="Prnt_Quotation" FunctionName="InvoiceModel.Store.Prnt_Quotation">
             <ResultMapping>
               <ComplexTypeMapping TypeName="InvoiceModel.Prnt_Quotation_Result">
@@ -3643,6 +3645,8 @@ warning 6002: The table/view 'Invoice2022.dbo.I_VW_GetCompStatus' does not have 
                 <ScalarProperty Name="DocNo" ColumnName="DocNo" />
                 <ScalarProperty Name="isvat" ColumnName="isvat" />
                 <ScalarProperty Name="POU_NO" ColumnName="POU_NO" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="invoiceNo" ColumnName="invoiceNo" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

@@ -191,8 +191,9 @@ namespace Inv.API.Controllers
         public IHttpActionResult UpdateInvoice(int InvoiceID)
         {
             string query = "update [dbo].[Sls_Ivoice] set TrType = 1 where InvoiceID = " + InvoiceID + "";
-
             var res = db.Database.ExecuteSqlCommand(query);
+       ResponseResult res1 = Shared.TransactionProcess(Convert.ToInt32(1), Convert.ToInt32(1), InvoiceID, "INV", "ADD", db);
+
             return Ok(new BaseResponse(100));
         }
 
