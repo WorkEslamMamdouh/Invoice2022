@@ -12,60 +12,56 @@ var USERS;
     var ReportGrid = new JsGrid();
     var compcode; //SharedSession.CurrentEnvironment.CompCode;
     var BranchCode; //SharedSession.CurrentEnvironment.CompCode;
-    var btnsave;
-    var txtNameComp;
-    var txtmailComp;
-    var txtAddressComp;
-    var chkvat;
-    var txtRemark;
-    var IsNew = true;
-    var UCustomerId;
+    var USER_NAME;
+    var Tel;
+    var USER_CODE;
+    var USER_PASSWORD;
+    var Create;
+    var IsNew = false;
     var lang = (SysSession.CurrentEnvironment.ScreenLanguage);
     function InitalizeComponent() {
         compcode = Number(SysSession.CurrentEnvironment.CompCode);
         BranchCode = Number(SysSession.CurrentEnvironment.BranchCode);
         InitalizeControls();
         InitalizeEvents();
-        $('#btnsave').html('Create');
-        $('#a').click();
-        Display();
+        clear();
     }
     USERS.InitalizeComponent = InitalizeComponent;
     function InitalizeControls() {
-        // ;     
-        btnsave = document.getElementById("btnsave");
-        // inputs
-        txtmailComp = document.getElementById("txtmailComp");
-        txtAddressComp = document.getElementById("txtAddressComp");
-        chkvat = document.getElementById("chkvat");
-        txtNameComp = document.getElementById("txtNameComp");
-        txtRemark = document.getElementById("txtRemark");
+        USER_NAME = document.getElementById("USER_NAME");
+        Tel = document.getElementById("Tel");
+        USER_CODE = document.getElementById("USER_CODE");
+        USER_PASSWORD = document.getElementById("USER_PASSWORD");
+        Create = document.getElementById("Create");
     }
     function InitalizeEvents() {
-        btnsave.onclick = btnsave_onclick;
+        Create.onclick = Create_onclick;
+    }
+    function Create_onclick() {
+        insert();
     }
     function Assign() {
         Model = new Customer();
         Model.CompCode = Number(compcode);
         Model.BranchCode = Number(BranchCode);
         Model.CustomerId = 0;
-        Model.NAMEA = txtNameComp.value;
-        Model.NAMEE = txtNameComp.value;
-        Model.EMAIL = txtmailComp.value;
-        Model.Address_Street = txtAddressComp.value;
-        Model.Isactive = chkvat.checked;
-        Model.REMARKS = txtRemark.value;
-        Model.CREATED_AT = GetTime();
-        Model.CREATED_BY = sys.SysSession.CurrentEnvironment.UserCode;
+        //Model.NAMEA = txtNameComp.value;
+        //Model.NAMEE = txtNameComp.value;
+        //Model.EMAIL = txtmailComp.value;
+        //Model.Address_Street = txtAddressComp.value;
+        //Model.Isactive = chkvat.checked;
+        //Model.REMARKS = txtRemark.value;
+        //Model.CREATED_AT = GetTime();
+        //Model.CREATED_BY = sys.SysSession.CurrentEnvironment.UserCode;
     }
     function insert() {
-        Assign();
+        debugger;
+        var CreatedAt = GetDate();
         Ajax.Callsync({
             type: "Get",
-            url: sys.apiUrl("SlsTrSales", "InsertCustomer"),
+            url: sys.apiUrl("SlsTrSales", "Insert_User"),
             data: {
-                NAMEA: Model.NAMEA, NAMEE: Model.NAMEE, EMAIL: Model.EMAIL, Address_Street: Model.Address_Street,
-                Isactive: Model.Isactive, REMARKS: Model.REMARKS, CREATED_BY: Model.CREATED_BY, CREATED_AT: Model.CREATED_AT
+                USER_CODE: USER_CODE.value, USER_PASSWORD: USER_PASSWORD.value, USER_NAME: USER_NAME.value, Tel: Tel.value, CompCode: compcode, CREATED_BY: sys.SysSession.CurrentEnvironment.UserCode, CREATED_AT: CreatedAt
             },
             success: function (d) {
                 var result = d;
@@ -84,10 +80,7 @@ var USERS;
         Ajax.Callsync({
             type: "Get",
             url: sys.apiUrl("SlsTrSales", "UpdateCustomer"),
-            data: {
-                NAMEA: Model.NAMEA, NAMEE: Model.NAMEE, EMAIL: Model.EMAIL, Address_Street: Model.Address_Street,
-                Isactive: Model.Isactive, REMARKS: Model.REMARKS, CREATED_BY: Model.CREATED_BY, CREATED_AT: Model.CREATED_AT, CustomerId: UCustomerId
-            },
+            data: {},
             success: function (d) {
                 var result = d;
                 if (result.IsSuccess == true) {
@@ -101,29 +94,25 @@ var USERS;
         });
     }
     function validation() {
-        if (txtNameComp.value.trim() == "") {
-            Errorinput(txtNameComp);
-            DisplayMassage('Company Name must be entered', 'Company Name must be entered', MessageType.Error);
-            return false;
-        }
-        if (txtmailComp.value.trim() == "") {
-            Errorinput(txtmailComp);
-            DisplayMassage('Company Name must be entered', 'Company Name must be entered', MessageType.Error);
-            return false;
-        }
-        if (txtAddressComp.value.trim() == "") {
-            Errorinput(txtAddressComp);
-            DisplayMassage('Address must be entered', 'Address must be entered', MessageType.Error);
-            return false;
-        }
+        //if (txtNameComp.value.trim() == "") {
+        //    Errorinput(txtNameComp);
+        //    DisplayMassage('Company Name must be entered', 'Company Name must be entered', MessageType.Error);
+        //    return false;
+        //}
+        //if (txtmailComp.value.trim() == "") {
+        //    Errorinput(txtmailComp);
+        //    DisplayMassage('Company Name must be entered', 'Company Name must be entered', MessageType.Error);
+        //    return false;
+        //}
+        //if (txtAddressComp.value.trim() == "") {
+        //    Errorinput(txtAddressComp);
+        //    DisplayMassage('Address must be entered', 'Address must be entered', MessageType.Error);
+        //    return false;
+        //}
         return true;
     }
     function success_insert() {
-        txtNameComp.value = "";
-        txtmailComp.value = "";
-        txtAddressComp.value = "";
-        txtRemark.value = "";
-        chkvat.checked = false;
+        clear();
         IsNew = true;
         $('#btnsave').html('Create');
         Display();
@@ -182,14 +171,21 @@ var USERS;
     function DriverDoubleClick() {
         IsNew = false;
         CustomerModelfil = CustomerModel.filter(function (x) { return x.CustomerId == Number(ReportGrid.SelectedKey); });
-        UCustomerId = Number(ReportGrid.SelectedKey);
-        txtNameComp.value = CustomerModelfil[0].NAMEE;
-        txtmailComp.value = CustomerModelfil[0].EMAIL;
-        txtAddressComp.value = CustomerModelfil[0].Address_Street;
-        txtRemark.value = CustomerModelfil[0].REMARKS;
-        chkvat.checked = CustomerModelfil[0].Isactive;
-        $('#a').click();
-        $('#btnsave').html('Update');
+        //UCustomerId = Number(ReportGrid.SelectedKey);
+        //txtNameComp.value = CustomerModelfil[0].NAMEE;
+        //txtmailComp.value = CustomerModelfil[0].EMAIL;
+        //txtAddressComp.value = CustomerModelfil[0].Address_Street;
+        //txtRemark.value = CustomerModelfil[0].REMARKS;
+        //chkvat.checked = CustomerModelfil[0].Isactive;
+        //$('#a').click();
+        //$('#btnsave').html('Update');
+    }
+    function clear() {
+        debugger;
+        USER_NAME.value = "";
+        Tel.value = "";
+        USER_CODE.value = "";
+        USER_PASSWORD.value = "";
     }
 })(USERS || (USERS = {}));
 //# sourceMappingURL=USERS.js.map

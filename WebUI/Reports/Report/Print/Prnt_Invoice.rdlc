@@ -1227,7 +1227,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Discount 1%</Value>
+                              <Value>Deduction 1%</Value>
                               <Style>
                                 <FontSize>11pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
@@ -1527,7 +1527,7 @@
         <Top>9.12757cm</Top>
         <Left>0.34784cm</Left>
         <Height>4.56023cm</Height>
-        <Width>20.05684cm</Width>
+        <Width>20.05685cm</Width>
         <ZIndex>1</ZIndex>
         <Visibility>
           <Hidden>=iif(First(Fields!DiscountAmount.Value, "Prnt_Invoice") = 0 , true , false)</Hidden>
@@ -2892,13 +2892,13 @@
         <TablixBody>
           <TablixColumns>
             <TablixColumn>
-              <Width>1.09354cm</Width>
+              <Width>1.67311cm</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>1.45779cm</Width>
+              <Width>1.67311cm</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>8.65543cm</Width>
+              <Width>7.86054cm</Width>
             </TablixColumn>
             <TablixColumn>
               <Width>3.94607cm</Width>
@@ -3854,7 +3854,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Discount 1%</Value>
+                              <Value>Deduction 1%</Value>
                               <Style>
                                 <FontSize>11pt</FontSize>
                                 <FontWeight>Bold</FontWeight>

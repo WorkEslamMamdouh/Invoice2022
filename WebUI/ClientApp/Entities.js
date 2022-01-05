@@ -1,24 +1,34 @@
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
-var SecurityClass = (function () {
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+var SecurityClass = /** @class */ (function () {
     function SecurityClass() {
     }
     return SecurityClass;
 }());
-var FavModules = (function () {
+var FavModules = /** @class */ (function () {
     function FavModules() {
     }
     return FavModules;
 }());
-var SystemParameters = (function () {
+var SystemParameters = /** @class */ (function () {
     function SystemParameters() {
     }
     return SystemParameters;
 }());
-var APISessionRecord = (function () {
+var APISessionRecord = /** @class */ (function () {
     function APISessionRecord() {
     }
     APISessionRecord.prototype.SetAPISession = function (key, value) {
@@ -43,7 +53,7 @@ var APISessionRecord = (function () {
         set: function (value) {
             this.SetAPISession("SystemCode", value);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(APISessionRecord.prototype, "SubSystemCode", {
@@ -53,7 +63,7 @@ var APISessionRecord = (function () {
         set: function (value) {
             this.SetAPISession("SubSystemCode", value);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(APISessionRecord.prototype, "Modulecode", {
@@ -63,7 +73,7 @@ var APISessionRecord = (function () {
         set: function (value) {
             this.SetAPISession("Modulecode", value);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(APISessionRecord.prototype, "UserCode", {
@@ -73,7 +83,7 @@ var APISessionRecord = (function () {
         set: function (value) {
             this.SetAPISession("UserCode", value);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(APISessionRecord.prototype, "Token", {
@@ -83,7 +93,7 @@ var APISessionRecord = (function () {
         set: function (value) {
             this.SetAPISession("Token", value);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(APISessionRecord.prototype, "CompCode", {
@@ -93,7 +103,7 @@ var APISessionRecord = (function () {
         set: function (value) {
             this.SetAPISession("CompCode", value);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(APISessionRecord.prototype, "BranchCode", {
@@ -103,7 +113,7 @@ var APISessionRecord = (function () {
         set: function (value) {
             this.SetAPISession("BranchCode", value);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(APISessionRecord.prototype, "CurrentYear", {
@@ -113,7 +123,7 @@ var APISessionRecord = (function () {
         set: function (value) {
             this.SetAPISession("CurrentYear", value);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     Object.defineProperty(APISessionRecord.prototype, "ScreenLanguage", {
@@ -123,12 +133,12 @@ var APISessionRecord = (function () {
         set: function (value) {
             this.SetAPISession("ScreenLanguage", value);
         },
-        enumerable: true,
+        enumerable: false,
         configurable: true
     });
     return APISessionRecord;
 }());
-var SlsInvoiceMasterDetails = (function (_super) {
+var SlsInvoiceMasterDetails = /** @class */ (function (_super) {
     __extends(SlsInvoiceMasterDetails, _super);
     function SlsInvoiceMasterDetails() {
         var _this = _super.call(this) || this;
@@ -138,7 +148,7 @@ var SlsInvoiceMasterDetails = (function (_super) {
     }
     return SlsInvoiceMasterDetails;
 }(SecurityClass));
-var Customcustomer = (function (_super) {
+var Customcustomer = /** @class */ (function (_super) {
     __extends(Customcustomer, _super);
     function Customcustomer() {
         var _this = _super.call(this) || this;
@@ -147,27 +157,27 @@ var Customcustomer = (function (_super) {
     }
     return Customcustomer;
 }(SecurityClass));
-var EntityContext = (function () {
+var EntityContext = /** @class */ (function () {
     function EntityContext() {
     }
     return EntityContext;
 }());
-var ResponseResult = (function () {
+var ResponseResult = /** @class */ (function () {
     function ResponseResult() {
     }
     return ResponseResult;
 }());
-var BaseResponse = (function () {
+var BaseResponse = /** @class */ (function () {
     function BaseResponse() {
     }
     return BaseResponse;
 }());
-var ReportParameters = (function () {
+var ReportParameters = /** @class */ (function () {
     function ReportParameters() {
     }
     return ReportParameters;
 }());
-var G_BRANCH = (function (_super) {
+var G_BRANCH = /** @class */ (function (_super) {
     __extends(G_BRANCH, _super);
     function G_BRANCH() {
         var _this = _super.call(this) || this;
@@ -225,7 +235,7 @@ var G_BRANCH = (function (_super) {
     }
     return G_BRANCH;
 }(SecurityClass));
-var G_LnkVarBranch = (function (_super) {
+var G_LnkVarBranch = /** @class */ (function (_super) {
     __extends(G_LnkVarBranch, _super);
     function G_LnkVarBranch() {
         var _this = _super.call(this) || this;
@@ -240,7 +250,7 @@ var G_LnkVarBranch = (function (_super) {
     }
     return G_LnkVarBranch;
 }(SecurityClass));
-var Customer = (function (_super) {
+var Customer = /** @class */ (function (_super) {
     __extends(Customer, _super);
     function Customer() {
         var _this = _super.call(this) || this;
@@ -308,7 +318,7 @@ var Customer = (function (_super) {
     }
     return Customer;
 }(SecurityClass));
-var GQ_GetLnkVarBranch = (function (_super) {
+var GQ_GetLnkVarBranch = /** @class */ (function (_super) {
     __extends(GQ_GetLnkVarBranch, _super);
     function GQ_GetLnkVarBranch() {
         var _this = _super.call(this) || this;
@@ -329,7 +339,7 @@ var GQ_GetLnkVarBranch = (function (_super) {
     }
     return GQ_GetLnkVarBranch;
 }(SecurityClass));
-var I_VW_GetCompStatus = (function (_super) {
+var I_VW_GetCompStatus = /** @class */ (function (_super) {
     __extends(I_VW_GetCompStatus, _super);
     function I_VW_GetCompStatus() {
         var _this = _super.call(this) || this;
@@ -349,7 +359,7 @@ var I_VW_GetCompStatus = (function (_super) {
     }
     return I_VW_GetCompStatus;
 }(SecurityClass));
-var G_COMPANY = (function (_super) {
+var G_COMPANY = /** @class */ (function (_super) {
     __extends(G_COMPANY, _super);
     function G_COMPANY() {
         var _this = _super.call(this) || this;
@@ -403,7 +413,7 @@ var G_COMPANY = (function (_super) {
     }
     return G_COMPANY;
 }(SecurityClass));
-var G_MODULES = (function (_super) {
+var G_MODULES = /** @class */ (function (_super) {
     __extends(G_MODULES, _super);
     function G_MODULES() {
         var _this = _super.call(this) || this;
@@ -446,7 +456,7 @@ var G_MODULES = (function (_super) {
     }
     return G_MODULES;
 }(SecurityClass));
-var G_ModuleHelp = (function (_super) {
+var G_ModuleHelp = /** @class */ (function (_super) {
     __extends(G_ModuleHelp, _super);
     function G_ModuleHelp() {
         var _this = _super.call(this) || this;
@@ -459,7 +469,7 @@ var G_ModuleHelp = (function (_super) {
     }
     return G_ModuleHelp;
 }(SecurityClass));
-var GQ_GetUserModule = (function (_super) {
+var GQ_GetUserModule = /** @class */ (function (_super) {
     __extends(GQ_GetUserModule, _super);
     function GQ_GetUserModule() {
         var _this = _super.call(this) || this;
@@ -516,7 +526,7 @@ var GQ_GetUserModule = (function (_super) {
     }
     return GQ_GetUserModule;
 }(SecurityClass));
-var G_Noteifications = (function (_super) {
+var G_Noteifications = /** @class */ (function (_super) {
     __extends(G_Noteifications, _super);
     function G_Noteifications() {
         var _this = _super.call(this) || this;
@@ -535,7 +545,7 @@ var G_Noteifications = (function (_super) {
     }
     return G_Noteifications;
 }(SecurityClass));
-var G_NotificationCompany = (function (_super) {
+var G_NotificationCompany = /** @class */ (function (_super) {
     __extends(G_NotificationCompany, _super);
     function G_NotificationCompany() {
         var _this = _super.call(this) || this;
@@ -550,7 +560,7 @@ var G_NotificationCompany = (function (_super) {
     }
     return G_NotificationCompany;
 }(SecurityClass));
-var NoteificationsModel = (function (_super) {
+var NoteificationsModel = /** @class */ (function (_super) {
     __extends(NoteificationsModel, _super);
     function NoteificationsModel() {
         var _this = _super.call(this) || this;
@@ -562,7 +572,7 @@ var NoteificationsModel = (function (_super) {
     }
     return NoteificationsModel;
 }(SecurityClass));
-var G_RoleUsers = (function (_super) {
+var G_RoleUsers = /** @class */ (function (_super) {
     __extends(G_RoleUsers, _super);
     function G_RoleUsers() {
         var _this = _super.call(this) || this;
@@ -574,7 +584,7 @@ var G_RoleUsers = (function (_super) {
     }
     return G_RoleUsers;
 }(SecurityClass));
-var G_USERS = (function (_super) {
+var G_USERS = /** @class */ (function (_super) {
     __extends(G_USERS, _super);
     function G_USERS() {
         var _this = _super.call(this) || this;
@@ -616,7 +626,7 @@ var G_USERS = (function (_super) {
     }
     return G_USERS;
 }(SecurityClass));
-var GQ_GetUsers = (function (_super) {
+var GQ_GetUsers = /** @class */ (function (_super) {
     __extends(GQ_GetUsers, _super);
     function GQ_GetUsers() {
         var _this = _super.call(this) || this;
@@ -662,7 +672,7 @@ var GQ_GetUsers = (function (_super) {
     }
     return GQ_GetUsers;
 }(SecurityClass));
-var GQ_GetUserRole = (function (_super) {
+var GQ_GetUserRole = /** @class */ (function (_super) {
     __extends(GQ_GetUserRole, _super);
     function GQ_GetUserRole() {
         var _this = _super.call(this) || this;
@@ -679,7 +689,7 @@ var GQ_GetUserRole = (function (_super) {
     }
     return GQ_GetUserRole;
 }(SecurityClass));
-var G_Role = (function (_super) {
+var G_Role = /** @class */ (function (_super) {
     __extends(G_Role, _super);
     function G_Role() {
         var _this = _super.call(this) || this;
@@ -693,7 +703,7 @@ var G_Role = (function (_super) {
     }
     return G_Role;
 }(SecurityClass));
-var G_CONTROL = (function (_super) {
+var G_CONTROL = /** @class */ (function (_super) {
     __extends(G_CONTROL, _super);
     function G_CONTROL() {
         var _this = _super.call(this) || this;
@@ -710,7 +720,7 @@ var G_CONTROL = (function (_super) {
     }
     return G_CONTROL;
 }(SecurityClass));
-var G_SearchForm = (function (_super) {
+var G_SearchForm = /** @class */ (function (_super) {
     __extends(G_SearchForm, _super);
     function G_SearchForm() {
         var _this = _super.call(this) || this;
@@ -731,7 +741,7 @@ var G_SearchForm = (function (_super) {
     }
     return G_SearchForm;
 }(SecurityClass));
-var G_SearchFormModule = (function (_super) {
+var G_SearchFormModule = /** @class */ (function (_super) {
     __extends(G_SearchFormModule, _super);
     function G_SearchFormModule() {
         var _this = _super.call(this) || this;
@@ -744,7 +754,7 @@ var G_SearchFormModule = (function (_super) {
     }
     return G_SearchFormModule;
 }(SecurityClass));
-var G_SearchFormSetting = (function (_super) {
+var G_SearchFormSetting = /** @class */ (function (_super) {
     __extends(G_SearchFormSetting, _super);
     function G_SearchFormSetting() {
         var _this = _super.call(this) || this;
@@ -764,7 +774,7 @@ var G_SearchFormSetting = (function (_super) {
     }
     return G_SearchFormSetting;
 }(SecurityClass));
-var CustomerType = (function () {
+var CustomerType = /** @class */ (function () {
     function CustomerType() {
         this.IsCredit = null;
         this.SalesInvoiceNature = null;
@@ -772,7 +782,7 @@ var CustomerType = (function () {
     }
     return CustomerType;
 }());
-var G_USER_BRANCH = (function (_super) {
+var G_USER_BRANCH = /** @class */ (function (_super) {
     __extends(G_USER_BRANCH, _super);
     function G_USER_BRANCH() {
         var _this = _super.call(this) || this;
@@ -790,7 +800,7 @@ var G_USER_BRANCH = (function (_super) {
     }
     return G_USER_BRANCH;
 }(SecurityClass));
-var G_USER_COMPANY = (function (_super) {
+var G_USER_COMPANY = /** @class */ (function (_super) {
     __extends(G_USER_COMPANY, _super);
     function G_USER_COMPANY() {
         var _this = _super.call(this) || this;
@@ -806,7 +816,7 @@ var G_USER_COMPANY = (function (_super) {
     }
     return G_USER_COMPANY;
 }(SecurityClass));
-var G_USER_LOG = (function (_super) {
+var G_USER_LOG = /** @class */ (function (_super) {
     __extends(G_USER_LOG, _super);
     function G_USER_LOG() {
         var _this = _super.call(this) || this;
@@ -820,7 +830,7 @@ var G_USER_LOG = (function (_super) {
     }
     return G_USER_LOG;
 }(SecurityClass));
-var G_USER_MODULE = (function (_super) {
+var G_USER_MODULE = /** @class */ (function (_super) {
     __extends(G_USER_MODULE, _super);
     function G_USER_MODULE() {
         var _this = _super.call(this) || this;
@@ -849,7 +859,7 @@ var G_USER_MODULE = (function (_super) {
     }
     return G_USER_MODULE;
 }(SecurityClass));
-var G_USER_SUB_SYSTEM = (function (_super) {
+var G_USER_SUB_SYSTEM = /** @class */ (function (_super) {
     __extends(G_USER_SUB_SYSTEM, _super);
     function G_USER_SUB_SYSTEM() {
         var _this = _super.call(this) || this;
@@ -862,7 +872,7 @@ var G_USER_SUB_SYSTEM = (function (_super) {
     }
     return G_USER_SUB_SYSTEM;
 }(SecurityClass));
-var G_USER_SYSTEM = (function (_super) {
+var G_USER_SYSTEM = /** @class */ (function (_super) {
     __extends(G_USER_SYSTEM, _super);
     function G_USER_SYSTEM() {
         var _this = _super.call(this) || this;
@@ -874,7 +884,7 @@ var G_USER_SYSTEM = (function (_super) {
     }
     return G_USER_SYSTEM;
 }(SecurityClass));
-var I_Control = (function () {
+var I_Control = /** @class */ (function () {
     function I_Control() {
         this.CompCode = 0;
         this.DefSlsVatType = 0;
@@ -922,7 +932,7 @@ var I_Control = (function () {
     }
     return I_Control;
 }());
-var KQ_GetAlertNoteLog = (function (_super) {
+var KQ_GetAlertNoteLog = /** @class */ (function (_super) {
     __extends(KQ_GetAlertNoteLog, _super);
     function KQ_GetAlertNoteLog() {
         var _this = _super.call(this) || this;
@@ -937,7 +947,7 @@ var KQ_GetAlertNoteLog = (function (_super) {
     }
     return KQ_GetAlertNoteLog;
 }(SecurityClass));
-var G_Nationality = (function (_super) {
+var G_Nationality = /** @class */ (function (_super) {
     __extends(G_Nationality, _super);
     function G_Nationality() {
         var _this = _super.call(this) || this;
@@ -951,7 +961,7 @@ var G_Nationality = (function (_super) {
     }
     return G_Nationality;
 }(SecurityClass));
-var A_RecPay_D_Group = (function (_super) {
+var A_RecPay_D_Group = /** @class */ (function (_super) {
     __extends(A_RecPay_D_Group, _super);
     function A_RecPay_D_Group() {
         var _this = _super.call(this) || this;
@@ -971,7 +981,7 @@ var A_RecPay_D_Group = (function (_super) {
     }
     return A_RecPay_D_Group;
 }(SecurityClass));
-var Sls_Ivoice = (function (_super) {
+var Sls_Ivoice = /** @class */ (function (_super) {
     __extends(Sls_Ivoice, _super);
     function Sls_Ivoice() {
         var _this = _super.call(this) || this;
@@ -1061,7 +1071,7 @@ var Sls_Ivoice = (function (_super) {
     }
     return Sls_Ivoice;
 }(SecurityClass));
-var Sls_InvoiceDetail = (function (_super) {
+var Sls_InvoiceDetail = /** @class */ (function (_super) {
     __extends(Sls_InvoiceDetail, _super);
     function Sls_InvoiceDetail() {
         var _this = _super.call(this) || this;

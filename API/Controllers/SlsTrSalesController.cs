@@ -250,7 +250,14 @@ namespace Inv.API.Controllers
             var res = db.Sls_InvoiceDetail.Where(x => x.InvoiceID == invoiceID).ToList();
             return Ok(new BaseResponse(res));
         }
-
+         
+        [HttpGet, AllowAnonymous]
+        public IHttpActionResult Insert_User(string USER_CODE ,string USER_NAME, string USER_PASSWORD, string Tel, int CompCode ,string CreatedAt , string CreatedBy)
+        {
+            var QUERY = "INSERT INTO [dbo].[G_USERS](USER_CODE,USER_PASSWORD,USER_ACTIVE,USER_PASSWORD,CompCode,Tel,CreatedBy,CreatedAt,USER_NAME VALUES('" + USER_CODE+ "','"+USER_PASSWORD+"',1,'"+USER_PASSWORD+"',"+CompCode+",'"+Tel+"','"+CreatedBy+"','"+CreatedAt+"','"+ USER_NAME + "')";
+            var res = db.Database.ExecuteSqlCommand(QUERY);
+            return Ok(new BaseResponse(res));
+        }
 
     }
 }
