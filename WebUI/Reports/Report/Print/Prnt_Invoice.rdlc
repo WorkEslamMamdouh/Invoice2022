@@ -1903,7 +1903,6 @@
                         <PaddingBottom>2pt</PaddingBottom>
                       </Style>
                     </Textbox>
-                    <rd:Selected>true</rd:Selected>
                   </CellContents>
                 </TablixCell>
                 <TablixCell>
@@ -2222,7 +2221,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value EvaluationMode="Constant">Land line : +2 25253552 Fax : +2 25071912</Value>
+                              <Value>Land line : +2 25253522 Fax : +2 25071912</Value>
                               <Style>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
@@ -4095,7 +4094,7 @@
       </Style>
     </PageHeader>
     <PageFooter>
-      <Height>3.48897cm</Height>
+      <Height>0.38452cm</Height>
       <PrintOnFirstPage>true</PrintOnFirstPage>
       <PrintOnLastPage>true</PrintOnLastPage>
       <Style>

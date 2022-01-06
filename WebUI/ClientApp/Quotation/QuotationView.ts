@@ -105,7 +105,7 @@ namespace QuotationView {
         ReportGrid.OnItemEditing = () => { };
         ReportGrid.Columns = [
             { title: "الرقم", name: "InvoiceID", type: "text", width: "5%", visible: false },
-            { title: "TrNo", name: "TrNo", type: "text", width: "5%" },
+            { title: "INV.No", name: "CashBoxID", type: "text", width: "5%" },
             { title: "RFQ", name: "RefNO", type: "text", width: "7%" },
             { title: "Date", name: "TrDateH", type: "text", width: "7%" },
             { title: "TotalAmount", name: "NetAfterVat", type: "text", width: "5%" },
