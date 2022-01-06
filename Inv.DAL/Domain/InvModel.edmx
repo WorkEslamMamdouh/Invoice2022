@@ -2496,6 +2496,7 @@ warning 6002: The table/view 'Invoice2022.dbo.I_VW_GetCompStatus' does not have 
           <Property Type="String" Name="POU_NO" Nullable="true" MaxLength="200" />
           <Property Type="String" Name="CreatedBy" Nullable="true" MaxLength="25" />
           <Property Type="Int32" Name="invoiceNo" Nullable="true" />
+          <Property Type="DateTime" Name="InvDate" Nullable="true" Precision="16" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -3647,6 +3648,7 @@ warning 6002: The table/view 'Invoice2022.dbo.I_VW_GetCompStatus' does not have 
                 <ScalarProperty Name="POU_NO" ColumnName="POU_NO" />
                 <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
                 <ScalarProperty Name="invoiceNo" ColumnName="invoiceNo" />
+                <ScalarProperty Name="InvDate" ColumnName="InvDate" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

@@ -89,7 +89,7 @@ var QuotationView;
         ReportGrid.OnItemEditing = function () { };
         ReportGrid.Columns = [
             { title: "الرقم", name: "InvoiceID", type: "text", width: "5%", visible: false },
-            { title: "INV.No", name: "CashBoxID", type: "text", width: "5%" },
+            { title: "Quot.No", name: "TrNo", type: "text", width: "5%" },
             { title: "RFQ", name: "RefNO", type: "text", width: "7%" },
             { title: "Date", name: "TrDateH", type: "text", width: "7%" },
             { title: "TotalAmount", name: "NetAfterVat", type: "text", width: "5%" },
@@ -210,9 +210,9 @@ var QuotationView;
         ReportGridInv.OnItemEditing = function () { };
         ReportGridInv.Columns = [
             { title: "الرقم", name: "InvoiceID", type: "text", width: "5%", visible: false },
-            { title: "TrNo", name: "TrNo", type: "text", width: "5%" },
+            { title: "INV.No", name: "CashBoxID", type: "text", width: "5%" },
             { title: "RFQ", name: "RefNO", type: "text", width: "8%" },
-            { title: "Date", name: "TrDate", type: "text", width: "7%" },
+            { title: "Date", name: "DeliveryEndDate", type: "text", width: "7%" },
             { title: "TotalAmount", name: "NetAfterVat", type: "text", width: "10%" },
             {
                 title: "Review",
@@ -265,10 +265,12 @@ var QuotationView;
         });
     }
     function ComfirmQuotation(btnId) {
+        var InvDate = GetDate();
+        alert(InvDate);
         Ajax.Callsync({
             type: "Get",
             url: sys.apiUrl("SlsTrSales", "UpdateInvoice"),
-            data: { InvoiceID: btnId },
+            data: { InvoiceID: btnId, InvDate: InvDate },
             success: function (d) {
                 var result = d;
                 if (result.IsSuccess == true) {

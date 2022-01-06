@@ -88,5 +88,6 @@ namespace Inv.DAL.Domain
         public string POU_NO { get; set; }
         public string CreatedBy { get; set; }
         public Nullable<int> invoiceNo { get; set; }
+        public Nullable<System.DateTime> InvDate { get; set; }
     }
 }
