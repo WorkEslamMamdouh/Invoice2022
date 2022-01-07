@@ -61,7 +61,7 @@ var QuotationView;
                     Invoice = new Array();
                     InvQuotation = new Array();
                     InvQuotation = InvoiceDisplay;
-                    Invoice = InvoiceDisplay.filter(function (x) { return x.TrType == 1; });
+                    Invoice = InvoiceDisplay.filter(function (x) { return x.TrType == 1 && x.CashBoxID != null; }).sort(function (a, b) { return b.CashBoxID - a.CashBoxID; });
                     ReportGrid.DataSource = InvQuotation;
                     ReportGrid.Bind();
                     ReportGridInv.DataSource = Invoice;
@@ -266,7 +266,6 @@ var QuotationView;
     }
     function ComfirmQuotation(btnId) {
         var InvDate = GetDate();
-        alert(InvDate);
         Ajax.Callsync({
             type: "Get",
             url: sys.apiUrl("SlsTrSales", "UpdateInvoice"),

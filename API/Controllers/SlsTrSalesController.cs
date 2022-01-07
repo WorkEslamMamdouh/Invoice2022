@@ -190,7 +190,9 @@ namespace Inv.API.Controllers
         [HttpGet, AllowAnonymous]
         public IHttpActionResult UpdateInvoice(int InvoiceID,string InvDate)
         {
-            string query = "update [dbo].[Sls_Ivoice] set TrType = 1 , DeliveryEndDate = "+InvDate+" where InvoiceID = " + InvoiceID + "";
+
+            //InvDate = DateTime.Now.ToString();
+            string query = "update [dbo].[Sls_Ivoice] set TrType = 1 , DeliveryEndDate = '"+InvDate+"' where InvoiceID = " + InvoiceID + "";
             var res = db.Database.ExecuteSqlCommand(query);
        ResponseResult res1 = Shared.TransactionProcess(Convert.ToInt32(1), Convert.ToInt32(1), InvoiceID, "INV", "ADD", db);
 

@@ -70,7 +70,9 @@ namespace QuotationView {
                       InvQuotation = new Array<Sls_Ivoice>();
 
                     InvQuotation = InvoiceDisplay;
-                    Invoice = InvoiceDisplay.filter(x => x.TrType == 1);
+
+                     
+                    Invoice = InvoiceDisplay.filter(x => x.TrType == 1 && x.CashBoxID != null).sort(function (a, b) { return b.CashBoxID - a.CashBoxID; });
                     ReportGrid.DataSource = InvQuotation;
                     ReportGrid.Bind();
 
@@ -330,8 +332,7 @@ namespace QuotationView {
 
     }
     function ComfirmQuotation(btnId: number) {
-        var InvDate = GetDate();
-        alert(InvDate);
+        var InvDate = GetDate(); 
         Ajax.Callsync({
             type: "Get",
             url: sys.apiUrl("SlsTrSales", "UpdateInvoice"),
