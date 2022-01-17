@@ -1446,7 +1446,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!iv_NetAfterVat.Value-((Fields!iv_NetAfterVat.Value * 1)/100)</Value>
+                              <Value>=iif(Fields!isvat.Value=false,((Fields!iv_NetAfterVat.Value)-(Fields!iv_NetAfterVat.Value * 1) / 100),(((Fields!iv_NetAfterVat.Value*14)/100 )+Fields!iv_NetAfterVat.Value)-(Fields!iv_NetAfterVat.Value * 1) / 100)</Value>
                               <Style>
                                 <FontSize>12pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
@@ -1938,7 +1938,6 @@
                         <PaddingBottom>2pt</PaddingBottom>
                       </Style>
                     </Textbox>
-                    <rd:Selected>true</rd:Selected>
                   </CellContents>
                 </TablixCell>
               </TablixCells>
@@ -3968,7 +3967,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=(((Fields!iv_NetAfterVat.Value*14)/100 )+Fields!iv_NetAfterVat.Value)-(Fields!iv_NetAfterVat.Value * 1) / 100</Value>
+                              <Value>=iif(Fields!isvat.Value=false,((Fields!iv_NetAfterVat.Value)-(Fields!iv_NetAfterVat.Value * 1) / 100),(((Fields!iv_NetAfterVat.Value*14)/100 )+Fields!iv_NetAfterVat.Value)-(Fields!iv_NetAfterVat.Value * 1) / 100)</Value>
                               <Style>
                                 <FontSize>12pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
@@ -4045,7 +4044,7 @@
         <FixedRowHeaders>true</FixedRowHeaders>
         <DataSetName>Prnt_Invoice</DataSetName>
         <Top>9.11486cm</Top>
-        <Left>0.34784cm</Left>
+        <Left>0.3175cm</Left>
         <Height>4.56023cm</Height>
         <Width>20.05684cm</Width>
         <ZIndex>7</ZIndex>
@@ -4059,14 +4058,14 @@
         </Style>
       </Tablix>
     </ReportItems>
-    <Height>13.6878cm</Height>
+    <Height>13.99259cm</Height>
     <Style>
       <Border>
         <Style>None</Style>
       </Border>
     </Style>
   </Body>
-  <Width>20.9762cm</Width>
+  <Width>20.97617cm</Width>
   <Page>
     <PageHeader>
       <Height>3.57463cm</Height>
