@@ -5,7 +5,7 @@ var QuotationView;
 (function (QuotationView) {
     var sys = new SystemTools();
     //var sys: _shared = new _shared();
-    var SysSession = GetSystemSession(Modules.Quotation);
+    var SysSession = GetSystemSession(Modules.QuotationView);
     var InvItemsDetailsModel = new Array();
     var Selected_Data = new Array();
     var InvoiceDisplay = new Array();
@@ -22,6 +22,7 @@ var QuotationView;
     var BranchCode; //SharedSession.CurrentEnvironment.CompCode;
     var GlobalinvoiceID = 0;
     function InitalizeComponent() {
+        debugger;
         compcode = Number(SysSession.CurrentEnvironment.CompCode);
         BranchCode = Number(SysSession.CurrentEnvironment.BranchCode);
         InitalizeControls();

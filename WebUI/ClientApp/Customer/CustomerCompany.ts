@@ -8,7 +8,7 @@ namespace CustomerCompany {
 
     var sys: SystemTools = new SystemTools();
     //var sys: _shared = new _shared();
-    var SysSession: SystemSession = GetSystemSession(Modules.Quotation);
+    var SysSession: SystemSession = GetSystemSession(Modules.Companies);
 
     var Model: Customer = new Customer();
     var CustomerModel: Array <Customer> = new Array <Customer>();                                      
@@ -17,6 +17,7 @@ namespace CustomerCompany {
     var compcode: number;//SharedSession.CurrentEnvironment.CompCode;
     var BranchCode: number;//SharedSession.CurrentEnvironment.CompCode;
    
+    var a: HTMLButtonElement;
     var btnsave: HTMLButtonElement;
     var txtNameComp: HTMLInputElement;
     var txtmailComp: HTMLInputElement;
@@ -41,6 +42,7 @@ namespace CustomerCompany {
     }  
     function InitalizeControls() {
         // ;     
+        a = document.getElementById("a") as HTMLButtonElement;
         btnsave = document.getElementById("btnsave") as HTMLButtonElement;    
         // inputs
         txtmailComp = document.getElementById("txtmailComp") as HTMLInputElement;
@@ -53,6 +55,7 @@ namespace CustomerCompany {
     }      
     function InitalizeEvents() {       
       btnsave.onclick = btnsave_onclick;
+        a.onclick = AddNew;
     }     
     function Assign() { 
         Model = new Customer();     
@@ -140,12 +143,33 @@ namespace CustomerCompany {
         txtmailComp.value ="";  
         txtAddressComp.value = "";     
         txtRemark.value = "";
+        txtTelephone.value = "";
+        txtMobile.value = "";
         chkvat.checked = false;
         IsNew = true
         $('#btnsave').html('Create')    
-        Display();
+        Display(); 
         $('#b').click();
-    }    
+    }
+
+    function AddNew() {
+        txtNameComp.value = "";
+        txtmailComp.value = "";
+        txtAddressComp.value = "";
+        txtRemark.value = "";
+        txtTelephone.value = "";
+        txtMobile.value = "";
+        chkvat.checked = false;
+        IsNew = true
+        $('#btnsave').html('Create')
+       /* Display();*/
+        $('#viewmail').addClass('active in');
+        $('#composemail').removeClass('active in');
+
+        $('#aa').addClass('active');
+        $('#dd').removeClass('active');
+    }
+
     function btnsave_onclick() {
         debugger;
         if (!validation()) return;
@@ -217,7 +241,14 @@ namespace CustomerCompany {
         chkvat.checked = CustomerModelfil[0].Isactive;
         txtMobile.value = CustomerModelfil[0].MOBILE;
         txtTelephone.value = CustomerModelfil[0].TEL;
-        $('#a').click();
+        //$('#a').click();
+
+        $('#viewmail').addClass('active in'); 
+        $('#composemail').removeClass('active in');
+
+        $('#aa').addClass('active');
+        $('#dd').removeClass('active');
+
         $('#btnsave').html('Update');       
     }
 }

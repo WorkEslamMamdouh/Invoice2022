@@ -29,15 +29,12 @@ namespace Inv.API.Controllers
         }
 
         [HttpGet, AllowAnonymous]
-        public IHttpActionResult GetAll(string CompCode, string Token, string UserCode)
+        public IHttpActionResult GetAll( )
         {
-            if (ModelState.IsValid && CheckUser(Token, UserCode))
-            {
-                int compcod = Convert.ToInt32(CompCode);
-                var documents = G_USERSService.GetAll(x => x.CompCode == compcod);
+           
+                var documents = G_USERSService.GetAll( );
                 return Ok(new BaseResponse(documents));
-            }
-            return BadRequest(ModelState);
+         
         }
 
 
@@ -161,8 +158,7 @@ namespace Inv.API.Controllers
         [HttpPost, AllowAnonymous]
         public IHttpActionResult Insert([FromBody]G_USERS USER)
         {
-            if (ModelState.IsValid && CheckUser(USER.Token, USER.UserCode))
-            {
+             
                 using (var dbTransaction = db.Database.BeginTransaction())
                 {
                     try
@@ -170,11 +166,13 @@ namespace Inv.API.Controllers
 
                         var usr = G_USERSService.Insert(USER);
 
-                        ResponseResult res = Shared.TransactionProcess(Convert.ToInt32(usr.CompCode), 0, 0, "USERS", "ADD",db);
+                       db.Database.ExecuteSqlCommand("execute GProc_CreateUser '" + usr.USER_CODE + "', '" + usr.DepartmentName + "'");
+
+
+                         ResponseResult res = Shared.TransactionProcess(Convert.ToInt32(usr.CompCode), 0, 0, "USERS", "ADD",db);
                         if (res.ResponseState == true)
                         {
-                            db.Database.ExecuteSqlCommand("execute GProc_CreateUser '" + usr.USER_CODE + "', '" + usr.DepartmentName + "'");
-
+                           
                             dbTransaction.Commit();
                             return Ok(new BaseResponse(usr));
                         }
@@ -190,8 +188,7 @@ namespace Inv.API.Controllers
                         return Ok(new BaseResponse(HttpStatusCode.ExpectationFailed, ex.Message));
                     }
                 }
-            }
-            return BadRequest(ModelState);
+           
         }
 
         //[HttpPost, AllowAnonymous]
@@ -292,8 +289,7 @@ namespace Inv.API.Controllers
         [HttpPost, AllowAnonymous]
         public IHttpActionResult Update([FromBody] MasterDetailsUserRoles USER)
         {
-            if (ModelState.IsValid && G_USERSService.CheckUser(USER.Token, USER.UserCode))
-            {
+            
                 using (var dbTransaction = db.Database.BeginTransaction())
                 {
                     try
@@ -361,8 +357,7 @@ namespace Inv.API.Controllers
                         return Ok(new BaseResponse(HttpStatusCode.ExpectationFailed, ex.Message));
                     }
                 }
-            }
-            return BadRequest(ModelState);
+           
         }
 
         [HttpGet, AllowAnonymous]
@@ -390,6 +385,39 @@ namespace Inv.API.Controllers
             string query = s ;
             var res = db.Database.SqlQuery<GQ_GetUserBarnchAccess>(query).ToList();
             return Ok(new BaseResponse(res)); 
+        }
+
+
+
+        [HttpGet, AllowAnonymous]
+        public IHttpActionResult GetG_Role()
+        {
+            string s = "select * from G_Role";
+            string query = s;
+            var res = db.Database.SqlQuery<G_Role>(query).ToList();
+            return Ok(new BaseResponse(res));
+        }
+
+
+        [HttpGet, AllowAnonymous]
+        public IHttpActionResult deleteUsers(string USER_CODE)
+        {
+
+            try
+            {
+                 
+                db.Database.ExecuteSqlCommand(" delete  G_RoleUsers where USER_CODE ='" + USER_CODE + "'");
+                db.Database.ExecuteSqlCommand(" delete G_USER_BRANCH where USER_CODE = '" + USER_CODE + "'");
+                db.Database.ExecuteSqlCommand(" delete G_USER_COMPANY where USER_CODE = '" + USER_CODE + "'");
+                db.Database.ExecuteSqlCommand(" delete G_USERS where USER_CODE ='" + USER_CODE + "'");
+            }
+            catch (Exception)
+            {
+
+                return Ok(new BaseResponse(100));
+            }
+          
+            return Ok(new BaseResponse(100));
         }
 
 

@@ -7,7 +7,7 @@ namespace QuotationView {
 
     var sys: SystemTools = new SystemTools();
     //var sys: _shared = new _shared();
-    var SysSession: SystemSession = GetSystemSession(Modules.Quotation);
+    var SysSession: SystemSession = GetSystemSession(Modules.QuotationView);
 
     var InvItemsDetailsModel: Array<Sls_InvoiceDetail> = new Array<Sls_InvoiceDetail>();
 
@@ -28,7 +28,7 @@ namespace QuotationView {
     var GlobalinvoiceID = 0;
     export function InitalizeComponent() {
 
-
+        debugger
         compcode = Number(SysSession.CurrentEnvironment.CompCode);
         BranchCode = Number(SysSession.CurrentEnvironment.BranchCode);
         InitalizeControls();

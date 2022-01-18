@@ -254,10 +254,11 @@ namespace Inv.API.Controllers
             return Ok(new BaseResponse(res));
         }
          
-        [HttpGet, AllowAnonymous]
-        public IHttpActionResult Insert_User(string USER_CODE ,string USER_NAME, string USER_PASSWORD, string Tel, int CompCode ,string CreatedAt , string CreatedBy)
+        [HttpPost, AllowAnonymous]
+        public IHttpActionResult AddUsers([FromBody] SlsInvoiceMasterDetails updatedObj)
         {
-            var QUERY = "INSERT INTO [dbo].[G_USERS](USER_CODE,USER_PASSWORD,USER_ACTIVE,USER_PASSWORD,CompCode,Tel,CreatedBy,CreatedAt,USER_NAME VALUES('" + USER_CODE+ "','"+USER_PASSWORD+"',1,'"+USER_PASSWORD+"',"+CompCode+",'"+Tel+"','"+CreatedBy+"','"+CreatedAt+"','"+ USER_NAME + "')";
+           string CreatedAt = DateTime.Now.ToString();
+            var QUERY = "";
             var res = db.Database.ExecuteSqlCommand(QUERY);
             return Ok(new BaseResponse(res));
         }

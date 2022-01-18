@@ -5,13 +5,14 @@ var CustomerCompany;
 (function (CustomerCompany) {
     var sys = new SystemTools();
     //var sys: _shared = new _shared();
-    var SysSession = GetSystemSession(Modules.Quotation);
+    var SysSession = GetSystemSession(Modules.Companies);
     var Model = new Customer();
     var CustomerModel = new Array();
     var CustomerModelfil = new Array();
     var ReportGrid = new JsGrid();
     var compcode; //SharedSession.CurrentEnvironment.CompCode;
     var BranchCode; //SharedSession.CurrentEnvironment.CompCode;
+    var a;
     var btnsave;
     var txtNameComp;
     var txtmailComp;
@@ -35,6 +36,7 @@ var CustomerCompany;
     CustomerCompany.InitalizeComponent = InitalizeComponent;
     function InitalizeControls() {
         // ;     
+        a = document.getElementById("a");
         btnsave = document.getElementById("btnsave");
         // inputs
         txtmailComp = document.getElementById("txtmailComp");
@@ -47,6 +49,7 @@ var CustomerCompany;
     }
     function InitalizeEvents() {
         btnsave.onclick = btnsave_onclick;
+        a.onclick = AddNew;
     }
     function Assign() {
         Model = new Customer();
@@ -131,11 +134,29 @@ var CustomerCompany;
         txtmailComp.value = "";
         txtAddressComp.value = "";
         txtRemark.value = "";
+        txtTelephone.value = "";
+        txtMobile.value = "";
         chkvat.checked = false;
         IsNew = true;
         $('#btnsave').html('Create');
         Display();
         $('#b').click();
+    }
+    function AddNew() {
+        txtNameComp.value = "";
+        txtmailComp.value = "";
+        txtAddressComp.value = "";
+        txtRemark.value = "";
+        txtTelephone.value = "";
+        txtMobile.value = "";
+        chkvat.checked = false;
+        IsNew = true;
+        $('#btnsave').html('Create');
+        /* Display();*/
+        $('#viewmail').addClass('active in');
+        $('#composemail').removeClass('active in');
+        $('#aa').addClass('active');
+        $('#dd').removeClass('active');
     }
     function btnsave_onclick() {
         debugger;
@@ -199,7 +220,11 @@ var CustomerCompany;
         chkvat.checked = CustomerModelfil[0].Isactive;
         txtMobile.value = CustomerModelfil[0].MOBILE;
         txtTelephone.value = CustomerModelfil[0].TEL;
-        $('#a').click();
+        //$('#a').click();
+        $('#viewmail').addClass('active in');
+        $('#composemail').removeClass('active in');
+        $('#aa').addClass('active');
+        $('#dd').removeClass('active');
         $('#btnsave').html('Update');
     }
 })(CustomerCompany || (CustomerCompany = {}));
