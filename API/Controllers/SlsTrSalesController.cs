@@ -150,39 +150,32 @@ namespace Inv.API.Controllers
 
         }
         [HttpGet, AllowAnonymous]
-        public IHttpActionResult GetAllSlsInvoice(int CompCode, int BranchCode, int CustomerId)
+        public IHttpActionResult GetAllSlsInvoice(int CompCode, int BranchCode, int CustomerId , string RFQFilter , string StartDate, string EndDate)
         {
-            string query = "";
-            if (CustomerId == 0)
-            {
-                query = @"SELECT   [InvoiceID] ,[TrNo]  ,[RefNO]  ,[RefTrID] , TrDate
-      ,CONVERT(varchar, TrDate, 103) as TrDateH ,[TrType] ,[IsCash] ,[SlsInvType] ,[SlsInvSrc]  ,[CashBoxID] ,[CustomerId]
-      ,[CustomerName] ,[CustomerMobileNo]  ,[SalesmanId] ,[StoreId] ,[OperationId] ,[TotalAmount]
-      ,[VatAmount] ,[VatType] ,[DiscountAmount] ,[DiscountPrc]  ,[NetAfterVat]   ,[CommitionAmount]  ,[CashAmount]
-      ,[CardAmount] ,[BankTfAmount]  ,[BankAccount] ,[TotalPaidAmount] ,[RemainAmount]  ,[Remark]
-      ,[Status] ,[IsPosted] ,[VoucherNo] ,[VoucherType] ,[CreatedAt]  ,[CreatedBy] ,[UpdatedAt] ,[UpdatedBy]
-      ,[CompCode] ,[BranchCode]  ,[DocNo] ,[DocUUID] ,[TrTime] ,[InvoiceTypeCode] ,[InvoiceTransCode]  ,[TaxNotes]
-      ,[TaxCurrencyID] ,[InvoiceCurrenyID] ,[ContractNo] ,[PurchaseorderNo] ,[GlobalInvoiceCounter] ,[PrevInvoiceHash]  ,[QRCode]
-      ,[CryptographicStamp]  ,[DeliveryDate]  ,[DeliveryEndDate],[PaymentMeansTypeCode],[CRDBReasoncode],[PaymentTerms],[PaymentTermsID],[AllowAmount],[AllowPrc]
-      ,[AllowBase]      ,[AllowVatNatID],[AllowVatPrc],[AllowAfterVat],[AllowReason],[AllowCode],[ChargeAmount],[ChargePrc],[ChargeBase],[ChargeVatNatID]
-      ,[ChargeVatPrc],[ChargeAfterVat],[ChargeReason],[ChargeCode],[ItemTotal],[ItemAllowTotal],[ItemDiscountTotal],[ItemVatTotal],[RoundingAmount]
-  FROM  Sls_Ivoice where   CompCode = " + CompCode + " and BranchCode = " + BranchCode + " ORDER BY TrNo DESC;";
-            }
-            else
-            {
-                query = @"SELECT   [InvoiceID] ,[TrNo]  ,[RefNO]  ,[RefTrID] , TrDate
-      ,CONVERT(varchar, TrDate, 103) as TrDateH ,[TrType] ,[IsCash] ,[SlsInvType] ,[SlsInvSrc]  ,[CashBoxID] ,[CustomerId]
-      ,[CustomerName] ,[CustomerMobileNo]  ,[SalesmanId] ,[StoreId] ,[OperationId] ,[TotalAmount]
-      ,[VatAmount] ,[VatType] ,[DiscountAmount] ,[DiscountPrc]  ,[NetAfterVat]   ,[CommitionAmount]  ,[CashAmount]
-      ,[CardAmount] ,[BankTfAmount]  ,[BankAccount] ,[TotalPaidAmount] ,[RemainAmount]  ,[Remark]
-      ,[Status] ,[IsPosted] ,[VoucherNo] ,[VoucherType] ,[CreatedAt]  ,[CreatedBy] ,[UpdatedAt] ,[UpdatedBy]
-      ,[CompCode] ,[BranchCode]  ,[DocNo] ,[DocUUID] ,[TrTime] ,[InvoiceTypeCode] ,[InvoiceTransCode]  ,[TaxNotes]
-      ,[TaxCurrencyID] ,[InvoiceCurrenyID] ,[ContractNo] ,[PurchaseorderNo] ,[GlobalInvoiceCounter] ,[PrevInvoiceHash]  ,[QRCode]
-      ,[CryptographicStamp]  ,[DeliveryDate]  ,[DeliveryEndDate],[PaymentMeansTypeCode],[CRDBReasoncode],[PaymentTerms],[PaymentTermsID],[AllowAmount],[AllowPrc]
-      ,[AllowBase]      ,[AllowVatNatID],[AllowVatPrc],[AllowAfterVat],[AllowReason],[AllowCode],[ChargeAmount],[ChargePrc],[ChargeBase],[ChargeVatNatID]
-      ,[ChargeVatPrc],[ChargeAfterVat],[ChargeReason],[ChargeCode],[ItemTotal],[ItemAllowTotal],[ItemDiscountTotal],[ItemVatTotal],[RoundingAmount]
-  FROM  Sls_Ivoice where   CompCode = " + CompCode + " and BranchCode = " + BranchCode + " and CustomerId = " + CustomerId + " ORDER BY TrNo DESC;";
-            }
+             
+
+             
+            string s = @"SELECT   [InvoiceID] ,[TrNo]  ,[RefNO]  ,[RefTrID] , TrDate
+                      ,CONVERT(varchar, TrDate, 103) as TrDateH ,[TrType] ,[IsCash] ,[SlsInvType] ,[SlsInvSrc]  ,[CashBoxID] ,[CustomerId]
+                      ,[CustomerName] ,[DeliveryEndDate]  ,[SalesmanId] ,[StoreId] ,[OperationId] ,[TotalAmount]
+                      ,[VatAmount] ,[VatType] ,[DiscountAmount] ,[DiscountPrc]  ,[NetAfterVat]   ,[CommitionAmount]  ,[CashAmount]
+                      ,[CardAmount] ,[BankTfAmount]  ,[BankAccount] ,[TotalPaidAmount] ,[RemainAmount]  ,[Remark]
+                      ,[Status] ,[IsPosted] ,[VoucherNo] ,[VoucherType] ,[CreatedAt]  ,[CreatedBy] ,[UpdatedAt] ,[UpdatedBy]
+                      ,[CompCode] ,[BranchCode]  ,[DocNo] ,[DocUUID] ,[TrTime] ,[InvoiceTypeCode] ,[InvoiceTransCode]  ,[TaxNotes]
+                      ,[TaxCurrencyID] ,[InvoiceCurrenyID] ,[ContractNo] ,[PurchaseorderNo] ,[GlobalInvoiceCounter] ,[PrevInvoiceHash]  ,[QRCode]
+                      ,[CryptographicStamp]  ,[DeliveryDate]  ,CONVERT(varchar, DeliveryEndDate, 103) as CustomerMobileNo ,[PaymentMeansTypeCode],[CRDBReasoncode],[PaymentTerms],[PaymentTermsID],[AllowAmount],[AllowPrc]
+                      ,[AllowBase]      ,[AllowVatNatID],[AllowVatPrc],[AllowAfterVat],[AllowReason],[AllowCode],[ChargeAmount],[ChargePrc],[ChargeBase],[ChargeVatNatID]
+                      ,[ChargeVatPrc],[ChargeAfterVat],[ChargeReason],[ChargeCode],[ItemTotal],[ItemAllowTotal],[ItemDiscountTotal],[ItemVatTotal],[RoundingAmount]
+                      FROM  Sls_Ivoice where   CompCode = " + CompCode + " and BranchCode = " + BranchCode + " and TrDate >=' " + StartDate + "' and TrDate <= ' " + EndDate + " '";
+
+            string condition = "";
+            if (CustomerId != 0 && CustomerId != null)
+                condition = condition + " and CustomerId =" + CustomerId;
+            if (RFQFilter != "" && RFQFilter != null)
+                condition = condition + " and RefNO ='" + RFQFilter +"'";// and Status = " + Status
+       
+            ///////////
+            string query = s + condition + " ORDER BY TrNo DESC;";  
 
             var res = db.Database.SqlQuery<Sls_Ivoice>(query).ToList();
             return Ok(new BaseResponse(res));
@@ -194,7 +187,20 @@ namespace Inv.API.Controllers
             //InvDate = DateTime.Now.ToString();
             string query = "update [dbo].[Sls_Ivoice] set TrType = 1 , DeliveryEndDate = '"+InvDate+"' where InvoiceID = " + InvoiceID + "";
             var res = db.Database.ExecuteSqlCommand(query);
-       ResponseResult res1 = Shared.TransactionProcess(Convert.ToInt32(1), Convert.ToInt32(1), InvoiceID, "INV", "ADD", db);
+             ResponseResult res1 = Shared.TransactionProcess(Convert.ToInt32(1), Convert.ToInt32(1), InvoiceID, "INV", "ADD", db);
+
+            return Ok(new BaseResponse(100));
+        }
+
+
+        [HttpGet, AllowAnonymous]
+        public IHttpActionResult DeleteInvoice(int InvoiceID)
+        {
+
+            //InvDate = DateTime.Now.ToString();
+            string query = "update [dbo].[Sls_Ivoice] set TrType = 0 , DeliveryEndDate = '' where InvoiceID = " + InvoiceID + "";
+            var res = db.Database.ExecuteSqlCommand(query);
+            //ResponseResult res1 = Shared.TransactionProcess(Convert.ToInt32(1), Convert.ToInt32(1), InvoiceID, "INV", "ADD", db);
 
             return Ok(new BaseResponse(100));
         }

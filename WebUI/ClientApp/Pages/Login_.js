@@ -43,12 +43,12 @@ var Login_;
             var data = JSON.parse(loginData);
             txtUserName.value = data.USER_CODE;
             txtUserPassword.value = data.USER_PASSWORD;
-            txtYear.value = "2021";
+            //txtYear.value = "2021";
             cmbLanguage.value = data.Language;
             chkRemember.checked = true;
         }
         else {
-            txtYear.value = "2021";
+            //txtYear.value = "2021";
             //txtYear.value = SharedWork.Session.CurrentYear;
             //cmbLanguage.value = SharedWork.Session.Language;
         }

@@ -19,13 +19,20 @@ namespace QuotationView {
 
     var btnCustSrchFilter: HTMLButtonElement;
     var btnFilter: HTMLButtonElement;
+    var btnRefrash: HTMLButtonElement;
+    var FromDate: HTMLInputElement;
+    var ToDate: HTMLInputElement;
     var txtCompanynameFilter: HTMLInputElement;
+    var txtRFQFilter: HTMLInputElement;
     var ReportGrid: JsGrid = new JsGrid();
     var ReportGridInv: JsGrid = new JsGrid();
     var CustomerId = 0;
     var compcode: number;//SharedSession.CurrentEnvironment.CompCode;
     var BranchCode: number;//SharedSession.CurrentEnvironment.CompCode;
     var GlobalinvoiceID = 0;
+    var RFQFilter;
+    var FromDat;
+    var ToDat;
     export function InitalizeComponent() {
 
         debugger
@@ -35,43 +42,70 @@ namespace QuotationView {
         InitalizeEvents();
         InitializeGridQuotation();
         InitializeGridInvoice();
+        FromDate.value = DateStartMonth();
+        ToDate.value = ConvertToDateDash(GetDate()) <= ConvertToDateDash(SysSession.CurrentEnvironment.EndDate) ? GetDate() : SysSession.CurrentEnvironment.EndDate;
+       
+
         Display();
 
     }
     function InitalizeControls() {
         btnCustSrchFilter = document.getElementById("btnCustSrchFilter") as HTMLButtonElement;
         btnFilter = document.getElementById("btnFilter") as HTMLButtonElement;
+        btnRefrash = document.getElementById("btnRefrash") as HTMLButtonElement;
         txtCompanynameFilter = document.getElementById("txtCompanynameFilter") as HTMLInputElement;
+        txtRFQFilter = document.getElementById("txtRFQFilter") as HTMLInputElement;
+        ToDate = document.getElementById("ToDate") as HTMLInputElement;
+        FromDate = document.getElementById("FromDate") as HTMLInputElement;
     }
     function InitalizeEvents() {
         btnCustSrchFilter.onclick = btnCust_onClick;
-        btnFilter.onclick = Display;
+        btnFilter.onclick = btnFilter_onclick;
+        btnRefrash.onclick = btnRefrash_onclick;
         txtCompanynameFilter.onchange = txtCompanynameFilter_ochange;
     }
     function txtCompanynameFilter_ochange() {
         txtCompanynameFilter.value = "";
         CustomerId = 0;
     }
-    function Display() {
+    function btnRefrash_onclick() {
+        CustomerId = 0; 
+        txtCompanynameFilter.value = '';
+        txtRFQFilter.value = ''; 
+        FromDate.value = DateStartMonth();
+        ToDate.value = ConvertToDateDash(GetDate()) <= ConvertToDateDash(SysSession.CurrentEnvironment.EndDate) ? GetDate() : SysSession.CurrentEnvironment.EndDate;
       
-        debugger
+        Display();
+    }
+    function btnFilter_onclick() {
+
+      
+        Display();
+
+    }
+    function Display() {
+
+        RFQFilter = txtRFQFilter.value;
+        FromDat = FromDate.value;
+        ToDat = ToDate.value;
+
         $("#ReportGrid").jsGrid("option", "pageIndex", 1);
         Ajax.Callsync({
             type: "GET",
             url: sys.apiUrl("SlsTrSales", "GetAllSlsInvoice"),
-            data: { CompCode: compcode, BranchCode: BranchCode, CustomerId: CustomerId },
+            data: { CompCode: compcode, BranchCode: BranchCode, CustomerId: CustomerId, RFQFilter: RFQFilter, StartDate: FromDat, EndDate: ToDat },
             success: (d) => {
                 debugger;
                 let result = d as BaseResponse;
                 if (result.IsSuccess) {
                     InvoiceDisplay = result.Response as Array<Sls_Ivoice>;
                     //InvQuotation = InvoiceDisplay.filter(x => x.TrType == 0);
-                      Invoice  = new Array<Sls_Ivoice>();
-                      InvQuotation = new Array<Sls_Ivoice>();
+                    Invoice = new Array<Sls_Ivoice>();
+                    InvQuotation = new Array<Sls_Ivoice>();
 
                     InvQuotation = InvoiceDisplay;
 
-                     
+
                     Invoice = InvoiceDisplay.filter(x => x.TrType == 1 && x.CashBoxID != null).sort(function (a, b) { return b.CashBoxID - a.CashBoxID; });
                     ReportGrid.DataSource = InvQuotation;
                     ReportGrid.Bind();
@@ -80,6 +114,10 @@ namespace QuotationView {
                     ReportGridInv.Bind();
 
 
+                    $('#txtCreatedBy').prop("value", '');
+                    $('#txtCreatedAt').prop("value", '');
+                    $('#txtUpdatedBy').prop("value", '');
+                    $('#txtUpdatedAt').prop("value", '');
 
                     //$('.Done').addClass("display_none");
                 }
@@ -129,13 +167,13 @@ namespace QuotationView {
 
                     txt.onchange = (e) => {
                         ComfirmPurNo(item.InvoiceID, txt.value);
-                      
+
                     };
                     return txt;
                 }
             },
 
-          
+
             {
                 title: "Review",
                 width: "4%",
@@ -148,7 +186,7 @@ namespace QuotationView {
                     //if (item.TaxNotes == '' || item.TaxNotes == null) {
                     //    txt.classList.add("display_none")
                     //}
- 
+
                     txt.onclick = (e) => {
                         PrintQuotation(item.InvoiceID);
                     };
@@ -170,7 +208,7 @@ namespace QuotationView {
                         txt.classList.add("display_none")
                     }
 
-                  
+
                     txt.onclick = (e) => {
                         DelivNoteQuotation(item.InvoiceID);
                     };
@@ -227,7 +265,7 @@ namespace QuotationView {
                 }
             },
 
-           
+
 
 
 
@@ -237,7 +275,7 @@ namespace QuotationView {
     }
     function InitializeGridInvoice() {
 
-       
+
 
         //let res: any = GetResourceList("");
         //$("#id_ReportGrid").attr("style", "");
@@ -257,7 +295,8 @@ namespace QuotationView {
             { title: "الرقم", name: "InvoiceID", type: "text", width: "5%", visible: false },
             { title: "INV.No", name: "CashBoxID", type: "text", width: "5%" },
             { title: "RFQ", name: "RefNO", type: "text", width: "8%" },
-            { title: "Date", name: "DeliveryEndDate", type: "text", width: "7%" },
+            { title: "PurNo", name: "TaxNotes", type: "text", width: "8%" },
+            { title: "Date", name: "CustomerMobileNo", type: "text", width: "7%" },
             { title: "TotalAmount", name: "NetAfterVat", type: "text", width: "10%" },
             {
                 title: "Review",
@@ -271,6 +310,23 @@ namespace QuotationView {
 
                     txt.onclick = (e) => {
                         PrintInvoice(item.InvoiceID);
+                    };
+                    return txt;
+                }
+            },
+
+            {
+                title: "Delete",
+                width: "5%",
+                itemTemplate: (s: string, item: Sls_Ivoice): HTMLInputElement => {
+                    let txt: HTMLInputElement = document.createElement("input");
+                    txt.type = "button";
+                    txt.value = ("Delete");
+                    txt.id = "butDelete" + item.InvoiceID;
+                    txt.className = "btn btn-custon-four btn-danger ";
+
+                    txt.onclick = (e) => {
+                        DeleteInvoice(item.InvoiceID);
                     };
                     return txt;
                 }
@@ -310,7 +366,7 @@ namespace QuotationView {
 
     function ComfirmPurNo(btnId: number, PurNo: string) {
 
-     
+
 
         Ajax.Callsync({
             type: "Get",
@@ -321,7 +377,7 @@ namespace QuotationView {
                 if (result.IsSuccess == true) {
 
                     Display();
-                  
+
 
                 } else {
                     DisplayMassage("Please refresh the page and try again", "Please refresh the page and try again", MessageType.Error);
@@ -332,11 +388,11 @@ namespace QuotationView {
 
     }
     function ComfirmQuotation(btnId: number) {
-        var InvDate = GetDate(); 
+        var InvDate = GetDate();
         Ajax.Callsync({
             type: "Get",
             url: sys.apiUrl("SlsTrSales", "UpdateInvoice"),
-            data: { InvoiceID: btnId, InvDate: InvDate},
+            data: { InvoiceID: btnId, InvDate: InvDate },
             success: (d) => {
                 let result = d as BaseResponse;
                 if (result.IsSuccess == true) {
@@ -588,6 +644,30 @@ namespace QuotationView {
                 //window.open(result, "_blank");
             }
         })
+    }
+    function DeleteInvoice(btnId: number) {
+
+        Ajax.Callsync({
+            type: "Get",
+            url: sys.apiUrl("SlsTrSales", "DeleteInvoice"),
+            data: { InvoiceID: btnId },
+            success: (d) => {
+                let result = d as BaseResponse;
+                if (result.IsSuccess == true) {
+
+                    Display();
+                    $('#viewmail').removeClass('active in');
+                    $('#sendmail').addClass('active in');
+
+                    $('#btnQuotations').removeClass('active');
+                    $('#btnInvoice').addClass('active');
+
+                } else {
+                    DisplayMassage("Please refresh the page and try again", "Please refresh the page and try again", MessageType.Error);
+
+                }
+            }
+        });
     }
     function btnCust_onClick() {
         sys.FindKey(Modules.Quotation, "btnCustSrch", "", () => {
@@ -878,7 +958,7 @@ namespace QuotationView {
 
         InvoiceModel.UpdatedBy = SysSession.CurrentEnvironment.UserCode;
         InvoiceModel.UpdatedAt = DateTimeFormat(Date().toString());
-         
+
         // Details
         for (var i = 0; i < CountGrid; i++) {
             let StatusFlag = $("#txt_StatusFlag" + i).val();
@@ -957,7 +1037,7 @@ namespace QuotationView {
     }
     function success_insert() {
         //InitializeGridQuotation();
-        
+
         CustomerId = 0;
         Display();
         $('#viewmail').addClass('active in');

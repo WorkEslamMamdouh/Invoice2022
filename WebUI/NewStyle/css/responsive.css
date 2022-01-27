@@ -178,7 +178,7 @@ ul.message-list-menu li .message-info {
 @media (min-width: 768px) and (max-width: 991px) {
 
 .header-top-menu{
-	display:none;
+	/*display:none;*/
 }
  .mobile-menu-area{
 	display:block;
@@ -446,7 +446,7 @@ ul.message-list-menu li .message-time {
 @media (max-width: 767px) {
 .container {width:300px}
 .header-top-menu{
-	display:none;
+	/*display:none;*/
 }
  .mobile-menu-area{
 	display:block;
@@ -505,7 +505,7 @@ ul.message-list-menu li .message-time {
 /* Dashboard v.1 Css */
 
 .header-right-info .admin-name{
-	display:none;
+	/*display:none;*/
 }
 .header-right-info .navbar-nav {
     float: none;
@@ -637,7 +637,7 @@ ul.message-list-menu li .message-info {
 	margin-bottom:30px;
 }
 .compose-b-mg-30{
-	margin-bottom:30px;
+	margin-bottom:16px;
 }
 .view-mail-action{
 	display:none;
@@ -867,7 +867,7 @@ ul.message-list-menu li .message-time {
 @media only screen and (min-width: 480px) and (max-width: 767px) {
 .container {width:450px}
 .header-top-menu{
-	display:none;
+	/*display:none;*/
 }
  .mobile-menu-area{
 	display:block;

@@ -30,42 +30,49 @@
                                             <br />
                                         </li>
                                         <li>
-                                            <label>Presented to</label>
+                                            <input id="txtRFQFilter" type="text" class="form-control" placeholder="RFQ">
                                         </li>
                                         <li>
-                                            <input id="txtCompanynameFilter" type="text" class="form-control" placeholder="Company name">
+
+                                            <input id="txtCompanynameFilter" type="text" class=" " disabled placeholder="Company" style="width: 50%;height: 32px;">
+                                            <button id="btnCustSrchFilter" type="button" class="btn btn-custon-four btn-primary">
+                                                <i>Search</i>
+                                            </button>
+
                                         </li>
                                         <li>
-                                            <div class="col-lg-1" style=" width: 50%!important;">
-                                                <button id="btnCustSrchFilter" type="button" class="btn btn-custon-four btn-primary">
-                                                    <i>Search</i>
-                                                </button>
+                                            <label>Date From To</label>
+                                        </li>
+                                        <li>
+                                            <input id="FromDate" name="FromDate" type="date" class="form-control" placeholder="FromDate">
+                                            <input id="ToDate" name="ToDate" type="date" class="form-control" placeholder="ToDate">
+                                        </li>
+
+                                        <li>
+
+                                            <div class="col-lg-12">
+                                                <input type="button" value="Filter" id="btnFilter" class="btn btn-custon-four btn-success" style="width: 40%;">
+                                                <input type="button" value="Refrash" id="btnRefrash" class="dis src-btn btn btn-warning " style="width: 50%;">
                                             </div>
-                                            <div class="col-lg-1" style=" width: 25%!important;">
-                                                <input type="button" value="Filter" id="btnFilter" class="btn btn-custon-four btn-success">
-                                            </div>
                                             <br />
-                                            <br />
-                                            <br />
-                                            <br />
-                                        </li>
-                                        <li>
-                                          
+                                            <br /> 
+
+
                                         </li>
                                         <li>
                                             <label>Created</label>
                                         </li>
                                         <li>
-                                            <input id="txtCreatedBy" name="CREATED_BY" type="text" class="form-control" placeholder="Created By ">
-                                            <input id="txtCreatedAt" name="CREATED_AT" type="text" class="form-control" placeholder="Created At">
+                                            <input id="txtCreatedBy" name="CREATED_BY" type="text" disabled class="form-control" placeholder="Created By ">
+                                            <input id="txtCreatedAt" name="CREATED_AT" type="text" disabled class="form-control" placeholder="Created At">
                                         </li>
 
                                         <li>
                                             <label>Updated</label>
                                         </li>
                                         <li>
-                                            <input id="txtUpdatedBy" name="UPDATED_BY" type="text" class="form-control" placeholder="Updated By ">
-                                            <input id="txtUpdatedAt" name="UPDATED_AT" type="text" class="form-control" placeholder="Updated At"> 
+                                            <input id="txtUpdatedBy" name="UPDATED_BY" type="text" disabled class="form-control" placeholder="Updated By ">
+                                            <input id="txtUpdatedAt" name="UPDATED_AT" type="text" disabled class="form-control" placeholder="Updated At">
                                         </li>
 
 

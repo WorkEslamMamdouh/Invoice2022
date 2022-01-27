@@ -14,13 +14,20 @@ var QuotationView;
     var InvQuotation = new Array();
     var btnCustSrchFilter;
     var btnFilter;
+    var btnRefrash;
+    var FromDate;
+    var ToDate;
     var txtCompanynameFilter;
+    var txtRFQFilter;
     var ReportGrid = new JsGrid();
     var ReportGridInv = new JsGrid();
     var CustomerId = 0;
     var compcode; //SharedSession.CurrentEnvironment.CompCode;
     var BranchCode; //SharedSession.CurrentEnvironment.CompCode;
     var GlobalinvoiceID = 0;
+    var RFQFilter;
+    var FromDat;
+    var ToDat;
     function InitalizeComponent() {
         debugger;
         compcode = Number(SysSession.CurrentEnvironment.CompCode);
@@ -29,30 +36,50 @@ var QuotationView;
         InitalizeEvents();
         InitializeGridQuotation();
         InitializeGridInvoice();
+        FromDate.value = DateStartMonth();
+        ToDate.value = ConvertToDateDash(GetDate()) <= ConvertToDateDash(SysSession.CurrentEnvironment.EndDate) ? GetDate() : SysSession.CurrentEnvironment.EndDate;
         Display();
     }
     QuotationView.InitalizeComponent = InitalizeComponent;
     function InitalizeControls() {
         btnCustSrchFilter = document.getElementById("btnCustSrchFilter");
         btnFilter = document.getElementById("btnFilter");
+        btnRefrash = document.getElementById("btnRefrash");
         txtCompanynameFilter = document.getElementById("txtCompanynameFilter");
+        txtRFQFilter = document.getElementById("txtRFQFilter");
+        ToDate = document.getElementById("ToDate");
+        FromDate = document.getElementById("FromDate");
     }
     function InitalizeEvents() {
         btnCustSrchFilter.onclick = btnCust_onClick;
-        btnFilter.onclick = Display;
+        btnFilter.onclick = btnFilter_onclick;
+        btnRefrash.onclick = btnRefrash_onclick;
         txtCompanynameFilter.onchange = txtCompanynameFilter_ochange;
     }
     function txtCompanynameFilter_ochange() {
         txtCompanynameFilter.value = "";
         CustomerId = 0;
     }
+    function btnRefrash_onclick() {
+        CustomerId = 0;
+        txtCompanynameFilter.value = '';
+        txtRFQFilter.value = '';
+        FromDate.value = DateStartMonth();
+        ToDate.value = ConvertToDateDash(GetDate()) <= ConvertToDateDash(SysSession.CurrentEnvironment.EndDate) ? GetDate() : SysSession.CurrentEnvironment.EndDate;
+        Display();
+    }
+    function btnFilter_onclick() {
+        Display();
+    }
     function Display() {
-        debugger;
+        RFQFilter = txtRFQFilter.value;
+        FromDat = FromDate.value;
+        ToDat = ToDate.value;
         $("#ReportGrid").jsGrid("option", "pageIndex", 1);
         Ajax.Callsync({
             type: "GET",
             url: sys.apiUrl("SlsTrSales", "GetAllSlsInvoice"),
-            data: { CompCode: compcode, BranchCode: BranchCode, CustomerId: CustomerId },
+            data: { CompCode: compcode, BranchCode: BranchCode, CustomerId: CustomerId, RFQFilter: RFQFilter, StartDate: FromDat, EndDate: ToDat },
             success: function (d) {
                 debugger;
                 var result = d;
@@ -67,6 +94,10 @@ var QuotationView;
                     ReportGrid.Bind();
                     ReportGridInv.DataSource = Invoice;
                     ReportGridInv.Bind();
+                    $('#txtCreatedBy').prop("value", '');
+                    $('#txtCreatedAt').prop("value", '');
+                    $('#txtUpdatedBy').prop("value", '');
+                    $('#txtUpdatedAt').prop("value", '');
                     //$('.Done').addClass("display_none");
                 }
             }
@@ -213,7 +244,8 @@ var QuotationView;
             { title: "الرقم", name: "InvoiceID", type: "text", width: "5%", visible: false },
             { title: "INV.No", name: "CashBoxID", type: "text", width: "5%" },
             { title: "RFQ", name: "RefNO", type: "text", width: "8%" },
-            { title: "Date", name: "DeliveryEndDate", type: "text", width: "7%" },
+            { title: "PurNo", name: "TaxNotes", type: "text", width: "8%" },
+            { title: "Date", name: "CustomerMobileNo", type: "text", width: "7%" },
             { title: "TotalAmount", name: "NetAfterVat", type: "text", width: "10%" },
             {
                 title: "Review",
@@ -226,6 +258,21 @@ var QuotationView;
                     txt.className = "dis src-btn btn btn-warning input-sm";
                     txt.onclick = function (e) {
                         PrintInvoice(item.InvoiceID);
+                    };
+                    return txt;
+                }
+            },
+            {
+                title: "Delete",
+                width: "5%",
+                itemTemplate: function (s, item) {
+                    var txt = document.createElement("input");
+                    txt.type = "button";
+                    txt.value = ("Delete");
+                    txt.id = "butDelete" + item.InvoiceID;
+                    txt.className = "btn btn-custon-four btn-danger ";
+                    txt.onclick = function (e) {
+                        DeleteInvoice(item.InvoiceID);
                     };
                     return txt;
                 }
@@ -480,6 +527,26 @@ var QuotationView;
                 window.open(Url.Action("ReportsPopup", "Home"), "blank");
                 //let result = d.result as string;    
                 //window.open(result, "_blank");
+            }
+        });
+    }
+    function DeleteInvoice(btnId) {
+        Ajax.Callsync({
+            type: "Get",
+            url: sys.apiUrl("SlsTrSales", "DeleteInvoice"),
+            data: { InvoiceID: btnId },
+            success: function (d) {
+                var result = d;
+                if (result.IsSuccess == true) {
+                    Display();
+                    $('#viewmail').removeClass('active in');
+                    $('#sendmail').addClass('active in');
+                    $('#btnQuotations').removeClass('active');
+                    $('#btnInvoice').addClass('active');
+                }
+                else {
+                    DisplayMassage("Please refresh the page and try again", "Please refresh the page and try again", MessageType.Error);
+                }
             }
         });
     }

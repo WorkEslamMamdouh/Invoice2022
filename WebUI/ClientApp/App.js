@@ -776,6 +776,17 @@ function DateTimeFormat(dateForm) {
         return DateFormat((new Date()).toString());
     }
 }
+function DateStartMonth() {
+    var sys = new SystemTools();
+    var todaystr = ConvertToDateDash(GetDate()) <= ConvertToDateDash(sys.SysSession.CurrentEnvironment.EndDate) ? GetDate() : sys.SysSession.CurrentEnvironment.EndDate;
+    var dateString = todaystr;
+    var yyyy = dateString.substring(0, 4);
+    var mm = dateString.substring(5, 7);
+    var dd = dateString.substring(8, 10);
+    var ReturnedDate;
+    ReturnedDate = yyyy + '-' + mm + '-' + '01';
+    return ReturnedDate;
+}
 function ConvertToDateDash(date) {
     try {
         var x = date.split(" ");

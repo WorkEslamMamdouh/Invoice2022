@@ -66,7 +66,7 @@ namespace Inv.API.Controllers
                 else
                 {
                     ctr.CompStatus = 5;
-                    ctr.LoginMsg = "لايوجد بيانات للشركة في السنة المطلوبة ";
+                    ctr.LoginMsg = "There is no company data for the required year ";
                 }
 
                 return Ok(new BaseResponse(ctr));
