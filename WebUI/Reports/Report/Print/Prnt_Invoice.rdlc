@@ -369,7 +369,7 @@
                               <Value>=Fields!SoldQty.Value</Value>
                               <Style>
                                 <FontWeight>Bold</FontWeight>
-                                <Format>#,0</Format>
+                                <Format>#,0.00</Format>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -1919,7 +1919,7 @@
         <Top>9.12757cm</Top>
         <Left>0.34784cm</Left>
         <Height>5.76023cm</Height>
-        <Width>20.05684cm</Width>
+        <Width>20.05685cm</Width>
         <ZIndex>1</ZIndex>
         <Visibility>
           <Hidden>=iif(First(Fields!DiscountAmount.Value, "Prnt_Invoice") = 0 , true , false)</Hidden>
@@ -3200,7 +3200,7 @@
           </TablixColumns>
           <TablixRows>
             <TablixRow>
-              <Height>0.7808cm</Height>
+              <Height>0.77939cm</Height>
               <TablixCells>
                 <TablixCell>
                   <CellContents>
@@ -3385,7 +3385,7 @@
               </TablixCells>
             </TablixRow>
             <TablixRow>
-              <Height>0.75826cm</Height>
+              <Height>0.75685cm</Height>
               <TablixCells>
                 <TablixCell>
                   <CellContents>
@@ -3433,7 +3433,7 @@
                               <Value>=Fields!SoldQty.Value</Value>
                               <Style>
                                 <FontWeight>Bold</FontWeight>
-                                <Format>#,0</Format>
+                                <Format>#,0.00</Format>
                               </Style>
                             </TextRun>
                           </TextRuns>
@@ -3561,7 +3561,7 @@
               </TablixCells>
             </TablixRow>
             <TablixRow>
-              <Height>0.62117cm</Height>
+              <Height>0.61976cm</Height>
               <TablixCells>
                 <TablixCell>
                   <CellContents>
@@ -3640,7 +3640,7 @@
               </TablixCells>
             </TablixRow>
             <TablixRow>
-              <Height>0.6cm</Height>
+              <Height>0.59859cm</Height>
               <TablixCells>
                 <TablixCell>
                   <CellContents>
@@ -3817,7 +3817,7 @@
               </TablixCells>
             </TablixRow>
             <TablixRow>
-              <Height>0.6cm</Height>
+              <Height>0.59859cm</Height>
               <TablixCells>
                 <TablixCell>
                   <CellContents>
@@ -3965,7 +3965,7 @@
               </TablixCells>
             </TablixRow>
             <TablixRow>
-              <Height>0.6cm</Height>
+              <Height>0.59859cm</Height>
               <TablixCells>
                 <TablixCell>
                   <CellContents>
@@ -4110,7 +4110,7 @@
               </TablixCells>
             </TablixRow>
             <TablixRow>
-              <Height>0.6cm</Height>
+              <Height>0.59859cm</Height>
               <TablixCells>
                 <TablixCell>
                   <CellContents>
@@ -4257,7 +4257,7 @@
               </TablixCells>
             </TablixRow>
             <TablixRow>
-              <Height>0.6cm</Height>
+              <Height>0.59859cm</Height>
               <TablixCells>
                 <TablixCell>
                   <CellContents>
@@ -4432,7 +4432,7 @@
               </TablixCells>
             </TablixRow>
             <TablixRow>
-              <Height>0.6cm</Height>
+              <Height>0.59859cm</Height>
               <TablixCells>
                 <TablixCell>
                   <CellContents>
@@ -4627,10 +4627,10 @@
         <FixedColumnHeaders>true</FixedColumnHeaders>
         <FixedRowHeaders>true</FixedRowHeaders>
         <DataSetName>Prnt_Invoice</DataSetName>
-        <Top>9.11486cm</Top>
+        <Top>9.12757cm</Top>
         <Left>0.34784cm</Left>
-        <Height>5.76023cm</Height>
-        <Width>20.05682cm</Width>
+        <Height>5.74752cm</Height>
+        <Width>20.05683cm</Width>
         <ZIndex>7</ZIndex>
         <Visibility>
           <Hidden>=iif(First(Fields!DiscountAmount.Value, "Prnt_Invoice") = 0 , false, true )</Hidden>

@@ -529,7 +529,7 @@
                               <Value>=Fields!SoldQty.Value</Value>
                               <Style>
                                 <FontWeight>Bold</FontWeight>
-                                <Format>#,0</Format>
+                                <Format>#,0.00</Format>
                               </Style>
                             </TextRun>
                           </TextRuns>

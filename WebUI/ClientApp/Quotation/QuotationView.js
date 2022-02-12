@@ -131,6 +131,9 @@ var QuotationView;
                 itemTemplate: function (s, item) {
                     var txt = document.createElement("input");
                     txt.type = "text";
+                    var But = document.createElement("input");
+                    But.type = "button";
+                    But.value = ("<");
                     txt.placeholder = ("PurNo");
                     txt.id = "PurNo" + item.InvoiceID;
                     txt.className = "form-control ";
@@ -196,6 +199,7 @@ var QuotationView;
                         txt.classList.add("display_none");
                     }
                     txt.onclick = function (e) {
+                        $('#title_Edit').html('Eidt Quotation');
                         EidtQuotation(item.InvoiceID);
                     };
                     return txt;
@@ -258,6 +262,22 @@ var QuotationView;
                     txt.className = "dis src-btn btn btn-warning input-sm";
                     txt.onclick = function (e) {
                         PrintInvoice(item.InvoiceID);
+                    };
+                    return txt;
+                }
+            },
+            {
+                title: "Eidt",
+                width: "3%",
+                itemTemplate: function (s, item) {
+                    var txt = document.createElement("input");
+                    txt.type = "button";
+                    txt.value = ("Eidt");
+                    txt.id = "butEidt" + item.InvoiceID;
+                    txt.className = "btn btn-custon-four btn-success input-sm Inv Done";
+                    txt.onclick = function (e) {
+                        $('#title_Edit').html('Eidt Invoice');
+                        EidtQuotation(item.InvoiceID);
                     };
                     return txt;
                 }
@@ -424,12 +444,17 @@ var QuotationView;
         DisplayData(Selected_Data);
     }
     function DisplayData(Selected_Data) {
+        debugger;
         DocumentActions.RenderFromModel(Selected_Data[0]);
+        if (Selected_Data[0].TrType == 1) {
+            txtDate.value = DateFormat(Selected_Data[0].DeliveryEndDate);
+        }
+        else {
+            txtDate.value = DateFormat(Selected_Data[0].TrDate);
+        }
         GlobalinvoiceID = Selected_Data[0].InvoiceID;
         CustomerId = Selected_Data[0].CustomerId;
         txtQutationNo.value = Selected_Data[0].TrNo.toString();
-        debugger;
-        txtDate.value = DateFormat(Selected_Data[0].TrDate);
         txtRFQ.value = Selected_Data[0].RefNO;
         txtCompanysales.value = Selected_Data[0].ChargeReason;
         txtRemark.value = Selected_Data[0].Remark;
@@ -647,15 +672,15 @@ var QuotationView;
             '<td><button id="btn_minus' + cnt + '" type="button" class="btn btn-custon-four btn-danger"><i class="fa fa-minus-circle"></i></button></td>' +
             '<td><input  id="serial' + cnt + '" disabled="disabled"  type="text" class="form-control" placeholder="SR"></td>' +
             '<td><input  id="QTY' + cnt + '" type="number" class="form-control" placeholder="QTY"></td>' +
-            '<td><input  id="Description' + cnt + '" type="text" class="form-control" placeholder="Description"></td>' +
+            '<td> <textarea id="Description' + cnt + '" name="Description" type="text" class="form-control" style="height:34px" placeholder="Description" spellcheck="false"></textarea></td>' +
             '<td><input  id="UnitPrice' + cnt + '" value="0" type="number" class="form-control" placeholder="Unit Price"></td>' +
             '<td><input  id="Totalprice' + cnt + '" value="0" type="number" disabled="disabled" class="form-control" placeholder="Total price"></td>' +
             '<td><input  id="DiscountPrc' + cnt + '" value="0" type="number" class="form-control" placeholder="DiscountPrc%"></td>' +
             '<td><input  id="DiscountAmount' + cnt + '" value="0"  disabled type="number" class="form-control" placeholder="DiscountAmount"></td>' +
             '<td><input  id="Net' + cnt + '" type="number" disabled="disabled" value="0" class="form-control" placeholder="Net"></td>' +
-            '<td><input  id="txt_StatusFlag' + cnt + '" type="hidden" class="form-control"></td>' +
-            '<td><input  id="InvoiceItemID' + cnt + '" type="hidden" class="form-control"></td>' +
-            '<td><input  id="txt_ItemID' + cnt + '" type="hidden" class="form-control"></td>' +
+            ' <input  id="txt_StatusFlag' + cnt + '" type="hidden" class="form-control"> ' +
+            ' <input  id="InvoiceItemID' + cnt + '" type="hidden" class="form-control"> ' +
+            ' <input  id="txt_ItemID' + cnt + '" type="hidden" class="form-control"> ' +
             '</tr>';
         $("#Table_Data").append(html);
         $("#Description" + cnt).on('keyup', function (e) {
@@ -776,6 +801,9 @@ var QuotationView;
                 $("#serial" + i).val(Ser);
                 Ser++;
             }
+            if ($("#txt_StatusFlag" + i).val() != 'i' && $("#txt_StatusFlag" + i).val() != 'm' && $("#txt_StatusFlag" + i).val() != 'd') {
+                $("#txt_StatusFlag" + i).val('u');
+            }
         }
     }
     function Assign() {
@@ -792,8 +820,17 @@ var QuotationView;
         InvoiceModel.CreatedAt = Selected_Data[0].CreatedAt;
         InvoiceModel.CreatedBy = Selected_Data[0].CreatedBy;
         InvoiceModel.TaxNotes = Selected_Data[0].TaxNotes;
-        InvoiceModel.TrType = 0; //0 invoice 1 return    
-        InvoiceModel.TrDate = txtDate.value;
+        InvoiceModel.TrType = Selected_Data[0].TrType == null ? 0 : Selected_Data[0].TrType; //0 invoice 1 return    
+        InvoiceModel.CashBoxID = Selected_Data[0].CashBoxID == null ? 0 : Selected_Data[0].CashBoxID; //0 TrNo invoice 1 return  
+        if (Selected_Data[0].TrType == 1) {
+            InvoiceModel.DeliveryEndDate = txtDate.value;
+            InvoiceModel.TrDate = Selected_Data[0].TrDate == null ? '' : Selected_Data[0].TrDate; // DeliveryEndDate  return
+        }
+        else {
+            InvoiceModel.DeliveryEndDate = Selected_Data[0].DeliveryEndDate == null ? '' : Selected_Data[0].DeliveryEndDate; // DeliveryDate  return
+            InvoiceModel.TrDate = txtDate.value;
+        }
+        //InvoiceModel.DeliveryDate = Selected_Data[0].DeliveryDate == null ? '' : Selected_Data[0].DeliveryDate // DeliveryDate  return
         InvoiceModel.RefNO = txtRFQ.value;
         InvoiceModel.SalesmanId = 1;
         InvoiceModel.ChargeReason = txtCompanysales.value;

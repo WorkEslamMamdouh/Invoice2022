@@ -115,7 +115,7 @@ namespace Quotation {
             '<td><input  id="DiscountPrc' + cnt + '" value="0" type="number" class="form-control" placeholder="DiscountPrc%"></td>' +
             '<td><input  id="DiscountAmount' + cnt + '" value="0" type="number" class="form-control" placeholder="DiscountAmount"></td>' +
             '<td><input  id="Net' + cnt + '" type="number" disabled="disabled" value="0" class="form-control" placeholder="Net"></td>' +
-            '<td><input  id="txt_StatusFlag' + cnt + '" type="hidden" class="form-control"></td>' +
+            ' <input  id="txt_StatusFlag' + cnt + '" type="hidden" class="form-control"> ' +
             '</tr>';
         $("#Table_Data").append(html);
         $("#UnitPrice" + cnt).on('keyup', function (e) {
