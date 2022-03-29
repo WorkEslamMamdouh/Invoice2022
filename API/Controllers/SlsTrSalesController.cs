@@ -153,7 +153,6 @@ namespace Inv.API.Controllers
         public IHttpActionResult GetAllSlsInvoice(int CompCode, int BranchCode, int CustomerId , string RFQFilter , string StartDate, string EndDate)
         {
              
-
              
             string s = @"SELECT   [InvoiceID] ,[TrNo]  ,[RefNO]  ,[RefTrID] , TrDate
                       ,CONVERT(varchar, TrDate, 103) as TrDateH ,[TrType] ,[IsCash] ,[SlsInvType] ,[SlsInvSrc]  ,[CashBoxID] ,[CustomerId]
@@ -166,16 +165,22 @@ namespace Inv.API.Controllers
                       ,[CryptographicStamp]  ,[DeliveryDate]  ,CONVERT(varchar, DeliveryEndDate, 103) as CustomerMobileNo ,[PaymentMeansTypeCode],[CRDBReasoncode],[PaymentTerms],[PaymentTermsID],[AllowAmount],[AllowPrc]
                       ,[AllowBase]      ,[AllowVatNatID],[AllowVatPrc],[AllowAfterVat],[AllowReason],[AllowCode],[ChargeAmount],[ChargePrc],[ChargeBase],[ChargeVatNatID]
                       ,[ChargeVatPrc],[ChargeAfterVat],[ChargeReason],[ChargeCode],[ItemTotal],[ItemAllowTotal],[ItemDiscountTotal],[ItemVatTotal],[RoundingAmount]
-                      FROM  Sls_Ivoice where   CompCode = " + CompCode + " and BranchCode = " + BranchCode + " and TrDate >=' " + StartDate + "' and TrDate <= ' " + EndDate + " '";
+                      FROM  Sls_Ivoice where   ";
 
             string condition = "";
+            string Customer = "";
+            string RFQ = "";
+
             if (CustomerId != 0 && CustomerId != null)
-                condition = condition + " and CustomerId =" + CustomerId;
+                Customer = " and CustomerId =" + CustomerId+" ";
             if (RFQFilter != "" && RFQFilter != null)
-                condition = condition + " and RefNO ='" + RFQFilter +"'";// and Status = " + Status
-       
-            ///////////
-            string query = s + condition + " ORDER BY TrNo DESC;";  
+                RFQ =  " and RefNO ='" + RFQFilter +"' "; 
+
+
+            condition = " ( CompCode = " + CompCode + " and BranchCode = " + BranchCode + " and  TrDate >='" + StartDate + "' and TrDate <= '" + EndDate + "'  " + Customer +" "+ RFQ + " )";
+            condition = condition + " or ( CompCode = " + CompCode + " and BranchCode = " + BranchCode + " and  DeliveryEndDate >='" + StartDate + "' and DeliveryEndDate <= '" + EndDate + "' and TrType = '1' " + Customer + " " + RFQ + " )";
+
+         string query = s + condition + " ORDER BY TrNo DESC;";  
 
             var res = db.Database.SqlQuery<Sls_Ivoice>(query).ToList();
             return Ok(new BaseResponse(res));

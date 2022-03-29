@@ -114,6 +114,17 @@ namespace QuotationView {
                     ReportGridInv.Bind();
 
 
+                    let TotalAmount = 0;
+                    let TotalQty = 0;
+                    $('#txtTotalAmount').val("");
+                    $('#txtTotalQty').val("");
+                    for (var i = 0; i < Invoice.length; i++) {
+                        TotalAmount += Invoice[i].TotalAmount;
+                        $('#txtTotalAmount').val(TotalAmount);
+                        TotalQty++;
+                    }
+                    $('#txtTotalQty').val(TotalQty);
+
                     $('#txtCreatedBy').prop("value", '');
                     $('#txtCreatedAt').prop("value", '');
                     $('#txtUpdatedBy').prop("value", '');
@@ -289,7 +300,7 @@ namespace QuotationView {
         ReportGridInv.ElementName = "ReportGridInv";
         ReportGridInv.PrimaryKey = "InvoiceID";
         ReportGridInv.Paging = true;
-        ReportGridInv.PageSize = 8;
+        ReportGridInv.PageSize = 6;
         ReportGridInv.Sorting = true;
         ReportGridInv.InsertionMode = JsGridInsertionMode.Binding;
         ReportGridInv.Editing = false;
@@ -554,7 +565,7 @@ namespace QuotationView {
         debugger
 
         DocumentActions.RenderFromModel(Selected_Data[0]);
-         
+
         if (Selected_Data[0].TrType == 1) {
             txtDate.value = DateFormat(Selected_Data[0].DeliveryEndDate);
         }
@@ -981,16 +992,16 @@ namespace QuotationView {
 
 
         if (Selected_Data[0].TrType == 1) {
-            
+
             InvoiceModel.DeliveryEndDate = txtDate.value;
             InvoiceModel.TrDate = Selected_Data[0].TrDate == null ? '' : Selected_Data[0].TrDate // DeliveryEndDate  return
         }
         else {
             InvoiceModel.DeliveryEndDate = Selected_Data[0].DeliveryEndDate == null ? '' : Selected_Data[0].DeliveryEndDate // DeliveryDate  return
             InvoiceModel.TrDate = txtDate.value;
-        } 
+        }
         //InvoiceModel.DeliveryDate = Selected_Data[0].DeliveryDate == null ? '' : Selected_Data[0].DeliveryDate // DeliveryDate  return
-        
+
         InvoiceModel.RefNO = txtRFQ.value;
         InvoiceModel.SalesmanId = 1;
         InvoiceModel.ChargeReason = txtCompanysales.value;

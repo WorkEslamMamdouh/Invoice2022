@@ -94,6 +94,16 @@ var QuotationView;
                     ReportGrid.Bind();
                     ReportGridInv.DataSource = Invoice;
                     ReportGridInv.Bind();
+                    var TotalAmount = 0;
+                    var TotalQty = 0;
+                    $('#txtTotalAmount').val("");
+                    $('#txtTotalQty').val("");
+                    for (var i = 0; i < Invoice.length; i++) {
+                        TotalAmount += Invoice[i].TotalAmount;
+                        $('#txtTotalAmount').val(TotalAmount);
+                        TotalQty++;
+                    }
+                    $('#txtTotalQty').val(TotalQty);
                     $('#txtCreatedBy').prop("value", '');
                     $('#txtCreatedAt').prop("value", '');
                     $('#txtUpdatedBy').prop("value", '');
@@ -236,7 +246,7 @@ var QuotationView;
         ReportGridInv.ElementName = "ReportGridInv";
         ReportGridInv.PrimaryKey = "InvoiceID";
         ReportGridInv.Paging = true;
-        ReportGridInv.PageSize = 8;
+        ReportGridInv.PageSize = 6;
         ReportGridInv.Sorting = true;
         ReportGridInv.InsertionMode = JsGridInsertionMode.Binding;
         ReportGridInv.Editing = false;
