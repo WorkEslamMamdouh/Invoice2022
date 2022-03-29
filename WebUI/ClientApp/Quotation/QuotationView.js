@@ -12,6 +12,7 @@ var QuotationView;
     var Selecteditem = new Array();
     var Invoice = new Array();
     var InvQuotation = new Array();
+    var I_D_UOMDetails = new Array();
     var btnCustSrchFilter;
     var btnFilter;
     var btnRefrash;
@@ -39,6 +40,7 @@ var QuotationView;
         FromDate.value = DateStartMonth();
         ToDate.value = ConvertToDateDash(GetDate()) <= ConvertToDateDash(SysSession.CurrentEnvironment.EndDate) ? GetDate() : SysSession.CurrentEnvironment.EndDate;
         Display();
+        FillddlUom();
     }
     QuotationView.InitalizeComponent = InitalizeComponent;
     function InitalizeControls() {
@@ -70,6 +72,18 @@ var QuotationView;
     }
     function btnFilter_onclick() {
         Display();
+    }
+    function FillddlUom() {
+        Ajax.Callsync({
+            type: "Get",
+            url: sys.apiUrl("SlsTrSales", "GetAllUOM"),
+            success: function (d) {
+                var result = d;
+                if (result.IsSuccess) {
+                    I_D_UOMDetails = result.Response;
+                }
+            }
+        });
     }
     function Display() {
         RFQFilter = txtRFQFilter.value;
@@ -141,9 +155,6 @@ var QuotationView;
                 itemTemplate: function (s, item) {
                     var txt = document.createElement("input");
                     txt.type = "text";
-                    var But = document.createElement("input");
-                    But.type = "button";
-                    But.value = ("<");
                     txt.placeholder = ("PurNo");
                     txt.id = "PurNo" + item.InvoiceID;
                     txt.className = "form-control ";
@@ -161,9 +172,9 @@ var QuotationView;
                 title: "Review",
                 width: "4%",
                 itemTemplate: function (s, item) {
-                    var txt = document.createElement("input");
+                    var txt = document.createElement("button");
                     txt.type = "button";
-                    txt.value = ("Review");
+                    txt.innerText = ("Review");
                     txt.id = "butPrint" + item.InvoiceID;
                     txt.className = "btn btn-custon-four btn-danger Done";
                     //if (item.TaxNotes == '' || item.TaxNotes == null) {
@@ -179,9 +190,9 @@ var QuotationView;
                 title: "DelivNote",
                 width: "5%",
                 itemTemplate: function (s, item) {
-                    var txt = document.createElement("input");
+                    var txt = document.createElement("button");
                     txt.type = "button";
-                    txt.value = ("DelivNote");
+                    txt.innerText = ("DelivNote");
                     txt.id = "butDelivNote" + item.InvoiceID;
                     txt.className = "btn btn-custon-four btn-primary Done";
                     if (item.TaxNotes == '' || item.TaxNotes == null) {
@@ -197,9 +208,9 @@ var QuotationView;
                 title: "Eidt",
                 width: "3%",
                 itemTemplate: function (s, item) {
-                    var txt = document.createElement("input");
+                    var txt = document.createElement("button");
                     txt.type = "button";
-                    txt.value = ("Eidt");
+                    txt.innerText = ("Eidt");
                     txt.id = "butEidt" + item.InvoiceID;
                     txt.className = "dis src-btn btn btn-warning input-sm Inv Done";
                     //if (item.TaxNotes == '' || item.TaxNotes == null) {
@@ -219,9 +230,9 @@ var QuotationView;
                 title: "Comfirm",
                 width: "5%",
                 itemTemplate: function (s, item) {
-                    var txt = document.createElement("input");
+                    var txt = document.createElement("button");
                     txt.type = "button";
-                    txt.value = ("comfirm");
+                    txt.innerText = ("comfirm");
                     txt.id = "butComfirm" + item.InvoiceID;
                     txt.className = "btn btn-custon-four btn-success Inv Done";
                     if (item.TaxNotes == '' || item.TaxNotes == null) {
@@ -520,6 +531,7 @@ var QuotationView;
         $("#serial" + cnt).prop("value", InvItemsDetailsModel[cnt].Serial);
         $("#QTY" + cnt).prop("value", InvItemsDetailsModel[cnt].SoldQty);
         $("#Description" + cnt).prop("value", InvItemsDetailsModel[cnt].Itemdesc);
+        $("#ddlTypeUom" + cnt).prop("value", InvItemsDetailsModel[cnt].UomID);
         $("#UnitPrice" + cnt).prop("value", InvItemsDetailsModel[cnt].NetUnitPrice);
         $("#Totalprice" + cnt).prop("value", InvItemsDetailsModel[cnt].ItemTotal);
         $("#DiscountPrc" + cnt).prop("value", InvItemsDetailsModel[cnt].DiscountPrc);
@@ -683,6 +695,7 @@ var QuotationView;
             '<td><input  id="serial' + cnt + '" disabled="disabled"  type="text" class="form-control" placeholder="SR"></td>' +
             '<td><input  id="QTY' + cnt + '" type="number" class="form-control" placeholder="QTY"></td>' +
             '<td> <textarea id="Description' + cnt + '" name="Description" type="text" class="form-control" style="height:34px" placeholder="Description" spellcheck="false"></textarea></td>' +
+            '<td><select id="ddlTypeUom' + cnt + '" class="form-control"> <option value="null"> Choose Uom </option></select></td>' +
             '<td><input  id="UnitPrice' + cnt + '" value="0" type="number" class="form-control" placeholder="Unit Price"></td>' +
             '<td><input  id="Totalprice' + cnt + '" value="0" type="number" disabled="disabled" class="form-control" placeholder="Total price"></td>' +
             '<td><input  id="DiscountPrc' + cnt + '" value="0" type="number" class="form-control" placeholder="DiscountPrc%"></td>' +
@@ -693,7 +706,14 @@ var QuotationView;
             ' <input  id="txt_ItemID' + cnt + '" type="hidden" class="form-control"> ' +
             '</tr>';
         $("#Table_Data").append(html);
+        for (var i = 0; i < I_D_UOMDetails.length; i++) {
+            $('#ddlTypeUom' + cnt + '').append('<option  value="' + I_D_UOMDetails[i].UomID + '">' + I_D_UOMDetails[i].DescE + '</option>');
+        }
         $("#Description" + cnt).on('keyup', function (e) {
+            if ($("#txt_StatusFlag" + cnt).val() != "i")
+                $("#txt_StatusFlag" + cnt).val("u");
+        });
+        $("#ddlTypeUom" + cnt).on('change', function (e) {
             if ($("#txt_StatusFlag" + cnt).val() != "i")
                 $("#txt_StatusFlag" + cnt).val("u");
         });
@@ -778,6 +798,11 @@ var QuotationView;
         }
         if ($("#Description" + rowcount).val().trim() == "") {
             Errorinput($("#Description" + rowcount));
+            DisplayMassage('Item Describtion must be entered', 'Item Describtion must be entered', MessageType.Error);
+            return false;
+        }
+        if ($("#ddlTypeUom" + rowcount).val().trim() == "null") {
+            Errorinput($("#ddlTypeUom" + rowcount));
             DisplayMassage('Item Describtion must be entered', 'Item Describtion must be entered', MessageType.Error);
             return false;
         }
@@ -866,6 +891,7 @@ var QuotationView;
                 invoiceItemSingleModel.Serial = Number($("#serial" + i).val());
                 invoiceItemSingleModel.SoldQty = Number($('#QTY' + i).val());
                 invoiceItemSingleModel.Itemdesc = $("#Description" + i).val();
+                invoiceItemSingleModel.UomID = Number($("#ddlTypeUom" + i).val());
                 invoiceItemSingleModel.NetUnitPrice = Number($("#UnitPrice" + i).val());
                 invoiceItemSingleModel.ItemTotal = Number($("#Totalprice" + i).val());
                 invoiceItemSingleModel.DiscountPrc = Number($("#DiscountPrc" + i).val());
@@ -881,6 +907,7 @@ var QuotationView;
                 invoiceItemSingleModel.Serial = Number($("#serial" + i).val());
                 invoiceItemSingleModel.SoldQty = Number($('#QTY' + i).val());
                 invoiceItemSingleModel.Itemdesc = $("#Description" + i).val();
+                invoiceItemSingleModel.UomID = Number($("#ddlTypeUom" + i).val());
                 invoiceItemSingleModel.NetUnitPrice = Number($("#UnitPrice" + i).val());
                 invoiceItemSingleModel.ItemTotal = Number($("#Totalprice" + i).val());
                 invoiceItemSingleModel.DiscountPrc = Number($("#DiscountPrc" + i).val());

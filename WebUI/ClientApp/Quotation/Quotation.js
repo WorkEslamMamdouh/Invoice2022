@@ -11,6 +11,7 @@ var Quotation;
     var InvoiceModel = new Sls_Ivoice();
     var MasterDetailsModel = new SlsInvoiceMasterDetails();
     var CustomerDetail = new Array();
+    var I_D_UOMDetails = new Array();
     var CountGrid = 0;
     var compcode; //SharedSession.CurrentEnvironment.CompCode;
     var BranchCode; //SharedSession.CurrentEnvironment.CompCode;
@@ -41,6 +42,7 @@ var Quotation;
         BranchCode = Number(SysSession.CurrentEnvironment.BranchCode);
         InitalizeControls();
         InitalizeEvents();
+        FillddlUom();
         AddNewRow();
         txtDate.value = GetDate();
     }
@@ -76,6 +78,18 @@ var Quotation;
         txtAllDiscount.onkeyup = computeTotal;
         //btnprint.onclick = btnprint_onclick;
     }
+    function FillddlUom() {
+        Ajax.Callsync({
+            type: "Get",
+            url: sys.apiUrl("SlsTrSales", "GetAllUOM"),
+            success: function (d) {
+                var result = d;
+                if (result.IsSuccess) {
+                    I_D_UOMDetails = result.Response;
+                }
+            }
+        });
+    }
     function btnCustSrch_onClick() {
         sys.FindKey(Modules.Quotation, "btnCustSrch", "", function () {
             CustomerDetail = SearchGrid.SearchDataGrid.SelectedKey;
@@ -99,6 +113,7 @@ var Quotation;
             '<td><input  id="serial' + cnt + '" disabled="disabled"  type="text" class="form-control" placeholder="SR"></td>' +
             '<td><input  id="QTY' + cnt + '" type="number" class="form-control" placeholder="QTY"></td>' +
             '<td> <textarea id="Description' + cnt + '" name="Description" type="text" class="form-control" style="height:34px" placeholder="Description" spellcheck="false"></textarea></td>' +
+            '<td><select id="ddlTypeUom' + cnt + '" class="form-control"> <option value="null"> Choose Uom </option></select></td>' +
             '<td><input  id="UnitPrice' + cnt + '" value="0" type="number" class="form-control" placeholder="Unit Price"></td>' +
             '<td><input  id="Totalprice' + cnt + '" value="0" type="number" disabled="disabled" class="form-control" placeholder="Total price"></td>' +
             '<td><input  id="DiscountPrc' + cnt + '" value="0" type="number" class="form-control" placeholder="DiscountPrc%"></td>' +
@@ -107,6 +122,11 @@ var Quotation;
             ' <input  id="txt_StatusFlag' + cnt + '" type="hidden" class="form-control"> ' +
             '</tr>';
         $("#Table_Data").append(html);
+        debugger;
+        for (var i = 0; i < I_D_UOMDetails.length; i++) {
+            debugger;
+            $('#ddlTypeUom' + cnt + '').append('<option  value="' + I_D_UOMDetails[i].UomID + '">' + I_D_UOMDetails[i].DescE + '</option>');
+        }
         $("#UnitPrice" + cnt).on('keyup', function (e) {
             computeRows(cnt);
         });
@@ -183,6 +203,11 @@ var Quotation;
             DisplayMassage('Item Describtion must be entered', 'Item Describtion must be entered', MessageType.Error);
             return false;
         }
+        if ($("#ddlTypeUom" + rowcount).val().trim() == "") {
+            Errorinput($("#ddlTypeUom" + rowcount));
+            DisplayMassage('The unit must be selected', 'The unit must be selected', MessageType.Error);
+            return false;
+        }
         //if ($("#UnitPrice" + rowcount).val().trim() == "" || Number($("#UnitPrice" + rowcount).val()) <= 0) {
         //    Errorinput($("#UnitPrice" + rowcount));
         //    DisplayMassage('Item Price must be entered', 'Item Price must be entered', MessageType.Error);
@@ -257,6 +282,7 @@ var Quotation;
                 invoiceItemSingleModel.DiscountPrc = Number($("#DiscountPrc" + i).val());
                 invoiceItemSingleModel.DiscountAmount = Number($("#DiscountAmount" + i).val());
                 invoiceItemSingleModel.NetAfterVat = Number($("#Net" + i).val());
+                invoiceItemSingleModel.UomID = Number($("#ddlTypeUom" + i).val());
                 InvoiceItemsDetailsModel.push(invoiceItemSingleModel);
             }
         }

@@ -74,6 +74,7 @@ namespace Inv.DAL.Domain
         public virtual DbSet<Sls_Ivoice> Sls_Ivoice { get; set; }
         public virtual DbSet<Customer> Customers { get; set; }
         public virtual DbSet<Sls_InvoiceDetail> Sls_InvoiceDetail { get; set; }
+        public virtual DbSet<I_D_UOM> I_D_UOM { get; set; }
     
         public virtual int G_TOL_GetCounter(string system, Nullable<int> comp, Nullable<int> branch, Nullable<System.DateTime> dt, string trType, ObjectParameter trNo)
         {

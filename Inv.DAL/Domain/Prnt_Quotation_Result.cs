@@ -89,5 +89,9 @@ namespace Inv.DAL.Domain
         public string CreatedBy { get; set; }
         public Nullable<int> invoiceNo { get; set; }
         public Nullable<System.DateTime> InvDate { get; set; }
+        public int UomID { get; set; }
+        public string DescA { get; set; }
+        public string DescE { get; set; }
+        public string UomCode { get; set; }
     }
 }

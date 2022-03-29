@@ -1130,4 +1130,19 @@ var Sls_InvoiceDetail = /** @class */ (function (_super) {
     }
     return Sls_InvoiceDetail;
 }(SecurityClass));
+var I_D_UOM = /** @class */ (function () {
+    function I_D_UOM() {
+        this.UomID = 0;
+        this.UomCode = "";
+        this.DescA = "";
+        this.DescE = "";
+        this.CompCode = 0;
+        this.Remarks = "";
+        this.CreatedAt = "";
+        this.CreatedBy = "";
+        this.UpdatedAt = "";
+        this.UpdatedBy = "";
+    }
+    return I_D_UOM;
+}());
 //# sourceMappingURL=Entities.js.map

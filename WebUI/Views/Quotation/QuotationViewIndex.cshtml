@@ -3,7 +3,22 @@
 
     Layout = "~/Views/Shared/Layout.cshtml";
 }
+<style>
 
+    .des {
+        width: 20% !important;
+    }
+    .uom {
+        width: 11% !important;
+    } 
+    .Zero {
+        width: 0% !important;
+    }
+    .Price {
+        width: 9% !important;
+    }
+
+</style>
 <body class="materialdesign">
     <div class="content-inner-all">
 
@@ -35,7 +50,7 @@
                                         <li>
 
                                             <input id="txtCompanynameFilter" type="text" class=" " disabled placeholder="Company" style="width: 50%;height: 32px;">
-                                            <button id="btnCustSrchFilter" type="button" class="btn btn-custon-four btn-primary">
+                                            <button id="btnCustSrchFilter" type="button" class="btn btn-custon-four btn-primary" style="width: 33%;">
                                                 <i>Search</i>
                                             </button>
 
@@ -253,10 +268,11 @@
                                                                                         <th data-field=""></th>
                                                                                         <th data-field="id">SR</th>
                                                                                         <th data-field="" data-editable="true">QTY</th>
-                                                                                        <th data-field="description" data-editable="true">Description</th>
-                                                                                        <th data-field="number" data-editable="true">Unit Price</th>
-                                                                                        <th data-field="number" data-editable="true">Total price</th>
-                                                                                        <th data-field="number" data-editable="true">Discount%</th>
+                                                                                        <th class="des" data-field="description" data-editable="true">Description</th>
+                                                                                        <th data-field="" class="uom" data-editable="true"> Type Unit</th>
+                                                                                        <th data-field="number" class="Price"  data-editable="true">Unit Price</th>
+                                                                                        <th data-field="number"  class="Price"  data-editable="true">Total price</th>
+                                                                                        <th data-field="number"  class="Zero" data-editable="true">Discount%</th>
                                                                                         <th data-field="number" data-editable="true">Discount Amount</th>
                                                                                         <th data-field="number" data-editable="true">Net</th>
                                                                                     </tr>

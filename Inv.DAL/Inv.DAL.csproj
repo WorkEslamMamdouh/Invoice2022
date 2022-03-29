@@ -202,6 +202,9 @@
     <Compile Include="Domain\I_D_CURRENCY.cs">
       <DependentUpon>InvModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Domain\I_D_UOM.cs">
+      <DependentUpon>InvModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Domain\I_VW_GetCompStatus.cs">
       <DependentUpon>InvModel.tt</DependentUpon>
     </Compile>

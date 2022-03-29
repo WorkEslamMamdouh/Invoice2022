@@ -52,6 +52,7 @@
         <EntityTypeShape EntityType="InvoiceModel.Sls_Ivoice" Width="1.5" PointX="21.75" PointY="14.75" />
         <EntityTypeShape EntityType="InvoiceModel.Customer" Width="1.5" PointX="0.75" PointY="21.75" />
         <EntityTypeShape EntityType="InvoiceModel.Sls_InvoiceDetail" Width="1.5" PointX="7.75" PointY="22.75" />
+        <EntityTypeShape EntityType="InvoiceModel.I_D_UOM" Width="1.5" PointX="23.375" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

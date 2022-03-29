@@ -220,6 +220,15 @@ namespace Inv.API.Controllers
         }
 
         [HttpGet, AllowAnonymous]
+        public IHttpActionResult GetAllUOM()
+        {
+            string query = "select * from I_D_UOM ";
+
+            var res = db.Database.SqlQuery<I_D_UOM>(query).ToList();
+            return Ok(new BaseResponse(res));
+        }
+
+        [HttpGet, AllowAnonymous]
         public IHttpActionResult GetCustomer(int id)
         {
             string query = "select * from Customer where  CustomerId = " + id + "";

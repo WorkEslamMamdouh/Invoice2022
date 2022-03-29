@@ -817,6 +817,21 @@ warning 6002: The table/view 'Invoice2022.dbo.HIJRA_CONVERT' does not have a pri
           <Property Name="SMALLDOUBLEA" Type="nvarchar" MaxLength="20" />
           <Property Name="SMALLPRULARA" Type="nvarchar" MaxLength="20" />
         </EntityType>
+        <EntityType Name="I_D_UOM">
+          <Key>
+            <PropertyRef Name="UomID" />
+          </Key>
+          <Property Name="UomID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UomCode" Type="nvarchar" MaxLength="25" />
+          <Property Name="DescA" Type="nvarchar" MaxLength="100" />
+          <Property Name="DescE" Type="nvarchar" MaxLength="100" />
+          <Property Name="CompCode" Type="int" />
+          <Property Name="Remarks" Type="nvarchar" MaxLength="200" />
+          <Property Name="CreatedAt" Type="smalldatetime" />
+          <Property Name="CreatedBy" Type="nvarchar" MaxLength="50" />
+          <Property Name="UpdatedAt" Type="smalldatetime" />
+          <Property Name="UpdatedBy" Type="nvarchar" MaxLength="50" />
+        </EntityType>
         <EntityType Name="Sls_InvoiceDetail">
           <Key>
             <PropertyRef Name="InvoiceItemID" />
@@ -1165,6 +1180,7 @@ warning 6002: The table/view 'Invoice2022.dbo.I_VW_GetCompStatus' does not have 
           <EntitySet Name="G_VatNature" EntityType="Self.G_VatNature" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="I_Control" EntityType="Self.I_Control" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="I_D_CURRENCY" EntityType="Self.I_D_CURRENCY" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="I_D_UOM" EntityType="Self.I_D_UOM" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Sls_InvoiceDetail" EntityType="Self.Sls_InvoiceDetail" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Sls_Ivoice" EntityType="Self.Sls_Ivoice" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="HIJRA_CONVERT" EntityType="Self.HIJRA_CONVERT" store:Type="Tables" store:Schema="dbo">
@@ -2196,6 +2212,7 @@ warning 6002: The table/view 'Invoice2022.dbo.I_VW_GetCompStatus' does not have 
             <Parameter Name="TrNo" Mode="InOut" Type="Int32" />
             <Parameter Name="Ok" Mode="InOut" Type="Int32" />
           </FunctionImport>
+          <EntitySet Name="I_D_UOM" EntityType="InvoiceModel.I_D_UOM" />
           <FunctionImport Name="Prnt_Quotation" ReturnType="Collection(InvoiceModel.Prnt_Quotation_Result)">
             <Parameter Name="comp" Mode="In" Type="Int32" />
             <Parameter Name="bra" Mode="In" Type="Int32" />
@@ -2420,6 +2437,21 @@ warning 6002: The table/view 'Invoice2022.dbo.I_VW_GetCompStatus' does not have 
           <Property Name="NetUnitPriceWithVat" Type="Decimal" Precision="18" Scale="5" />
           <Property Name="Itemdesc" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
         </EntityType>
+        <EntityType Name="I_D_UOM">
+          <Key>
+            <PropertyRef Name="UomID" />
+          </Key>
+          <Property Name="UomID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UomCode" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="DescA" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="DescE" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="CompCode" Type="Int32" />
+          <Property Name="Remarks" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedAt" Type="DateTime" Precision="0" />
+          <Property Name="CreatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UpdatedAt" Type="DateTime" Precision="0" />
+          <Property Name="UpdatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
         <ComplexType Name="Prnt_Quotation_Result">
           <Property Type="Int32" Name="Comp" Nullable="true" />
           <Property Type="Int32" Name="Bra" Nullable="true" />
@@ -2497,6 +2529,10 @@ warning 6002: The table/view 'Invoice2022.dbo.I_VW_GetCompStatus' does not have 
           <Property Type="String" Name="CreatedBy" Nullable="true" MaxLength="25" />
           <Property Type="Int32" Name="invoiceNo" Nullable="true" />
           <Property Type="DateTime" Name="InvDate" Nullable="true" Precision="16" />
+          <Property Type="Int32" Name="UomID" Nullable="false" />
+          <Property Type="String" Name="DescA" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="DescE" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="UomCode" Nullable="true" MaxLength="25" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -3570,6 +3606,22 @@ warning 6002: The table/view 'Invoice2022.dbo.I_VW_GetCompStatus' does not have 
             </EntityTypeMapping>
           </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="G_ProcessTrans" FunctionName="InvoiceModel.Store.G_ProcessTrans" />
+          <EntitySetMapping Name="I_D_UOM">
+            <EntityTypeMapping TypeName="InvoiceModel.I_D_UOM">
+              <MappingFragment StoreEntitySet="I_D_UOM">
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="UpdatedAt" ColumnName="UpdatedAt" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+                <ScalarProperty Name="CompCode" ColumnName="CompCode" />
+                <ScalarProperty Name="DescE" ColumnName="DescE" />
+                <ScalarProperty Name="DescA" ColumnName="DescA" />
+                <ScalarProperty Name="UomCode" ColumnName="UomCode" />
+                <ScalarProperty Name="UomID" ColumnName="UomID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="Prnt_Quotation" FunctionName="InvoiceModel.Store.Prnt_Quotation">
             <ResultMapping>
               <ComplexTypeMapping TypeName="InvoiceModel.Prnt_Quotation_Result">
@@ -3649,6 +3701,10 @@ warning 6002: The table/view 'Invoice2022.dbo.I_VW_GetCompStatus' does not have 
                 <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
                 <ScalarProperty Name="invoiceNo" ColumnName="invoiceNo" />
                 <ScalarProperty Name="InvDate" ColumnName="InvDate" />
+                <ScalarProperty Name="UomID" ColumnName="UomID" />
+                <ScalarProperty Name="DescA" ColumnName="DescA" />
+                <ScalarProperty Name="DescE" ColumnName="DescE" />
+                <ScalarProperty Name="UomCode" ColumnName="UomCode" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

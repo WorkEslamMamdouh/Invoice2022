@@ -7,9 +7,20 @@
 <style>
 
     .des {
-        width: 285px !important;
+        width: 22% !important;
     }
 
+    .uom {
+        width: 11% !important;
+    }
+
+    .Zero {
+        width: 0% !important;
+    }
+
+    .Price {
+        width: 9% !important;
+    }
 </style>
 <body class="materialdesign">
     <div class="content-inner-all">
@@ -124,19 +135,22 @@
 
                                                                             <h4 id="Text_Massage">Message</h4>
 
+                                                                            
                                                                         </div>
                                                                         <div class="sparkline8-graph">
                                                                             <div class="datatable-dashv1-list custom-datatable-overright">
                                                                                 <table id="table" data-toggle="table" data-pagination="true"     data-resizable="true" data-cookie="true" data-cookie-id-table="saveId" data-show-export="false" data-click-to-select="true" data-toolbar="#toolbar">
                                                                                     <thead>
                                                                                         <tr>
+
                                                                                             <th data-field=""></th>
                                                                                             <th data-field="id">SR</th>
                                                                                             <th data-field="" data-editable="true">QTY</th>
                                                                                             <th class="des" data-field="description" data-editable="true">Description</th>
-                                                                                            <th data-field="number" data-editable="true">Unit Price</th>
-                                                                                            <th data-field="number" data-editable="true">Total price</th>
-                                                                                            <th data-field="number" data-editable="true">Discount%</th>
+                                                                                            <th data-field="" class="uom" data-editable="true"> Type Unit</th>
+                                                                                            <th data-field="number" class="Price"   data-editable="true">Unit Price</th>
+                                                                                            <th data-field="number"  class="Price"  data-editable="true">Total price</th>
+                                                                                            <th data-field="number" class="Zero" data-editable="true">Discount%</th>
                                                                                             <th data-field="number" data-editable="true">Discount Amount</th>
                                                                                             <th data-field="number" data-editable="true">Net</th>
                                                                                         </tr>

@@ -448,6 +448,9 @@
     <Content Include="NewStyle\view-mail.html" />
     <Content Include="NewStyle\widgets.html" />
     <Content Include="NewStyle\x-editable.html" />
+    <Content Include="New_Design\loader.css" />
+    <Content Include="New_Design\LodBut\font-awesome.min.css" />
+    <Content Include="New_Design\LodBut\Loder.js" />
     <Content Include="New_Design\Login_v1\css\main.css" />
     <Content Include="New_Design\Login_v1\css\util.css" />
     <Content Include="New_Design\Login_v1\fonts\font-awesome-4.7.0\css\font-awesome.css" />

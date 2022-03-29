@@ -1867,6 +1867,31 @@ class Sls_InvoiceDetail extends SecurityClass {
 }
 
 
+class I_D_UOM {
+    constructor() {
+        this.UomID = 0;
+        this.UomCode = "";
+        this.DescA = "";
+        this.DescE = "";
+        this.CompCode = 0;
+        this.Remarks = "";
+        this.CreatedAt = "";
+        this.CreatedBy = "";
+        this.UpdatedAt = "";
+        this.UpdatedBy = "";
+    }
+    public UomID: number;
+    public UomCode: string;
+    public DescA: string;
+    public DescE: string;
+    public CompCode: number;
+    public Remarks: string;
+    public CreatedAt: string;
+    public CreatedBy: string;
+    public UpdatedAt: string;
+    public UpdatedBy: string;
+}
+
 
 
 
