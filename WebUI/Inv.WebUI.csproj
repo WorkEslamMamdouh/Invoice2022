@@ -283,7 +283,6 @@
     <Content Include="NewStyle\img\heder619619.png" />
     <Content Include="NewStyle\img\loading.gif" />
     <Content Include="NewStyle\img\logo.png" />
-    <Content Include="NewStyle\img\logo.svg" />
     <Content Include="NewStyle\img\Thumbs.db" />
     <Content Include="NewStyle\inbox.html" />
     <Content Include="NewStyle\js\bootstrap-datetimepicker.js" />

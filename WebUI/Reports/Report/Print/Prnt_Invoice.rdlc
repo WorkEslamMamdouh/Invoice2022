@@ -2196,7 +2196,7 @@
         <Top>9.12757cm</Top>
         <Left>0.34784cm</Left>
         <Height>5.76023cm</Height>
-        <Width>20.07802cm</Width>
+        <Width>20.07801cm</Width>
         <ZIndex>1</ZIndex>
         <Visibility>
           <Hidden>=iif(First(Fields!DiscountAmount.Value, "Prnt_Invoice") = 0 , true , false)</Hidden>

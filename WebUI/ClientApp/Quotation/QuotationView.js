@@ -122,7 +122,6 @@ var QuotationView;
                     $('#txtCreatedAt').prop("value", '');
                     $('#txtUpdatedBy').prop("value", '');
                     $('#txtUpdatedAt').prop("value", '');
-                    //$('.Done').addClass("display_none");
                 }
             }
         });

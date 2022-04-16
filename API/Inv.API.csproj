@@ -288,8 +288,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Connected Services\SoftexMassage\MiniClient.wsdl" />
-    <Content Include="obj\Debug\Inv.API.csproj.CopyComplete" />
-    <Content Include="obj\Debug\Inv.API.csproj.CoreCompileInputs.cache" />
     <Content Include="obj\Debug\Inv.API.csprojAssemblyReference.cache" />
     <Content Include="Content\bootstrap-grid.css.map" />
     <Content Include="Content\bootstrap-grid.min.css.map" />
