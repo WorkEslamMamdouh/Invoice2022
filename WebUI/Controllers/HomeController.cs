@@ -113,10 +113,17 @@ namespace Inv.WebUI.Controllers
             return View("~/Views/Customer/CustomerIndex.cshtml");
         }
 
+        public ActionResult TestIndex()
+        {
+            return View("~/Views/Customer/TestIndex.cshtml");
+        }
+
         public ActionResult UsersIndex()
         {
             return View("~/Views/USERS/USERSIndex.cshtml");
-        }
+        }  
+        
+  
 
         public ActionResult ReportsPopup()
         {

@@ -4,6 +4,7 @@ $(document).ready(function () {
         HomeComponent.InitalizeComponent();
     }
     catch (e) {
+        //window.open(Url.Action("LoginIndex", "Login"), "_self");
     }
 });
 var HomeComponent;
@@ -366,6 +367,7 @@ var HomeComponent;
         $("#btnQuotationView").click(function () { OpenPage(Modules.QuotationView); });
         $("#btnCompanies").click(function () { OpenPage(Modules.Companies); });
         $("#btnUsers").click(function () { OpenPage(Modules.Users); });
+        $("#btnTest").click(function () { OpenPage(Modules.Test); });
     }
     function Notifications_Message() {
         var comCode = SysSession.CurrentEnvironment.CompCode;

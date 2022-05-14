@@ -9,6 +9,7 @@ var Modules = {
     QuotationView: "QuotationView",
     Companies: "Companies",
     Users: "Users",
+    Test: "Test",
     Quotation: "Quotation"
 
 
@@ -18,6 +19,9 @@ var MessageType = {
     Succeed: '1',
     Worning: '3',
 }
+
+
+
 
 
 var Keys = {
@@ -1717,6 +1721,7 @@ function ScreenHelp(ModuleCode: string) {
 
 
     });
+
 
 }
 

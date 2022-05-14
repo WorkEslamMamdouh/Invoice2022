@@ -417,6 +417,7 @@ namespace HomeComponent {
         $("#btnQuotationView").click(() => { OpenPage(Modules.QuotationView); })
         $("#btnCompanies").click(() => { OpenPage(Modules.Companies); })
         $("#btnUsers").click(() => { OpenPage(Modules.Users); })
+        $("#btnTest").click(() => { OpenPage(Modules.Test); })
         
     }
 
