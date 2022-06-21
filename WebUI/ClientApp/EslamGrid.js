@@ -341,6 +341,7 @@ function EditGridControl(Grid) {
     $('#btnClean_' + NameTable).attr('style', '');
     $('#btnAdd_' + NameTable).attr('style', '');
     $('#btnEdit_' + NameTable).attr('style', 'display:none !important;');
+    Resizable();
 }
 function Resizable() {
     'use strict';

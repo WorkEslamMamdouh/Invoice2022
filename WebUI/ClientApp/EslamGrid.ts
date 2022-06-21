@@ -557,6 +557,8 @@ function EditGridControl(Grid: ESGrid) {
 
     $('#btnEdit_' + NameTable).attr('style', 'display:none !important;');
 
+
+    Resizable();
 }
 
 
