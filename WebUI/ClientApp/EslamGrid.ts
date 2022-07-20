@@ -46,8 +46,8 @@ class Column {
         this.Type = "";
         this.visible = false;
         this.Edit = false;
-        this.ColumnType = new ControlEvents; 
-         
+        this.ColumnType = new ControlEvents;
+
     }
     public style: string;
     public title: string;
@@ -64,16 +64,16 @@ class Column {
 class ControlEvents {
     constructor() {
 
-        this.NameType = '' ;
-        this.textField = '' ;
-        this.onclick ;
-        this.onkeyup ;
+        this.NameType = '';
+        this.textField = '';
+        this.onclick;
+        this.onkeyup;
         this.onchange;
         this.dataSource;
 
 
     }
-  
+
     public NameType: string;
     public textField: string;
     public onclick?: () => void;
@@ -85,8 +85,8 @@ class ControlEvents {
 
 
 
-namespace ControlType  {
-     
+namespace ControlType {
+
     var ControlEvent: ControlEvents = new ControlEvents();
 
     export function Input(onchange?: () => void, onkeyup?: () => void, onclick?: () => void): ControlEvents {
@@ -101,8 +101,8 @@ namespace ControlType  {
 
         return ControlEvent;
     }
-     
-     
+
+
     export function checkbox(onchange?: () => void, onkeyup?: () => void, onclick?: () => void): ControlEvents {
         ControlEvent = new ControlEvents();
 
@@ -142,12 +142,12 @@ namespace ControlType  {
         return ControlEvent;
     }
 
- 
+
 
 }
 
 
- 
+
 
 let classs = $('<style> .display_hidden {display:none !important; }  .Text_right {text-align: right; }  .Text_left {text-align: left; }  </style>')
 $('head:first').append(classs);
@@ -201,7 +201,7 @@ function InitializeGridControl(Grid: ESGrid) {
     $("#" + NameTable).append(table);
 
 
-  
+
 
     $('#btnAdd_' + NameTable).click(function (e) {
         BuildGridControl(Grid);
@@ -220,7 +220,7 @@ function InitializeGridControl(Grid: ESGrid) {
     });
 
 
-  
+
 
     for (let i = 0; i < Grid.Column.length; i++) {
 
@@ -236,7 +236,7 @@ function InitializeGridControl(Grid: ESGrid) {
             //Grid.Column[i].title = '0';
         }
         let thead; //بناء عناوين الجدول
-        thead = '<th data-field="number" class=" ' + style_Text+'  ' + NameTable + '_' + i + '"   ' + visible + ' id="th_' + i + NameTable + '"  data-editable="false">' + Grid.Column[i].title + '</th>'
+        thead = '<th data-field="number" class=" ' + style_Text + '  ' + NameTable + '_' + i + '"   ' + visible + ' id="th_' + i + NameTable + '"  data-editable="false">' + Grid.Column[i].title + '</th>'
         $("#tr_" + NameTable).append(thead);
 
 
@@ -257,7 +257,7 @@ function InitializeGridControl(Grid: ESGrid) {
     //     '</tr>';
     // $('#tbody_'+ NameTable+'').append(tbody); 
 
- 
+
 
     for (let u = 0; u < Grid.Column.length; u++) {
 
@@ -304,21 +304,20 @@ function InitializeGridControl(Grid: ESGrid) {
 
         $('#btnAdd_' + NameTable).attr('style', 'display:none !important;');
 
-        $('#btnsave_' + NameTable).attr('style', 'display:none !important;');
 
-     
+        $('#btnsave_' + NameTable).attr('style', 'display:none !important;');
 
 
         $('#btnEdit_' + NameTable).attr('style', 'display:none !important;');
 
 
-        if (Grid.ESG.DeleteRow == false) { 
+        if (Grid.ESG.DeleteRow == false) {
             let _Delete = $('.' + NameTable + '_Delete');
-            _Delete.addClass( 'display_hidden');
+            _Delete.addClass('display_hidden');
         };
-        if (Grid.ESG.AllClean == false) { 
+        if (Grid.ESG.AllClean == false) {
             $('#btnClean_' + NameTable).addClass('display_hidden');
-        };  
+        };
         if (Grid.ESG.Add == false) {
             $('#btnAdd_' + NameTable).addClass('display_hidden');
 
@@ -338,7 +337,7 @@ function InitializeGridControl(Grid: ESGrid) {
 
 
 
-      
+
 
 
 
@@ -349,7 +348,112 @@ function InitializeGridControl(Grid: ESGrid) {
 
 }
 
+function DisplayDataGridControl(List: Array<any>, Grid: ESGrid) {
+    debugger
 
+
+
+    InitializeGridControl(Grid);
+    for (let i = 0; i < List.length; i++) {
+        BuildGridControl(Grid);
+        DisplayData(List[i], Grid) 
+    }
+ 
+
+}
+
+function DisplayData(List: any, Grid: ESGrid) {
+    debugger
+    let NameTable = Grid.ESG.NameTable;
+    let cnt = Grid.ESG.LastCounter - 1;
+
+    //let _Delete = $('.' + NameTable + '_Delete');
+    //_Delete.attr('style', 'display:none !important;');
+
+    //let btn_minus = $('#td_btn_minus_' + NameTable + cnt);
+    //btn_minus.attr('style', 'display:none !important;');
+
+    for (let u = 0; u < Grid.Column.length; u++) {
+
+
+        try {
+
+
+
+
+            //const values = Object.keys(List).map(key => List[key]);
+
+            //const commaJoinedValues = values.join('' + Grid.Column[u].Name + '');
+            //alert(commaJoinedValues);
+
+            //alert( Object["values"](List))
+
+            //alert( Object["values"](List).map(x => x.substr(0, x.length - 4)))
+
+            //let descriptor = Object.getOwnPropertyDescriptor(List, '' + Grid.Column[u].Name + '');
+
+            //alert(descriptor);
+
+            //alert( List.Grid.Column[u].Name)
+            //alert(List.get('1'))
+
+
+            //  var entries1: Array<any> = Object["values"](entries[u]);
+            //  console.log(entries1);
+
+            //  //alert(entries1.get('1'))
+
+            //  //alert(entries1[0])
+            //var x=  Object.defineProperty(entries[u], '' + Grid.Column[u].Name + '', { enumerable: false });
+
+            // Display Properties 
+            //alert(entries);
+            //alert(Grid.Column[u].Name);
+            //alert(x);
+            //alert(Object.keys(x))
+             
+
+            var values: Array<any> = Object["values"](List);
+            console.log(values);
+
+            //alert(values[u])
+
+            debugger
+            //alert('#' + NameTable + '_' + Grid.Column[u].Name + cnt + '');
+
+            if (Grid.Column[u].ColumnType.NameType == 'Input') {
+
+                $('#' + NameTable + '_' + Grid.Column[u].Name + cnt + '').val(values[u]);
+            }                                                                  
+                                                                               
+            if (Grid.Column[u].ColumnType.NameType == 'Dropdown') {            
+                $('#' + NameTable + '_' + Grid.Column[u].Name + cnt + '').val(values[u]);
+            }                                                                  
+                                                                               
+            if (Grid.Column[u].ColumnType.NameType == 'Button') {              
+                $('#' + NameTable + '_' + Grid.Column[u].Name + cnt + '').val(values[u]);
+            }
+
+            if (Grid.Column[u].ColumnType.NameType == 'checkbox') {
+                if (values[u] == 1 || values[u] == true) {
+
+                    $('#' + NameTable + '_' + Grid.Column[u].Name + cnt + '').prop('checked', true)
+                }
+                else {
+
+                    $('#' + NameTable + '_' + Grid.Column[u].Name + cnt + '').prop('checked', false)
+                    $('#' + NameTable + '_' + Grid.Column[u].Name + cnt + '').prop('checked', true)
+                }
+            }
+
+        } catch (e) {
+
+        }
+
+
+    }
+
+}
 
 
 function BuildGridControl(Grid: ESGrid) {
@@ -367,7 +471,7 @@ function BuildGridControl(Grid: ESGrid) {
     }
 
     let tbody = '<tr id= "No_Row_' + NameTable + cnt + '" class="  animated zoomIn ">' +
-        '<td id="td_btn_minus_' + NameTable + cnt + '" ><button id="btn_minus_' + NameTable + cnt + '" type="button" class="btn btn-custon-four btn-danger"><i class="fa fa-minus-circle"></i></button></td>' +
+        '<td id="td_btn_minus_' + NameTable + cnt + '" class="td_btn_minus_' + NameTable +'" ><button id="btn_minus_' + NameTable + cnt + '" type="button" class="btn btn-custon-four btn-danger"><i class="fa fa-minus-circle"></i></button></td>' +
         '</tr>';
     $('#tbody_' + NameTable + '').append(tbody);
 
@@ -397,6 +501,12 @@ function BuildGridControl(Grid: ESGrid) {
         };
 
 
+
+
+
+
+
+
         if (Grid.Column[u].ColumnType.NameType == 'Input') {
             td = '<td id="td_' + NameTable + '_' + Grid.Column[u].Name + cnt + '" ><input  disabled="disabled" id="' + NameTable + '_' + Grid.Column[u].Name + cnt + '" value="' + Grid.Column[u].value + '" type="' + Grid.Column[u].Type + '" class="form-control ' + classEdit + '" placeholder="' + Grid.Column[u].value + '" /></td>';
             $('#No_Row_' + NameTable + cnt + '').append(td);
@@ -408,11 +518,19 @@ function BuildGridControl(Grid: ESGrid) {
             let ddlFilter: HTMLSelectElement = document.getElementById('' + NameTable + '_' + Grid.Column[u].Name + cnt + '') as HTMLSelectElement;
             DocumentActions.FillCombowithdefult(Grid.Column[u].ColumnType.dataSource, ddlFilter, Grid.Column[u].Name, Grid.Column[u].ColumnType.textField, "Select");
         }
-         
-           
+
+        if (Grid.Column[u].ColumnType.NameType == 'Button') {
+            td = '<td id="td_' + NameTable + '_' + Grid.Column[u].Name + cnt + '" style="text-align: center;" ><button id="' + NameTable + '_' + Grid.Column[u].Name + cnt + '" type="' + Grid.Column[u].Type + '" class="btn btn-custon-four btn-success classEdit"> ' + Grid.Column[u].value + ' </button></td>';
+            $('#No_Row_' + NameTable + cnt + '').append(td);
+        }
+
+        if (Grid.Column[u].ColumnType.NameType == 'checkbox') {
+            td = '<td id="td_' + NameTable + '_' + Grid.Column[u].Name + cnt + '" ><input  disabled="disabled" id="' + NameTable + '_' + Grid.Column[u].Name + cnt + '" value="' + Grid.Column[u].value + '" type="checkbox" class="form-control ' + classEdit + '" placeholder="' + Grid.Column[u].value + '" /></td>';
+            $('#No_Row_' + NameTable + cnt + '').append(td);
+        }
         //document.getElementById('No_Row_' + NameTable + '').appendChild(td);
 
-        
+
 
 
 
@@ -424,18 +542,15 @@ function BuildGridControl(Grid: ESGrid) {
         $('#' + NameTable + '_' + Grid.Column[u].Name + cnt + '').click(function () {
 
             Grid.Column[u].ColumnType.onclick();
-
-
-             
-        }); 
+        });
 
         $('#' + NameTable + '_' + Grid.Column[u].Name + cnt + '').on('keyup', function (e) {
-            
+
             Grid.Column[u].ColumnType.onkeyup();
         });
 
         $('#' + NameTable + '_' + Grid.Column[u].Name + cnt + '').on('change', function (e) {
-           
+
             Grid.Column[u].ColumnType.onchange();
         });
 
@@ -523,11 +638,11 @@ function CleanGridControl(Grid: ESGrid) {
 
     $('#btnEdit_' + NameTable).attr('style', '');
     $('#btnsave_' + NameTable).attr('style', 'display:none !important;');
-    $('.' + NameTable + '_Delete').attr('style', 'display:none !important;'); 
+    $('.' + NameTable + '_Delete').attr('style', 'display:none !important;');
     $('#btnClean_' + NameTable).attr('style', 'display:none !important;');
     $('#btnAdd_' + NameTable).attr('style', 'display:none !important;');
 
-     
+
 
     $('[data-toggle="table"]').bootstrapTable();
     //$('#tbody_' + NameTable + '').html('');
@@ -549,10 +664,15 @@ function EditGridControl(Grid: ESGrid) {
 
     $('#btnsave_' + NameTable).attr('style', '');
      
-    $('.' + NameTable + '_Delete').attr('style', ''); 
-    $('#btnClean_' + NameTable).attr('style', ''); 
-    $('#btnAdd_' + NameTable).attr('style', ''); 
+    let _Delete = $('.' + NameTable + '_Delete');
+    _Delete.attr('style', '');
+    $('.td_btn_minus_' + NameTable +'').attr('style', '');
+    $('#btnClean_' + NameTable).attr('style', '');
+    $('#btnAdd_' + NameTable).attr('style', '');
 
+    let title = $('.' + NameTable + '_Delete');
+    title.attr('style', 'display:none !important;');
+ 
 
 
     $('#btnEdit_' + NameTable).attr('style', 'display:none !important;');

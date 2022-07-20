@@ -43,6 +43,7 @@ namespace TestGrad {
     var txtNetAfterVat: HTMLDataElement;
     var include = "";
 
+
     export function InitalizeComponent() {
 
         //DocumentActions.FillCombowithdefult(SalesmanDetails, ddlSalesmanFilter, "SalesmanId", "NameE", "Select Category");
@@ -66,8 +67,9 @@ namespace TestGrad {
         });
 
 
-        
-        let Grid: ESGrid = new ESGrid();
+
+
+        var Grid: ESGrid = new ESGrid();
         Grid.ESG.NameTable = 'Grad1';
         Grid.ESG.Right = true;
         Grid.ESG.Edit = true;
@@ -76,17 +78,21 @@ namespace TestGrad {
         Grid.ESG.AllClean = true;
         Grid.ESG.Save = true;
         Grid.Column = [
-            { title: "ID", Name: "InvoiceID", value: "0", Type: "text", style: "width: 10%", Edit: false, visible: false, ColumnType: ControlType.Input(() => { }, () => { }, () => { console.log(this) }) },
-            { title: "الرقم", Name: "Num", value: "0", Type: "text", style: "width: 30%", Edit: true, visible: true, ColumnType: ControlType.Dropdown(I_D_UOMDetails,'DescA',() => { }, () => { }, () => { console.log(this) }) },
-            { title: "الاسم", Name: "Name", value: "0", Type: "text", style: "width: 10%", Edit: false, visible: true, ColumnType: ControlType.Input(() => { }, () => { }, () => { console.log(this) }) },
-            { title: "العمر", Name: "Age", value: "0", Type: "text", style: "width: 10%", Edit: true, visible: true, ColumnType: ControlType.Input(() => { }, () => { }, () => { console.log(this)}) },
-            { title: "رقم التيلفون", Name: "Phone", value: "0", Type: "text", style: "width: 10%", Edit: false, visible: true, ColumnType: ControlType.Input(() => { }, () => { }, () => { console.log(this) }) },
-            { title: "رقم البطاقه", Name: "ID", value: "0", Type: "text", style: "width: 10%", Edit: true, visible: true, ColumnType: ControlType.Input(() => { }, () => { }, () => { console.log(this) }) },
-            { title: "النوع", Name: "Type", value: "0", Type: "text", style: "width: 10%", Edit: false, visible: true, ColumnType: ControlType.Input(() => { }, () => { }, () => { console.log(this)}) },
-            { title: "الملاحظات", Name: "Remarks", value: "0", Type: "text", style: "width: 10%", Edit: true, visible: true, ColumnType: ControlType.Input(() => { }, () => { }, () => { console.log(this) }) },
-        ]  
-        InitializeGridControl(Grid); 
+            { title: "ID", Name: "UomID", value: "0", Type: "text", style: "width: 10%", Edit: false, visible: false, ColumnType: ControlType.Input(() => { }, () => { }, () => { console.log(this) }) },
+            //{ title: "الرقم", Name: "UomCode", value: "0", Type: "text", style: "width: 30%", Edit: true, visible: true, ColumnType: ControlType.Dropdown(I_D_UOMDetails, 'DescA', () => { }, () => { }, () => { console.log(this) }) },
+            { title: "صص", Name: "UomCode", value: "0", Type: "text", style: "width: 10%", Edit: false, visible: true, ColumnType: ControlType.Input(() => { }, () => { }, () => { console.log(this) }) },
+            { title: "الاسم", Name: "DescA", value: "0", Type: "text", style: "width: 10%", Edit: false, visible: true, ColumnType: ControlType.Input(() => { }, () => { }, () => { console.log(this) }) },
+            { title: "العمر", Name: "DescE", value: "0", Type: "text", style: "width: 10%", Edit: true, visible: true, ColumnType: ControlType.Input(() => { alert('eSLAM') }, () => { }, () => { console.log(this) }) },
+            { title: "رقم التيلفون", Name: "CompCode", value: "0", Type: "text", style: "width: 10%", Edit: false, visible: true, ColumnType: ControlType.Input(() => { }, () => { }, () => { console.log(this) }) },
+            { title: "رقم البطاقه", Name: "Remarks", value: "BUT", Type: "text", style: "width: 10%", Edit: true, visible: true, ColumnType: ControlType.Input(() => { }, () => { }, () => { alert('OK') }) },
+            { title: "النوع", Name: "CreatedAt", value: "0", Type: "text", style: "width: 10%", Edit: false, visible: true, ColumnType: ControlType.Input(() => { }, () => { }, () => { console.log(this) }) },
+            { title: "الملاحظات", Name: "CreatedBy", value: "0", Type: "text", style: "width: 10%", Edit: true, visible: true, ColumnType: ControlType.Input(() => { }, () => { }, () => { console.log(this) }) },
+        ]
+        InitializeGridControl(Grid);
          
+        debugger
+        DisplayDataGridControl(I_D_UOMDetails, Grid);
+
 
     }
     function InitalizeControls() {
@@ -96,7 +102,7 @@ namespace TestGrad {
         btnsave = document.getElementById("btnsave") as HTMLButtonElement;
         btnClean = document.getElementById("btnClean") as HTMLButtonElement;
         btnprint = document.getElementById("btnprint") as HTMLButtonElement;
-        
+
         // inputs
         txtDate = document.getElementById("txtDate") as HTMLInputElement;
         txtRFQ = document.getElementById("txtRFQ") as HTMLInputElement;
@@ -154,7 +160,7 @@ namespace TestGrad {
             computeTotal();
         });
     }
-     
+
 
     function BuildControls(cnt: number) {
         var html;
@@ -468,7 +474,7 @@ namespace TestGrad {
     function btnsave_onclick() {
         insert();
     }
-     
+
 }
 
 

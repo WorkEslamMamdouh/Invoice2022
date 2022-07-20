@@ -64,16 +64,19 @@ var TestGrad;
         Grid.ESG.AllClean = true;
         Grid.ESG.Save = true;
         Grid.Column = [
-            { title: "ID", Name: "InvoiceID", value: "0", Type: "text", style: "width: 10%", Edit: false, visible: false, ColumnType: ControlType.Input(function () { }, function () { }, function () { console.log(_this); }) },
-            { title: "الرقم", Name: "Num", value: "0", Type: "text", style: "width: 30%", Edit: true, visible: true, ColumnType: ControlType.Dropdown(I_D_UOMDetails, 'DescA', function () { }, function () { }, function () { console.log(_this); }) },
-            { title: "الاسم", Name: "Name", value: "0", Type: "text", style: "width: 10%", Edit: false, visible: true, ColumnType: ControlType.Input(function () { }, function () { }, function () { console.log(_this); }) },
-            { title: "العمر", Name: "Age", value: "0", Type: "text", style: "width: 10%", Edit: true, visible: true, ColumnType: ControlType.Input(function () { }, function () { }, function () { console.log(_this); }) },
-            { title: "رقم التيلفون", Name: "Phone", value: "0", Type: "text", style: "width: 10%", Edit: false, visible: true, ColumnType: ControlType.Input(function () { }, function () { }, function () { console.log(_this); }) },
-            { title: "رقم البطاقه", Name: "ID", value: "0", Type: "text", style: "width: 10%", Edit: true, visible: true, ColumnType: ControlType.Input(function () { }, function () { }, function () { console.log(_this); }) },
-            { title: "النوع", Name: "Type", value: "0", Type: "text", style: "width: 10%", Edit: false, visible: true, ColumnType: ControlType.Input(function () { }, function () { }, function () { console.log(_this); }) },
-            { title: "الملاحظات", Name: "Remarks", value: "0", Type: "text", style: "width: 10%", Edit: true, visible: true, ColumnType: ControlType.Input(function () { }, function () { }, function () { console.log(_this); }) },
+            { title: "ID", Name: "UomID", value: "0", Type: "text", style: "width: 10%", Edit: false, visible: false, ColumnType: ControlType.Input(function () { }, function () { }, function () { console.log(_this); }) },
+            //{ title: "الرقم", Name: "UomCode", value: "0", Type: "text", style: "width: 30%", Edit: true, visible: true, ColumnType: ControlType.Dropdown(I_D_UOMDetails, 'DescA', () => { }, () => { }, () => { console.log(this) }) },
+            { title: "صص", Name: "UomCode", value: "0", Type: "text", style: "width: 10%", Edit: false, visible: true, ColumnType: ControlType.Input(function () { }, function () { }, function () { console.log(_this); }) },
+            { title: "الاسم", Name: "DescA", value: "0", Type: "text", style: "width: 10%", Edit: false, visible: true, ColumnType: ControlType.Input(function () { }, function () { }, function () { console.log(_this); }) },
+            { title: "العمر", Name: "DescE", value: "0", Type: "text", style: "width: 10%", Edit: true, visible: true, ColumnType: ControlType.Input(function () { alert('eSLAM'); }, function () { }, function () { console.log(_this); }) },
+            { title: "رقم التيلفون", Name: "CompCode", value: "0", Type: "text", style: "width: 10%", Edit: false, visible: true, ColumnType: ControlType.Input(function () { }, function () { }, function () { console.log(_this); }) },
+            { title: "رقم البطاقه", Name: "Remarks", value: "BUT", Type: "text", style: "width: 10%", Edit: true, visible: true, ColumnType: ControlType.Input(function () { }, function () { }, function () { alert('OK'); }) },
+            { title: "النوع", Name: "CreatedAt", value: "0", Type: "text", style: "width: 10%", Edit: false, visible: true, ColumnType: ControlType.Input(function () { }, function () { }, function () { console.log(_this); }) },
+            { title: "الملاحظات", Name: "CreatedBy", value: "0", Type: "text", style: "width: 10%", Edit: true, visible: true, ColumnType: ControlType.Input(function () { }, function () { }, function () { console.log(_this); }) },
         ];
         InitializeGridControl(Grid);
+        debugger;
+        DisplayDataGridControl(I_D_UOMDetails, Grid);
     }
     TestGrad.InitalizeComponent = InitalizeComponent;
     function InitalizeControls() {
