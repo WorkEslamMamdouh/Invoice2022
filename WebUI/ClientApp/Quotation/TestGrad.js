@@ -39,7 +39,6 @@ var TestGrad;
     var include = "";
     function InitalizeComponent() {
         //DocumentActions.FillCombowithdefult(SalesmanDetails, ddlSalesmanFilter, "SalesmanId", "NameE", "Select Category");
-        var _this = this;
         compcode = Number(SysSession.CurrentEnvironment.CompCode);
         BranchCode = Number(SysSession.CurrentEnvironment.BranchCode);
         //InitalizeControls();
@@ -55,30 +54,34 @@ var TestGrad;
                 }
             }
         });
+        InitializeGridControl();
+    }
+    TestGrad.InitalizeComponent = InitalizeComponent;
+    function InitializeGridControl() {
+        var _this = this;
         var Grid = new ESGrid();
         Grid.ESG.NameTable = 'Grad1';
         Grid.ESG.Right = true;
         Grid.ESG.Edit = true;
         Grid.ESG.Add = true;
         Grid.ESG.DeleteRow = true;
-        Grid.ESG.AllClean = true;
+        Grid.ESG.Back = true;
         Grid.ESG.Save = true;
         Grid.Column = [
             { title: "ID", Name: "UomID", value: "0", Type: "text", style: "width: 10%", Edit: false, visible: false, ColumnType: ControlType.Input(function () { }, function () { }, function () { console.log(_this); }) },
-            //{ title: "الرقم", Name: "UomCode", value: "0", Type: "text", style: "width: 30%", Edit: true, visible: true, ColumnType: ControlType.Dropdown(I_D_UOMDetails, 'DescA', () => { }, () => { }, () => { console.log(this) }) },
-            { title: "صص", Name: "UomCode", value: "0", Type: "text", style: "width: 10%", Edit: false, visible: true, ColumnType: ControlType.Input(function () { }, function () { }, function () { console.log(_this); }) },
-            { title: "الاسم", Name: "DescA", value: "0", Type: "text", style: "width: 10%", Edit: false, visible: true, ColumnType: ControlType.Input(function () { }, function () { }, function () { console.log(_this); }) },
-            { title: "العمر", Name: "DescE", value: "0", Type: "text", style: "width: 10%", Edit: true, visible: true, ColumnType: ControlType.Input(function () { alert('eSLAM'); }, function () { }, function () { console.log(_this); }) },
-            { title: "رقم التيلفون", Name: "CompCode", value: "0", Type: "text", style: "width: 10%", Edit: false, visible: true, ColumnType: ControlType.Input(function () { }, function () { }, function () { console.log(_this); }) },
+            { title: "الرقم", Name: "UomCode", value: "0", Type: "text", style: "width: 30%", Edit: true, visible: true, ColumnType: ControlType.Dropdown(I_D_UOMDetails, 'DescA', function () { }, function () { }, function () { console.log(_this); }) },
+            //{ title: "صص", Name: "UomCode", value: "0", Type: "text", style: "width: 10%", Edit: true, visible: true, ColumnType: ControlType.Input(() => { }, () => { }, () => { console.log(this) }) },
+            { title: "الاسم", Name: "DescA", value: "0", Type: "text", style: "width: 10%", Edit: true, visible: true, ColumnType: ControlType.Input(function () { }, function () { }, function () { console.log(_this); }) },
+            { title: "العمر", Name: "CompCode", value: "1", Type: "text", style: "width: 10%", Edit: true, visible: true, ColumnType: ControlType.checkbox(function () { alert('eSLAM'); }, function () { }, function () { console.log(_this); }) },
+            { title: "رقم التيلفون", Name: "CompCode", value: "0", Type: "text", style: "width: 10%", Edit: true, visible: true, ColumnType: ControlType.Input(function () { }, function () { }, function () { console.log(_this); }) },
             { title: "رقم البطاقه", Name: "Remarks", value: "BUT", Type: "text", style: "width: 10%", Edit: true, visible: true, ColumnType: ControlType.Input(function () { }, function () { }, function () { alert('OK'); }) },
-            { title: "النوع", Name: "CreatedAt", value: "0", Type: "text", style: "width: 10%", Edit: false, visible: true, ColumnType: ControlType.Input(function () { }, function () { }, function () { console.log(_this); }) },
+            { title: "النوع", Name: "CreatedAt", value: "0", Type: "text", style: "width: 10%", Edit: true, visible: true, ColumnType: ControlType.Input(function () { }, function () { }, function () { console.log(_this); }) },
             { title: "الملاحظات", Name: "CreatedBy", value: "0", Type: "text", style: "width: 10%", Edit: true, visible: true, ColumnType: ControlType.Input(function () { }, function () { }, function () { console.log(_this); }) },
         ];
-        InitializeGridControl(Grid);
+        BindGridControl(Grid);
         debugger;
         DisplayDataGridControl(I_D_UOMDetails, Grid);
     }
-    TestGrad.InitalizeComponent = InitalizeComponent;
     function InitalizeControls() {
         // ;
         btnAddDetails = document.getElementById("btnAddDetails");

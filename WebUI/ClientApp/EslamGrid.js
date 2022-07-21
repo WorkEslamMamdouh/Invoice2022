@@ -10,7 +10,7 @@ var ESG = /** @class */ (function () {
     function ESG() {
         this.NameTable = "";
         this.Save = false;
-        this.AllClean = false;
+        this.Back = false;
         this.DeleteRow = false;
         this.Add = false;
         this.Edit = false;
@@ -89,9 +89,10 @@ var ControlType;
     }
     ControlType.Dropdown = Dropdown;
 })(ControlType || (ControlType = {}));
+var flagBack = false;
 var classs = $('<style> .display_hidden {display:none !important; }  .Text_right {text-align: right; }  .Text_left {text-align: left; }  </style>');
 $('head:first').append(classs);
-function InitializeGridControl(Grid) {
+function BindGridControl(Grid) {
     var NameTable = Grid.ESG.NameTable;
     var style_Text = '';
     if (Grid.ESG.Right == true) {
@@ -108,7 +109,7 @@ function InitializeGridControl(Grid) {
         '<div class="button-ap-list responsive-btn">' +
             '<button id="btnEdit_' + NameTable + '" type="button" class="btn btn-custon-four btn-success"><i class="fa fa-save"></i>&nbsp; Edit</button>' +
             '<button id="btnsave_' + NameTable + '" type="button" class="btn btn-custon-four btn-success"><i class="fa fa-save"></i>&nbsp; save</button>' +
-            '<button id="btnClean_' + NameTable + '" type="button" class="btn btn-custon-four btn-danger"><i class="fa fa-empty"></i>clear data</button>' +
+            '<button id="btnClean_' + NameTable + '" type="button" class="btn btn-custon-four btn-danger" style="background-color: sandybrown;"><i class="fa fa-refresh"></i>  Back</button>' +
             '</div>' +
             '<br />' +
             '<div class="sparkline8-graph">' +
@@ -130,11 +131,13 @@ function InitializeGridControl(Grid) {
             '</div>';
     $("#" + NameTable).append(table);
     $('#btnAdd_' + NameTable).click(function (e) {
-        BuildGridControl(Grid);
+        BuildGridControl(true, Grid);
     });
-    $('#btnClean_' + NameTable).click(function (e) {
-        CleanGridControl(Grid);
-    });
+    if (flagBack == false) {
+        $('#btnClean_' + NameTable).click(function (e) {
+            CleanGridControl(null, Grid);
+        });
+    }
     $('#btnsave_' + NameTable).click(function (e) {
         AssignGridControl(Grid);
     });
@@ -204,7 +207,7 @@ function InitializeGridControl(Grid) {
             _Delete_1.addClass('display_hidden');
         }
         ;
-        if (Grid.ESG.AllClean == false) {
+        if (Grid.ESG.Back == false) {
             $('#btnClean_' + NameTable).addClass('display_hidden');
         }
         ;
@@ -223,20 +226,28 @@ function InitializeGridControl(Grid) {
 }
 function DisplayDataGridControl(List, Grid) {
     debugger;
-    InitializeGridControl(Grid);
-    for (var i = 0; i < List.length; i++) {
-        BuildGridControl(Grid);
-        DisplayData(List[i], Grid);
+    flagBack = true;
+    BindGridControl(Grid);
+    var NameTable = Grid.ESG.NameTable;
+    $('#btnClean_' + NameTable).click(function (e) {
+        CleanGridControl(List, Grid);
+    });
+    if (List != null) {
+        for (var i = 0; i < List.length; i++) {
+            BuildGridControl(false, Grid);
+            DisplayData(List[i], Grid);
+        }
     }
+    flagBack = false;
 }
 function DisplayData(List, Grid) {
     debugger;
     var NameTable = Grid.ESG.NameTable;
     var cnt = Grid.ESG.LastCounter - 1;
-    //let _Delete = $('.' + NameTable + '_Delete');
-    //_Delete.attr('style', 'display:none !important;');
-    //let btn_minus = $('#td_btn_minus_' + NameTable + cnt);
-    //btn_minus.attr('style', 'display:none !important;');
+    var _Delete = $('.' + NameTable + '_Delete');
+    _Delete.attr('style', 'display:none !important;');
+    var btn_minus = $('#td_btn_minus_' + NameTable + cnt);
+    btn_minus.attr('style', 'display:none !important;');
     for (var u = 0; u < Grid.Column.length; u++) {
         try {
             //const values = Object.keys(List).map(key => List[key]);
@@ -258,11 +269,11 @@ function DisplayData(List, Grid) {
             //alert(Grid.Column[u].Name);
             //alert(x);
             //alert(Object.keys(x))
-            var values = Object["values"](List);
-            console.log(values);
+            //console.log(values);
             //alert(values[u])
             debugger;
             //alert('#' + NameTable + '_' + Grid.Column[u].Name + cnt + '');
+            var values = Object["values"](List);
             if (Grid.Column[u].ColumnType.NameType == 'Input') {
                 $('#' + NameTable + '_' + Grid.Column[u].Name + cnt + '').val(values[u]);
             }
@@ -286,7 +297,7 @@ function DisplayData(List, Grid) {
         }
     }
 }
-function BuildGridControl(Grid) {
+function BuildGridControl(flagDisplay, Grid) {
     debugger;
     var NameTable = Grid.ESG.NameTable;
     //const node = document.getElementById("tbody_" + NameTable).lastChild;
@@ -296,7 +307,8 @@ function BuildGridControl(Grid) {
     if (Grid.ESG.LastCounter == 0) {
         $('#tbody_' + NameTable + '').html('');
     }
-    var tbody = '<tr id= "No_Row_' + NameTable + cnt + '" class="  animated zoomIn ">' +
+    var classDisplay = flagDisplay == false ? "" : "animated zoomIn";
+    var tbody = '<tr id= "No_Row_' + NameTable + cnt + '" class="' + classDisplay + '">' +
         '<td id="td_btn_minus_' + NameTable + cnt + '" class="td_btn_minus_' + NameTable + '" ><button id="btn_minus_' + NameTable + cnt + '" type="button" class="btn btn-custon-four btn-danger"><i class="fa fa-minus-circle"></i></button></td>' +
         '</tr>';
     $('#tbody_' + NameTable + '').append(tbody);
@@ -389,34 +401,42 @@ function DeleteRow(ID, cnt) {
         //$("#txt_StatusFlag" + RecNo).val() == 'i' ? $("#txt_StatusFlag" + RecNo).val('m') : $("#txt_StatusFlag" + RecNo).val('d');
     });
 }
-function CleanGridControl(Grid) {
+function CleanGridControl(List, Grid) {
+    debugger;
     var NameTable = Grid.ESG.NameTable;
-    for (var i = 0; i < Grid.ESG.LastCounter; i++) {
-        $("#No_Row_" + NameTable + i + "").attr("hidden", "true");
-        //$("#txt_StatusFlag" + RecNo).val() == 'i' ? $("#txt_StatusFlag" + RecNo).val('m') : $("#txt_StatusFlag" + RecNo).val('d');
-    }
+    //for (var i = 0; i < Grid.ESG.LastCounter; i++) {
+    //    $("#No_Row_" + NameTable + i + "").attr("hidden", "true");
+    //    //$("#txt_StatusFlag" + RecNo).val() == 'i' ? $("#txt_StatusFlag" + RecNo).val('m') : $("#txt_StatusFlag" + RecNo).val('d');
+    //}
+    $('#table_' + NameTable).html('');
     $('#btnEdit_' + NameTable).attr('style', '');
     $('#btnsave_' + NameTable).attr('style', 'display:none !important;');
     $('.' + NameTable + '_Delete').attr('style', 'display:none !important;');
     $('#btnClean_' + NameTable).attr('style', 'display:none !important;');
     $('#btnAdd_' + NameTable).attr('style', 'display:none !important;');
+    Grid.ESG.LastCounter = 0;
+    DisplayDataGridControl(List, Grid);
     $('[data-toggle="table"]').bootstrapTable();
     //$('#tbody_' + NameTable + '').html('');
 }
 function AssignGridControl(Grid) {
-    CleanGridControl(Grid);
+    CleanGridControl(null, Grid);
 }
 function EditGridControl(Grid) {
+    debugger;
     var NameTable = Grid.ESG.NameTable;
     $('.Edit_' + NameTable).removeAttr('disabled');
     $('#btnsave_' + NameTable).attr('style', '');
-    var _Delete = $('.' + NameTable + '_Delete');
-    _Delete.attr('style', '');
-    $('.td_btn_minus_' + NameTable + '').attr('style', '');
+    if (Grid.ESG.DeleteRow == true) {
+        var btn_minus = $('.td_btn_minus_' + NameTable + '');
+        btn_minus.attr('style', ' ');
+        var nam = NameTable + '_Delete';
+        var title = $('.' + nam + '');
+        title.attr('style', ' ');
+    }
+    ;
     $('#btnClean_' + NameTable).attr('style', '');
     $('#btnAdd_' + NameTable).attr('style', '');
-    var title = $('.' + NameTable + '_Delete');
-    title.attr('style', 'display:none !important;');
     $('#btnEdit_' + NameTable).attr('style', 'display:none !important;');
     Resizable();
 }

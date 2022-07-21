@@ -18,7 +18,7 @@ class ESG {
     constructor() {
         this.NameTable = "";
         this.Save = false;
-        this.AllClean = false;
+        this.Back = false;
         this.DeleteRow = false;
         this.Add = false;
         this.Edit = false;
@@ -29,7 +29,7 @@ class ESG {
     }
     public NameTable: string;
     public Save: boolean;
-    public AllClean: boolean;
+    public Back: boolean;
     public DeleteRow: boolean;
     public Add: boolean;
     public Edit: boolean;
@@ -146,13 +146,14 @@ namespace ControlType {
 
 }
 
+var flagBack = false;
 
 
 
 let classs = $('<style> .display_hidden {display:none !important; }  .Text_right {text-align: right; }  .Text_left {text-align: left; }  </style>')
 $('head:first').append(classs);
 
-function InitializeGridControl(Grid: ESGrid) {
+function BindGridControl(Grid: ESGrid) {
 
 
     let NameTable = Grid.ESG.NameTable;
@@ -175,7 +176,7 @@ function InitializeGridControl(Grid: ESGrid) {
         '<div class="button-ap-list responsive-btn">' +
         '<button id="btnEdit_' + NameTable + '" type="button" class="btn btn-custon-four btn-success"><i class="fa fa-save"></i>&nbsp; Edit</button>' +
         '<button id="btnsave_' + NameTable + '" type="button" class="btn btn-custon-four btn-success"><i class="fa fa-save"></i>&nbsp; save</button>' +
-        '<button id="btnClean_' + NameTable + '" type="button" class="btn btn-custon-four btn-danger"><i class="fa fa-empty"></i>clear data</button>' +
+        '<button id="btnClean_' + NameTable + '" type="button" class="btn btn-custon-four btn-danger" style="background-color: sandybrown;"><i class="fa fa-refresh"></i>  Back</button>' +
         '</div>' +
         '<br />' +
 
@@ -204,12 +205,15 @@ function InitializeGridControl(Grid: ESGrid) {
 
 
     $('#btnAdd_' + NameTable).click(function (e) {
-        BuildGridControl(Grid);
+        BuildGridControl(true, Grid);
     });
 
-    $('#btnClean_' + NameTable).click(function (e) {
-        CleanGridControl(Grid);
-    });
+    if (flagBack == false) {
+
+        $('#btnClean_' + NameTable).click(function (e) {
+            CleanGridControl(null, Grid);
+        });
+    }
 
     $('#btnsave_' + NameTable).click(function (e) {
         AssignGridControl(Grid);
@@ -315,7 +319,7 @@ function InitializeGridControl(Grid: ESGrid) {
             let _Delete = $('.' + NameTable + '_Delete');
             _Delete.addClass('display_hidden');
         };
-        if (Grid.ESG.AllClean == false) {
+        if (Grid.ESG.Back == false) {
             $('#btnClean_' + NameTable).addClass('display_hidden');
         };
         if (Grid.ESG.Add == false) {
@@ -352,13 +356,24 @@ function DisplayDataGridControl(List: Array<any>, Grid: ESGrid) {
     debugger
 
 
+    flagBack = true;
 
-    InitializeGridControl(Grid);
-    for (let i = 0; i < List.length; i++) {
-        BuildGridControl(Grid);
-        DisplayData(List[i], Grid) 
+    BindGridControl(Grid);
+
+    let NameTable = Grid.ESG.NameTable;
+    $('#btnClean_' + NameTable).click(function (e) {
+        CleanGridControl(List, Grid);
+    });
+
+    if (List != null) {
+
+        for (let i = 0; i < List.length; i++) {
+            BuildGridControl(false, Grid);
+            DisplayData(List[i], Grid)
+        }
     }
- 
+
+    flagBack = false;
 
 }
 
@@ -367,18 +382,16 @@ function DisplayData(List: any, Grid: ESGrid) {
     let NameTable = Grid.ESG.NameTable;
     let cnt = Grid.ESG.LastCounter - 1;
 
-    //let _Delete = $('.' + NameTable + '_Delete');
-    //_Delete.attr('style', 'display:none !important;');
+    let _Delete = $('.' + NameTable + '_Delete');
+    _Delete.attr('style', 'display:none !important;');
 
-    //let btn_minus = $('#td_btn_minus_' + NameTable + cnt);
-    //btn_minus.attr('style', 'display:none !important;');
+    let btn_minus = $('#td_btn_minus_' + NameTable + cnt);
+    btn_minus.attr('style', 'display:none !important;');
 
     for (let u = 0; u < Grid.Column.length; u++) {
 
 
         try {
-
-
 
 
             //const values = Object.keys(List).map(key => List[key]);
@@ -411,26 +424,27 @@ function DisplayData(List: any, Grid: ESGrid) {
             //alert(Grid.Column[u].Name);
             //alert(x);
             //alert(Object.keys(x))
-             
 
-            var values: Array<any> = Object["values"](List);
-            console.log(values);
+
+            //console.log(values);
 
             //alert(values[u])
 
             debugger
             //alert('#' + NameTable + '_' + Grid.Column[u].Name + cnt + '');
 
+            var values: Array<any> = Object["values"](List);
+
             if (Grid.Column[u].ColumnType.NameType == 'Input') {
 
                 $('#' + NameTable + '_' + Grid.Column[u].Name + cnt + '').val(values[u]);
-            }                                                                  
-                                                                               
-            if (Grid.Column[u].ColumnType.NameType == 'Dropdown') {            
+            }
+
+            if (Grid.Column[u].ColumnType.NameType == 'Dropdown') {
                 $('#' + NameTable + '_' + Grid.Column[u].Name + cnt + '').val(values[u]);
-            }                                                                  
-                                                                               
-            if (Grid.Column[u].ColumnType.NameType == 'Button') {              
+            }
+
+            if (Grid.Column[u].ColumnType.NameType == 'Button') {
                 $('#' + NameTable + '_' + Grid.Column[u].Name + cnt + '').val(values[u]);
             }
 
@@ -456,7 +470,7 @@ function DisplayData(List: any, Grid: ESGrid) {
 }
 
 
-function BuildGridControl(Grid: ESGrid) {
+function BuildGridControl(flagDisplay: boolean, Grid: ESGrid) {
     debugger
     let NameTable = Grid.ESG.NameTable;
     //const node = document.getElementById("tbody_" + NameTable).lastChild;
@@ -469,9 +483,9 @@ function BuildGridControl(Grid: ESGrid) {
         $('#tbody_' + NameTable + '').html('');
 
     }
-
-    let tbody = '<tr id= "No_Row_' + NameTable + cnt + '" class="  animated zoomIn ">' +
-        '<td id="td_btn_minus_' + NameTable + cnt + '" class="td_btn_minus_' + NameTable +'" ><button id="btn_minus_' + NameTable + cnt + '" type="button" class="btn btn-custon-four btn-danger"><i class="fa fa-minus-circle"></i></button></td>' +
+    let classDisplay = flagDisplay == false ? "" : "animated zoomIn"
+    let tbody = '<tr id= "No_Row_' + NameTable + cnt + '" class="' + classDisplay + '">' +
+        '<td id="td_btn_minus_' + NameTable + cnt + '" class="td_btn_minus_' + NameTable + '" ><button id="btn_minus_' + NameTable + cnt + '" type="button" class="btn btn-custon-four btn-danger"><i class="fa fa-minus-circle"></i></button></td>' +
         '</tr>';
     $('#tbody_' + NameTable + '').append(tbody);
 
@@ -629,12 +643,14 @@ function DeleteRow(ID: string, cnt: number) {
     });
 }
 
-function CleanGridControl(Grid: ESGrid) {
+function CleanGridControl(List: Array<any>, Grid: ESGrid) {
+    debugger
     let NameTable = Grid.ESG.NameTable;
-    for (var i = 0; i < Grid.ESG.LastCounter; i++) {
-        $("#No_Row_" + NameTable + i + "").attr("hidden", "true");
-        //$("#txt_StatusFlag" + RecNo).val() == 'i' ? $("#txt_StatusFlag" + RecNo).val('m') : $("#txt_StatusFlag" + RecNo).val('d');
-    }
+    //for (var i = 0; i < Grid.ESG.LastCounter; i++) {
+    //    $("#No_Row_" + NameTable + i + "").attr("hidden", "true");
+    //    //$("#txt_StatusFlag" + RecNo).val() == 'i' ? $("#txt_StatusFlag" + RecNo).val('m') : $("#txt_StatusFlag" + RecNo).val('d');
+    //}
+    $('#table_' + NameTable).html('');
 
     $('#btnEdit_' + NameTable).attr('style', '');
     $('#btnsave_' + NameTable).attr('style', 'display:none !important;');
@@ -642,6 +658,10 @@ function CleanGridControl(Grid: ESGrid) {
     $('#btnClean_' + NameTable).attr('style', 'display:none !important;');
     $('#btnAdd_' + NameTable).attr('style', 'display:none !important;');
 
+
+    Grid.ESG.LastCounter = 0;
+
+    DisplayDataGridControl(List, Grid)
 
 
     $('[data-toggle="table"]').bootstrapTable();
@@ -651,28 +671,35 @@ function AssignGridControl(Grid: ESGrid) {
 
 
 
-    CleanGridControl(Grid);
+    CleanGridControl(null, Grid);
 
 }
 
 
 function EditGridControl(Grid: ESGrid) {
 
+    debugger
     let NameTable = Grid.ESG.NameTable;
 
     $('.Edit_' + NameTable).removeAttr('disabled');
 
     $('#btnsave_' + NameTable).attr('style', '');
-     
-    let _Delete = $('.' + NameTable + '_Delete');
-    _Delete.attr('style', '');
-    $('.td_btn_minus_' + NameTable +'').attr('style', '');
+
+
+
+
+    if (Grid.ESG.DeleteRow == true) {
+        let btn_minus = $('.td_btn_minus_' + NameTable + '');
+        btn_minus.attr('style', ' ');
+
+        let nam = NameTable + '_Delete';
+        let title = $('.' + nam + '');
+        title.attr('style', ' ');
+    };
+
+
     $('#btnClean_' + NameTable).attr('style', '');
     $('#btnAdd_' + NameTable).attr('style', '');
-
-    let title = $('.' + NameTable + '_Delete');
-    title.attr('style', 'display:none !important;');
- 
 
 
     $('#btnEdit_' + NameTable).attr('style', 'display:none !important;');
