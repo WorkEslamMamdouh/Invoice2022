@@ -54,7 +54,7 @@ class ESG {
         this.Edit = false;
         this.LastCounter = 0;
         this.Right = false;
-        this.object ;
+        this.object = new Object();
 
 
     }
@@ -719,17 +719,16 @@ function AssignGridControl(Grid: ESGrid) {
 
      
     var DetailsModel = new Array <any>();
-    var SinglModel = new Array <any>();
+    //var SinglModel = new Array <any>();
 
-    SinglModel.push(model);
+    //SinglModel.push(model);
 
     
 
-    alert(SinglModel)
+    //alert(SinglModel)
 
-    var Model = SinglModel;
-    alert(Model);
-     
+    var Model = model;
+
     for (var i = 0; i < LastCountGrid; i++) {
         debugger
         let cnt = i;

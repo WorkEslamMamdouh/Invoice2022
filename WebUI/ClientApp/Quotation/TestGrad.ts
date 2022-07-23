@@ -78,6 +78,7 @@ namespace TestGrad {
         
        
 
+        var  UOM: I_D_UOM = new I_D_UOM();
         var Grid: ESGrid = new ESGrid();
 
         Grid.ESG.NameTable = 'Grad1';
@@ -87,13 +88,13 @@ namespace TestGrad {
         Grid.ESG.DeleteRow = true;
         Grid.ESG.Back = true;
         Grid.ESG.Save = true;
-        Grid.ESG.object = I_D_UOM;
+        Grid.ESG.object = UOM;
         Grid.Column = [
             { title: "ID", Name: "UomID", value: "0", Type: "text", style: "width: 10%", Edit: false, visible: false, ColumnType: ControlType.Input(() => { }, () => { }, () => { console.log(this) }) },
             { title: "الرقم", Name: "UomCode", value: "0", Type: "text", style: "width: 30%", Edit: true, visible: true, ColumnType: ControlType.Dropdown(I_D_UOMDetails, 'DescA', () => { }, () => { }, () => { console.log(this) }) },
             //{ title: "صص", Name: "UomCode", value: "0", Type: "text", style: "width: 10%", Edit: true, visible: true, ColumnType: ControlType.Input(() => { }, () => { }, () => { console.log(this) }) },
             { title: "الاسم", Name: "DescA", value: "0", Type: "text", style: "width: 10%", Edit: true, visible: true, ColumnType: ControlType.Input(() => { }, () => { }, () => { console.log(this) }) },
-            { title: "العمر", Name: "CompCode", value: "1", Type: "text", style: "width: 10%", Edit: true, visible: true, ColumnType: ControlType.checkbox(() => {  }, () => { }, () => { console.log(this) }) },
+            { title: "العمر", Name: "CompCode", value: "1", Type: "text", style: "width: 10%", Edit: true, visible: true, ColumnType: ControlType.Input(() => {  }, () => { }, () => { console.log(this) }) },
             { title: "رقم التيلفون", Name: "CompCode", value: "0", Type: "text", style: "width: 10%", Edit: true, visible: true, ColumnType: ControlType.Input(() => { }, () => { }, () => { console.log(this) }) },
             { title: "رقم البطاقه", Name: "Remarks", value: "BUT", Type: "text", style: "width: 10%", Edit: true, visible: true, ColumnType: ControlType.Input(() => { }, () => { }, () => {   }) },
             { title: "النوع", Name: "CreatedAt", value: "0", Type: "text", style: "width: 10%", Edit: true, visible: true, ColumnType: ControlType.Input(() => { }, () => { }, () => { console.log(this.propone ) }) },

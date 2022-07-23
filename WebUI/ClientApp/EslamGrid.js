@@ -43,7 +43,7 @@ var ESG = /** @class */ (function () {
         this.Edit = false;
         this.LastCounter = 0;
         this.Right = false;
-        this.object;
+        this.object = new Object();
     }
     return ESG;
 }());
@@ -461,11 +461,10 @@ function AssignGridControl(Grid) {
     var NameTable = Grid.ESG.NameTable;
     var LastCountGrid = Grid.ESG.LastCounter;
     var DetailsModel = new Array();
-    var SinglModel = new Array();
-    SinglModel.push(model);
-    alert(SinglModel);
-    var Model = SinglModel;
-    alert(Model);
+    //var SinglModel = new Array <any>();
+    //SinglModel.push(model);
+    //alert(SinglModel)
+    var Model = model;
     for (var i = 0; i < LastCountGrid; i++) {
         debugger;
         var cnt = i;
