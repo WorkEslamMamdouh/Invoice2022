@@ -1,4 +1,31 @@
+/// <reference path="entities.ts" />
 //----------------------------------------------------------------ESGrid--------------------------------------
+//class I_D_UOM {
+//    constructor() {
+//        this.UomID = 0;
+//        this.UomCode = "";
+//        this.DescA = "";
+//        this.DescE = "";
+//        this.CompCode = 0;
+//        this.Remarks = "";
+//        this.CreatedAt = "";
+//        this.CreatedBy = "";
+//        this.UpdatedAt = "";
+//        this.UpdatedBy = "";
+//        this.StatusFlag = "";
+//    }
+//    public UomID: number;
+//    public UomCode: string;
+//    public DescA: string;
+//    public DescE: string;
+//    public CompCode: number;
+//    public Remarks: string;
+//    public CreatedAt: string;
+//    public CreatedBy: string;
+//    public UpdatedAt: string;
+//    public UpdatedBy: string;
+//    public StatusFlag: string;
+//}
 var ESGrid = /** @class */ (function () {
     function ESGrid() {
         this.ESG = new ESG();
@@ -16,6 +43,7 @@ var ESG = /** @class */ (function () {
         this.Edit = false;
         this.LastCounter = 0;
         this.Right = false;
+        this.object;
     }
     return ESG;
 }());
@@ -310,7 +338,8 @@ function BuildGridControl(flagDisplay, Grid) {
     var classDisplay = flagDisplay == false ? "" : "animated zoomIn";
     var tbody = '<tr id= "No_Row_' + NameTable + cnt + '" class="' + classDisplay + '">' +
         '<td id="td_btn_minus_' + NameTable + cnt + '" class="td_btn_minus_' + NameTable + '" ><button id="btn_minus_' + NameTable + cnt + '" type="button" class="btn btn-custon-four btn-danger"><i class="fa fa-minus-circle"></i></button></td>' +
-        '</tr>';
+        '<td id="td_StatusFlag_' + NameTable + '' + cnt + '" style="display:none !important;" ><input  disabled="disabled" id="StatusFlag_' + NameTable + '_' + cnt + '" value="" type="hidden" class="form-control " placeholder="flag" /></td>';
+    '</tr>';
     $('#tbody_' + NameTable + '').append(tbody);
     if (Grid.ESG.DeleteRow == false) {
         var btn_minus = $('#td_btn_minus_' + NameTable + cnt);
@@ -318,7 +347,7 @@ function BuildGridControl(flagDisplay, Grid) {
     }
     ;
     $('#btn_minus_' + NameTable + cnt).click(function (e) {
-        DeleteRow('No_Row_' + NameTable + cnt, cnt);
+        DeleteRow('No_Row_' + NameTable + cnt, cnt, NameTable);
     });
     var _loop_1 = function (u) {
         debugger;
@@ -333,7 +362,7 @@ function BuildGridControl(flagDisplay, Grid) {
             $('#No_Row_' + NameTable + cnt + '').append(td);
         }
         if (Grid.Column[u].ColumnType.NameType == 'Dropdown') {
-            td = '<td id="td_' + NameTable + '_' + Grid.Column[u].Name + cnt + '" ><select id="' + NameTable + '_' + Grid.Column[u].Name + cnt + '" class="form-control ' + classEdit + '">  </select></td>';
+            td = '<td id="td_' + NameTable + '_' + Grid.Column[u].Name + cnt + '" ><select disabled="disabled"  id="' + NameTable + '_' + Grid.Column[u].Name + cnt + '" class="form-control ' + classEdit + '">  </select></td>';
             $('#No_Row_' + NameTable + cnt + '').append(td);
             var ddlFilter = document.getElementById('' + NameTable + '_' + Grid.Column[u].Name + cnt + '');
             DocumentActions.FillCombowithdefult(Grid.Column[u].ColumnType.dataSource, ddlFilter, Grid.Column[u].Name, Grid.Column[u].ColumnType.textField, "Select");
@@ -349,12 +378,18 @@ function BuildGridControl(flagDisplay, Grid) {
         //document.getElementById('No_Row_' + NameTable + '').appendChild(td);
         debugger;
         $('#' + NameTable + '_' + Grid.Column[u].Name + cnt + '').click(function () {
+            if ($("#StatusFlag_" + NameTable + '_' + cnt).val() != "i")
+                $("#StatusFlag_" + NameTable + '_' + cnt).val("u");
             Grid.Column[u].ColumnType.onclick();
         });
         $('#' + NameTable + '_' + Grid.Column[u].Name + cnt + '').on('keyup', function (e) {
+            if ($("#StatusFlag_" + NameTable + '_' + cnt).val() != "i")
+                $("#StatusFlag_" + NameTable + '_' + cnt).val("u");
             Grid.Column[u].ColumnType.onkeyup();
         });
         $('#' + NameTable + '_' + Grid.Column[u].Name + cnt + '').on('change', function (e) {
+            if ($("#StatusFlag_" + NameTable + '_' + cnt).val() != "i")
+                $("#StatusFlag_" + NameTable + '_' + cnt).val("u");
             Grid.Column[u].ColumnType.onchange();
         });
         //--------------------------------------------اضافة style -----------------------------------
@@ -395,10 +430,10 @@ function BuildGridControl(flagDisplay, Grid) {
     ;
     Grid.ESG.LastCounter++;
 }
-function DeleteRow(ID, cnt) {
+function DeleteRow(ID, cnt, NameTable) {
     WorningMessage("Do you want to delete?", "Do you want to delete?", "warning", "warning", function () {
         $("#" + ID + "").attr("hidden", "true");
-        //$("#txt_StatusFlag" + RecNo).val() == 'i' ? $("#txt_StatusFlag" + RecNo).val('m') : $("#txt_StatusFlag" + RecNo).val('d');
+        $("#StatusFlag_" + NameTable + '_' + cnt).val() == 'i' ? $("#StatusFlag_" + NameTable + '_' + cnt).val('m') : $("#StatusFlag_" + NameTable + '_' + cnt).val('d');
     });
 }
 function CleanGridControl(List, Grid) {
@@ -420,7 +455,38 @@ function CleanGridControl(List, Grid) {
     //$('#tbody_' + NameTable + '').html('');
 }
 function AssignGridControl(Grid) {
-    CleanGridControl(null, Grid);
+    //GActions.AssignToModel(Model.A_Rec_D_Customer);//Insert Update
+    debugger;
+    var model = Grid.ESG.object;
+    var NameTable = Grid.ESG.NameTable;
+    var LastCountGrid = Grid.ESG.LastCounter;
+    var DetailsModel = new Array();
+    var SinglModel = new Array();
+    SinglModel.push(model);
+    alert(SinglModel);
+    var Model = SinglModel;
+    alert(Model);
+    for (var i = 0; i < LastCountGrid; i++) {
+        debugger;
+        var cnt = i;
+        var StatusFlag = $("#StatusFlag_" + NameTable + '_' + cnt).val();
+        if (StatusFlag == "i") {
+            GActions.AssignToModel(Model, NameTable, cnt, StatusFlag);
+            DetailsModel.push(Model);
+        }
+        if (StatusFlag == "u") {
+            GActions.AssignToModel(Model, NameTable, cnt, StatusFlag);
+            DetailsModel.push(Model);
+        }
+        if (StatusFlag == "d") {
+            GActions.AssignToModel(Model, NameTable, cnt, StatusFlag);
+            DetailsModel.push(Model);
+        }
+    }
+    console.log(DetailsModel);
+    alert(DetailsModel);
+    return DetailsModel;
+    /* CleanGridControl(null, Grid);*/
 }
 function EditGridControl(Grid) {
     debugger;
@@ -440,6 +506,254 @@ function EditGridControl(Grid) {
     $('#btnEdit_' + NameTable).attr('style', 'display:none !important;');
     Resizable();
 }
+var GActions = {
+    AssignToModel: function (Model, NameTable, cnt, StatusFlag) {
+        debugger;
+        var properties = Object.getOwnPropertyNames(Model);
+        for (var _i = 0, properties_1 = properties; _i < properties_1.length; _i++) {
+            var property = properties_1[_i];
+            var element = document.getElementsByName('' + NameTable + '_' + property + cnt)[0];
+            if (property == 'StatusFlag') {
+                Model[property] = StatusFlag;
+            }
+            if (element != null) {
+                if (element.type == "checkbox")
+                    Model[property] = element.checked;
+                else
+                    Model[property] = element.value;
+            }
+        }
+        return Model;
+    },
+    SetRequiredElements: function () {
+        var elements = [];
+        for (var _i = 0; _i < arguments.length; _i++) {
+            elements[_i] = arguments[_i];
+        }
+        RequiredElements = new Array();
+        for (var _a = 0, elements_1 = elements; _a < elements_1.length; _a++) {
+            var element = elements_1[_a];
+            //element.className += RequiredClassName;
+            RequiredElements.push(element);
+        }
+    },
+    SetExchangeElements: function (ArElement, EnElement) {
+        exchangeElements = new Array();
+        exchangeElements.push(ArElement);
+        exchangeElements.push(EnElement);
+    },
+    ValidateRequired: function () {
+        //let result: boolean = false;
+        var bools = new Array();
+        var elements = RequiredElements; // Array.prototype.slice.call(document.getElementsByClassName("required")) as Array<HTMLElement>;
+        for (var _i = 0, elements_2 = elements; _i < elements_2.length; _i++) {
+            var element = elements_2[_i];
+            switch (element.tagName.toUpperCase()) {
+                case "INPUT":
+                    if (element.type == "check") {
+                        if (element.checked == false) {
+                            bools.push(false);
+                            element.style.borderColor = "red";
+                        }
+                        else {
+                            bools.push(true);
+                            element.style.borderColor = "";
+                        }
+                    }
+                    else {
+                        if (element.value == "") {
+                            bools.push(false);
+                            element.style.borderColor = "red";
+                        }
+                        else {
+                            bools.push(true);
+                            element.style.borderColor = "";
+                        }
+                    }
+                    break;
+                case "SELECT":
+                    if (element.value == "") {
+                        bools.push(false);
+                        element.style.borderColor = "red";
+                    }
+                    else {
+                        bools.push(true);
+                        element.style.borderColor = "";
+                    }
+                    break;
+                default:
+            }
+        }
+        if (exchangeElements.length > 0) {
+            if (exchangeElements[0].value == "" && exchangeElements[1].value == "") {
+                bools.push(false);
+                exchangeElements[0].style.borderColor = "orange";
+                exchangeElements[1].style.borderColor = "orange";
+            }
+            else {
+                bools.push(true);
+                exchangeElements[0].style.borderColor = "";
+                exchangeElements[1].style.borderColor = "";
+            }
+        }
+        var count = bools.filter(function (f) { return f == false; }).length;
+        if (count > 0)
+            return false;
+        else
+            return true;
+    },
+    RenderFromModel: function (dataSource) {
+        try {
+            var properties = Object.getOwnPropertyNames(dataSource);
+            for (var _i = 0, properties_2 = properties; _i < properties_2.length; _i++) {
+                var property = properties_2[_i];
+                var element = document.getElementsByName(property)[0];
+                if (element == null)
+                    continue;
+                if (property == "CreatedAt" || property == "UpdatedAt") {
+                    if (String(dataSource[property]).indexOf("Date") > -1) {
+                        element.value = DateTimeFormat(dataSource[property]);
+                    }
+                    else {
+                        element.value = dataSource[property];
+                    }
+                    continue;
+                }
+                if (property == "CreatedBy" || property == "UpdatedBy") {
+                    var value = String(dataSource[property]).toString();
+                    if (value != null)
+                        element.value = value;
+                    else
+                        element.value = "";
+                    continue;
+                }
+                if (dataSource[property] == null) {
+                    try {
+                        element.value = dataSource[property];
+                    }
+                    catch (e) {
+                    }
+                    finally {
+                        continue;
+                    }
+                }
+                if (element.type == "checkbox")
+                    element.checked = (dataSource[property]);
+                else if (element.type == "date") {
+                    element.value = dataSource[property];
+                }
+                else
+                    element.value = dataSource[property];
+            }
+        }
+        catch (e) {
+        }
+    },
+    //eslam elassal
+    FillComboSingular: function (dataSource, combo) {
+        if (combo != null) {
+            for (var i = combo.length; i >= 0; i--) {
+                combo.remove(i);
+            }
+            for (var i = 0; i < dataSource.length; i++) {
+                //let code = dataSource[i][i];
+                //let name = dataSource[i][dataSource[i]];
+                combo.add(new Option(dataSource[i], i.toString()));
+            }
+        }
+    },
+    FillCombo: function (dataSource, combo, codeField, textField) {
+        if (combo != null) {
+            for (var i = combo.length; i >= 0; i--) {
+                combo.remove(i);
+            }
+            for (var i = 0; i < dataSource.length; i++) {
+                var code = dataSource[i][codeField];
+                var name_1 = dataSource[i][textField];
+                combo.add(new Option(name_1, code));
+            }
+        }
+    },
+    FillComboFirstvalue: function (dataSource, combo, codeField, textField, Name, Code) {
+        if (combo != null) {
+            for (var i = combo.length; i >= 0; i--) {
+                combo.remove(i);
+            }
+            combo.add(new Option(Name, Code));
+            for (var i = 0; i < dataSource.length; i++) {
+                var code = dataSource[i][codeField];
+                var name_2 = dataSource[i][textField];
+                combo.add(new Option(name_2, code));
+                if (name_2 == Name && code == Code) {
+                    combo.remove(i + 1);
+                }
+            }
+        }
+    },
+    FillCombowithdefultAndEmptyChoice: function (dataSource, combo, codeField, textField, NameDefult, EmptyChoiceName) {
+        if (combo != null) {
+            for (var i = combo.length; i >= 0; i--) {
+                combo.remove(i);
+            }
+            combo.add(new Option(NameDefult, null));
+            for (var i = 0; i < dataSource.length; i++) {
+                var code = dataSource[i][codeField];
+                var name_3 = dataSource[i][textField];
+                var id = dataSource[i][codeField];
+                combo.add(new Option(name_3, code));
+            }
+            //add empty
+            combo.add(new Option(EmptyChoiceName, "-1"));
+        }
+    },
+    FillCombowithdefult: function (dataSource, combo, codeField, textField, NameDefult) {
+        if (combo != null) {
+            for (var i = combo.length; i >= 0; i--) {
+                combo.remove(i);
+            }
+            combo.add(new Option(NameDefult, null));
+            for (var i = 0; i < dataSource.length; i++) {
+                var code = dataSource[i][codeField];
+                var name_4 = dataSource[i][textField];
+                var id = dataSource[i][codeField];
+                //var x = true;
+                //if (x==true) {
+                //    $("#name").attr('id', id);
+                //}
+                //let test = 
+                combo.add(new Option(name_4, code));
+                //
+            }
+        }
+    },
+    //Filldefult: (combo: HTMLSelectElement, codeField: any, textField: any, NameDefult: any) => {
+    //    if (combo != null) {
+    //        for (let i: number = combo.length; i >= 0; i--) {
+    //            combo.remove(i);
+    //        }
+    //        combo.add(new Option(NameDefult, null));              
+    //    }
+    //},
+    FillComboWithEmpty: function (dataSource, combo, codeField, textField) {
+        for (var i = combo.length; i >= 0; i--) {
+            combo.remove(i);
+        }
+        combo.add(new Option("", ""));
+        for (var i = 0; i < dataSource.length; i++) {
+            var code = dataSource[i][codeField];
+            var name_5 = dataSource[i][textField];
+            combo.add(new Option(name_5, code));
+        }
+    },
+    GetElementById: function (id) {
+        var element = document.getElementById(id);
+        return element;
+    },
+    CreateElement: function (id) {
+        var element = document.createElement(id);
+        return element;
+    }
+};
 function Resizable() {
     'use strict';
     var initResizable = function (that) {

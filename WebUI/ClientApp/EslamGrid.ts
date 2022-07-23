@@ -1,8 +1,38 @@
-﻿
+﻿/// <reference path="entities.ts" />
+
 
 
 
 //----------------------------------------------------------------ESGrid--------------------------------------
+
+
+//class I_D_UOM {
+//    constructor() {
+//        this.UomID = 0;
+//        this.UomCode = "";
+//        this.DescA = "";
+//        this.DescE = "";
+//        this.CompCode = 0;
+//        this.Remarks = "";
+//        this.CreatedAt = "";
+//        this.CreatedBy = "";
+//        this.UpdatedAt = "";
+//        this.UpdatedBy = "";
+//        this.StatusFlag = "";
+//    }
+//    public UomID: number;
+//    public UomCode: string;
+//    public DescA: string;
+//    public DescE: string;
+//    public CompCode: number;
+//    public Remarks: string;
+//    public CreatedAt: string;
+//    public CreatedBy: string;
+//    public UpdatedAt: string;
+//    public UpdatedBy: string;
+//    public StatusFlag: string;
+//}
+
 
 class ESGrid {
     constructor() {
@@ -24,6 +54,7 @@ class ESG {
         this.Edit = false;
         this.LastCounter = 0;
         this.Right = false;
+        this.object ;
 
 
     }
@@ -35,6 +66,8 @@ class ESG {
     public Edit: boolean;
     public LastCounter: number;
     public Right: boolean;
+    public object: any
+
 }
 
 class Column {
@@ -486,6 +519,7 @@ function BuildGridControl(flagDisplay: boolean, Grid: ESGrid) {
     let classDisplay = flagDisplay == false ? "" : "animated zoomIn"
     let tbody = '<tr id= "No_Row_' + NameTable + cnt + '" class="' + classDisplay + '">' +
         '<td id="td_btn_minus_' + NameTable + cnt + '" class="td_btn_minus_' + NameTable + '" ><button id="btn_minus_' + NameTable + cnt + '" type="button" class="btn btn-custon-four btn-danger"><i class="fa fa-minus-circle"></i></button></td>' +
+        '<td id="td_StatusFlag_' + NameTable + '' + cnt + '" style="display:none !important;" ><input  disabled="disabled" id="StatusFlag_' + NameTable + '_' + cnt + '" value="" type="hidden" class="form-control " placeholder="flag" /></td>';
         '</tr>';
     $('#tbody_' + NameTable + '').append(tbody);
 
@@ -499,7 +533,7 @@ function BuildGridControl(flagDisplay: boolean, Grid: ESGrid) {
 
 
     $('#btn_minus_' + NameTable + cnt).click(function (e) {
-        DeleteRow('No_Row_' + NameTable + cnt, cnt);
+        DeleteRow('No_Row_' + NameTable + cnt, cnt, NameTable);
     });
 
 
@@ -516,9 +550,7 @@ function BuildGridControl(flagDisplay: boolean, Grid: ESGrid) {
 
 
 
-
-
-
+         
 
 
         if (Grid.Column[u].ColumnType.NameType == 'Input') {
@@ -527,7 +559,7 @@ function BuildGridControl(flagDisplay: boolean, Grid: ESGrid) {
         }
 
         if (Grid.Column[u].ColumnType.NameType == 'Dropdown') {
-            td = '<td id="td_' + NameTable + '_' + Grid.Column[u].Name + cnt + '" ><select id="' + NameTable + '_' + Grid.Column[u].Name + cnt + '" class="form-control ' + classEdit + '">  </select></td>';
+            td = '<td id="td_' + NameTable + '_' + Grid.Column[u].Name + cnt + '" ><select disabled="disabled"  id="' + NameTable + '_' + Grid.Column[u].Name + cnt + '" class="form-control ' + classEdit + '">  </select></td>';
             $('#No_Row_' + NameTable + cnt + '').append(td);
             let ddlFilter: HTMLSelectElement = document.getElementById('' + NameTable + '_' + Grid.Column[u].Name + cnt + '') as HTMLSelectElement;
             DocumentActions.FillCombowithdefult(Grid.Column[u].ColumnType.dataSource, ddlFilter, Grid.Column[u].Name, Grid.Column[u].ColumnType.textField, "Select");
@@ -554,16 +586,23 @@ function BuildGridControl(flagDisplay: boolean, Grid: ESGrid) {
         debugger
 
         $('#' + NameTable + '_' + Grid.Column[u].Name + cnt + '').click(function () {
+      
+            if ($("#StatusFlag_" + NameTable+'_'+ cnt).val() != "i")
+                $("#StatusFlag_" + NameTable + '_' + cnt).val("u");
 
             Grid.Column[u].ColumnType.onclick();
         });
 
         $('#' + NameTable + '_' + Grid.Column[u].Name + cnt + '').on('keyup', function (e) {
+            if ($("#StatusFlag_" + NameTable+'_'+ cnt).val() != "i")
+                $("#StatusFlag_" + NameTable + '_' + cnt).val("u");
 
             Grid.Column[u].ColumnType.onkeyup();
         });
 
         $('#' + NameTable + '_' + Grid.Column[u].Name + cnt + '').on('change', function (e) {
+            if ($("#StatusFlag_" + NameTable+'_'+ cnt).val() != "i")
+                $("#StatusFlag_" + NameTable + '_' + cnt).val("u");
 
             Grid.Column[u].ColumnType.onchange();
         });
@@ -634,11 +673,12 @@ function BuildGridControl(flagDisplay: boolean, Grid: ESGrid) {
 
 }
 
-function DeleteRow(ID: string, cnt: number) {
+function DeleteRow(ID: string, cnt: number, NameTable: string) {
 
     WorningMessage("Do you want to delete?", "Do you want to delete?", "warning", "warning", () => {
+
         $("#" + ID + "").attr("hidden", "true");
-        //$("#txt_StatusFlag" + RecNo).val() == 'i' ? $("#txt_StatusFlag" + RecNo).val('m') : $("#txt_StatusFlag" + RecNo).val('d');
+        $("#StatusFlag_" + NameTable + '_' + cnt).val() == 'i' ? $("#StatusFlag_" + NameTable + '_' + cnt).val('m') : $("#StatusFlag_" + NameTable + '_' + cnt).val('d');
 
     });
 }
@@ -667,15 +707,73 @@ function CleanGridControl(List: Array<any>, Grid: ESGrid) {
     $('[data-toggle="table"]').bootstrapTable();
     //$('#tbody_' + NameTable + '').html('');
 }
+
 function AssignGridControl(Grid: ESGrid) {
 
+    //GActions.AssignToModel(Model.A_Rec_D_Customer);//Insert Update
+    debugger
+
+    var model = Grid.ESG.object;
+    let NameTable = Grid.ESG.NameTable; 
+    let LastCountGrid = Grid.ESG.LastCounter;
+
+     
+    var DetailsModel = new Array <any>();
+    var SinglModel = new Array <any>();
+
+    SinglModel.push(model);
+
+    
+
+    alert(SinglModel)
+
+    var Model = SinglModel;
+    alert(Model);
+     
+    for (var i = 0; i < LastCountGrid; i++) {
+        debugger
+        let cnt = i;
+        let StatusFlag = $("#StatusFlag_" + NameTable + '_' + cnt).val();
+
+         
+
+        if (StatusFlag == "i") {
+             
+             
+            GActions.AssignToModel(Model, NameTable, cnt, StatusFlag)
+             
+            DetailsModel.push(Model);
+
+        }
+
+        if (StatusFlag == "u") {
 
 
-    CleanGridControl(null, Grid);
+            GActions.AssignToModel(Model, NameTable, cnt, StatusFlag)
+
+            DetailsModel.push(Model);
+        }
+
+        if (StatusFlag == "d") {
+
+             
+            GActions.AssignToModel(Model, NameTable, cnt, StatusFlag)
+
+            DetailsModel.push(Model);
+        }
+    }
+   
+
+
+    console.log(DetailsModel);
+    alert(DetailsModel);
+    return DetailsModel;
+     
+
+   /* CleanGridControl(null, Grid);*/
 
 }
-
-
+ 
 function EditGridControl(Grid: ESGrid) {
 
     debugger
@@ -710,6 +808,295 @@ function EditGridControl(Grid: ESGrid) {
 
 
 
+
+
+var GActions = {
+
+     
+  
+
+    AssignToModel: <T>(Model: T, NameTable: string, cnt: number, StatusFlag: string): T => {
+        debugger
+        let properties = Object.getOwnPropertyNames(Model);
+        for (var property of properties) {
+            let element = document.getElementsByName('' + NameTable + '_' + property + cnt)[0] as HTMLInputElement;
+
+            if (property == 'StatusFlag') {
+                Model[property] = StatusFlag;
+            }
+
+            if (element != null) {
+                if (element.type == "checkbox")
+                    Model[property] = element.checked;
+                else
+                    Model[property] = element.value;
+            }
+        }
+
+        return Model;
+    },
+
+
+
+
+    SetRequiredElements: (...elements: Array<HTMLElement>): void => {
+        RequiredElements = new Array<HTMLElement>();
+        for (var element of elements) {
+            //element.className += RequiredClassName;
+            RequiredElements.push(element);
+        }
+    },
+    SetExchangeElements: (ArElement: HTMLInputElement, EnElement: HTMLInputElement) => {
+        exchangeElements = new Array<HTMLInputElement>();
+        exchangeElements.push(ArElement);
+        exchangeElements.push(EnElement);
+    },
+    ValidateRequired: (): boolean => {
+        //let result: boolean = false;
+        let bools: Array<boolean> = new Array<boolean>();
+
+        let elements = RequiredElements;// Array.prototype.slice.call(document.getElementsByClassName("required")) as Array<HTMLElement>;
+        for (var element of elements) {
+            switch (element.tagName.toUpperCase()) {
+                case "INPUT":
+                    if ((element as HTMLInputElement).type == "check") {
+                        if ((element as HTMLInputElement).checked == false) {
+                            bools.push(false);
+                            element.style.borderColor = "red";
+                        }
+                        else {
+                            bools.push(true);
+                            element.style.borderColor = "";
+                        }
+                    }
+                    else {
+                        if ((element as HTMLInputElement).value == "") {
+                            bools.push(false);
+                            element.style.borderColor = "red";
+                        }
+                        else {
+                            bools.push(true);
+                            element.style.borderColor = "";
+                        }
+                    }
+                    break;
+
+                case "SELECT":
+                    if ((element as HTMLSelectElement).value == "") {
+                        bools.push(false);
+                        element.style.borderColor = "red";
+                    }
+                    else {
+                        bools.push(true);
+                        element.style.borderColor = "";
+                    }
+                    break;
+
+
+                default:
+            }
+        }
+
+        if (exchangeElements.length > 0) {
+            if (exchangeElements[0].value == "" && exchangeElements[1].value == "") {
+                bools.push(false);
+                exchangeElements[0].style.borderColor = "orange";
+                exchangeElements[1].style.borderColor = "orange";
+            }
+            else {
+                bools.push(true);
+                exchangeElements[0].style.borderColor = "";
+                exchangeElements[1].style.borderColor = "";
+            }
+        }
+        let count = bools.filter(f => f == false).length;
+        if (count > 0)
+            return false;
+        else
+            return true;
+    },
+
+    RenderFromModel: (dataSource: any): void => {
+        try {
+
+            let properties = Object.getOwnPropertyNames(dataSource);
+            for (var property of properties) {
+                let element = document.getElementsByName(property)[0] as HTMLInputElement;
+                if (element == null)
+                    continue;
+                if (property == "CreatedAt" || property == "UpdatedAt") {
+
+                    if (String(dataSource[property]).indexOf("Date") > -1) {
+                        element.value = DateTimeFormat(dataSource[property]);
+                    }
+                    else {
+                        element.value = dataSource[property];
+                    }
+                    continue;
+                }
+
+                if (property == "CreatedBy" || property == "UpdatedBy") {
+                    let value = String(dataSource[property]).toString();
+                    if (value != null)
+                        element.value = value;
+                    else
+                        element.value = "";
+                    continue;
+                }
+                if (dataSource[property] == null) {
+                    try {
+                        element.value = dataSource[property]
+                    } catch (e) {
+
+                    }
+                    finally {
+                        continue;
+                    }
+
+                }
+                if (element.type == "checkbox")
+                    element.checked = <boolean>(dataSource[property]);
+                else if (element.type == "date") {
+                    element.value = dataSource[property];
+                }
+                else
+                    element.value = dataSource[property];
+
+            }
+        } catch (e) {
+
+        }
+    },
+  
+    //eslam elassal
+    FillComboSingular: (dataSource: Array<any>, combo: HTMLSelectElement) => {
+        if (combo != null) {
+            for (let i: number = combo.length; i >= 0; i--) {
+                combo.remove(i);
+            }
+            for (let i: number = 0; i < dataSource.length; i++) {
+                //let code = dataSource[i][i];
+                //let name = dataSource[i][dataSource[i]];
+                combo.add(new Option(dataSource[i], i.toString()));
+            }
+        }
+
+    },
+
+    FillCombo: (dataSource: Array<any>, combo: HTMLSelectElement, codeField: any, textField: any) => {
+        if (combo != null) {
+            for (let i: number = combo.length; i >= 0; i--) {
+                combo.remove(i);
+            }
+            for (let i: number = 0; i < dataSource.length; i++) {
+                let code = dataSource[i][codeField];
+                let name = dataSource[i][textField];
+                combo.add(new Option(name, code));
+            }
+        }
+
+    },
+    FillComboFirstvalue: (dataSource: Array<any>, combo: HTMLSelectElement, codeField: any, textField: any, Name: any, Code: any) => {
+        if (combo != null) {
+
+            for (let i: number = combo.length; i >= 0; i--) {
+                combo.remove(i);
+            }
+            combo.add(new Option(Name, Code));
+
+            for (let i: number = 0; i < dataSource.length; i++) {
+                let code = dataSource[i][codeField];
+                let name = dataSource[i][textField];
+
+                combo.add(new Option(name, code));
+                if (name == Name && code == Code) {
+                    combo.remove(i + 1);
+                }
+            }
+        }
+
+    },
+
+
+    FillCombowithdefultAndEmptyChoice: (dataSource: Array<any>, combo: HTMLSelectElement, codeField: any, textField: any, NameDefult: any, EmptyChoiceName: any) => {
+        if (combo != null) {
+            for (let i: number = combo.length; i >= 0; i--) {
+                combo.remove(i);
+            }
+            combo.add(new Option(NameDefult, null));
+            for (let i: number = 0; i < dataSource.length; i++) {
+                let code = dataSource[i][codeField];
+                let name = dataSource[i][textField];
+                let id = dataSource[i][codeField];
+
+                combo.add(new Option(name, code));
+
+            }
+
+            //add empty
+            combo.add(new Option(EmptyChoiceName, "-1"));
+
+        }
+    },
+
+    FillCombowithdefult: (dataSource: Array<any>, combo: HTMLSelectElement, codeField: any, textField: any, NameDefult: any) => {
+        if (combo != null) {
+            for (let i: number = combo.length; i >= 0; i--) {
+                combo.remove(i);
+            }
+            combo.add(new Option(NameDefult, null));
+            for (let i: number = 0; i < dataSource.length; i++) {
+                let code = dataSource[i][codeField];
+                let name = dataSource[i][textField];
+                let id = dataSource[i][codeField];
+                //var x = true;
+                //if (x==true) {
+                //    $("#name").attr('id', id);
+
+                //}
+                //let test = 
+
+
+                combo.add(new Option(name, code));
+                //
+
+
+
+
+            }
+
+        }
+    },
+    //Filldefult: (combo: HTMLSelectElement, codeField: any, textField: any, NameDefult: any) => {
+    //    if (combo != null) {
+    //        for (let i: number = combo.length; i >= 0; i--) {
+    //            combo.remove(i);
+    //        }
+    //        combo.add(new Option(NameDefult, null));              
+
+    //    }
+    //},
+    FillComboWithEmpty: (dataSource: Array<any>, combo: HTMLSelectElement, codeField: any, textField: any) => {
+        for (let i: number = combo.length; i >= 0; i--) {
+            combo.remove(i);
+        }
+        combo.add(new Option("", ""));
+        for (let i: number = 0; i < dataSource.length; i++) {
+            let code = dataSource[i][codeField];
+            let name = dataSource[i][textField];
+            combo.add(new Option(name, code));
+        }
+    },
+
+    GetElementById: <T extends HTMLElement>(id: string): T => {
+        let element: T = document.getElementById(id) as T;
+        return element;
+    },
+    CreateElement: <T extends HTMLElement>(id: string) => {
+        let element: T = document.createElement(id) as T;
+        return element;
+    }
+};
 
 
 

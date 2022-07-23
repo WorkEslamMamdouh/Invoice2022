@@ -1142,6 +1142,7 @@ var I_D_UOM = /** @class */ (function () {
         this.CreatedBy = "";
         this.UpdatedAt = "";
         this.UpdatedBy = "";
+        this.StatusFlag = "";
     }
     return I_D_UOM;
 }());
