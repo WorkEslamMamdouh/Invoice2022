@@ -1880,6 +1880,7 @@ class I_D_UOM {
         this.UpdatedAt = "";
         this.UpdatedBy = "";
         this.StatusFlag = "";
+        this.Cheack = false;
     }
     public UomID: number;
     public UomCode: string;
@@ -1892,6 +1893,7 @@ class I_D_UOM {
     public UpdatedAt: string;
     public UpdatedBy: string;
     public StatusFlag: string;
+    public Cheack: boolean;
 }
 
 

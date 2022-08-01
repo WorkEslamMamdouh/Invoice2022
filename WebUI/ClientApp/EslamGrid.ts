@@ -49,9 +49,10 @@ class ESG {
         this.Save = false;
         this.Back = false;
         this.DeleteRow = false;
+        this.CopyRow = false;
         this.Add = false;
         this.Edit = false;
-        this.SelectedKey ;
+        this.SelectedKey;
         this.LastCounter = 0;
         this.RowCnt = 0;
         this.Right = false;
@@ -69,6 +70,7 @@ class ESG {
     public Save: boolean;
     public Back: boolean;
     public DeleteRow: boolean;
+    public CopyRow: boolean;
     public Add: boolean;
     public Edit: boolean;
     public SelectedKey: any;
@@ -132,8 +134,9 @@ class ControlEvents {
 
 interface String {
 
+    Val_Cheak: (Grid: ESGrid) => boolean;
     Val_Num: (Grid: ESGrid) => number;
-    Val_Str: (Grid: ESGrid) => string;
+    Val_Get: (Grid: ESGrid) => string;
     Val_Set: (value: string, Grid: ESGrid) => string;
 }
 
@@ -143,10 +146,21 @@ interface String {
 namespace ControlType {
 
 
-
-    String.prototype.Val_Set = function (value: string, Grid: ESGrid): string {
+    String.prototype.Val_Get = function (Grid: ESGrid): string {
         let NameFild = this;
+        let value = $('#' + Grid.ESG.NameTable + '_' + NameFild + Grid.ESG.RowCnt + '').val()
+        return (value);
+    };
+
+    String.prototype.Val_Set = function (value: any, Grid: ESGrid): any {
+        let NameFild = this;
+        if (value == true || value == false) {
+
+            $('#' + Grid.ESG.NameTable + '_' + NameFild + Grid.ESG.RowCnt + '').prop("checked", value);
+        } else {
+
         $('#' + Grid.ESG.NameTable + '_' + NameFild + Grid.ESG.RowCnt + '').val(value)
+        }
         return (value);
     };
 
@@ -156,13 +170,13 @@ namespace ControlType {
         return (Number(value));
     };
 
-
-
-    String.prototype.Val_Str = function (Grid: ESGrid): string {
+    String.prototype.Val_Cheak = function (Grid: ESGrid): boolean {
+        debugger
         let NameFild = this;
-        let value = $('#' + Grid.ESG.NameTable + '_' + NameFild + Grid.ESG.RowCnt + '').val()
+        let value: boolean = $('#' + Grid.ESG.NameTable + '_' + NameFild + Grid.ESG.RowCnt + '').is(":checked")
         return (value);
     };
+     
 
 
 
@@ -209,7 +223,7 @@ namespace ControlType {
 
 
     export function Dropdown(dataSourc: Array<any>, textField: string, onchange?: () => void, onkeyup?: () => void, onclick?: () => void): ControlEvents {
-        
+
         ControlEvent = new ControlEvents();
 
         ControlEvent.onchange = onchange;
@@ -262,10 +276,11 @@ function BindGridControl(Grid: ESGrid) {
 
         '<div class="sparkline8-graph">' +
         '<div class="datatable-dashv1-list custom-datatable-overright">' +
-        '<table id="table_' + NameTable + '" data-toggle="table" data-pagination="true" data-resizable="true" data-cookie="true" data-cookie-id-table="saveId" data-show-export="false" data-click-to-select="true" data-toolbar="#toolbar">' +
+        '<table id="table_' + NameTable + '" data-toggle="table"   data-page-number="2" data-page-size="5"   data-pagination="true" data-resizable="true" data-cookie="true" data-cookie-id-table="saveId" data-show-export="false" data-click-to-select="true" data-toolbar="#toolbar">' +
         '<thead id="thead_' + NameTable + '">' +
         '<tr id="tr_' + NameTable + '">' +
         '<th class="' + NameTable + '_Delete" data-field=""></th>' +
+        '<th class="' + NameTable + '_Copy" data-field=""></th>' +
 
         '</tr>' +
         '</thead>' +
@@ -280,6 +295,8 @@ function BindGridControl(Grid: ESGrid) {
         '</div>' +
         '</div>'
     $("#" + NameTable).append(table);
+
+
 
 
 
@@ -308,11 +325,11 @@ function BindGridControl(Grid: ESGrid) {
 
 
     for (let i = 0; i < Grid.Column.length; i++) {
-         
+
 
         let visible = "";
         if (Grid.Column[i].visible == false) {
-            visible = 'hidden'; 
+            visible = 'hidden';
         }
         let thead; //بناء عناوين الجدول
         thead = '<th data-field="number" class=" ' + style_Text + '  ' + NameTable + '_' + i + '"   ' + visible + ' id="th_' + i + NameTable + '"  data-editable="false">' + Grid.Column[i].title + '</th>'
@@ -325,20 +342,21 @@ function BindGridControl(Grid: ESGrid) {
     Resizable();
     //----------------------------------------------------------------------------------
 
-    $('.' + NameTable + '_Delete').attr('style', 'width: 3% !important;');
+    $('.' + NameTable + '_Delete').attr('style', 'width: 4% !important;');
+    $('.' + NameTable + '_Copy').attr('style', 'width: 4% !important;');
 
 
     //---------------------------------------------------------------------------------اضافة هيكل body 
 
     for (let u = 0; u < Grid.Column.length; u++) {
-         
+
         //--------------------------------------------اضافة style -----------------------------------
         if (Grid.Column[u].style.trim() != '') {
             Grid.Column[u].style = 'width: 10%';
         };
 
         if (Grid.Column[u].visible == false) {
-            Grid.Column[u].style = ' display:none;'; 
+            Grid.Column[u].style = ' display:none;';
         };
 
         let title = $('.' + NameTable + '_' + u + '');
@@ -346,6 +364,9 @@ function BindGridControl(Grid: ESGrid) {
 
         let _Delete = $('.' + NameTable + '_Delete');
         _Delete.attr('style', 'display:none !important;');
+
+        let _Copy = $('.' + NameTable + '_Copy');
+        _Copy.attr('style', 'display:none !important;');
 
         $('#btnClean_' + NameTable).attr('style', 'display:none !important;');
 
@@ -362,6 +383,10 @@ function BindGridControl(Grid: ESGrid) {
         if (Grid.ESG.DeleteRow == false) {
             let _Delete = $('.' + NameTable + '_Delete');
             _Delete.addClass('display_hidden');
+        };
+        if (Grid.ESG.CopyRow == false) {
+            let _Copy = $('.' + NameTable + '_Copy');
+            _Copy.addClass('display_hidden');
         };
         if (Grid.ESG.Back == false) {
             $('#btnClean_' + NameTable).addClass('display_hidden');
@@ -393,11 +418,10 @@ function BindGridControl(Grid: ESGrid) {
     }
 
 
-
 }
 
 function DisplayDataGridControl(List: Array<any>, Grid: ESGrid) {
-    
+
 
 
     flagBack = true;
@@ -419,10 +443,17 @@ function DisplayDataGridControl(List: Array<any>, Grid: ESGrid) {
 
     flagBack = false;
 
+
+
+    //let x =`   <link href="https://unpkg.com/bootstrap-table@1.20.2/dist/bootstrap-table.min.css" rel="stylesheet">
+
+    //<script src="https://unpkg.com/bootstrap-table@1.20.2/dist/bootstrap-table.min.js"></script>`
+
+    //$('#main-menu').append(x);
 }
 
 function DisplayData(List: any, Grid: ESGrid) {
-    
+
     let NameTable = Grid.ESG.NameTable;
     let cnt = Grid.ESG.LastCounter - 1;
 
@@ -432,11 +463,18 @@ function DisplayData(List: any, Grid: ESGrid) {
     let btn_minus = $('#td_btn_minus_' + NameTable + cnt);
     btn_minus.attr('style', 'display:none !important;');
 
+
+    let _Copy = $('.' + NameTable + '_Copy');
+    _Copy.attr('style', 'display:none !important;');
+
+    let btn_Copy = $('#td_btn_Copy_' + NameTable + cnt);
+    btn_Copy.attr('style', 'display:none !important;');
+
     for (let u = 0; u < Grid.Column.length; u++) {
 
 
         try {
-             
+
 
             var values: Array<any> = Object["values"](List);
 
@@ -461,7 +499,6 @@ function DisplayData(List: any, Grid: ESGrid) {
                 else {
 
                     $('#' + NameTable + '_' + Grid.Column[u].Name + cnt + '').prop('checked', false)
-                    $('#' + NameTable + '_' + Grid.Column[u].Name + cnt + '').prop('checked', true)
                 }
             }
 
@@ -476,8 +513,8 @@ function DisplayData(List: any, Grid: ESGrid) {
 
 
 function BuildGridControl(flagDisplay: boolean, Grid: ESGrid) {
-    
-    let NameTable = Grid.ESG.NameTable; 
+     
+    let NameTable = Grid.ESG.NameTable;
 
     let cnt = Grid.ESG.LastCounter;
 
@@ -487,17 +524,49 @@ function BuildGridControl(flagDisplay: boolean, Grid: ESGrid) {
     }
     let classDisplay = flagDisplay == false ? "" : "animated zoomIn"
     let tbody = '<tr id= "No_Row_' + NameTable + cnt + '" class="' + classDisplay + '">' +
-        '<td id="td_btn_minus_' + NameTable + cnt + '" class="td_btn_minus_' + NameTable + '" ><button id="btn_minus_' + NameTable + cnt + '" type="button" class="btn btn-custon-four btn-danger"><i class="fa fa-minus-circle"></i></button></td>' +
+        '<td id="td_btn_Copy_' + NameTable + cnt + '" class="td_btn_Copy_' + NameTable + '" ><button id="btn_Copy_' + NameTable + cnt + '" type="button" class="btn btn-custon-four btn-danger" style="background-color: cornflowerblue;font-weight: bold;font-size: 22PX;width: 34px;padding: unset;"><i class="fa fa-copy"></i></button></td>' +
+        '<td id="td_btn_minus_' + NameTable + cnt + '" class="td_btn_minus_' + NameTable + '" ><button id="btn_minus_' + NameTable + cnt + '" type="button" class="btn btn-custon-four btn-danger" style="font-weight: bold;font-size: 22PX;width: 34px;padding: unset;"><i class="fa fa-minus-circle" ></i></button></td>' +
         '<td id="td_StatusFlag_' + NameTable + '' + cnt + '" style="display:none !important;" ><input  disabled="disabled" id="StatusFlag_' + NameTable + '_' + cnt + '" value="" type="hidden" class="form-control " placeholder="flag" /></td>' +
-        '<td id="td_Ser_' + NameTable + '' + cnt + '" style="display:none !important;" ><input  disabled="disabled" id="Ser_' + NameTable + '_' + cnt + '" value="' + cnt + '" type="hidden" class="form-control " placeholder="flag" /></td>';
+        '<td id="td_Ser_' + NameTable + '' + cnt + '" style="display:none !important;" ><input  disabled="disabled" id="Ser_' + NameTable + '_' + cnt + '" value="' + cnt + '" type="hidden" class="form-control " placeholder="flag" /></td>' +
+        '<td id="Ser_' + NameTable + '' + cnt + '" style="display:none !important;" >' + cnt + '</td>';
+        //'<td id="up_' + NameTable + '' + cnt + '"   > <a class="up" href="#">⇑</a></td>'+
+        //'<td id="down_' + NameTable + '' + cnt + '"   ><a class="down" href="#">⇓</a></td>';
     '</tr>';
     $('#tbody_' + NameTable + '').append(tbody);
 
 
 
+    //$('.up,.down').click(function () {
+    //    var row = $(this).parents('tr:first');
+    //    if ($(this).is('.up')) { 
+    //        row.prev().prev().before(row)
+    //    } else {
+    //        row.next().next().after(row)
+    //    }
+    //});
+
+
+    //var $tbody = $('#tbody_' + NameTable + '');
+    //var selected = null;
+    //$tbody.children().on("click", function () {
+    //    if (selected == null)
+    //        selected = this;
+    //    else {
+    //        $(selected).insertAfter(this);
+    //        selected = null;
+    //    }
+    //});
+
+
     if (Grid.ESG.DeleteRow == false) {
         let btn_minus = $('#td_btn_minus_' + NameTable + cnt);
         btn_minus.attr('style', 'display:none !important;');
+    };
+
+    if (Grid.ESG.CopyRow == false) {
+
+        let btn_Copy = $('#td_btn_Copy_' + NameTable + cnt);
+        btn_Copy.attr('style', 'display:none !important;');
     };
 
 
@@ -506,11 +575,15 @@ function BuildGridControl(flagDisplay: boolean, Grid: ESGrid) {
         DeleteRow('No_Row_' + NameTable + cnt, cnt, NameTable);
     });
 
+    $('#btn_Copy_' + NameTable + cnt).click(function (e) {
+        CopyRow(Grid, cnt);
+    });
+
 
     for (let u = 0; u < Grid.Column.length; u++) {
 
 
-        
+
         let td = '';
         let classEdit = '';
 
@@ -543,7 +616,7 @@ function BuildGridControl(flagDisplay: boolean, Grid: ESGrid) {
         if (Grid.Column[u].ColumnType.NameType == 'checkbox') {
             td = '<td id="td_' + NameTable + '_' + Grid.Column[u].Name + cnt + '" ><input  disabled="disabled" id="' + NameTable + '_' + Grid.Column[u].Name + cnt + '" value="' + Grid.Column[u].value + '" type="checkbox" class="form-control ' + classEdit + '" placeholder="' + Grid.Column[u].value + '" /></td>';
             $('#No_Row_' + NameTable + cnt + '').append(td);
-        } 
+        }
 
 
 
@@ -559,7 +632,7 @@ function BuildGridControl(flagDisplay: boolean, Grid: ESGrid) {
 
         });
 
-     
+
         $('#' + NameTable + '_' + Grid.Column[u].Name + cnt + '').click(function () {
 
             if ($("#StatusFlag_" + NameTable + '_' + cnt).val() != "i")
@@ -596,7 +669,7 @@ function BuildGridControl(flagDisplay: boolean, Grid: ESGrid) {
             };
 
             if (Grid.Column[u].visible == false) {
-                Grid.Column[u].style = ' display:none;'; 
+                Grid.Column[u].style = ' display:none;';
             };
 
             let title = $('.' + NameTable + '_' + u + '');
@@ -605,6 +678,8 @@ function BuildGridControl(flagDisplay: boolean, Grid: ESGrid) {
             let DeleteRow = $('.' + NameTable + '_Delete');
             DeleteRow.attr('style', 'width: 3% !important;');
 
+            let copyRow = $('.' + NameTable + '_Copy');
+            copyRow.attr('style', 'width: 3% !important;');
 
         }
 
@@ -617,6 +692,11 @@ function BuildGridControl(flagDisplay: boolean, Grid: ESGrid) {
         };
 
 
+        if (Grid.ESG.DeleteRow == false) {
+            let title = $('.' + NameTable + '_Copy');
+            title.attr('style', 'display:none !important;');
+
+        };
 
 
         if (Grid.Column[u].visible == false) {
@@ -636,7 +716,7 @@ function BuildGridControl(flagDisplay: boolean, Grid: ESGrid) {
 
 
 
-     
+
     $('#No_Row_' + NameTable + cnt + '').dblclick(function () {
 
         Grid.ESG.SelectedKey = $('#' + NameTable + '_' + Grid.ESG.PrimaryKey + cnt + '').val();
@@ -670,8 +750,8 @@ function DeleteRow(ID: string, cnt: number, NameTable: string) {
 }
 
 function CleanGridControl(List: Array<any>, Grid: ESGrid) {
-    
-    let NameTable = Grid.ESG.NameTable; 
+
+    let NameTable = Grid.ESG.NameTable;
     $('#table_' + NameTable).html('');
 
     $('#btnEdit_' + NameTable).attr('style', '');
@@ -686,12 +766,12 @@ function CleanGridControl(List: Array<any>, Grid: ESGrid) {
     DisplayDataGridControl(List, Grid)
 
 
-    $('[data-toggle="table"]').bootstrapTable(); 
+    $('[data-toggle="table"]').bootstrapTable();
 }
 
 function AssignGridControl(Grid: ESGrid, Newobject: object) {
 
-    
+
 
     var obj = Grid.ESG.object;
     let NameTable = Grid.ESG.NameTable;
@@ -701,10 +781,11 @@ function AssignGridControl(Grid: ESGrid, Newobject: object) {
     var DetailsModel = new Array<any>();
 
 
+        debugger
     let Model = JSON.parse(JSON.stringify(obj));
 
     for (var i = 0; i < LastCountGrid; i++) {
-        
+        debugger
         let cnt = i;
         let StatusFlag = $("#StatusFlag_" + NameTable + '_' + cnt).val();
 
@@ -734,7 +815,7 @@ function AssignGridControl(Grid: ESGrid, Newobject: object) {
 
     }
 
-    
+    debugger
     Grid.ESG.Model = DetailsModel;
     Grid.ESG.OnfunctionSave();
 
@@ -742,40 +823,40 @@ function AssignGridControl(Grid: ESGrid, Newobject: object) {
 
 }
 
- 
+
 
 function ComputeTotalGridControl(Grid: ESGrid, Newobject: object) {
-    
+
     var obj = Grid.ESG.object;
     let NameTable = Grid.ESG.NameTable;
     let LastCountGrid = Grid.ESG.LastCounter;
 
 
     let _obj = JSON.parse(JSON.stringify(obj));
-    
-    var _keys = Object.keys(_obj).filter(this_fruit => _obj[this_fruit] !== "");
+
+    var _keys = Object.keys(_obj).filter(this_fruit => _obj[this_fruit] !== "" && _obj[this_fruit] !== true && _obj[this_fruit] !== false);
     var Model = {};
     _keys.forEach(key => Model[key] = _obj[key]);
-  
+
 
     Model["Ser"] = 0;
 
     for (var i = 0; i < LastCountGrid; i++) {
-        
+
         let cnt = i;
         let StatusFlag = $("#StatusFlag_" + NameTable + '_' + cnt).val();
-         
+
         if (StatusFlag != "d" && StatusFlag != "m") {
 
             GActions.ComputeTotalToModel(Model, NameTable, cnt, StatusFlag)
-   
+
 
         }
 
         Model["Ser"] += 1;
     }
 
-    
+
     Grid.ESG.TotalModel = Model;
     Grid.ESG.OnfunctionTotal();
 
@@ -783,12 +864,9 @@ function ComputeTotalGridControl(Grid: ESGrid, Newobject: object) {
 
 }
 
-
-
-
 function EditGridControl(Grid: ESGrid) {
 
-    
+
     let NameTable = Grid.ESG.NameTable;
 
     $('.Edit_' + NameTable).removeAttr('disabled');
@@ -805,6 +883,14 @@ function EditGridControl(Grid: ESGrid) {
         let nam = NameTable + '_Delete';
         let title = $('.' + nam + '');
         title.attr('style', ' ');
+
+
+        let btn_Copy = $('.td_btn_Copy_' + NameTable + '');
+        btn_Copy.attr('style', ' ');
+
+        let name = NameTable + '_Copy';
+        let titlee = $('.' + name + '');
+        titlee.attr('style', ' ');
     };
 
 
@@ -818,14 +904,125 @@ function EditGridControl(Grid: ESGrid) {
     Resizable();
 }
 
- 
+
+
+function CopyRow(Grid: ESGrid, index: number) {
+     
+    var obj = Grid.ESG.object;
+    let NameTable = Grid.ESG.NameTable;
+    let LastCountGrid = Grid.ESG.LastCounter;
+      
+    let RowCopy = 0;
+   
+    for (var i = 0; i < LastCountGrid; i++) {
+        debugger
+        var CopyModel = JSON.parse(JSON.stringify(obj));
+
+        let cnt = i;
+        let StatusFlag = $("#StatusFlag_" + NameTable + '_' + cnt).val();
+         
+        if (cnt == index) {
+
+            GActions.AssignToModel(CopyModel, NameTable, cnt, StatusFlag)
+             
+            CopyModel.Ser = LastCountGrid;
+            CopyModel.StatusFlag = 'i';
+
+            BuildGridControl(false, Grid);
+            BuildCopy(Grid, CopyModel, LastCountGrid)
+
+            RowCopy = LastCountGrid;
+              
+            $("#StatusFlag_" + NameTable + '_' + cnt).val('i');
+  
+            Grid.ESG.LastCounter++; 
+            break;
+             
+        }
+         
+    }
+     
+    $('#No_Row_' + NameTable + index + '').after($('#No_Row_' + NameTable + RowCopy + ''));
+     
+}
+
+
+
+function BuildCopy(Grid: ESGrid, List: any, cnt: number) {
+    debugger
+    let NameTable = Grid.ESG.NameTable;
+
+    let properties = Object.getOwnPropertyNames(List);
+    for (var property of properties) {
+        let element = document.getElementById('' + NameTable + '_' + property + cnt) as HTMLInputElement;
+
+        if (element != null) {
+            if (element.type == "checkbox")
+                if (List[property] == 1 || List[property] == true) {
+
+                    element.checked = true
+                }
+                else {
+                    element.checked = false
+                }
+            else
+                element.value = List[property];
+        }
+    }
+
+
+    //for (let u = 0; u < List.length; u++) {
+    //    debugger
+
+    //    try {
+
+
+          
+
+
+    //        //var values: Array<any> = Object["values"](List);
+
+    //        //if (Grid.Column[u].ColumnType.NameType == 'Input') {
+
+    //        //    $('#' + NameTable + '_' + Grid.Column[u].Name + cnt + '').val(values[u]);
+    //        //}
+
+    //        //if (Grid.Column[u].ColumnType.NameType == 'Dropdown') {
+    //        //    $('#' + NameTable + '_' + Grid.Column[u].Name + cnt + '').val(values[u]);
+    //        //}
+
+    //        //if (Grid.Column[u].ColumnType.NameType == 'Button') {
+    //        //    $('#' + NameTable + '_' + Grid.Column[u].Name + cnt + '').val(values[u]);
+    //        //}
+
+    //        //if (Grid.Column[u].ColumnType.NameType == 'checkbox') {
+    //        //    if (values[u] == 1 || values[u] == true) {
+
+    //        //        $('#' + NameTable + '_' + Grid.Column[u].Name + cnt + '').prop('checked', true)
+    //        //    }
+    //        //    else {
+
+    //        //        $('#' + NameTable + '_' + Grid.Column[u].Name + cnt + '').prop('checked', false)
+    //        //        $('#' + NameTable + '_' + Grid.Column[u].Name + cnt + '').prop('checked', true)
+    //        //    }
+    //        //}
+
+    //    } catch (e) {
+
+    //    }
+
+
+    //}
+
+}
+
 var GActions = {
 
 
 
 
     AssignToModel: <T>(Model: T, NameTable: string, cnt: number, StatusFlag: string): T => {
-        
+
         let properties = Object.getOwnPropertyNames(Model);
         for (var property of properties) {
             let element = document.getElementById('' + NameTable + '_' + property + cnt) as HTMLInputElement;
@@ -845,7 +1042,7 @@ var GActions = {
 
 
     ComputeTotalToModel: <T>(Model: T, NameTable: string, cnt: number, StatusFlag: string): T => {
-        
+
         let properties = Object.getOwnPropertyNames(Model);
         for (var property of properties) {
             let element = document.getElementById('' + NameTable + '_' + property + cnt) as HTMLInputElement;
@@ -855,7 +1052,7 @@ var GActions = {
                     try {
 
                         Model[property] += Number(element.value);
-                         
+
                     } catch (e) {
 
                     }
@@ -866,17 +1063,45 @@ var GActions = {
         return Model;
     },
 
-     
+
 };
 
- 
+function pageSize() {
+
+    $('#table_Grad1').bootstrapTable({
+        cache: false,
+        height: 400,
+        striped: true,
+        pagination: true,
+        pageSize: 5, //specify 5 here
+        pageList: [5, 10, 25, 50, 100, 200]//list can be specified here
+    });
+
+}
+
 function Resizable() {  //تنظيم الجريد
-     
+
+
+
+
+    //$('#table_Grad1').DataTable({
+    //    dom: 'Bfrtip',
+    //    lengthMenu: [
+    //        [10, 25, 50, -1],
+    //        ['10 rows', '25 rows', '50 rows', 'Show all']
+    //    ],
+    //    buttons: [
+    //        'pageLength'
+    //    ]
+    //});
+
+    //return
+
 
     'use strict';
 
     var initResizable = function (that) {
-        
+
         //Deletes the plugin to re-create it
         that.$el.colResizable({ disable: true });
 
@@ -901,6 +1126,7 @@ function Resizable() {  //تنظيم الجريد
         minWidth: 15,
         hoverCursor: 'e-resize',
         dragCursor: 'e-resize',
+        PageSize: 3,
         onResizableResize: function (e) {
             return false;
         },

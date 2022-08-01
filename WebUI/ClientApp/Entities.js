@@ -1143,6 +1143,7 @@ var I_D_UOM = /** @class */ (function () {
         this.UpdatedAt = "";
         this.UpdatedBy = "";
         this.StatusFlag = "";
+        this.Cheack = false;
     }
     return I_D_UOM;
 }());

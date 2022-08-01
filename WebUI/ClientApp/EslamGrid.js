@@ -39,6 +39,7 @@ var ESG = /** @class */ (function () {
         this.Save = false;
         this.Back = false;
         this.DeleteRow = false;
+        this.CopyRow = false;
         this.Add = false;
         this.Edit = false;
         this.SelectedKey;
@@ -80,9 +81,19 @@ var ControlEvents = /** @class */ (function () {
 }());
 var ControlType;
 (function (ControlType) {
+    String.prototype.Val_Get = function (Grid) {
+        var NameFild = this;
+        var value = $('#' + Grid.ESG.NameTable + '_' + NameFild + Grid.ESG.RowCnt + '').val();
+        return (value);
+    };
     String.prototype.Val_Set = function (value, Grid) {
         var NameFild = this;
-        $('#' + Grid.ESG.NameTable + '_' + NameFild + Grid.ESG.RowCnt + '').val(value);
+        if (value == true || value == false) {
+            $('#' + Grid.ESG.NameTable + '_' + NameFild + Grid.ESG.RowCnt + '').prop("checked", value);
+        }
+        else {
+            $('#' + Grid.ESG.NameTable + '_' + NameFild + Grid.ESG.RowCnt + '').val(value);
+        }
         return (value);
     };
     String.prototype.Val_Num = function (Grid) {
@@ -90,9 +101,10 @@ var ControlType;
         var value = $('#' + Grid.ESG.NameTable + '_' + NameFild + Grid.ESG.RowCnt + '').val();
         return (Number(value));
     };
-    String.prototype.Val_Str = function (Grid) {
+    String.prototype.Val_Cheak = function (Grid) {
+        debugger;
         var NameFild = this;
-        var value = $('#' + Grid.ESG.NameTable + '_' + NameFild + Grid.ESG.RowCnt + '').val();
+        var value = $('#' + Grid.ESG.NameTable + '_' + NameFild + Grid.ESG.RowCnt + '').is(":checked");
         return (value);
     };
     var ControlEvent = new ControlEvents();
@@ -163,10 +175,11 @@ function BindGridControl(Grid) {
             '<br />' +
             '<div class="sparkline8-graph">' +
             '<div class="datatable-dashv1-list custom-datatable-overright">' +
-            '<table id="table_' + NameTable + '" data-toggle="table" data-pagination="true" data-resizable="true" data-cookie="true" data-cookie-id-table="saveId" data-show-export="false" data-click-to-select="true" data-toolbar="#toolbar">' +
+            '<table id="table_' + NameTable + '" data-toggle="table"   data-page-number="2" data-page-size="5"   data-pagination="true" data-resizable="true" data-cookie="true" data-cookie-id-table="saveId" data-show-export="false" data-click-to-select="true" data-toolbar="#toolbar">' +
             '<thead id="thead_' + NameTable + '">' +
             '<tr id="tr_' + NameTable + '">' +
             '<th class="' + NameTable + '_Delete" data-field=""></th>' +
+            '<th class="' + NameTable + '_Copy" data-field=""></th>' +
             '</tr>' +
             '</thead>' +
             '<tbody id="tbody_' + NameTable + '">' +
@@ -206,7 +219,8 @@ function BindGridControl(Grid) {
     //------------------------------------------------------------تنظيم الجريد
     Resizable();
     //----------------------------------------------------------------------------------
-    $('.' + NameTable + '_Delete').attr('style', 'width: 3% !important;');
+    $('.' + NameTable + '_Delete').attr('style', 'width: 4% !important;');
+    $('.' + NameTable + '_Copy').attr('style', 'width: 4% !important;');
     //---------------------------------------------------------------------------------اضافة هيكل body 
     for (var u = 0; u < Grid.Column.length; u++) {
         //--------------------------------------------اضافة style -----------------------------------
@@ -222,6 +236,8 @@ function BindGridControl(Grid) {
         title.attr('style', '' + Grid.Column[u].style + '  !important;');
         var _Delete = $('.' + NameTable + '_Delete');
         _Delete.attr('style', 'display:none !important;');
+        var _Copy = $('.' + NameTable + '_Copy');
+        _Copy.attr('style', 'display:none !important;');
         $('#btnClean_' + NameTable).attr('style', 'display:none !important;');
         $('#btnAdd_' + NameTable).attr('style', 'display:none !important;');
         $('#btnsave_' + NameTable).attr('style', 'display:none !important;');
@@ -229,6 +245,11 @@ function BindGridControl(Grid) {
         if (Grid.ESG.DeleteRow == false) {
             var _Delete_1 = $('.' + NameTable + '_Delete');
             _Delete_1.addClass('display_hidden');
+        }
+        ;
+        if (Grid.ESG.CopyRow == false) {
+            var _Copy_1 = $('.' + NameTable + '_Copy');
+            _Copy_1.addClass('display_hidden');
         }
         ;
         if (Grid.ESG.Back == false) {
@@ -262,6 +283,9 @@ function DisplayDataGridControl(List, Grid) {
         }
     }
     flagBack = false;
+    //let x =`   <link href="https://unpkg.com/bootstrap-table@1.20.2/dist/bootstrap-table.min.css" rel="stylesheet">
+    //<script src="https://unpkg.com/bootstrap-table@1.20.2/dist/bootstrap-table.min.js"></script>`
+    //$('#main-menu').append(x);
 }
 function DisplayData(List, Grid) {
     var NameTable = Grid.ESG.NameTable;
@@ -270,6 +294,10 @@ function DisplayData(List, Grid) {
     _Delete.attr('style', 'display:none !important;');
     var btn_minus = $('#td_btn_minus_' + NameTable + cnt);
     btn_minus.attr('style', 'display:none !important;');
+    var _Copy = $('.' + NameTable + '_Copy');
+    _Copy.attr('style', 'display:none !important;');
+    var btn_Copy = $('#td_btn_Copy_' + NameTable + cnt);
+    btn_Copy.attr('style', 'display:none !important;');
     for (var u = 0; u < Grid.Column.length; u++) {
         try {
             var values = Object["values"](List);
@@ -288,7 +316,6 @@ function DisplayData(List, Grid) {
                 }
                 else {
                     $('#' + NameTable + '_' + Grid.Column[u].Name + cnt + '').prop('checked', false);
-                    $('#' + NameTable + '_' + Grid.Column[u].Name + cnt + '').prop('checked', true);
                 }
             }
         }
@@ -304,18 +331,48 @@ function BuildGridControl(flagDisplay, Grid) {
     }
     var classDisplay = flagDisplay == false ? "" : "animated zoomIn";
     var tbody = '<tr id= "No_Row_' + NameTable + cnt + '" class="' + classDisplay + '">' +
-        '<td id="td_btn_minus_' + NameTable + cnt + '" class="td_btn_minus_' + NameTable + '" ><button id="btn_minus_' + NameTable + cnt + '" type="button" class="btn btn-custon-four btn-danger"><i class="fa fa-minus-circle"></i></button></td>' +
+        '<td id="td_btn_Copy_' + NameTable + cnt + '" class="td_btn_Copy_' + NameTable + '" ><button id="btn_Copy_' + NameTable + cnt + '" type="button" class="btn btn-custon-four btn-danger" style="background-color: cornflowerblue;font-weight: bold;font-size: 22PX;width: 34px;padding: unset;"><i class="fa fa-copy"></i></button></td>' +
+        '<td id="td_btn_minus_' + NameTable + cnt + '" class="td_btn_minus_' + NameTable + '" ><button id="btn_minus_' + NameTable + cnt + '" type="button" class="btn btn-custon-four btn-danger" style="font-weight: bold;font-size: 22PX;width: 34px;padding: unset;"><i class="fa fa-minus-circle" ></i></button></td>' +
         '<td id="td_StatusFlag_' + NameTable + '' + cnt + '" style="display:none !important;" ><input  disabled="disabled" id="StatusFlag_' + NameTable + '_' + cnt + '" value="" type="hidden" class="form-control " placeholder="flag" /></td>' +
-        '<td id="td_Ser_' + NameTable + '' + cnt + '" style="display:none !important;" ><input  disabled="disabled" id="Ser_' + NameTable + '_' + cnt + '" value="' + cnt + '" type="hidden" class="form-control " placeholder="flag" /></td>';
+        '<td id="td_Ser_' + NameTable + '' + cnt + '" style="display:none !important;" ><input  disabled="disabled" id="Ser_' + NameTable + '_' + cnt + '" value="' + cnt + '" type="hidden" class="form-control " placeholder="flag" /></td>' +
+        '<td id="Ser_' + NameTable + '' + cnt + '" style="display:none !important;" >' + cnt + '</td>';
+    //'<td id="up_' + NameTable + '' + cnt + '"   > <a class="up" href="#">⇑</a></td>'+
+    //'<td id="down_' + NameTable + '' + cnt + '"   ><a class="down" href="#">⇓</a></td>';
     '</tr>';
     $('#tbody_' + NameTable + '').append(tbody);
+    //$('.up,.down').click(function () {
+    //    var row = $(this).parents('tr:first');
+    //    if ($(this).is('.up')) { 
+    //        row.prev().prev().before(row)
+    //    } else {
+    //        row.next().next().after(row)
+    //    }
+    //});
+    //var $tbody = $('#tbody_' + NameTable + '');
+    //var selected = null;
+    //$tbody.children().on("click", function () {
+    //    if (selected == null)
+    //        selected = this;
+    //    else {
+    //        $(selected).insertAfter(this);
+    //        selected = null;
+    //    }
+    //});
     if (Grid.ESG.DeleteRow == false) {
         var btn_minus = $('#td_btn_minus_' + NameTable + cnt);
         btn_minus.attr('style', 'display:none !important;');
     }
     ;
+    if (Grid.ESG.CopyRow == false) {
+        var btn_Copy = $('#td_btn_Copy_' + NameTable + cnt);
+        btn_Copy.attr('style', 'display:none !important;');
+    }
+    ;
     $('#btn_minus_' + NameTable + cnt).click(function (e) {
         DeleteRow('No_Row_' + NameTable + cnt, cnt, NameTable);
+    });
+    $('#btn_Copy_' + NameTable + cnt).click(function (e) {
+        CopyRow(Grid, cnt);
     });
     var _loop_1 = function (u) {
         var td = '';
@@ -375,9 +432,16 @@ function BuildGridControl(flagDisplay, Grid) {
             title.attr('style', '' + Grid.Column[u].style + '  !important;');
             var DeleteRow_1 = $('.' + NameTable + '_Delete');
             DeleteRow_1.attr('style', 'width: 3% !important;');
+            var copyRow = $('.' + NameTable + '_Copy');
+            copyRow.attr('style', 'width: 3% !important;');
         }
         if (Grid.ESG.DeleteRow == false) {
             var title = $('.' + NameTable + '_Delete');
+            title.attr('style', 'display:none !important;');
+        }
+        ;
+        if (Grid.ESG.DeleteRow == false) {
+            var title = $('.' + NameTable + '_Copy');
             title.attr('style', 'display:none !important;');
         }
         ;
@@ -424,8 +488,10 @@ function AssignGridControl(Grid, Newobject) {
     var NameTable = Grid.ESG.NameTable;
     var LastCountGrid = Grid.ESG.LastCounter;
     var DetailsModel = new Array();
+    debugger;
     var Model = JSON.parse(JSON.stringify(obj));
     for (var i = 0; i < LastCountGrid; i++) {
+        debugger;
         var cnt = i;
         var StatusFlag = $("#StatusFlag_" + NameTable + '_' + cnt).val();
         Model = JSON.parse(JSON.stringify(obj));
@@ -445,6 +511,7 @@ function AssignGridControl(Grid, Newobject) {
             DetailsModel.push(Model);
         }
     }
+    debugger;
     Grid.ESG.Model = DetailsModel;
     Grid.ESG.OnfunctionSave();
     return DetailsModel;
@@ -454,7 +521,7 @@ function ComputeTotalGridControl(Grid, Newobject) {
     var NameTable = Grid.ESG.NameTable;
     var LastCountGrid = Grid.ESG.LastCounter;
     var _obj = JSON.parse(JSON.stringify(obj));
-    var _keys = Object.keys(_obj).filter(function (this_fruit) { return _obj[this_fruit] !== ""; });
+    var _keys = Object.keys(_obj).filter(function (this_fruit) { return _obj[this_fruit] !== "" && _obj[this_fruit] !== true && _obj[this_fruit] !== false; });
     var Model = {};
     _keys.forEach(function (key) { return Model[key] = _obj[key]; });
     Model["Ser"] = 0;
@@ -480,6 +547,11 @@ function EditGridControl(Grid) {
         var nam = NameTable + '_Delete';
         var title = $('.' + nam + '');
         title.attr('style', ' ');
+        var btn_Copy = $('.td_btn_Copy_' + NameTable + '');
+        btn_Copy.attr('style', ' ');
+        var name_1 = NameTable + '_Copy';
+        var titlee = $('.' + name_1 + '');
+        titlee.attr('style', ' ');
     }
     ;
     $('#btnClean_' + NameTable).attr('style', '');
@@ -487,11 +559,80 @@ function EditGridControl(Grid) {
     $('#btnEdit_' + NameTable).attr('style', 'display:none !important;');
     Resizable();
 }
+function CopyRow(Grid, index) {
+    var obj = Grid.ESG.object;
+    var NameTable = Grid.ESG.NameTable;
+    var LastCountGrid = Grid.ESG.LastCounter;
+    var RowCopy = 0;
+    for (var i = 0; i < LastCountGrid; i++) {
+        debugger;
+        var CopyModel = JSON.parse(JSON.stringify(obj));
+        var cnt = i;
+        var StatusFlag = $("#StatusFlag_" + NameTable + '_' + cnt).val();
+        if (cnt == index) {
+            GActions.AssignToModel(CopyModel, NameTable, cnt, StatusFlag);
+            CopyModel.Ser = LastCountGrid;
+            CopyModel.StatusFlag = 'i';
+            BuildGridControl(false, Grid);
+            BuildCopy(Grid, CopyModel, LastCountGrid);
+            RowCopy = LastCountGrid;
+            $("#StatusFlag_" + NameTable + '_' + cnt).val('i');
+            Grid.ESG.LastCounter++;
+            break;
+        }
+    }
+    $('#No_Row_' + NameTable + index + '').after($('#No_Row_' + NameTable + RowCopy + ''));
+}
+function BuildCopy(Grid, List, cnt) {
+    debugger;
+    var NameTable = Grid.ESG.NameTable;
+    var properties = Object.getOwnPropertyNames(List);
+    for (var _i = 0, properties_1 = properties; _i < properties_1.length; _i++) {
+        var property = properties_1[_i];
+        var element = document.getElementById('' + NameTable + '_' + property + cnt);
+        if (element != null) {
+            if (element.type == "checkbox")
+                if (List[property] == 1 || List[property] == true) {
+                    element.checked = true;
+                }
+                else {
+                    element.checked = false;
+                }
+            else
+                element.value = List[property];
+        }
+    }
+    //for (let u = 0; u < List.length; u++) {
+    //    debugger
+    //    try {
+    //        //var values: Array<any> = Object["values"](List);
+    //        //if (Grid.Column[u].ColumnType.NameType == 'Input') {
+    //        //    $('#' + NameTable + '_' + Grid.Column[u].Name + cnt + '').val(values[u]);
+    //        //}
+    //        //if (Grid.Column[u].ColumnType.NameType == 'Dropdown') {
+    //        //    $('#' + NameTable + '_' + Grid.Column[u].Name + cnt + '').val(values[u]);
+    //        //}
+    //        //if (Grid.Column[u].ColumnType.NameType == 'Button') {
+    //        //    $('#' + NameTable + '_' + Grid.Column[u].Name + cnt + '').val(values[u]);
+    //        //}
+    //        //if (Grid.Column[u].ColumnType.NameType == 'checkbox') {
+    //        //    if (values[u] == 1 || values[u] == true) {
+    //        //        $('#' + NameTable + '_' + Grid.Column[u].Name + cnt + '').prop('checked', true)
+    //        //    }
+    //        //    else {
+    //        //        $('#' + NameTable + '_' + Grid.Column[u].Name + cnt + '').prop('checked', false)
+    //        //        $('#' + NameTable + '_' + Grid.Column[u].Name + cnt + '').prop('checked', true)
+    //        //    }
+    //        //}
+    //    } catch (e) {
+    //    }
+    //}
+}
 var GActions = {
     AssignToModel: function (Model, NameTable, cnt, StatusFlag) {
         var properties = Object.getOwnPropertyNames(Model);
-        for (var _i = 0, properties_1 = properties; _i < properties_1.length; _i++) {
-            var property = properties_1[_i];
+        for (var _i = 0, properties_2 = properties; _i < properties_2.length; _i++) {
+            var property = properties_2[_i];
             var element = document.getElementById('' + NameTable + '_' + property + cnt);
             if (element != null) {
                 if (element.type == "checkbox")
@@ -504,8 +645,8 @@ var GActions = {
     },
     ComputeTotalToModel: function (Model, NameTable, cnt, StatusFlag) {
         var properties = Object.getOwnPropertyNames(Model);
-        for (var _i = 0, properties_2 = properties; _i < properties_2.length; _i++) {
-            var property = properties_2[_i];
+        for (var _i = 0, properties_3 = properties; _i < properties_3.length; _i++) {
+            var property = properties_3[_i];
             var element = document.getElementById('' + NameTable + '_' + property + cnt);
             if (element != null) {
                 if (element.type != "checkbox")
@@ -519,7 +660,28 @@ var GActions = {
         return Model;
     },
 };
+function pageSize() {
+    $('#table_Grad1').bootstrapTable({
+        cache: false,
+        height: 400,
+        striped: true,
+        pagination: true,
+        pageSize: 5,
+        pageList: [5, 10, 25, 50, 100, 200] //list can be specified here
+    });
+}
 function Resizable() {
+    //$('#table_Grad1').DataTable({
+    //    dom: 'Bfrtip',
+    //    lengthMenu: [
+    //        [10, 25, 50, -1],
+    //        ['10 rows', '25 rows', '50 rows', 'Show all']
+    //    ],
+    //    buttons: [
+    //        'pageLength'
+    //    ]
+    //});
+    //return
     'use strict';
     var initResizable = function (that) {
         //Deletes the plugin to re-create it
@@ -544,6 +706,7 @@ function Resizable() {
         minWidth: 15,
         hoverCursor: 'e-resize',
         dragCursor: 'e-resize',
+        PageSize: 3,
         onResizableResize: function (e) {
             return false;
         },

@@ -33,6 +33,7 @@ var TestGrad;
         Grid.ESG.Edit = true;
         Grid.ESG.Add = true;
         Grid.ESG.DeleteRow = true;
+        Grid.ESG.CopyRow = true;
         Grid.ESG.Back = true;
         Grid.ESG.Save = true;
         Grid.ESG.OnfunctionSave = SaveNew;
@@ -43,11 +44,12 @@ var TestGrad;
             { title: "ID", Name: "UomID", value: "0", Type: "text", style: "width: 10%", Edit: false, visible: false, ColumnType: ControlType.Input(function () { }, function () { }, function () { console.log(_this); }) },
             { title: "الرقم", Name: "UomCode", value: "0", Type: "text", style: "width: 30%", Edit: true, visible: true, ColumnType: ControlType.Dropdown(I_D_UOMDetails, 'DescA', function () { }, function () { }, function () { console.log(_this); }) },
             { title: "الاسم", Name: "DescA", value: "0", Type: "text", style: "width: 10%", Edit: true, visible: true, ColumnType: ControlType.Input(function () { }, function () { }, function () { }) },
-            { title: "العمر", Name: "DescA", value: "1", Type: "text", style: "width: 10%", Edit: true, visible: true, ColumnType: ControlType.Input(function () { }, function () { }, function () { console.log(_this); }) },
+            { title: "العمر", Name: "DescE", value: "1", Type: "text", style: "width: 10%", Edit: true, visible: true, ColumnType: ControlType.Input(function () { }, function () { }, function () { console.log(_this); }) },
             { title: "رقم التيلفون", Name: "CompCode", value: "0", Type: "text", style: "width: 10%", Edit: true, visible: true, ColumnType: ControlType.Input(function () { }, function () { }, function () { console.log(_this); }) },
             { title: "رقم البطاقه", Name: "Remarks", value: "BUT", Type: "text", style: "width: 10%", Edit: true, visible: true, ColumnType: ControlType.Input(function () { }, function () { }, function () { }) },
-            { title: "النوع", Name: "CreatedAt", value: "0", Type: "text", style: "width: 10%", Edit: true, visible: true, ColumnType: ControlType.Input(function () { }, function () { ('CreatedBy').Val_Set(('CreatedAt').Val_Str(Grid), Grid); }, function () { console.log(_this.propone); }) },
+            { title: "النوع", Name: "CreatedAt", value: "0", Type: "text", style: "width: 10%", Edit: true, visible: true, ColumnType: ControlType.Input(function () { }, function () { ('CreatedBy').Val_Set(('CreatedAt').Val_Get(Grid), Grid); }, function () { console.log(_this.propone); }) },
             { title: "الملاحظات", Name: "CreatedBy", value: "0", Type: "text", style: "width: 10%", Edit: true, visible: true, ColumnType: ControlType.Input(function () { }, function () { }, function () { console.log(_this); }) },
+            { title: "رصيد", Name: "Cheack", value: "0", Type: "text", style: "width: 10%", Edit: true, visible: true, ColumnType: ControlType.checkbox(function () { alert(('Cheack').Val_Cheak(Grid)); }, function () { }, function () { }) },
         ];
         BindGridControl(Grid);
         DisplayDataGridControl(I_D_UOMDetails, Grid);
@@ -55,6 +57,7 @@ var TestGrad;
     function SaveNew() {
         debugger;
         alert(Grid.ESG.Model);
+        console.log(Grid.ESG.Model);
     }
     function computeTotal() {
         console.log(Grid.ESG.TotalModel);

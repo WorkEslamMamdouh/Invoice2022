@@ -39,6 +39,7 @@ namespace TestGrad {
         Grid.ESG.Edit = true;
         Grid.ESG.Add = true;
         Grid.ESG.DeleteRow = true;
+        Grid.ESG.CopyRow = true;
         Grid.ESG.Back = true;
         Grid.ESG.Save = true;
         Grid.ESG.OnfunctionSave = SaveNew;
@@ -49,11 +50,12 @@ namespace TestGrad {
             { title: "ID", Name: "UomID", value: "0", Type: "text", style: "width: 10%", Edit: false, visible: false, ColumnType: ControlType.Input(() => { }, () => { }, () => { console.log(this) }) },
             { title: "الرقم", Name: "UomCode", value: "0", Type: "text", style: "width: 30%", Edit: true, visible: true, ColumnType: ControlType.Dropdown(I_D_UOMDetails, 'DescA', () => { }, () => { }, () => { console.log(this) }) },
             { title: "الاسم", Name: "DescA", value: "0", Type: "text", style: "width: 10%", Edit: true, visible: true, ColumnType: ControlType.Input(() => { }, () => { }, () => {   }) },
-            { title: "العمر", Name: "DescA", value: "1", Type: "text", style: "width: 10%", Edit: true, visible: true, ColumnType: ControlType.Input(() => {  }, () => { }, () => { console.log(this) }) },
+            { title: "العمر", Name: "DescE", value: "1", Type: "text", style: "width: 10%", Edit: true, visible: true, ColumnType: ControlType.Input(() => {  }, () => { }, () => { console.log(this) }) },
             { title: "رقم التيلفون", Name: "CompCode", value: "0", Type: "text", style: "width: 10%", Edit: true, visible: true, ColumnType: ControlType.Input(() => { }, () => { }, () => { console.log(this) }) },
             { title: "رقم البطاقه", Name: "Remarks", value: "BUT", Type: "text", style: "width: 10%", Edit: true, visible: true, ColumnType: ControlType.Input(() => { }, () => { }, () => { }) },
-            { title: "النوع", Name: "CreatedAt", value: "0", Type: "text", style: "width: 10%", Edit: true, visible: true, ColumnType: ControlType.Input(() => { }, () => { ('CreatedBy').Val_Set(('CreatedAt').Val_Str(Grid), Grid) }, () => { console.log(this.propone) }) },
+            { title: "النوع", Name: "CreatedAt", value: "0", Type: "text", style: "width: 10%", Edit: true, visible: true, ColumnType: ControlType.Input(() => { }, () => { ('CreatedBy').Val_Set(('CreatedAt').Val_Get(Grid), Grid) }, () => { console.log(this.propone) }) },
             { title: "الملاحظات", Name: "CreatedBy", value: "0", Type: "text", style: "width: 10%", Edit: true, visible: true, ColumnType: ControlType.Input(() => { }, () => { }, () => { console.log(this) }) },
+            { title: "رصيد", Name: "Cheack", value: "0", Type: "text", style: "width: 10%", Edit: true, visible: true, ColumnType: ControlType.checkbox(() => { alert(('Cheack').Val_Cheak(Grid)) }, () => { }, () => { }) },
         ]
 
         BindGridControl(Grid); 
@@ -61,7 +63,9 @@ namespace TestGrad {
     }
     function SaveNew() {
         debugger
-        alert(Grid.ESG.Model) 
+        alert(Grid.ESG.Model)
+
+        console.log(Grid.ESG.Model)
     }
     function computeTotal() { 
         console.log(Grid.ESG.TotalModel); 
