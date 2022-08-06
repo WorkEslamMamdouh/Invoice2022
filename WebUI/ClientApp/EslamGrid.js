@@ -75,6 +75,7 @@ var Valid_Con = /** @class */ (function () {
         this.valid = false;
         this.conation = new Con;
         this.Con_Value = '';
+        this.Mess = '';
     }
     return Valid_Con;
 }());
@@ -95,11 +96,12 @@ var ControlEvents = /** @class */ (function () {
     return ControlEvents;
 }());
 var Valid = {
-    Set: function (valid, conation, Value) {
+    Set: function (valid, Mess, conation, Value) {
         var Valid_Co = new Valid_Con();
         Valid_Co.valid = valid;
         Valid_Co.conation = conation;
         Valid_Co.Con_Value = Value;
+        Valid_Co.Mess = Mess;
         return Valid_Co;
     },
 };
@@ -174,6 +176,7 @@ var ControlType;
     }
     ControlType.Dropdown = Dropdown;
 })(ControlType || (ControlType = {}));
+var flagNotClick = false;
 var flagBack = false;
 var FlagValid = true;
 var classs = $('<style> .display_hidden {display:none !important; }  .Text_right {text-align: right; }  .Text_left {text-align: left; }  </style>');
@@ -200,8 +203,13 @@ function BindGridControl(Grid) {
         '<button id="btnClean_' + NameTable + '" type="button" class="btn btn-custon-four btn-danger" style="background-color: sandybrown;"><i class="fa fa-refresh"></i>  Back</button>' +
         '</div>' +
         '<br />' +
-        '<div class="btn-group project-list-action">' +
+        '<div class=" btn-group project-list-action">' +
         '<button id="btnAdd_' + NameTable + '" class="btn btn-custon-four btn-success oo"><i class="fa fa-plus"></i></button>' +
+        '</div>' +
+        '<div class=" btn-group project-list-action" style="width: 20%;">' +
+        '</div>' +
+        '<div id="DivMassage_' + NameTable + '"  class=" btn-group project-list-action" style="width: 55%;background-color: brown;color: white;font-weight: bold;text-align: center;border-radius: 50px;">' +
+        '<h3 id="TextMassage_' + NameTable + '">Message</h3> ' +
         '</div>' +
         '<br />' +
         '<table id="table_' + NameTable + '" data-toggle="table"   data-page-number="2" data-page-size="5"   data-pagination="true" data-resizable="true" data-cookie="true" data-cookie-id-table="saveId" data-show-export="false" data-click-to-select="true" data-toolbar="#toolbar">' +
@@ -217,6 +225,7 @@ function BindGridControl(Grid) {
         '</div>' +
         '</div>';
     $("#" + NameTable).append(table);
+    $('#DivMassage_' + NameTable).addClass('display_hidden');
     $('#btnAdd_' + NameTable).click(function (e) {
         BuildGridControl(true, Grid);
         Grid.ESG.LastCounterAdd = Grid.ESG.LastCounter;
@@ -398,9 +407,11 @@ function BuildGridControl(flagDisplay, Grid) {
     }
     ;
     $('#btn_minus_' + NameTable + cnt).click(function (e) {
+        flagNotClick = true;
         DeleteRow('No_Row_' + NameTable + cnt, cnt, NameTable);
     });
     $('#btn_Copy_' + NameTable + cnt).click(function (e) {
+        flagNotClick = true;
         CopyRow(Grid, cnt);
     });
     var _loop_1 = function (u) {
@@ -485,8 +496,11 @@ function BuildGridControl(flagDisplay, Grid) {
         _loop_1(u);
     }
     $('#No_Row_' + NameTable + cnt + '').dblclick(function () {
-        Grid.ESG.SelectedKey = $('#' + NameTable + '_' + Grid.ESG.PrimaryKey + cnt + '').val();
-        Grid.ESG.OnRowDoubleClicked();
+        if (flagNotClick != true) {
+            Grid.ESG.SelectedKey = $('#' + NameTable + '_' + Grid.ESG.PrimaryKey + cnt + '').val();
+            Grid.ESG.OnRowDoubleClicked();
+        }
+        flagNotClick = false;
     });
     if ($('#btnsave_' + NameTable).attr('style').trim() == '') {
         $('.Edit_' + NameTable).removeAttr('disabled');
@@ -494,6 +508,7 @@ function BuildGridControl(flagDisplay, Grid) {
     ;
     debugger;
     $('#No_Row_' + NameTable + (Grid.ESG.LastCounterAdd - 1) + '').before($('#No_Row_' + NameTable + (cnt) + ''));
+    $('#btn_minus_' + NameTable + (cnt) + '').focus();
     Grid.ESG.LastCounter++;
     Grid.ESG.LastCounterAdd++;
 }
@@ -549,6 +564,26 @@ function AssignGridControl(Grid, Newobject) {
     Grid.ESG.OnfunctionSave();
     return DetailsModel;
 }
+function ErrorinputGrid(input, NameTable, Mess) {
+    $('#DivMassage_' + NameTable).removeClass('display_hidden');
+    $('#TextMassage_' + NameTable).html(Mess);
+    if (input.selector != null) {
+        $('' + input.selector + '').addClass('text_Mandatory');
+        $('' + input.selector + '').focus();
+        setTimeout(function () {
+            $('' + input.selector + '').removeClass('text_Mandatory');
+            $('#DivMassage_' + NameTable).addClass('display_hidden');
+        }, 5000);
+    }
+    else {
+        input.classList.add('text_Mandatory');
+        input.focus();
+        setTimeout(function () {
+            input.classList.remove('text_Mandatory');
+            $('#DivMassage_' + NameTable).addClass('display_hidden');
+        }, 5000);
+    }
+}
 function ValidationGrid(Grid, Newobject) {
     var obj = Grid.Column;
     var NameTable = Grid.ESG.NameTable;
@@ -561,12 +596,63 @@ function ValidationGrid(Grid, Newobject) {
             var Model = JSON.parse(JSON.stringify(obj[u]));
             var element = document.getElementById('' + NameTable + '_' + Model.Name + cnt);
             if (element != null) {
-                if (Model.ColumnType.NameType == 'Input' || Model.ColumnType.NameType == 'Dropdown') {
-                    debugger;
-                    var con = Model.Validation.conation;
-                    alert(con[0]);
-                    if (Number(element.value) >= 0 || element.value == 'null') {
-                        Errorinput(element);
+                var con = Model.Validation.conation;
+                var Con_Value = Model.Validation.Con_Value;
+                var Mess = Model.Validation.Mess;
+                if (Model.ColumnType.NameType == 'Input') {
+                    if (con[0] == '>') {
+                        if (Number(element.value) > Number(Con_Value)) {
+                            ErrorinputGrid(element, NameTable, Mess);
+                            FlagValid = false;
+                            break;
+                        }
+                    }
+                    else if (con[0] == '>=') {
+                        if (Number(element.value) >= Number(Con_Value)) {
+                            ErrorinputGrid(element, NameTable, Mess);
+                            FlagValid = false;
+                            break;
+                        }
+                    }
+                    else if (con[0] == '<=') {
+                        if (Number(element.value) <= Number(Con_Value)) {
+                            ErrorinputGrid(element, NameTable, Mess);
+                            FlagValid = false;
+                            break;
+                        }
+                    }
+                    else if (con[0] == '<') {
+                        if (Number(element.value) < Number(Con_Value)) {
+                            ErrorinputGrid(element, NameTable, Mess);
+                            FlagValid = false;
+                            break;
+                        }
+                    }
+                    else if (con[0] == '==') {
+                        if (element.value == Con_Value) {
+                            ErrorinputGrid(element, NameTable, Mess);
+                            FlagValid = false;
+                            break;
+                        }
+                    }
+                    else if (con[0] == '=') {
+                        if (element.value == Con_Value) {
+                            ErrorinputGrid(element, NameTable, Mess);
+                            FlagValid = false;
+                            break;
+                        }
+                    }
+                    else {
+                        if (Number(element.value) >= 0) {
+                            ErrorinputGrid(element, NameTable, Mess);
+                            FlagValid = false;
+                            break;
+                        }
+                    }
+                }
+                if (Model.ColumnType.NameType == 'Dropdown') {
+                    if (element.value == 'null') {
+                        ErrorinputGrid(element, NameTable, 'يبجب ان يكون فيها قيمه');
                         FlagValid = false;
                         break;
                     }
@@ -636,7 +722,7 @@ function CopyRow(Grid, index) {
             GActions.AssignToModel(CopyModel, NameTable, cnt, StatusFlag);
             CopyModel.Ser = LastCountGrid;
             CopyModel.StatusFlag = 'i';
-            BuildGridControl(false, Grid);
+            BuildGridControl(true, Grid);
             BuildCopy(Grid, CopyModel, LastCountGrid);
             RowCopy = LastCountGrid;
             $("#StatusFlag_" + NameTable + '_' + cnt).val('i');

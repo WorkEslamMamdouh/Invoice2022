@@ -118,12 +118,14 @@ class Valid_Con {
     constructor() {
         this.valid = false;
         this.conation = new Con;
-        this.Con_Value = ''; 
-    } 
+        this.Con_Value = '';
+        this.Mess = '';
+    }
     public valid: boolean;
     public conation: Con;
     public Con_Value: string;
-   
+    public Mess: string;
+
 }
 
 class Con {
@@ -131,14 +133,14 @@ class Con {
 
 
 class ControlEvents {
-    constructor() { 
+    constructor() {
         this.NameType = '';
         this.textField = '';
         this.onclick;
         this.onkeyup;
         this.onchange;
-        this.dataSource; 
-    } 
+        this.dataSource;
+    }
     public NameType: string;
     public textField: string;
     public onclick?: () => void;
@@ -159,7 +161,7 @@ interface String {
 
 var Valid = {
 
-    Set: function (valid: boolean, conation?: Con, Value?: string): Valid_Con {
+    Set: function (valid: boolean, Mess?: string , conation?: Con, Value?: string): Valid_Con {
 
         var Valid_Co: Valid_Con = new Valid_Con();
 
@@ -167,13 +169,14 @@ var Valid = {
         Valid_Co.valid = valid
         Valid_Co.conation = conation
         Valid_Co.Con_Value = Value
+        Valid_Co.Mess = Mess
 
         return Valid_Co;
 
     },
 }
 
- 
+
 namespace ControlType {
 
 
@@ -271,6 +274,7 @@ namespace ControlType {
 
 }
 
+var flagNotClick = false;
 var flagBack = false;
 var FlagValid = true;
 
@@ -308,9 +312,16 @@ function BindGridControl(Grid: ESGrid) {
         '<button id="btnClean_' + NameTable + '" type="button" class="btn btn-custon-four btn-danger" style="background-color: sandybrown;"><i class="fa fa-refresh"></i>  Back</button>' +
         '</div>' +
         '<br />' +
-        '<div class="btn-group project-list-action">' +
+        '<div class=" btn-group project-list-action">' +
         '<button id="btnAdd_' + NameTable + '" class="btn btn-custon-four btn-success oo"><i class="fa fa-plus"></i></button>' +
         '</div>' +
+        '<div class=" btn-group project-list-action" style="width: 20%;">' +
+        '</div>' +
+         
+        '<div id="DivMassage_' + NameTable +'"  class=" btn-group project-list-action" style="width: 55%;background-color: brown;color: white;font-weight: bold;text-align: center;border-radius: 50px;">' +
+        '<h3 id="TextMassage_' + NameTable+'">Message</h3> ' +
+        '</div>' + 
+
         '<br />' +
         '<table id="table_' + NameTable + '" data-toggle="table"   data-page-number="2" data-page-size="5"   data-pagination="true" data-resizable="true" data-cookie="true" data-cookie-id-table="saveId" data-show-export="false" data-click-to-select="true" data-toolbar="#toolbar">' +
         '<thead id="thead_' + NameTable + '">' +
@@ -331,7 +342,7 @@ function BindGridControl(Grid: ESGrid) {
 
 
 
-
+    $('#DivMassage_' + NameTable).addClass('display_hidden');
 
 
     $('#btnAdd_' + NameTable).click(function (e) {
@@ -612,10 +623,12 @@ function BuildGridControl(flagDisplay: boolean, Grid: ESGrid) {
 
 
     $('#btn_minus_' + NameTable + cnt).click(function (e) {
+        flagNotClick = true;
         DeleteRow('No_Row_' + NameTable + cnt, cnt, NameTable);
     });
 
     $('#btn_Copy_' + NameTable + cnt).click(function (e) {
+        flagNotClick = true;
         CopyRow(Grid, cnt);
     });
 
@@ -759,8 +772,12 @@ function BuildGridControl(flagDisplay: boolean, Grid: ESGrid) {
 
     $('#No_Row_' + NameTable + cnt + '').dblclick(function () {
 
-        Grid.ESG.SelectedKey = $('#' + NameTable + '_' + Grid.ESG.PrimaryKey + cnt + '').val();
-        Grid.ESG.OnRowDoubleClicked();
+        if (flagNotClick != true) {
+            Grid.ESG.SelectedKey = $('#' + NameTable + '_' + Grid.ESG.PrimaryKey + cnt + '').val();
+            Grid.ESG.OnRowDoubleClicked();
+        }
+
+        flagNotClick = false;
 
     });
 
@@ -773,6 +790,8 @@ function BuildGridControl(flagDisplay: boolean, Grid: ESGrid) {
 
     debugger
     $('#No_Row_' + NameTable + (Grid.ESG.LastCounterAdd - 1) + '').before($('#No_Row_' + NameTable + (cnt) + ''));
+
+    $('#btn_minus_' + NameTable + (cnt) + '').focus();
 
     Grid.ESG.LastCounter++;
     Grid.ESG.LastCounterAdd++;
@@ -868,21 +887,48 @@ function AssignGridControl(Grid: ESGrid, Newobject: object) {
 }
 
 
+function ErrorinputGrid(input: any, NameTable: string, Mess: string) {
+
+    $('#DivMassage_' + NameTable).removeClass('display_hidden');
+    $('#TextMassage_' + NameTable).html(Mess); 
+
+    if (input.selector != null) {
+
+        $('' + input.selector + '').addClass('text_Mandatory');
+        $('' + input.selector + '').focus();
+        setTimeout(function () {
+            $('' + input.selector + '').removeClass('text_Mandatory');
+            $('#DivMassage_' + NameTable).addClass('display_hidden');
+
+        }, 5000);
+    }
+    else {
+        input.classList.add('text_Mandatory');
+        input.focus();
+        setTimeout(function () {
+            input.classList.remove('text_Mandatory');
+            $('#DivMassage_' + NameTable).addClass('display_hidden');
+
+        }, 5000);
+    }
+
+}
+
 function ValidationGrid(Grid: ESGrid, Newobject: object) {
 
-   
+
 
     var obj = Grid.Column;
     let NameTable = Grid.ESG.NameTable;
     let LastCountGrid = Grid.ESG.LastCounter;
 
-      
+
 
     obj = obj.filter(x => x.Validation.valid == true);
 
     FlagValid = true;
 
-    for (var i = 0; i < LastCountGrid; i++) { 
+    for (var i = 0; i < LastCountGrid; i++) {
         let cnt = i;
 
         for (var u = 0; u < obj.length; u++) {
@@ -893,22 +939,88 @@ function ValidationGrid(Grid: ESGrid, Newobject: object) {
             let element = document.getElementById('' + NameTable + '_' + Model.Name + cnt) as HTMLInputElement;
 
             if (element != null) {
-                if (Model.ColumnType.NameType == 'Input' || Model.ColumnType.NameType == 'Dropdown') {
-                    debugger
-                   let con= Model.Validation.conation
 
-                    alert(con[0])
+                let con = Model.Validation.conation
+                let Con_Value = Model.Validation.Con_Value
+                let Mess = Model.Validation.Mess
 
-                    if (Number(element.value) >= 0 || element.value == 'null') {
-                        Errorinput(element);
+                if (Model.ColumnType.NameType == 'Input') {
+
+                  
+
+                    if (con[0] == '>') {
+
+                        if (Number(element.value) > Number(Con_Value)) {
+                            ErrorinputGrid(element, NameTable,Mess);
+                            FlagValid = false;
+                            break
+                        }
+
+                    }
+                    else if (con[0] == '>=') {
+
+                        if (Number(element.value) >= Number(Con_Value)) {
+                            ErrorinputGrid(element, NameTable, Mess);
+                            FlagValid = false;
+                            break
+                        }
+
+                    }
+                    else if (con[0] == '<=') {
+
+                        if (Number(element.value) <= Number(Con_Value)) {
+                            ErrorinputGrid(element, NameTable, Mess);
+                            FlagValid = false;
+                            break
+                        }
+
+                    }
+                    else if (con[0] == '<') {
+
+                        if (Number(element.value) < Number(Con_Value)) {
+                            ErrorinputGrid(element, NameTable, Mess);
+                            FlagValid = false;
+                            break
+                        }
+
+                    }
+                    else if (con[0] == '==') {
+
+                        if (element.value == Con_Value) {
+                            ErrorinputGrid(element, NameTable, Mess);
+                            FlagValid = false;
+                            break
+                        }
+
+                    }
+                    else if (con[0] == '=') {
+
+                        if (element.value == Con_Value) {
+                            ErrorinputGrid(element, NameTable, Mess);
+                            FlagValid = false;
+                            break
+                        }
+                    }
+                    else {
+                        if (Number(element.value) >= 0) {
+                            ErrorinputGrid(element, NameTable, Mess);
+                            FlagValid = false;
+                            break
+                        }
+                    }
+
+                }
+                if (Model.ColumnType.NameType == 'Dropdown') {
+
+                    if (element.value == 'null') {
+                        ErrorinputGrid(element, NameTable, 'يبجب ان يكون فيها قيمه');
                         FlagValid = false;
                         break
                     }
-
-                    
-
                 }
-                 
+
+
+
             }
 
 
@@ -922,7 +1034,7 @@ function ValidationGrid(Grid: ESGrid, Newobject: object) {
 
     }
 
-    
+
 
     return FlagValid;
 
@@ -1031,7 +1143,7 @@ function CopyRow(Grid: ESGrid, index: number) {
             CopyModel.Ser = LastCountGrid;
             CopyModel.StatusFlag = 'i';
 
-            BuildGridControl(false, Grid);
+            BuildGridControl(true, Grid);
             BuildCopy(Grid, CopyModel, LastCountGrid)
 
             RowCopy = LastCountGrid;
