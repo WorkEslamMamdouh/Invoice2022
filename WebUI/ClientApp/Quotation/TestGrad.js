@@ -41,15 +41,15 @@ var TestGrad;
         Grid.ESG.OnRowDoubleClicked = DoubleClicked;
         Grid.ESG.object = new I_D_UOM();
         Grid.Column = [
-            { title: "ID", Name: "UomID", value: "0", Type: "text", style: "width: 10%", Edit: false, visible: false, ColumnType: ControlType.Input(function () { }, function () { }, function () { console.log(_this); }) },
-            { title: "الرقم", Name: "UomCode", value: "0", Type: "text", style: "width: 30%", Edit: true, visible: true, ColumnType: ControlType.Dropdown(I_D_UOMDetails, 'DescA', function () { }, function () { }, function () { console.log(_this); }) },
-            { title: "الاسم", Name: "DescA", value: "0", Type: "text", style: "width: 10%", Edit: true, visible: true, ColumnType: ControlType.Input(function () { }, function () { }, function () { }) },
-            { title: "العمر", Name: "DescE", value: "1", Type: "text", style: "width: 10%", Edit: true, visible: true, ColumnType: ControlType.Input(function () { }, function () { }, function () { console.log(_this); }) },
-            { title: "رقم التيلفون", Name: "CompCode", value: "0", Type: "text", style: "width: 10%", Edit: true, visible: true, ColumnType: ControlType.Input(function () { }, function () { }, function () { console.log(_this); }) },
-            { title: "رقم البطاقه", Name: "Remarks", value: "BUT", Type: "text", style: "width: 10%", Edit: true, visible: true, ColumnType: ControlType.Input(function () { }, function () { }, function () { }) },
-            { title: "النوع", Name: "CreatedAt", value: "0", Type: "text", style: "width: 10%", Edit: true, visible: true, ColumnType: ControlType.Input(function () { }, function () { ('CreatedBy').Val_Set(('CreatedAt').Val_Get(Grid), Grid); }, function () { console.log(_this.propone); }) },
-            { title: "الملاحظات", Name: "CreatedBy", value: "0", Type: "text", style: "width: 10%", Edit: true, visible: true, ColumnType: ControlType.Input(function () { }, function () { }, function () { console.log(_this); }) },
-            { title: "رصيد", Name: "Cheack", value: "0", Type: "text", style: "width: 10%", Edit: true, visible: true, ColumnType: ControlType.checkbox(function () { alert(('Cheack').Val_Cheak(Grid)); }, function () { }, function () { }) },
+            { title: "ID", Name: "UomID", value: "0", Type: "text", style: "width: 10%", Edit: false, visible: false, Validation: Valid.Set(false, null, null), ColumnType: ControlType.Input(function () { }, function () { }, function () { console.log(_this); }) },
+            { title: "الرقم", Name: "UomCode", value: "0", Type: "text", style: "width: 30%", Edit: true, visible: true, Validation: Valid.Set(false, null, null), ColumnType: ControlType.Dropdown(I_D_UOMDetails, 'DescA', function () { }, function () { }, function () { console.log(_this); }) },
+            { title: "الاسم", Name: "DescA", value: "0", Type: "text", style: "width: 10%", Edit: true, visible: true, Validation: Valid.Set(false, null, null), ColumnType: ControlType.Input(function () { }, function () { }, function () { }) },
+            { title: "العمر", Name: "DescE", value: "1", Type: "text", style: "width: 10%", Edit: true, visible: true, Validation: Valid.Set(false, null, null), ColumnType: ControlType.Input(function () { }, function () { }, function () { console.log(_this); }) },
+            { title: "رقم التيلفون", Name: "CompCode", value: "0", Type: "text", style: "width: 10%", Edit: true, visible: true, Validation: Valid.Set(false, null, null), ColumnType: ControlType.Input(function () { }, function () { }, function () { console.log(_this); }) },
+            { title: "رقم البطاقه", Name: "Remarks", value: "BUT", Type: "text", style: "width: 10%", Edit: true, visible: true, Validation: Valid.Set(false, null, null), ColumnType: ControlType.Input(function () { }, function () { }, function () { }) },
+            { title: "النوع", Name: "CreatedAt", value: "0", Type: "text", style: "width: 10%", Edit: true, visible: true, Validation: Valid.Set(false, null, null), ColumnType: ControlType.Input(function () { }, function () { ('CreatedBy').Val_Set(('CreatedAt').Val_Get(Grid), Grid); }, function () { console.log(_this.propone); }) },
+            { title: "الملاحظات", Name: "CreatedBy", value: "0", Type: "text", style: "width: 10%", Edit: true, visible: true, Validation: Valid.Set(true, ['>'], '100'), ColumnType: ControlType.Input(function () { }, function () { }, function () { console.log(_this); }) },
+            { title: "رصيد", Name: "Cheack", value: "0", Type: "text", style: "width: 10%", Edit: true, visible: true, Validation: Valid.Set(false, null, null), ColumnType: ControlType.checkbox(function () { alert(('Cheack').Val_Cheak(Grid)); }, function () { }, function () { }) },
         ];
         BindGridControl(Grid);
         DisplayDataGridControl(I_D_UOMDetails, Grid);

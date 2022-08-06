@@ -97,6 +97,7 @@ class Column {
         this.Type = "";
         this.visible = false;
         this.Edit = false;
+        this.Validation = new Valid_Con;
         this.ColumnType = new ControlEvents;
 
     }
@@ -107,24 +108,37 @@ class Column {
     public Type: string;
     public visible: boolean;
     public Edit: boolean;
+    public Validation: Valid_Con;
     public ColumnType: ControlEvents;
 }
 
 
 
-class ControlEvents {
+class Valid_Con {
     constructor() {
+        this.valid = false;
+        this.conation = new Con;
+        this.Con_Value = ''; 
+    } 
+    public valid: boolean;
+    public conation: Con;
+    public Con_Value: string;
+   
+}
 
+class Con {
+}
+
+
+class ControlEvents {
+    constructor() { 
         this.NameType = '';
         this.textField = '';
         this.onclick;
         this.onkeyup;
         this.onchange;
-        this.dataSource;
-
-
-    }
-
+        this.dataSource; 
+    } 
     public NameType: string;
     public textField: string;
     public onclick?: () => void;
@@ -143,8 +157,23 @@ interface String {
 }
 
 
+var Valid = {
+
+    Set: function (valid: boolean, conation?: Con, Value?: string): Valid_Con {
+
+        var Valid_Co: Valid_Con = new Valid_Con();
 
 
+        Valid_Co.valid = valid
+        Valid_Co.conation = conation
+        Valid_Co.Con_Value = Value
+
+        return Valid_Co;
+
+    },
+}
+
+ 
 namespace ControlType {
 
 
@@ -161,7 +190,7 @@ namespace ControlType {
             $('#' + Grid.ESG.NameTable + '_' + NameFild + Grid.ESG.RowCnt + '').prop("checked", value);
         } else {
 
-        $('#' + Grid.ESG.NameTable + '_' + NameFild + Grid.ESG.RowCnt + '').val(value)
+            $('#' + Grid.ESG.NameTable + '_' + NameFild + Grid.ESG.RowCnt + '').val(value)
         }
         return (value);
     };
@@ -178,7 +207,7 @@ namespace ControlType {
         let value: boolean = $('#' + Grid.ESG.NameTable + '_' + NameFild + Grid.ESG.RowCnt + '').is(":checked")
         return (value);
     };
-     
+
 
 
 
@@ -243,7 +272,7 @@ namespace ControlType {
 }
 
 var flagBack = false;
-
+var FlagValid = true;
 
 
 let classs = $('<style> .display_hidden {display:none !important; }  .Text_right {text-align: right; }  .Text_left {text-align: left; }  </style>')
@@ -268,8 +297,8 @@ function BindGridControl(Grid: ESGrid) {
 
     $("#" + NameTable).html("");
     let table;  // بناء هيكل الجدوا
-    table =''+
-      
+    table = '' +
+
 
         '<div class="sparkline8-graph" style="border-radius: 50px;">' +
         '<div class="datatable-dashv1-list custom-datatable-overright">' +
@@ -277,7 +306,7 @@ function BindGridControl(Grid: ESGrid) {
         '<button id="btnEdit_' + NameTable + '" type="button" class="btn btn-custon-four btn-success"><i class="fa fa-save"></i>&nbsp; Edit</button>' +
         '<button id="btnsave_' + NameTable + '" type="button" class="btn btn-custon-four btn-success"><i class="fa fa-save"></i>&nbsp; save</button>' +
         '<button id="btnClean_' + NameTable + '" type="button" class="btn btn-custon-four btn-danger" style="background-color: sandybrown;"><i class="fa fa-refresh"></i>  Back</button>' +
-        '</div>' + 
+        '</div>' +
         '<br />' +
         '<div class="btn-group project-list-action">' +
         '<button id="btnAdd_' + NameTable + '" class="btn btn-custon-four btn-success oo"><i class="fa fa-plus"></i></button>' +
@@ -296,7 +325,7 @@ function BindGridControl(Grid: ESGrid) {
         '</tbody>' +
         '</table>' +
         '</div>' +
-       
+
         '</div>'
     $("#" + NameTable).append(table);
 
@@ -309,7 +338,7 @@ function BindGridControl(Grid: ESGrid) {
         BuildGridControl(true, Grid);
 
         Grid.ESG.LastCounterAdd = Grid.ESG.LastCounter;
-       
+
     });
 
     if (flagBack == false) {
@@ -320,6 +349,9 @@ function BindGridControl(Grid: ESGrid) {
     }
 
     $('#btnsave_' + NameTable).click(function (e) {
+
+        if (!ValidationGrid(Grid, Grid.ESG.object)) return;
+
         AssignGridControl(Grid, Grid.ESG.object);
 
     });
@@ -521,7 +553,7 @@ function DisplayData(List: any, Grid: ESGrid) {
 
 
 function BuildGridControl(flagDisplay: boolean, Grid: ESGrid) {
-     
+
     let NameTable = Grid.ESG.NameTable;
 
     let cnt = Grid.ESG.LastCounter;
@@ -537,8 +569,8 @@ function BuildGridControl(flagDisplay: boolean, Grid: ESGrid) {
         '<td id="td_StatusFlag_' + NameTable + '' + cnt + '" style="display:none !important;" ><input  disabled="disabled" id="StatusFlag_' + NameTable + '_' + cnt + '" value="" type="hidden" class="form-control " placeholder="flag" /></td>' +
         '<td id="td_Ser_' + NameTable + '' + cnt + '" style="display:none !important;" ><input  disabled="disabled" id="Ser_' + NameTable + '_' + cnt + '" value="' + cnt + '" type="hidden" class="form-control " placeholder="flag" /></td>' +
         '<td id="Ser_' + NameTable + '' + cnt + '" style="display:none !important;" >' + cnt + '</td>';
-        //'<td id="up_' + NameTable + '' + cnt + '"   > <a class="up" href="#">⇑</a></td>'+
-        //'<td id="down_' + NameTable + '' + cnt + '"   ><a class="down" href="#">⇓</a></td>';
+    //'<td id="up_' + NameTable + '' + cnt + '"   > <a class="up" href="#">⇑</a></td>'+
+    //'<td id="down_' + NameTable + '' + cnt + '"   ><a class="down" href="#">⇓</a></td>';
     '</tr>';
     $('#tbody_' + NameTable + '').append(tbody);
 
@@ -740,7 +772,7 @@ function BuildGridControl(flagDisplay: boolean, Grid: ESGrid) {
     };
 
     debugger
-    $('#No_Row_' + NameTable + (Grid.ESG.LastCounterAdd -1) + '').before($('#No_Row_' + NameTable + (cnt) + ''));
+    $('#No_Row_' + NameTable + (Grid.ESG.LastCounterAdd - 1) + '').before($('#No_Row_' + NameTable + (cnt) + ''));
 
     Grid.ESG.LastCounter++;
     Grid.ESG.LastCounterAdd++;
@@ -793,7 +825,7 @@ function AssignGridControl(Grid: ESGrid, Newobject: object) {
     var DetailsModel = new Array<any>();
 
 
-        debugger
+    debugger
     let Model = JSON.parse(JSON.stringify(obj));
 
     for (var i = 0; i < LastCountGrid; i++) {
@@ -835,7 +867,64 @@ function AssignGridControl(Grid: ESGrid, Newobject: object) {
 
 }
 
-function validationGrid() {
+
+function ValidationGrid(Grid: ESGrid, Newobject: object) {
+
+   
+
+    var obj = Grid.Column;
+    let NameTable = Grid.ESG.NameTable;
+    let LastCountGrid = Grid.ESG.LastCounter;
+
+      
+
+    obj = obj.filter(x => x.Validation.valid == true);
+
+    FlagValid = true;
+
+    for (var i = 0; i < LastCountGrid; i++) { 
+        let cnt = i;
+
+        for (var u = 0; u < obj.length; u++) {
+
+
+            let Model: Column = JSON.parse(JSON.stringify(obj[u]));
+
+            let element = document.getElementById('' + NameTable + '_' + Model.Name + cnt) as HTMLInputElement;
+
+            if (element != null) {
+                if (Model.ColumnType.NameType == 'Input' || Model.ColumnType.NameType == 'Dropdown') {
+                    debugger
+                   let con= Model.Validation.conation
+
+                    alert(con[0])
+
+                    if (Number(element.value) >= 0 || element.value == 'null') {
+                        Errorinput(element);
+                        FlagValid = false;
+                        break
+                    }
+
+                    
+
+                }
+                 
+            }
+
+
+        }
+
+
+        if (FlagValid == false) {
+            break;
+
+        }
+
+    }
+
+    
+
+    return FlagValid;
 
 }
 
@@ -921,24 +1010,24 @@ function EditGridControl(Grid: ESGrid) {
 
 
 function CopyRow(Grid: ESGrid, index: number) {
-     
+
     var obj = Grid.ESG.object;
     let NameTable = Grid.ESG.NameTable;
     let LastCountGrid = Grid.ESG.LastCounter;
-      
+
     let RowCopy = 0;
-   
+
     for (var i = 0; i < LastCountGrid; i++) {
         debugger
         var CopyModel = JSON.parse(JSON.stringify(obj));
 
         let cnt = i;
         let StatusFlag = $("#StatusFlag_" + NameTable + '_' + cnt).val();
-         
+
         if (cnt == index) {
 
             GActions.AssignToModel(CopyModel, NameTable, cnt, StatusFlag)
-             
+
             CopyModel.Ser = LastCountGrid;
             CopyModel.StatusFlag = 'i';
 
@@ -946,19 +1035,19 @@ function CopyRow(Grid: ESGrid, index: number) {
             BuildCopy(Grid, CopyModel, LastCountGrid)
 
             RowCopy = LastCountGrid;
-              
+
             $("#StatusFlag_" + NameTable + '_' + cnt).val('i');
-  
+
             //Grid.ESG.LastCounter++; 
             Grid.ESG.LastCounterAdd = Grid.ESG.LastCounterAdd - 1;
             break;
-             
+
         }
-         
+
     }
-     
+
     $('#No_Row_' + NameTable + index + '').after($('#No_Row_' + NameTable + RowCopy + ''));
-     
+
 }
 
 
@@ -992,7 +1081,7 @@ function BuildCopy(Grid: ESGrid, List: any, cnt: number) {
     //    try {
 
 
-          
+
 
 
     //        //var values: Array<any> = Object["values"](List);

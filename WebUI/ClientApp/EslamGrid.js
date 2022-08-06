@@ -65,9 +65,23 @@ var Column = /** @class */ (function () {
         this.Type = "";
         this.visible = false;
         this.Edit = false;
+        this.Validation = new Valid_Con;
         this.ColumnType = new ControlEvents;
     }
     return Column;
+}());
+var Valid_Con = /** @class */ (function () {
+    function Valid_Con() {
+        this.valid = false;
+        this.conation = new Con;
+        this.Con_Value = '';
+    }
+    return Valid_Con;
+}());
+var Con = /** @class */ (function () {
+    function Con() {
+    }
+    return Con;
 }());
 var ControlEvents = /** @class */ (function () {
     function ControlEvents() {
@@ -80,6 +94,15 @@ var ControlEvents = /** @class */ (function () {
     }
     return ControlEvents;
 }());
+var Valid = {
+    Set: function (valid, conation, Value) {
+        var Valid_Co = new Valid_Con();
+        Valid_Co.valid = valid;
+        Valid_Co.conation = conation;
+        Valid_Co.Con_Value = Value;
+        return Valid_Co;
+    },
+};
 var ControlType;
 (function (ControlType) {
     String.prototype.Val_Get = function (Grid) {
@@ -152,6 +175,7 @@ var ControlType;
     ControlType.Dropdown = Dropdown;
 })(ControlType || (ControlType = {}));
 var flagBack = false;
+var FlagValid = true;
 var classs = $('<style> .display_hidden {display:none !important; }  .Text_right {text-align: right; }  .Text_left {text-align: left; }  </style>');
 $('head:first').append(classs);
 function BindGridControl(Grid) {
@@ -203,6 +227,8 @@ function BindGridControl(Grid) {
         });
     }
     $('#btnsave_' + NameTable).click(function (e) {
+        if (!ValidationGrid(Grid, Grid.ESG.object))
+            return;
         AssignGridControl(Grid, Grid.ESG.object);
     });
     $('#btnEdit_' + NameTable).click(function (e) {
@@ -523,7 +549,35 @@ function AssignGridControl(Grid, Newobject) {
     Grid.ESG.OnfunctionSave();
     return DetailsModel;
 }
-function validationGrid() {
+function ValidationGrid(Grid, Newobject) {
+    var obj = Grid.Column;
+    var NameTable = Grid.ESG.NameTable;
+    var LastCountGrid = Grid.ESG.LastCounter;
+    obj = obj.filter(function (x) { return x.Validation.valid == true; });
+    FlagValid = true;
+    for (var i = 0; i < LastCountGrid; i++) {
+        var cnt = i;
+        for (var u = 0; u < obj.length; u++) {
+            var Model = JSON.parse(JSON.stringify(obj[u]));
+            var element = document.getElementById('' + NameTable + '_' + Model.Name + cnt);
+            if (element != null) {
+                if (Model.ColumnType.NameType == 'Input' || Model.ColumnType.NameType == 'Dropdown') {
+                    debugger;
+                    var con = Model.Validation.conation;
+                    alert(con[0]);
+                    if (Number(element.value) >= 0 || element.value == 'null') {
+                        Errorinput(element);
+                        FlagValid = false;
+                        break;
+                    }
+                }
+            }
+        }
+        if (FlagValid == false) {
+            break;
+        }
+    }
+    return FlagValid;
 }
 function ComputeTotalGridControl(Grid, Newobject) {
     var obj = Grid.ESG.object;
