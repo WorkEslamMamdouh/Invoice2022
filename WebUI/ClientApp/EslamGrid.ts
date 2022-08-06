@@ -54,6 +54,7 @@ class ESG {
         this.Edit = false;
         this.SelectedKey;
         this.LastCounter = 0;
+        this.LastCounterAdd = 0;
         this.RowCnt = 0;
         this.Right = false;
         this.object = new Object();
@@ -75,6 +76,7 @@ class ESG {
     public Edit: boolean;
     public SelectedKey: any;
     public LastCounter: number;
+    public LastCounterAdd: number;
     public RowCnt: number;
     public Right: boolean;
     public object: any
@@ -266,16 +268,21 @@ function BindGridControl(Grid: ESGrid) {
 
     $("#" + NameTable).html("");
     let table;  // بناء هيكل الجدوا
-    table =
+    table =''+
+      
+
+        '<div class="sparkline8-graph" style="border-radius: 50px;">' +
+        '<div class="datatable-dashv1-list custom-datatable-overright">' +
         '<div class="button-ap-list responsive-btn">' +
         '<button id="btnEdit_' + NameTable + '" type="button" class="btn btn-custon-four btn-success"><i class="fa fa-save"></i>&nbsp; Edit</button>' +
         '<button id="btnsave_' + NameTable + '" type="button" class="btn btn-custon-four btn-success"><i class="fa fa-save"></i>&nbsp; save</button>' +
         '<button id="btnClean_' + NameTable + '" type="button" class="btn btn-custon-four btn-danger" style="background-color: sandybrown;"><i class="fa fa-refresh"></i>  Back</button>' +
+        '</div>' + 
+        '<br />' +
+        '<div class="btn-group project-list-action">' +
+        '<button id="btnAdd_' + NameTable + '" class="btn btn-custon-four btn-success oo"><i class="fa fa-plus"></i></button>' +
         '</div>' +
         '<br />' +
-
-        '<div class="sparkline8-graph">' +
-        '<div class="datatable-dashv1-list custom-datatable-overright">' +
         '<table id="table_' + NameTable + '" data-toggle="table"   data-page-number="2" data-page-size="5"   data-pagination="true" data-resizable="true" data-cookie="true" data-cookie-id-table="saveId" data-show-export="false" data-click-to-select="true" data-toolbar="#toolbar">' +
         '<thead id="thead_' + NameTable + '">' +
         '<tr id="tr_' + NameTable + '">' +
@@ -289,10 +296,7 @@ function BindGridControl(Grid: ESGrid) {
         '</tbody>' +
         '</table>' +
         '</div>' +
-        '<br />' +
-        '<div class="btn-group project-list-action">' +
-        '<button id="btnAdd_' + NameTable + '" class="btn btn-custon-four btn-success oo"><i class="fa fa-plus"></i></button>' +
-        '</div>' +
+       
         '</div>'
     $("#" + NameTable).append(table);
 
@@ -303,6 +307,9 @@ function BindGridControl(Grid: ESGrid) {
 
     $('#btnAdd_' + NameTable).click(function (e) {
         BuildGridControl(true, Grid);
+
+        Grid.ESG.LastCounterAdd = Grid.ESG.LastCounter;
+       
     });
 
     if (flagBack == false) {
@@ -417,6 +424,7 @@ function BindGridControl(Grid: ESGrid) {
 
     }
 
+    $('.fixed-table-body').attr('style', 'height: 460px; overflow: scroll;');
 
 }
 
@@ -731,8 +739,11 @@ function BuildGridControl(flagDisplay: boolean, Grid: ESGrid) {
 
     };
 
+    debugger
+    $('#No_Row_' + NameTable + (Grid.ESG.LastCounterAdd -1) + '').before($('#No_Row_' + NameTable + (cnt) + ''));
 
     Grid.ESG.LastCounter++;
+    Grid.ESG.LastCounterAdd++;
 
 
 
@@ -762,6 +773,7 @@ function CleanGridControl(List: Array<any>, Grid: ESGrid) {
 
 
     Grid.ESG.LastCounter = 0;
+    Grid.ESG.LastCounterAdd = 0;
 
     DisplayDataGridControl(List, Grid)
 
@@ -823,7 +835,9 @@ function AssignGridControl(Grid: ESGrid, Newobject: object) {
 
 }
 
+function validationGrid() {
 
+}
 
 function ComputeTotalGridControl(Grid: ESGrid, Newobject: object) {
 
@@ -935,7 +949,8 @@ function CopyRow(Grid: ESGrid, index: number) {
               
             $("#StatusFlag_" + NameTable + '_' + cnt).val('i');
   
-            Grid.ESG.LastCounter++; 
+            //Grid.ESG.LastCounter++; 
+            Grid.ESG.LastCounterAdd = Grid.ESG.LastCounterAdd - 1;
             break;
              
         }
