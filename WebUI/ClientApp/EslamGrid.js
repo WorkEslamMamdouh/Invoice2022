@@ -179,7 +179,7 @@ var ControlType;
 var flagNotClick = false;
 var flagBack = false;
 var FlagValid = true;
-var classs = $('<style> .display_hidden {display:none !important; }  .Text_right {text-align: right; }  .Text_left {text-align: left; }  </style>');
+var classs = $('<style> .display_hidden {display:none !important; }  .Text_right {text-align: right; }  .Text_left {text-align: left; } .Search_grid { background-position: 10px 10px;background-repeat: no-repeat;width: 100%;font-size: 16px;padding: 12px 20px 12px 40px;border: 1px solid #ddd;margin-bottom: 12px;} </style>');
 $('head:first').append(classs);
 function BindGridControl(Grid) {
     var NameTable = Grid.ESG.NameTable;
@@ -212,6 +212,10 @@ function BindGridControl(Grid) {
         '<h3 id="TextMassage_' + NameTable + '">Message</h3> ' +
         '</div>' +
         '<br />' +
+        '<br />' +
+        '<div class=" btn-group project-list-action" style="width: 20%;">' +
+        '<input type="text" id="Search_' + NameTable + '"  class="Search_grid" placeholder="Search for names.." title="Type in a name">' +
+        '</div>' +
         '<table id="table_' + NameTable + '" data-toggle="table"   data-page-number="2" data-page-size="5"   data-pagination="true" data-resizable="true" data-cookie="true" data-cookie-id-table="saveId" data-show-export="false" data-click-to-select="true" data-toolbar="#toolbar">' +
         '<thead id="thead_' + NameTable + '">' +
         '<tr id="tr_' + NameTable + '">' +
@@ -242,6 +246,37 @@ function BindGridControl(Grid) {
     });
     $('#btnEdit_' + NameTable).click(function (e) {
         EditGridControl(Grid);
+    });
+    $('#Search_' + NameTable).keyup(function (e) {
+        var input, filter, table, tr, td, i, txtValue;
+        input = document.getElementById("Search_" + NameTable);
+        filter = input.value.toUpperCase();
+        table = document.getElementById("table_" + NameTable);
+        tr = table.getElementsByTagName("tr");
+        for (i = 0; i < tr.length; i++) {
+            debugger;
+            var tds = tr[i].getElementsByTagName("td");
+            for (var u = 0; u < tds.length; u++) {
+                td = tr[i].getElementsByTagName("td")[u];
+                if (td) {
+                    try {
+                        debugger;
+                        td = document.getElementById(td.children[0].id);
+                        txtValue = td.value;
+                        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                            //alert(txtValue)
+                            tr[i].style.display = "";
+                            break;
+                        }
+                        else {
+                            tr[i].style.display = "none";
+                        }
+                    }
+                    catch (e) {
+                    }
+                }
+            }
+        }
     });
     for (var i = 0; i < Grid.Column.length; i++) {
         var visible = "";

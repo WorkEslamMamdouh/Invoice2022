@@ -279,7 +279,7 @@ var flagBack = false;
 var FlagValid = true;
 
 
-let classs = $('<style> .display_hidden {display:none !important; }  .Text_right {text-align: right; }  .Text_left {text-align: left; }  </style>')
+let classs = $('<style> .display_hidden {display:none !important; }  .Text_right {text-align: right; }  .Text_left {text-align: left; } .Search_grid { background-position: 10px 10px;background-repeat: no-repeat;width: 100%;font-size: 16px;padding: 12px 20px 12px 40px;border: 1px solid #ddd;margin-bottom: 12px;} </style>')
 $('head:first').append(classs);
 
 function BindGridControl(Grid: ESGrid) {
@@ -310,7 +310,7 @@ function BindGridControl(Grid: ESGrid) {
         '<button id="btnEdit_' + NameTable + '" type="button" class="btn btn-custon-four btn-success"><i class="fa fa-save"></i>&nbsp; Edit</button>' +
         '<button id="btnsave_' + NameTable + '" type="button" class="btn btn-custon-four btn-success"><i class="fa fa-save"></i>&nbsp; save</button>' +
         '<button id="btnClean_' + NameTable + '" type="button" class="btn btn-custon-four btn-danger" style="background-color: sandybrown;"><i class="fa fa-refresh"></i>  Back</button>' +
-        '</div>' +
+        '</div>' + 
         '<br />' +
         '<div class=" btn-group project-list-action">' +
         '<button id="btnAdd_' + NameTable + '" class="btn btn-custon-four btn-success oo"><i class="fa fa-plus"></i></button>' +
@@ -320,9 +320,14 @@ function BindGridControl(Grid: ESGrid) {
          
         '<div id="DivMassage_' + NameTable +'"  class=" btn-group project-list-action" style="width: 55%;background-color: brown;color: white;font-weight: bold;text-align: center;border-radius: 50px;">' +
         '<h3 id="TextMassage_' + NameTable+'">Message</h3> ' +
-        '</div>' + 
-
+        '</div>' +
         '<br />' +
+        '<br />' +
+
+        '<div class=" btn-group project-list-action" style="width: 20%;">' +
+        '<input type="text" id="Search_' + NameTable + '"  class="Search_grid" placeholder="Search for names.." title="Type in a name">' +
+        '</div>' +
+
         '<table id="table_' + NameTable + '" data-toggle="table"   data-page-number="2" data-page-size="5"   data-pagination="true" data-resizable="true" data-cookie="true" data-cookie-id-table="saveId" data-show-export="false" data-click-to-select="true" data-toolbar="#toolbar">' +
         '<thead id="thead_' + NameTable + '">' +
         '<tr id="tr_' + NameTable + '">' +
@@ -369,6 +374,45 @@ function BindGridControl(Grid: ESGrid) {
 
     $('#btnEdit_' + NameTable).click(function (e) {
         EditGridControl(Grid);
+    });
+
+    $('#Search_' + NameTable).keyup(function (e) {
+        var input, filter, table, tr, td, i, txtValue;
+        input = document.getElementById("Search_" + NameTable);
+        filter = input.value.toUpperCase();
+        table = document.getElementById("table_" + NameTable);
+        tr = table.getElementsByTagName("tr");
+        for (i = 0; i < tr.length; i++) {
+            debugger
+           let tds = tr[i].getElementsByTagName("td");
+
+
+            for (var u = 0; u < tds.length; u++) {
+
+                td = tr[i].getElementsByTagName("td")[u];
+                 
+                if (td) {
+                    try {
+                        debugger
+
+                        td = document.getElementById(td.children[0].id);
+
+                        txtValue =   td.value;
+                        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                            //alert(txtValue)
+                            tr[i].style.display = "";
+                            break
+                        } else {
+                            tr[i].style.display = "none";
+                        }
+                    } catch (e) {
+                    }
+
+                }
+
+            }
+            
+        }
     });
 
 
