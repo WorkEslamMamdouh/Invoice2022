@@ -107,12 +107,12 @@ var Valid = {
 };
 var ControlType;
 (function (ControlType) {
-    String.prototype.Val_Get = function (Grid) {
+    String.prototype.Get_Val = function (Grid) {
         var NameFild = this;
         var value = $('#' + Grid.ESG.NameTable + '_' + NameFild + Grid.ESG.RowCnt + '').val();
         return (value);
     };
-    String.prototype.Val_Set = function (value, Grid) {
+    String.prototype.Set_Val = function (value, Grid) {
         var NameFild = this;
         if (value == true || value == false) {
             $('#' + Grid.ESG.NameTable + '_' + NameFild + Grid.ESG.RowCnt + '').prop("checked", value);
@@ -122,15 +122,25 @@ var ControlType;
         }
         return (value);
     };
-    String.prototype.Val_Num = function (Grid) {
+    String.prototype.Get_Num = function (Grid) {
         var NameFild = this;
         var value = $('#' + Grid.ESG.NameTable + '_' + NameFild + Grid.ESG.RowCnt + '').val();
         return (Number(value));
     };
-    String.prototype.Val_Cheak = function (Grid) {
+    String.prototype.Get_Cheak = function (Grid) {
         debugger;
         var NameFild = this;
         var value = $('#' + Grid.ESG.NameTable + '_' + NameFild + Grid.ESG.RowCnt + '').is(":checked");
+        return (value);
+    };
+    String.prototype.html = function (value, Grid) {
+        var NameFild = this;
+        $('#' + Grid.ESG.NameTable + '_' + NameFild + Grid.ESG.RowCnt + '').html(value);
+        return (value);
+    };
+    String.prototype.append = function (value, Grid) {
+        var NameFild = this;
+        $('#' + Grid.ESG.NameTable + '_' + NameFild + Grid.ESG.RowCnt + '').append(value);
         return (value);
     };
     var ControlEvent = new ControlEvents();

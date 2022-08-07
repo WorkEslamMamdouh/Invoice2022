@@ -152,10 +152,12 @@ class ControlEvents {
 
 interface String {
 
-    Val_Cheak: (Grid: ESGrid) => boolean;
-    Val_Num: (Grid: ESGrid) => number;
-    Val_Get: (Grid: ESGrid) => string;
-    Val_Set: (value: string, Grid: ESGrid) => string;
+    Get_Cheak: (Grid: ESGrid) => boolean;
+    Get_Num: (Grid: ESGrid) => number;
+    Get_Val: (Grid: ESGrid) => string;
+    Set_Val: (value: string, Grid: ESGrid) => string;
+    html: (value: string, Grid: ESGrid) => string;
+    append: (value: string, Grid: ESGrid) => string;
 }
 
 
@@ -180,13 +182,13 @@ var Valid = {
 namespace ControlType {
 
 
-    String.prototype.Val_Get = function (Grid: ESGrid): string {
+    String.prototype.Get_Val = function (Grid: ESGrid): string {
         let NameFild = this;
         let value = $('#' + Grid.ESG.NameTable + '_' + NameFild + Grid.ESG.RowCnt + '').val()
         return (value);
     };
 
-    String.prototype.Val_Set = function (value: any, Grid: ESGrid): any {
+    String.prototype.Set_Val = function (value: any, Grid: ESGrid): any {
         let NameFild = this;
         if (value == true || value == false) {
 
@@ -198,19 +200,33 @@ namespace ControlType {
         return (value);
     };
 
-    String.prototype.Val_Num = function (Grid: ESGrid): number {
+    String.prototype.Get_Num = function (Grid: ESGrid): number {
         let NameFild = this;
         let value = $('#' + Grid.ESG.NameTable + '_' + NameFild + Grid.ESG.RowCnt + '').val()
         return (Number(value));
     };
 
-    String.prototype.Val_Cheak = function (Grid: ESGrid): boolean {
+    String.prototype.Get_Cheak = function (Grid: ESGrid): boolean {
         debugger
         let NameFild = this;
         let value: boolean = $('#' + Grid.ESG.NameTable + '_' + NameFild + Grid.ESG.RowCnt + '').is(":checked")
         return (value);
     };
 
+    String.prototype.html = function (value: any, Grid: ESGrid): any {
+        let NameFild = this;
+       
+            $('#' + Grid.ESG.NameTable + '_' + NameFild + Grid.ESG.RowCnt + '').html(value)
+        
+        return (value);
+    };
+    String.prototype.append = function (value: any, Grid: ESGrid): any {
+        let NameFild = this;
+       
+            $('#' + Grid.ESG.NameTable + '_' + NameFild + Grid.ESG.RowCnt + '').append(value)
+        
+        return (value);
+    };
 
 
 

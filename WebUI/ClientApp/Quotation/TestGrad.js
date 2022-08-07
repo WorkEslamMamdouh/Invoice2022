@@ -47,9 +47,9 @@ var TestGrad;
             { title: "العمر", Name: "DescE", value: "1", Type: "text", style: "width: 10%", Edit: true, visible: true, Validation: Valid.Set(false), ColumnType: ControlType.Input(function () { }, function () { }, function () { console.log(_this); }) },
             { title: "رقم التيلفون", Name: "CompCode", value: "0", Type: "text", style: "width: 10%", Edit: true, visible: true, Validation: Valid.Set(false), ColumnType: ControlType.Input(function () { }, function () { }, function () { console.log(_this); }) },
             { title: "رقم البطاقه", Name: "Remarks", value: "BUT", Type: "text", style: "width: 10%", Edit: true, visible: true, Validation: Valid.Set(false), ColumnType: ControlType.Input(function () { }, function () { }, function () { }) },
-            { title: "النوع", Name: "CreatedAt", value: "0", Type: "text", style: "width: 10%", Edit: true, visible: true, Validation: Valid.Set(false), ColumnType: ControlType.Input(function () { }, function () { ('CreatedBy').Val_Set(('CreatedAt').Val_Get(Grid), Grid); }, function () { console.log(_this.propone); }) },
+            { title: "النوع", Name: "CreatedAt", value: "0", Type: "text", style: "width: 10%", Edit: true, visible: true, Validation: Valid.Set(false), ColumnType: ControlType.Input(function () { }, function () { ('CreatedBy').Set_Val(('CreatedAt').Get_Val(Grid), Grid); }, function () { console.log(_this.propone); }) },
             { title: "الملاحظات", Name: "CreatedBy", value: "0", Type: "text", style: "width: 10%", Edit: true, visible: true, Validation: Valid.Set(true, 'مينفع تساوي (100)', ['='], '100'), ColumnType: ControlType.Input(function () { }, function () { }, function () { console.log(_this); }) },
-            { title: "رصيد", Name: "Cheack", value: "0", Type: "text", style: "width: 10%", Edit: true, visible: true, Validation: Valid.Set(false), ColumnType: ControlType.checkbox(function () { alert(('Cheack').Val_Cheak(Grid)); }, function () { }, function () { }) },
+            { title: "رصيد", Name: "Cheack", value: "0", Type: "text", style: "width: 10%", Edit: true, visible: true, Validation: Valid.Set(false), ColumnType: ControlType.checkbox(function () { alert(('Cheack').Get_Cheak(Grid)); }, function () { }, function () { }) },
         ];
         BindGridControl(Grid);
         DisplayDataGridControl(I_D_UOMDetails, Grid);
