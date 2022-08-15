@@ -42,7 +42,7 @@ namespace Inv.WebUI.Controllers
         ReportInfo Rep = new ReportInfo();
         ClassPrint Printer = new ClassPrint();
 
-        protected InvEntities db = UnitOfWork.context(BuildConnectionString());
+        protected TaxEntities db = UnitOfWork.context(BuildConnectionString());
         string NameAr;
         string NameEn;
         string BrNameAr;

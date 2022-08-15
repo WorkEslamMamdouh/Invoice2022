@@ -17,7 +17,7 @@ namespace Inv.WebUI.Controllers
         private readonly ReportInfo Rep = new ReportInfo();
         private readonly ClassPrint Printer = new ClassPrint();
 
-        protected InvEntities db = UnitOfWork.context(BuildConnectionString());
+        protected TaxEntities db = UnitOfWork.context(BuildConnectionString());
 
         public static string BuildConnectionString()
         {

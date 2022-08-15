@@ -23,9 +23,9 @@ namespace Inv.API.Tools
     {
         bool singleDb = Convert.ToBoolean(WebConfigurationManager.AppSettings["singleDb"]);
 
-        protected InvEntities db = UnitOfWork.context(BuildConnectionString());
+        protected TaxEntities db = UnitOfWork.context(BuildConnectionString());
 
-        //protected InvEntities db = UnitOfWork.context();
+        //protected TaxEntities db = UnitOfWork.context();
 
         public static string BuildConnectionString()
         {

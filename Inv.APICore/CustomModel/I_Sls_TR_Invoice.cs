@@ -7,18 +7,16 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Inv.DAL.Domain
+namespace Inv.APICore.CustomModel
 {
     using System;
-    using System.Collections.Generic;
-    
-    public partial class A_D_VAT_TYPE
+     
+    public partial class I_Sls_TR_Invoice
     {
-        public int COMP_CODE { get; set; }
-        public short TYPE { get; set; }
-        public short CODE { get; set; }
-        public string DESCRIPTION { get; set; }
-        public Nullable<byte> VatType { get; set; }
-        public Nullable<decimal> VatPRc { get; set; }
+        public int InvoiceID { get; set; }
+        public Nullable<int> TrNo { get; set; } 
+        public Nullable<int> Status { get; set; } 
+        public DateTime TaxUploadDate { get; set; } 
+        public string DocUUID { get; set; } 
     }
 }

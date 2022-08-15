@@ -51,16 +51,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Domain\A_D_VAT_TYPE.cs">
-      <DependentUpon>InvModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Domain\A_PERIOD.cs">
-      <DependentUpon>InvModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="Domain\Customer.cs">
       <DependentUpon>InvModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Domain\GFunc_GetPrivilage_Result.cs">
+      <DependentUpon>InvModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Domain\GFun_Companies_Result.cs">
+      <DependentUpon>InvModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Domain\GFun_UserCompanyBranch_Result.cs">
+      <DependentUpon>InvModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Domain\GQ_GetStore.cs">
       <DependentUpon>InvModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Domain\GQ_GetUserBarnchAccess.cs">
@@ -99,9 +102,6 @@
     <Compile Include="Domain\G_CONTROL.cs">
       <DependentUpon>InvModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Domain\G_Currency.cs">
-      <DependentUpon>InvModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="Domain\G_ModuleHelp.cs">
       <DependentUpon>InvModel.tt</DependentUpon>
     </Compile>
@@ -111,22 +111,10 @@
     <Compile Include="Domain\G_Nationality.cs">
       <DependentUpon>InvModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Domain\G_News.cs">
-      <DependentUpon>InvModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="Domain\G_Noteifications.cs">
       <DependentUpon>InvModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Domain\G_NotificationCompany.cs">
-      <DependentUpon>InvModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Domain\G_PaperSize.cs">
-      <DependentUpon>InvModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Domain\G_REGION.cs">
-      <DependentUpon>InvModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Domain\G_REGION_BRANCH.cs">
       <DependentUpon>InvModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Domain\G_ReportWebSetting.cs">
@@ -174,12 +162,6 @@
     <Compile Include="Domain\G_USER_LOG.cs">
       <DependentUpon>InvModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Domain\G_VatNature.cs">
-      <DependentUpon>InvModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Domain\HIJRA_CONVERT.cs">
-      <DependentUpon>InvModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="Domain\InvEntities.cs" />
     <Compile Include="Domain\InvModel.Context.cs">
       <AutoGen>True</AutoGen>
@@ -196,10 +178,13 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>InvModel.edmx</DependentUpon>
     </Compile>
-    <Compile Include="Domain\I_Control.cs">
+    <Compile Include="Domain\issuer.cs">
       <DependentUpon>InvModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Domain\I_D_CURRENCY.cs">
+    <Compile Include="Domain\Item.cs">
+      <DependentUpon>InvModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Domain\I_Control.cs">
       <DependentUpon>InvModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Domain\I_D_UOM.cs">
@@ -208,14 +193,29 @@
     <Compile Include="Domain\I_VW_GetCompStatus.cs">
       <DependentUpon>InvModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Domain\MFunc_GetCustomerInfo_Result.cs">
+      <DependentUpon>InvModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Domain\PartialClass.cs" />
     <Compile Include="Domain\Prnt_Quotation_Result.cs">
+      <DependentUpon>InvModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Domain\receiver.cs">
+      <DependentUpon>InvModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Domain\Salesman.cs">
       <DependentUpon>InvModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Domain\Sls_InvoiceDetail.cs">
       <DependentUpon>InvModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Domain\Sls_Ivoice.cs">
+      <DependentUpon>InvModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Domain\taxableItem.cs">
+      <DependentUpon>InvModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Domain\unitValue.cs">
       <DependentUpon>InvModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />

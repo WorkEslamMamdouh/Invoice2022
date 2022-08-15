@@ -14,7 +14,7 @@ namespace Inv.DAL.Repository
     {
         #region Fields
 
-        private readonly InvEntities _context;
+        private readonly TaxEntities _context;
         private IDbSet<T> _Entities;
 
         #endregion
@@ -25,7 +25,7 @@ namespace Inv.DAL.Repository
         /// Ctor
         /// </summary>
         /// <param name="context">Object context</param>
-        public GenericRepository(InvEntities context)
+        public GenericRepository(TaxEntities context)
         {
             this._context = context;
         }

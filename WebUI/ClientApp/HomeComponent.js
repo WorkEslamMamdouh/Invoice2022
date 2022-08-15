@@ -365,6 +365,7 @@ var HomeComponent;
         $("#btnHome").click(function () { OpenPage(Modules.Home); });
         $("#btnQuotation").click(function () { OpenPage(Modules.Quotation); });
         $("#btnQuotationView").click(function () { OpenPage(Modules.QuotationView); });
+        $("#btnStockDef").click(function () { OpenPage(Modules.StockDef); });
         $("#btnCompanies").click(function () { OpenPage(Modules.Companies); });
         $("#btnUsers").click(function () { OpenPage(Modules.Users); });
         $("#btnTest").click(function () { OpenPage(Modules.Test); });
