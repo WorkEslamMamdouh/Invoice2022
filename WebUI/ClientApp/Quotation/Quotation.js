@@ -376,7 +376,18 @@ var Quotation;
         return true;
     }
     function btnsave_onclick() {
-        insert();
+        var CanAdd = true;
+        if (CountGrid > 0) {
+            for (var i = 0; i < CountGrid; i++) {
+                CanAdd = validationgrid(i);
+                if (CanAdd == false) {
+                    break;
+                }
+            }
+        }
+        if (CanAdd) {
+            insert();
+        }
     }
 })(Quotation || (Quotation = {}));
 //# sourceMappingURL=Quotation.js.map
