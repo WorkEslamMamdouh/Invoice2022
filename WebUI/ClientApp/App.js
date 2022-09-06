@@ -11,6 +11,7 @@ var TransparentButton = "TransparentButton";
 var Modules = {
     Home: "Home",
     QuotationView: "QuotationView",
+    StockDef: "StockDef",
     Companies: "Companies",
     Users: "Users",
     Test: "Test",

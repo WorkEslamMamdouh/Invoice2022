@@ -107,6 +107,10 @@ namespace Inv.WebUI.Controllers
         {
             return View("~/Views/Quotation/QuotationViewIndex.cshtml");
         }
+        public ActionResult StockDefIndex()
+        {
+            return View("~/Views/StockDef/StockDefIndex.cshtml");
+        }
 
         public ActionResult CompaniesIndex()
         {

@@ -31,7 +31,7 @@ namespace Inv.API.Tools
                 return false;
             return true;
         }
-        public static ResponseResult TransactionProcess(int CompCode,int BranchCode, int id, string type,string OpMode , InvEntities _db)
+        public static ResponseResult TransactionProcess(int CompCode,int BranchCode, int id, string type,string OpMode , TaxEntities _db)
            {
 
             ResponseResult result = new ResponseResult();

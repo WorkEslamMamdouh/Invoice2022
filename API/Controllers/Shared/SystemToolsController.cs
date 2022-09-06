@@ -1581,62 +1581,6 @@ namespace Inv.API.Controllers
             }
         }
 
-        public string GetHDate(DateTime? GDate)
-        {
-            if (!GDate.HasValue)
-                return "";
-            string sqlString;
-            string formattedDate = "";
-            DateTime lghGDate = new DateTime(); ;
-            string monthStamp = "", lghYear = "";
-            int counter, ldayh, lmonthh;
-            sqlString = "SELECT * FROM dbo.HIJRA_CONVERT WHERE (CONVERT(DATETIME, '" + GDate.Value.ToString("dd/MM/yyyy") + "', 103)>=START_DATE)AND (CONVERT(DATETIME, '" + GDate.Value.ToString("dd/MM/yyyy") + "', 103)-START_DATE)<=360";
-            var Lst = db.Database.SqlQuery<HIJRA_CONVERT>(sqlString).ToList();
-            for (var i = 0; i < Lst.Count; i++)
-            {
-                lghGDate = DateTime.Parse(Lst[i].START_DATE.ToString());
-                monthStamp = Lst[i].MONTHSTMAP;
-                lghYear = Lst[i].HYEAR.ToString();
-            }
-            //ldayh = (int)DateAndTime.DateDiff(DateInterval.Day, lghGDate, GDate.Value, FirstDayOfWeek.System, FirstWeekOfYear.System) + 1;
-
-            ldayh = (int)DateAndTime.DateDiff(DateInterval.Day, lghGDate, GDate.Value, FirstDayOfWeek.System, FirstWeekOfYear.System) + 1;
-
-
-            counter = 0;
-            lmonthh = 1;
-            do
-            {
-                counter = counter + 1;
-                if (monthStamp.Substring(counter - 1, 1) == "1")
-                {
-                    if (ldayh > 30)
-                    {
-                        ldayh = ldayh - 30;
-                        lmonthh = lmonthh + 1;
-                    }
-                    else
-                    {
-                        formattedDate = string.Format(@"{0}/{1}/{2}", ldayh.ToString().PadLeft(2, '0'), lmonthh.ToString().PadLeft(2, '0'), lghYear.ToString().PadLeft(4, '0'));
-                        break;
-                    }
-                }
-                else
-                {
-                    if (ldayh > 29)
-                    {
-                        ldayh = ldayh - 29;
-                        lmonthh = lmonthh + 1;
-                    }
-                    else
-                    {
-                        formattedDate = string.Format(@"{0}/{1}/{2}", ldayh.ToString().PadLeft(2, '0'), lmonthh.ToString().PadLeft(2, '0'), lghYear.ToString().PadLeft(4, '0'));
-                        break;
-                    }
-                }
-            } while (1 == 1);
-            return formattedDate;
-        }
-
+ 
     }
 }

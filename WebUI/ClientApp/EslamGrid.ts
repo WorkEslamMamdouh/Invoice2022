@@ -46,17 +46,17 @@ class ESG {
     constructor() {
         this.PrimaryKey = "";
         this.NameTable = "";
-        this.Save = false;
-        this.Back = false;
-        this.DeleteRow = false;
-        this.CopyRow = false;
-        this.Add = false;
-        this.Edit = false;
+        this.Save = true;
+        this.Back = true;
+        this.DeleteRow = true;
+        this.CopyRow = true;
+        this.Add = true;
+        this.Edit = true;
         this.SelectedKey;
         this.LastCounter = 0;
         this.LastCounterAdd = 0;
         this.RowCnt = 0;
-        this.Right = false;
+        this.Right = true;
         this.object = new Object();
         this.TotalModel = new Object();
         this.Model = new Array<any>();
@@ -90,26 +90,26 @@ class ESG {
 
 class Column {
     constructor() {
-        this.style = "";
+        this.style = "width: 100%";
         this.title = "";
         this.Name = "";
         this.value = "";
-        this.Type = "";
-        this.visible = false;
-        this.Edit = false;
+        this.Type = "text";
+        this.visible = true;
+        this.Edit = true;
         this.Validation = new Valid_Con;
         this.ColumnType = new ControlEvents;
 
     }
-    public style: string;
-    public title: string;
-    public Name: string;
-    public value: string;
-    public Type: string;
-    public visible: boolean;
-    public Edit: boolean;
-    public Validation: Valid_Con;
-    public ColumnType: ControlEvents;
+    public style?: string;
+    public title?: string;
+    public Name?: string;
+    public value?: string;
+    public Type?: string;
+    public visible?: boolean;
+    public Edit?: boolean;
+    public Validation?: Valid_Con;
+    public ColumnType?: ControlEvents;
 }
 
 

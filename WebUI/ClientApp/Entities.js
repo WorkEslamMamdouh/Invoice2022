@@ -1130,6 +1130,114 @@ var Sls_InvoiceDetail = /** @class */ (function (_super) {
     }
     return Sls_InvoiceDetail;
 }(SecurityClass));
+var I_D_Category = /** @class */ (function (_super) {
+    __extends(I_D_Category, _super);
+    function I_D_Category() {
+        var _this = _super.call(this) || this;
+        _this.CatID = 0;
+        _this.CompCode = 0;
+        _this.CatCode = "";
+        _this.DescA = "";
+        _this.DescL = "";
+        _this.ParentCatId = 0;
+        _this.CatLevel = 0;
+        _this.IsDetail = false;
+        _this.UnitGrpID = 0;
+        _this.IsAutoGenerateItem = false;
+        _this.ItemFormatFix = "";
+        _this.ItemFormatSerial = "";
+        _this.ItemTypeID = 0;
+        _this.CostMethodID = 0;
+        _this.StockMethodID = 0;
+        _this.IssueFromCenteralStore = false;
+        _this.CenteralStoreCode = 0;
+        _this.IsAdditionalSpecs = false;
+        _this.AdditionalspcsDescA = "";
+        _this.AdditionalspcsDescL = "";
+        _this.ISSales = false;
+        _this.IsStock = false;
+        _this.IsProduct = false;
+        _this.IsIssuetoCC = false;
+        _this.IsIssueToProd = false;
+        _this.IsPurchase = false;
+        _this.Remarks = "";
+        _this.CreatedAt = "";
+        _this.CreatedBy = "";
+        _this.UpdatedAt = "";
+        _this.UpdatedBy = "";
+        _this.VatNatID = 0;
+        _this.StatusFlag = "";
+        return _this;
+    }
+    return I_D_Category;
+}(SecurityClass));
+var I_Item = /** @class */ (function (_super) {
+    __extends(I_Item, _super);
+    function I_Item() {
+        var _this = _super.call(this) || this;
+        _this.ItemID = 0;
+        _this.ItemCode = "";
+        _this.CompCode = 0;
+        _this.DescA = "";
+        _this.DescL = "";
+        _this.TechDescA = "";
+        _this.TechDescL = "";
+        _this.UnitGrpID = 0;
+        _this.UomID = 0;
+        _this.ItemFamilyID = 0;
+        _this.RefItemCode = "";
+        _this.OldItemCode = "";
+        _this.VndItemCode = "";
+        _this.BarCode1 = "";
+        _this.BarCode2 = "";
+        _this.FirstEntryDate = "";
+        _this.Remarks = "";
+        _this.CreatedAt = "";
+        _this.CreatedBy = "";
+        _this.UpdatedAt = "";
+        _this.UpdatedBy = "";
+        _this.LastBarCodeSeq = 0;
+        _this.BarCodePrefix = "";
+        _this.FirstYear = 0;
+        _this.CatID = 0;
+        _this.OnhandQty = 0;
+        _this.FirstYear = 0;
+        _this.StatusFlag = "";
+        return _this;
+    }
+    return I_Item;
+}(SecurityClass));
+var I_ItemFamily = /** @class */ (function (_super) {
+    __extends(I_ItemFamily, _super);
+    function I_ItemFamily() {
+        var _this = _super.call(this) || this;
+        _this.ItemFamilyID = 0;
+        _this.FamilyCode = "";
+        _this.CompCode = 0;
+        _this.DescA = "";
+        _this.DescL = "";
+        _this.TechDescA = "";
+        _this.TechDescL = "";
+        _this.CatID = 0;
+        _this.ItemTypeID = 0;
+        _this.RefItemCode = "";
+        _this.BarCode1 = "";
+        _this.FirstEntryDate = "";
+        _this.UnitPrice = 0;
+        _this.StarGlobalCost = 0;
+        _this.GlobalCost = 0;
+        _this.Remarks = "";
+        _this.CreatedAt = "";
+        _this.CreatedBy = "";
+        _this.UpdatedAt = "";
+        _this.UpdatedBy = "";
+        _this.LastBarCodeSeq = 0;
+        _this.BarCodePrefix = "";
+        _this.StatusFlag = "";
+        return _this;
+    }
+    return I_ItemFamily;
+}(SecurityClass));
 var I_D_UOM = /** @class */ (function () {
     function I_D_UOM() {
         this.UomID = 0;

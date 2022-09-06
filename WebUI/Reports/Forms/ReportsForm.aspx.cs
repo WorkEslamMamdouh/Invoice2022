@@ -38,7 +38,7 @@ namespace RS.WebUI.Reports.Forms
         ReportInfo Rep = new ReportInfo();
         ClassPrint Printer = new ClassPrint();
 
-        protected InvEntities db = UnitOfWork.context(BuildConnectionString());
+        protected TaxEntities db = UnitOfWork.context(BuildConnectionString());
         string Par;
         string NameAr;
         string NameEn;

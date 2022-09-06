@@ -12,15 +12,11 @@ namespace Inv.DAL.Domain
     using System;
     using System.Collections.Generic;
     
-    public partial class G_News
+    public partial class unitValue
     {
-        public int NewsID { get; set; }
-        public Nullable<int> NewsTypeCode { get; set; }
-        public Nullable<int> NewsToCode { get; set; }
-        public Nullable<System.DateTime> NewsDate { get; set; }
-        public Nullable<System.DateTime> NewsExpiry { get; set; }
-        public string NewsText { get; set; }
-        public Nullable<int> CompCode { get; set; }
-        public Nullable<int> BranchCode { get; set; }
+        public int unitValueID { get; set; }
+        public string currencySold { get; set; }
+        public Nullable<decimal> amountEGP { get; set; }
+        public string Desc { get; set; }
     }
 }

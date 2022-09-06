@@ -12,27 +12,27 @@ namespace Inv.DAL.Repository
     public class UnitOfWork : IUnitOfWork
     {
 
-        private static InvEntities _context;
+        private static TaxEntities _context;
 
-        public static InvEntities context(string connectionString)
+        public static TaxEntities context(string connectionString)
         {
 
-            _context = new InvEntities(connectionString);
+            _context = new TaxEntities(connectionString);
             return _context;
 
 
         }
 
-        public static InvEntities context()
+        public static TaxEntities context()
         {
 
-            _context = new InvEntities();
+            _context = new TaxEntities();
             return _context;
 
 
         }
 
-        public UnitOfWork(InvEntities context)
+        public UnitOfWork(TaxEntities context)
         {
             _context = context;
         }
