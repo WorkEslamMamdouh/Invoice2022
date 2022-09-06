@@ -2020,15 +2020,6 @@ warning 6002: The table/view 'Invoice2022.dbo.I_VW_GetCompStatus' does not have 
           <Property Name="SMALLDOUBLEA" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
           <Property Name="SMALLPRULARA" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
         </EntityType>
-        <EntityType Name="HIJRA_CONVERT">
-          <Key>
-            <PropertyRef Name="HYEAR" />
-            <PropertyRef Name="START_DATE" />
-          </Key>
-          <Property Name="HYEAR" Type="Int16" Nullable="false" />
-          <Property Name="START_DATE" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="MONTHSTMAP" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
-        </EntityType>
         <EntityType Name="GQ_GetUserBarnchAccess">
           <Key>
             <PropertyRef Name="USER_CODE" />
@@ -2182,7 +2173,6 @@ warning 6002: The table/view 'Invoice2022.dbo.I_VW_GetCompStatus' does not have 
           <EntitySet Name="G_VatNature" EntityType="Self.G_VatNature" />
           <EntitySet Name="I_Control" EntityType="Self.I_Control" />
           <EntitySet Name="I_D_CURRENCY" EntityType="Self.I_D_CURRENCY" />
-          <EntitySet Name="HIJRA_CONVERT" EntityType="Self.HIJRA_CONVERT" />
           <EntitySet Name="GQ_GetUserBarnchAccess" EntityType="Self.GQ_GetUserBarnchAccess" />
           <EntitySet Name="GQ_GetUserBranch" EntityType="Self.GQ_GetUserBranch" />
           <EntitySet Name="GQ_GetUserRole" EntityType="Self.GQ_GetUserRole" />
@@ -2224,6 +2214,7 @@ warning 6002: The table/view 'Invoice2022.dbo.I_VW_GetCompStatus' does not have 
             <Parameter Name="RepType" Mode="In" Type="Int32" />
             <Parameter Name="TRId" Mode="In" Type="Int32" />
           </FunctionImport>
+          <EntitySet Name="HIJRA_CONVERT" EntityType="InvoiceModel.HIJRA_CONVERT" />
         </EntityContainer>
         <ComplexType Name="GFun_Companies_Result">
           <Property Type="String" Name="USER_CODE" Nullable="true" MaxLength="20" />
@@ -2534,6 +2525,15 @@ warning 6002: The table/view 'Invoice2022.dbo.I_VW_GetCompStatus' does not have 
           <Property Type="String" Name="DescE" Nullable="true" MaxLength="100" />
           <Property Type="String" Name="UomCode" Nullable="true" MaxLength="25" />
         </ComplexType>
+        <EntityType Name="HIJRA_CONVERT">
+          <Key>
+            <PropertyRef Name="HYEAR" />
+            <PropertyRef Name="START_DATE" />
+          </Key>
+          <Property Name="HYEAR" Type="Int16" Nullable="false" />
+          <Property Name="START_DATE" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="MONTHSTMAP" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -3276,15 +3276,6 @@ warning 6002: The table/view 'Invoice2022.dbo.I_VW_GetCompStatus' does not have 
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="HIJRA_CONVERT">
-            <EntityTypeMapping TypeName="InvoiceModel.HIJRA_CONVERT">
-              <MappingFragment StoreEntitySet="HIJRA_CONVERT">
-                <ScalarProperty Name="HYEAR" ColumnName="HYEAR" />
-                <ScalarProperty Name="START_DATE" ColumnName="START_DATE" />
-                <ScalarProperty Name="MONTHSTMAP" ColumnName="MONTHSTMAP" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="GQ_GetUserBarnchAccess">
             <EntityTypeMapping TypeName="InvoiceModel.GQ_GetUserBarnchAccess">
               <MappingFragment StoreEntitySet="GQ_GetUserBarnchAccess">
@@ -3708,6 +3699,15 @@ warning 6002: The table/view 'Invoice2022.dbo.I_VW_GetCompStatus' does not have 
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="HIJRA_CONVERT">
+            <EntityTypeMapping TypeName="InvoiceModel.HIJRA_CONVERT">
+              <MappingFragment StoreEntitySet="HIJRA_CONVERT">
+                <ScalarProperty Name="MONTHSTMAP" ColumnName="MONTHSTMAP" />
+                <ScalarProperty Name="START_DATE" ColumnName="START_DATE" />
+                <ScalarProperty Name="HYEAR" ColumnName="HYEAR" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

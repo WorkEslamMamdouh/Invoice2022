@@ -42,7 +42,6 @@
         <EntityTypeShape EntityType="InvoiceModel.G_VatNature" Width="1.5" PointX="16.75" PointY="17.75" IsExpanded="true" />
         <EntityTypeShape EntityType="InvoiceModel.I_Control" Width="1.5" PointX="18.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="InvoiceModel.I_D_CURRENCY" Width="1.5" PointX="18.75" PointY="11.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="InvoiceModel.HIJRA_CONVERT" Width="1.5" PointX="18.75" PointY="16.75" IsExpanded="true" />
         <EntityTypeShape EntityType="InvoiceModel.GQ_GetUserBarnchAccess" Width="1.5" PointX="18.75" PointY="19.75" IsExpanded="true" />
         <EntityTypeShape EntityType="InvoiceModel.GQ_GetUserBranch" Width="1.5" PointX="20.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="InvoiceModel.GQ_GetUserRole" Width="1.5" PointX="20.75" PointY="3.75" IsExpanded="true" />
@@ -53,6 +52,7 @@
         <EntityTypeShape EntityType="InvoiceModel.Customer" Width="1.5" PointX="0.75" PointY="21.75" />
         <EntityTypeShape EntityType="InvoiceModel.Sls_InvoiceDetail" Width="1.5" PointX="7.75" PointY="22.75" />
         <EntityTypeShape EntityType="InvoiceModel.I_D_UOM" Width="1.5" PointX="23.375" PointY="0.75" />
+        <EntityTypeShape EntityType="InvoiceModel.HIJRA_CONVERT" Width="1.5" PointX="23.375" PointY="4.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

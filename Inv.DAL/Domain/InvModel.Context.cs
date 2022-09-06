@@ -64,7 +64,6 @@ namespace Inv.DAL.Domain
         public virtual DbSet<G_VatNature> G_VatNature { get; set; }
         public virtual DbSet<I_Control> I_Control { get; set; }
         public virtual DbSet<I_D_CURRENCY> I_D_CURRENCY { get; set; }
-        public virtual DbSet<HIJRA_CONVERT> HIJRA_CONVERT { get; set; }
         public virtual DbSet<GQ_GetUserBarnchAccess> GQ_GetUserBarnchAccess { get; set; }
         public virtual DbSet<GQ_GetUserBranch> GQ_GetUserBranch { get; set; }
         public virtual DbSet<GQ_GetUserRole> GQ_GetUserRole { get; set; }
@@ -75,6 +74,7 @@ namespace Inv.DAL.Domain
         public virtual DbSet<Customer> Customers { get; set; }
         public virtual DbSet<Sls_InvoiceDetail> Sls_InvoiceDetail { get; set; }
         public virtual DbSet<I_D_UOM> I_D_UOM { get; set; }
+        public virtual DbSet<HIJRA_CONVERT> HIJRA_CONVERT { get; set; }
     
         public virtual int G_TOL_GetCounter(string system, Nullable<int> comp, Nullable<int> branch, Nullable<System.DateTime> dt, string trType, ObjectParameter trNo)
         {
