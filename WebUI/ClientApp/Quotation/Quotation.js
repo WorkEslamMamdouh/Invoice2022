@@ -203,7 +203,7 @@ var Quotation;
             DisplayMassage('Item Describtion must be entered', 'Item Describtion must be entered', MessageType.Error);
             return false;
         }
-        if ($("#ddlTypeUom" + rowcount).val().trim() == "") {
+        if ($("#ddlTypeUom" + rowcount).val().trim() == "null") {
             Errorinput($("#ddlTypeUom" + rowcount));
             DisplayMassage('The unit must be selected', 'The unit must be selected', MessageType.Error);
             return false;

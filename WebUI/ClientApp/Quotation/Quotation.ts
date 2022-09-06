@@ -234,7 +234,7 @@ namespace Quotation {
             return false;
         }
 
-        if ($("#ddlTypeUom" + rowcount).val().trim() == "") {
+        if ($("#ddlTypeUom" + rowcount).val().trim() == "null") {
             Errorinput($("#ddlTypeUom" + rowcount));
             DisplayMassage('The unit must be selected', 'The unit must be selected', MessageType.Error);
             return false;
@@ -428,7 +428,21 @@ namespace Quotation {
         return true;
     }
     function btnsave_onclick() {
-        insert();
+
+        let CanAdd: boolean = true;
+        if (CountGrid > 0) {
+            for (var i = 0; i < CountGrid; i++) {
+                CanAdd = validationgrid(i);
+                if (CanAdd == false) {
+                    break;
+                }
+            }
+        }
+        if (CanAdd) {
+
+            insert();
+
+        }
     }
    
 }

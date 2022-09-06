@@ -1203,7 +1203,19 @@ namespace QuotationView {
         return true;
     }
     function btnsave_onclick() {
-        Update();
+
+        let CanAdd: boolean = true;
+        if (CountGrid > 0) {
+            for (var i = 0; i < CountGrid; i++) {
+                CanAdd = validationgrid(i);
+                if (CanAdd == false) {
+                    break;
+                }
+            }
+        }
+        if (CanAdd) {
+            Update();
+        }
     }
 
     //----------------------------------------------------------------------------------------------------

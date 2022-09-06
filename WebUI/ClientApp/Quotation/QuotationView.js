@@ -1006,7 +1006,18 @@ var QuotationView;
         return true;
     }
     function btnsave_onclick() {
-        Update();
+        var CanAdd = true;
+        if (CountGrid > 0) {
+            for (var i = 0; i < CountGrid; i++) {
+                CanAdd = validationgrid(i);
+                if (CanAdd == false) {
+                    break;
+                }
+            }
+        }
+        if (CanAdd) {
+            Update();
+        }
     }
     //----------------------------------------------------------------------------------------------------
 })(QuotationView || (QuotationView = {}));
