@@ -94,7 +94,7 @@
     </Reference>
     <Reference Include="OnBarcode.Barcode.WinForms, Version=7.1.0.20511, Culture=neutral, PublicKeyToken=4da8d7f865f70e30, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\OnBarcode.Barcode.WinForms.dll</HintPath>
+      <HintPath>C:\Users\Administrator\Downloads\Microsoft.SkypeApp_kzf8qxf38zg5c!App\All\OnBarcode.Barcode.WinForms.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -1047,7 +1047,6 @@
     <Content Include="Views\Quotation\QuotationViewIndex.cshtml" />
     <Content Include="Views\Customer\CustomerIndex.cshtml" />
     <Content Include="Views\Customer\TestIndex.cshtml" />
-    <Content Include="Views\StockDef\StockDefIndex.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -1067,7 +1066,6 @@
     <TypeScriptCompile Include="ClientApp\EslamGrid.ts" />
     <TypeScriptCompile Include="ClientApp\App.ts" />
     <TypeScriptCompile Include="ClientApp\ClientGeneralTools.ts" />
-    <TypeScriptCompile Include="ClientApp\StockDef\StockDef.ts" />
     <TypeScriptCompile Include="ClientApp\Quotation\TestGrad.ts" />
     <TypeScriptCompile Include="ClientApp\Quotation\QuotationView.ts" />
     <TypeScriptCompile Include="ClientApp\USERS\Users.ts" />

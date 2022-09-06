@@ -10,9 +10,9 @@ using System.Web;
  
 namespace Inv.DAL.Domain
 {
-    public partial class TaxEntities
+    public partial class InvEntities
     {
-        public TaxEntities(string ConnectionString): base(ConnectionString)
+        public InvEntities(string ConnectionString): base(ConnectionString)
         {
            
         }

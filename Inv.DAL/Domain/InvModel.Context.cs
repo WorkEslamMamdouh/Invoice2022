@@ -15,10 +15,10 @@ namespace Inv.DAL.Domain
     using System.Data.Entity.Core.Objects;
     using System.Linq;
     
-    public partial class TaxEntities : DbContext
+    public partial class InvEntities : DbContext
     {
-        public TaxEntities()
-            : base("name=TaxEntities")
+        public InvEntities()
+            : base("name=InvEntities")
         {
         }
     
@@ -27,7 +27,8 @@ namespace Inv.DAL.Domain
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<Customer> Customers { get; set; }
+        public virtual DbSet<A_D_VAT_TYPE> A_D_VAT_TYPE { get; set; }
+        public virtual DbSet<A_PERIOD> A_PERIOD { get; set; }
         public virtual DbSet<G_AlertControl> G_AlertControl { get; set; }
         public virtual DbSet<G_AlertLog> G_AlertLog { get; set; }
         public virtual DbSet<G_AlertType> G_AlertType { get; set; }
@@ -35,11 +36,16 @@ namespace Inv.DAL.Domain
         public virtual DbSet<G_Codes> G_Codes { get; set; }
         public virtual DbSet<G_COMPANY> G_COMPANY { get; set; }
         public virtual DbSet<G_CONTROL> G_CONTROL { get; set; }
+        public virtual DbSet<G_Currency> G_Currency { get; set; }
         public virtual DbSet<G_ModuleHelp> G_ModuleHelp { get; set; }
         public virtual DbSet<G_MODULES> G_MODULES { get; set; }
         public virtual DbSet<G_Nationality> G_Nationality { get; set; }
+        public virtual DbSet<G_News> G_News { get; set; }
         public virtual DbSet<G_Noteifications> G_Noteifications { get; set; }
         public virtual DbSet<G_NotificationCompany> G_NotificationCompany { get; set; }
+        public virtual DbSet<G_PaperSize> G_PaperSize { get; set; }
+        public virtual DbSet<G_REGION> G_REGION { get; set; }
+        public virtual DbSet<G_REGION_BRANCH> G_REGION_BRANCH { get; set; }
         public virtual DbSet<G_ReportWebSetting> G_ReportWebSetting { get; set; }
         public virtual DbSet<G_Role> G_Role { get; set; }
         public virtual DbSet<G_RoleModule> G_RoleModule { get; set; }
@@ -55,117 +61,20 @@ namespace Inv.DAL.Domain
         public virtual DbSet<G_USER_COMPANY> G_USER_COMPANY { get; set; }
         public virtual DbSet<G_USER_LOG> G_USER_LOG { get; set; }
         public virtual DbSet<G_USERS> G_USERS { get; set; }
+        public virtual DbSet<G_VatNature> G_VatNature { get; set; }
         public virtual DbSet<I_Control> I_Control { get; set; }
-        public virtual DbSet<I_D_UOM> I_D_UOM { get; set; }
-        public virtual DbSet<issuer> issuers { get; set; }
-        public virtual DbSet<Item> Items { get; set; }
-        public virtual DbSet<receiver> receivers { get; set; }
-        public virtual DbSet<Salesman> Salesmen { get; set; }
-        public virtual DbSet<Sls_InvoiceDetail> Sls_InvoiceDetail { get; set; }
-        public virtual DbSet<Sls_Ivoice> Sls_Ivoice { get; set; }
-        public virtual DbSet<taxableItem> taxableItems { get; set; }
-        public virtual DbSet<unitValue> unitValues { get; set; }
-        public virtual DbSet<GQ_GetStore> GQ_GetStore { get; set; }
+        public virtual DbSet<I_D_CURRENCY> I_D_CURRENCY { get; set; }
+        public virtual DbSet<HIJRA_CONVERT> HIJRA_CONVERT { get; set; }
         public virtual DbSet<GQ_GetUserBarnchAccess> GQ_GetUserBarnchAccess { get; set; }
         public virtual DbSet<GQ_GetUserBranch> GQ_GetUserBranch { get; set; }
         public virtual DbSet<GQ_GetUserRole> GQ_GetUserRole { get; set; }
         public virtual DbSet<GQ_Notifications> GQ_Notifications { get; set; }
         public virtual DbSet<GQ_ReportWebSetting> GQ_ReportWebSetting { get; set; }
         public virtual DbSet<I_VW_GetCompStatus> I_VW_GetCompStatus { get; set; }
-    
-        [DbFunction("TaxEntities", "GFun_Companies")]
-        public virtual IQueryable<GFun_Companies_Result> GFun_Companies(string userCode)
-        {
-            var userCodeParameter = userCode != null ?
-                new ObjectParameter("userCode", userCode) :
-                new ObjectParameter("userCode", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<GFun_Companies_Result>("[TaxEntities].[GFun_Companies](@userCode)", userCodeParameter);
-        }
-    
-        [DbFunction("TaxEntities", "GFun_UserCompanyBranch")]
-        public virtual IQueryable<GFun_UserCompanyBranch_Result> GFun_UserCompanyBranch(string userCode, Nullable<int> compCode)
-        {
-            var userCodeParameter = userCode != null ?
-                new ObjectParameter("userCode", userCode) :
-                new ObjectParameter("userCode", typeof(string));
-    
-            var compCodeParameter = compCode.HasValue ?
-                new ObjectParameter("CompCode", compCode) :
-                new ObjectParameter("CompCode", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<GFun_UserCompanyBranch_Result>("[TaxEntities].[GFun_UserCompanyBranch](@userCode, @CompCode)", userCodeParameter, compCodeParameter);
-        }
-    
-        [DbFunction("TaxEntities", "GFunc_GetPrivilage")]
-        public virtual IQueryable<GFunc_GetPrivilage_Result> GFunc_GetPrivilage(Nullable<int> year, Nullable<int> comp, Nullable<int> bra, string user, string sys, string mod)
-        {
-            var yearParameter = year.HasValue ?
-                new ObjectParameter("year", year) :
-                new ObjectParameter("year", typeof(int));
-    
-            var compParameter = comp.HasValue ?
-                new ObjectParameter("Comp", comp) :
-                new ObjectParameter("Comp", typeof(int));
-    
-            var braParameter = bra.HasValue ?
-                new ObjectParameter("bra", bra) :
-                new ObjectParameter("bra", typeof(int));
-    
-            var userParameter = user != null ?
-                new ObjectParameter("user", user) :
-                new ObjectParameter("user", typeof(string));
-    
-            var sysParameter = sys != null ?
-                new ObjectParameter("Sys", sys) :
-                new ObjectParameter("Sys", typeof(string));
-    
-            var modParameter = mod != null ?
-                new ObjectParameter("Mod", mod) :
-                new ObjectParameter("Mod", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<GFunc_GetPrivilage_Result>("[TaxEntities].[GFunc_GetPrivilage](@year, @Comp, @bra, @user, @Sys, @Mod)", yearParameter, compParameter, braParameter, userParameter, sysParameter, modParameter);
-        }
-    
-        [DbFunction("TaxEntities", "MFunc_GetCustomerInfo")]
-        public virtual IQueryable<MFunc_GetCustomerInfo_Result> MFunc_GetCustomerInfo(Nullable<int> custID)
-        {
-            var custIDParameter = custID.HasValue ?
-                new ObjectParameter("custID", custID) :
-                new ObjectParameter("custID", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<MFunc_GetCustomerInfo_Result>("[TaxEntities].[MFunc_GetCustomerInfo](@custID)", custIDParameter);
-        }
-    
-        public virtual int CleanData()
-        {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("CleanData");
-        }
-    
-        public virtual int G_ProcessTrans(Nullable<int> comp, Nullable<int> branch, string trType, string opMode, Nullable<int> trID, ObjectParameter trNo, ObjectParameter ok)
-        {
-            var compParameter = comp.HasValue ?
-                new ObjectParameter("Comp", comp) :
-                new ObjectParameter("Comp", typeof(int));
-    
-            var branchParameter = branch.HasValue ?
-                new ObjectParameter("Branch", branch) :
-                new ObjectParameter("Branch", typeof(int));
-    
-            var trTypeParameter = trType != null ?
-                new ObjectParameter("TrType", trType) :
-                new ObjectParameter("TrType", typeof(string));
-    
-            var opModeParameter = opMode != null ?
-                new ObjectParameter("OpMode", opMode) :
-                new ObjectParameter("OpMode", typeof(string));
-    
-            var trIDParameter = trID.HasValue ?
-                new ObjectParameter("TrID", trID) :
-                new ObjectParameter("TrID", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("G_ProcessTrans", compParameter, branchParameter, trTypeParameter, opModeParameter, trIDParameter, trNo, ok);
-        }
+        public virtual DbSet<Sls_Ivoice> Sls_Ivoice { get; set; }
+        public virtual DbSet<Customer> Customers { get; set; }
+        public virtual DbSet<Sls_InvoiceDetail> Sls_InvoiceDetail { get; set; }
+        public virtual DbSet<I_D_UOM> I_D_UOM { get; set; }
     
         public virtual int G_TOL_GetCounter(string system, Nullable<int> comp, Nullable<int> branch, Nullable<System.DateTime> dt, string trType, ObjectParameter trNo)
         {
@@ -192,33 +101,39 @@ namespace Inv.DAL.Domain
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("G_TOL_GetCounter", systemParameter, compParameter, branchParameter, dtParameter, trTypeParameter, trNo);
         }
     
-        public virtual int Iproc_GetItemInfo(Nullable<int> comp, Nullable<int> yr, string itmCode, Nullable<int> itemid, Nullable<int> storeid, Nullable<int> op)
+        [DbFunction("InvEntities", "GFun_Companies")]
+        public virtual IQueryable<GFun_Companies_Result> GFun_Companies(string userCode)
+        {
+            var userCodeParameter = userCode != null ?
+                new ObjectParameter("userCode", userCode) :
+                new ObjectParameter("userCode", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<GFun_Companies_Result>("[InvEntities].[GFun_Companies](@userCode)", userCodeParameter);
+        }
+    
+        public virtual int G_ProcessTrans(Nullable<int> comp, Nullable<int> branch, string trType, string opMode, Nullable<int> trID, ObjectParameter trNo, ObjectParameter ok)
         {
             var compParameter = comp.HasValue ?
                 new ObjectParameter("Comp", comp) :
                 new ObjectParameter("Comp", typeof(int));
     
-            var yrParameter = yr.HasValue ?
-                new ObjectParameter("Yr", yr) :
-                new ObjectParameter("Yr", typeof(int));
+            var branchParameter = branch.HasValue ?
+                new ObjectParameter("Branch", branch) :
+                new ObjectParameter("Branch", typeof(int));
     
-            var itmCodeParameter = itmCode != null ?
-                new ObjectParameter("ItmCode", itmCode) :
-                new ObjectParameter("ItmCode", typeof(string));
+            var trTypeParameter = trType != null ?
+                new ObjectParameter("TrType", trType) :
+                new ObjectParameter("TrType", typeof(string));
     
-            var itemidParameter = itemid.HasValue ?
-                new ObjectParameter("Itemid", itemid) :
-                new ObjectParameter("Itemid", typeof(int));
+            var opModeParameter = opMode != null ?
+                new ObjectParameter("OpMode", opMode) :
+                new ObjectParameter("OpMode", typeof(string));
     
-            var storeidParameter = storeid.HasValue ?
-                new ObjectParameter("Storeid", storeid) :
-                new ObjectParameter("Storeid", typeof(int));
+            var trIDParameter = trID.HasValue ?
+                new ObjectParameter("TrID", trID) :
+                new ObjectParameter("TrID", typeof(int));
     
-            var opParameter = op.HasValue ?
-                new ObjectParameter("op", op) :
-                new ObjectParameter("op", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Iproc_GetItemInfo", compParameter, yrParameter, itmCodeParameter, itemidParameter, storeidParameter, opParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("G_ProcessTrans", compParameter, branchParameter, trTypeParameter, opModeParameter, trIDParameter, trNo, ok);
         }
     
         public virtual ObjectResult<Prnt_Quotation_Result> Prnt_Quotation(Nullable<int> comp, Nullable<int> bra, string compNameA, string compNameE, string braNameA, string braNameE, string loginUser, Nullable<int> repType, Nullable<int> tRId)

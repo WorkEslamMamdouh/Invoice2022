@@ -12,12 +12,10 @@ namespace Inv.DAL.Domain
     using System;
     using System.Collections.Generic;
     
-    public partial class taxableItem
+    public partial class G_PaperSize
     {
-        public int TaxID { get; set; }
-        public string taxType { get; set; }
-        public Nullable<decimal> amount { get; set; }
-        public string subType { get; set; }
-        public Nullable<decimal> rate { get; set; }
+        public int PageSizeID { get; set; }
+        public string PageSizeName { get; set; }
+        public string Descr { get; set; }
     }
 }

@@ -11,7 +11,7 @@ using System.Net.Http;
 using System.Web.Http;
 using Inv.API.Controllers;
 using System.Data.SqlClient;
-using Inv.API.Models.CustomModel; 
+using Inv.API.Models.CustomModel;
 
 namespace Inv.API.Controllers
 {
@@ -58,7 +58,7 @@ namespace Inv.API.Controllers
                     SlsInvoiceItemsService.InsertLst(obj.Sls_InvoiceDetail);
                     // call process trans 
 
-                    ResponseResult res =  Shared.TransactionProcess(Convert.ToInt32(obj.Sls_Ivoice.CompCode), Convert.ToInt32(obj.Sls_Ivoice.BranchCode), Sls_TR_Invoice.InvoiceID, "Quotation", "Add", db);
+                    ResponseResult res = Shared.TransactionProcess(Convert.ToInt32(obj.Sls_Ivoice.CompCode), Convert.ToInt32(obj.Sls_Ivoice.BranchCode), Sls_TR_Invoice.InvoiceID, "Quotation", "Add", db);
                     if (res.ResponseState == true)
                     {
                         obj.Sls_Ivoice.TrNo = int.Parse(res.ResponseData.ToString());
@@ -283,14 +283,5 @@ namespace Inv.API.Controllers
             return Ok(new BaseResponse(res));
         }
 
-
-        [HttpPost, AllowAnonymous]
-        public IHttpActionResult GetCatItem(int CompCode)
-        {
-            string CreatedAt = DateTime.Now.ToString();
-            var QUERY = "select * from I_D_Category where CompCode = "+ CompCode + "";
-            var res = db.Database.ExecuteSqlCommand(QUERY);
-            return Ok(new BaseResponse(res));
-        }
     }
 }

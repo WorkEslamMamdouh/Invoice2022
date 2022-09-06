@@ -69,7 +69,8 @@ namespace TestGrad {
     }
     function computeTotal() { 
         console.log(Grid.ESG.TotalModel); 
-    }   
+    }
+
     function DoubleClicked() {
         alert(Grid.ESG.SelectedKey);    
     }

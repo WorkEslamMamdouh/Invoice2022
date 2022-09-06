@@ -12,11 +12,10 @@ namespace Inv.DAL.Domain
     using System;
     using System.Collections.Generic;
     
-    public partial class Salesman
+    public partial class G_REGION_BRANCH
     {
-        public int SalesID { get; set; }
-        public int CustomerId { get; set; }
-        public string NameA { get; set; }
-        public string NameE { get; set; }
+        public int COMP_CODE { get; set; }
+        public int RGN_CODE { get; set; }
+        public int BRA_CODE { get; set; }
     }
 }
